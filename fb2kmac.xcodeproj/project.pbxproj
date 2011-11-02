@@ -1,0 +1,450 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
+		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
+		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
+		2B15BF79146127A100DC46CD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF77146127A100DC46CD /* Credits.rtf */; };
+		2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF7B146127A100DC46CD /* AppDelegate.m */; };
+		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
+		2B15BF87146127A100DC46CD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF86146127A100DC46CD /* SenTestingKit.framework */; };
+		2B15BF88146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
+		2B15BF90146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF8E146127A100DC46CD /* InfoPlist.strings */; };
+		2B15BF93146127A100DC46CD /* fb2kmacTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF92146127A100DC46CD /* fb2kmacTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B15BF89146127A100DC46CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B15BF63146127A100DC46CD;
+			remoteInfo = fb2kmac;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2B15BF64146127A100DC46CD /* fb2kmac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fb2kmac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		2B15BF6B146127A100DC46CD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		2B15BF6C146127A100DC46CD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		2B15BF6D146127A100DC46CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2B15BF70146127A100DC46CD /* fb2kmac-Info.plist */ = {isa = PBXFileReference; path = "fb2kmac-Info.plist"; sourceTree = "<group>"; };
+		2B15BF72146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2B15BF74146127A100DC46CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2B15BF76146127A100DC46CD /* fb2kmac-Prefix.pch */ = {isa = PBXFileReference; path = "fb2kmac-Prefix.pch"; sourceTree = "<group>"; };
+		2B15BF78146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2B15BF7A146127A100DC46CD /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		2B15BF7B146127A100DC46CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2B15BF7E146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2B15BF85146127A100DC46CD /* fb2kmacTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = fb2kmacTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B15BF86146127A100DC46CD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		2B15BF8D146127A100DC46CD /* fb2kmacTests-Info.plist */ = {isa = PBXFileReference; path = "fb2kmacTests-Info.plist"; sourceTree = "<group>"; };
+		2B15BF8F146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2B15BF91146127A100DC46CD /* fb2kmacTests.h */ = {isa = PBXFileReference; path = fb2kmacTests.h; sourceTree = "<group>"; };
+		2B15BF92146127A100DC46CD /* fb2kmacTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fb2kmacTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B15BF61146127A100DC46CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B15BF81146127A100DC46CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF87146127A100DC46CD /* SenTestingKit.framework in Frameworks */,
+				2B15BF88146127A100DC46CD /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B15BF59146127A100DC46CD = {
+			isa = PBXGroup;
+			children = (
+				2B15BF6E146127A100DC46CD /* fb2kmac */,
+				2B15BF8B146127A100DC46CD /* fb2kmacTests */,
+				2B15BF67146127A100DC46CD /* Frameworks */,
+				2B15BF65146127A100DC46CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2B15BF65146127A100DC46CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF64146127A100DC46CD /* fb2kmac.app */,
+				2B15BF85146127A100DC46CD /* fb2kmacTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B15BF67146127A100DC46CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF68146127A100DC46CD /* Cocoa.framework */,
+				2B15BF86146127A100DC46CD /* SenTestingKit.framework */,
+				2B15BF6A146127A100DC46CD /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2B15BF6A146127A100DC46CD /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF6B146127A100DC46CD /* AppKit.framework */,
+				2B15BF6C146127A100DC46CD /* CoreData.framework */,
+				2B15BF6D146127A100DC46CD /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		2B15BF6E146127A100DC46CD /* fb2kmac */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
+				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
+				2B15BF6F146127A100DC46CD /* Supporting Files */,
+			);
+			path = fb2kmac;
+			sourceTree = "<group>";
+		};
+		2B15BF6F146127A100DC46CD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF70146127A100DC46CD /* fb2kmac-Info.plist */,
+				2B15BF71146127A100DC46CD /* InfoPlist.strings */,
+				2B15BF74146127A100DC46CD /* main.m */,
+				2B15BF76146127A100DC46CD /* fb2kmac-Prefix.pch */,
+				2B15BF77146127A100DC46CD /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2B15BF8B146127A100DC46CD /* fb2kmacTests */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF91146127A100DC46CD /* fb2kmacTests.h */,
+				2B15BF92146127A100DC46CD /* fb2kmacTests.m */,
+				2B15BF8C146127A100DC46CD /* Supporting Files */,
+			);
+			path = fb2kmacTests;
+			sourceTree = "<group>";
+		};
+		2B15BF8C146127A100DC46CD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF8D146127A100DC46CD /* fb2kmacTests-Info.plist */,
+				2B15BF8E146127A100DC46CD /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2B15BF63146127A100DC46CD /* fb2kmac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B15BF96146127A100DC46CD /* Build configuration list for PBXNativeTarget "fb2kmac" */;
+			buildPhases = (
+				2B15BF60146127A100DC46CD /* Sources */,
+				2B15BF61146127A100DC46CD /* Frameworks */,
+				2B15BF62146127A100DC46CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fb2kmac;
+			productName = fb2kmac;
+			productReference = 2B15BF64146127A100DC46CD /* fb2kmac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2B15BF84146127A100DC46CD /* fb2kmacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B15BF99146127A100DC46CD /* Build configuration list for PBXNativeTarget "fb2kmacTests" */;
+			buildPhases = (
+				2B15BF80146127A100DC46CD /* Sources */,
+				2B15BF81146127A100DC46CD /* Frameworks */,
+				2B15BF82146127A100DC46CD /* Resources */,
+				2B15BF83146127A100DC46CD /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B15BF8A146127A100DC46CD /* PBXTargetDependency */,
+			);
+			name = fb2kmacTests;
+			productName = fb2kmacTests;
+			productReference = 2B15BF85146127A100DC46CD /* fb2kmacTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B15BF5B146127A100DC46CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 2B15BF5E146127A100DC46CD /* Build configuration list for PBXProject "fb2kmac" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2B15BF59146127A100DC46CD;
+			productRefGroup = 2B15BF65146127A100DC46CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2B15BF63146127A100DC46CD /* fb2kmac */,
+				2B15BF84146127A100DC46CD /* fb2kmacTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2B15BF62146127A100DC46CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */,
+				2B15BF79146127A100DC46CD /* Credits.rtf in Resources */,
+				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B15BF82146127A100DC46CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF90146127A100DC46CD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B15BF83146127A100DC46CD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B15BF60146127A100DC46CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF75146127A100DC46CD /* main.m in Sources */,
+				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B15BF80146127A100DC46CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B15BF93146127A100DC46CD /* fb2kmacTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B15BF8A146127A100DC46CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B15BF63146127A100DC46CD /* fb2kmac */;
+			targetProxy = 2B15BF89146127A100DC46CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2B15BF71146127A100DC46CD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B15BF72146127A100DC46CD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2B15BF77146127A100DC46CD /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B15BF78146127A100DC46CD /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		2B15BF7D146127A100DC46CD /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B15BF7E146127A100DC46CD /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		2B15BF8E146127A100DC46CD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B15BF8F146127A100DC46CD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2B15BF94146127A100DC46CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2B15BF95146127A100DC46CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2B15BF97146127A100DC46CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
+				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2B15BF98146127A100DC46CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
+				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		2B15BF9A146127A100DC46CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fb2kmac.app/Contents/MacOS/fb2kmac";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
+				INFOPLIST_FILE = "fb2kmacTests/fb2kmacTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2B15BF9B146127A100DC46CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fb2kmac.app/Contents/MacOS/fb2kmac";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
+				INFOPLIST_FILE = "fb2kmacTests/fb2kmacTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B15BF5E146127A100DC46CD /* Build configuration list for PBXProject "fb2kmac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B15BF94146127A100DC46CD /* Debug */,
+				2B15BF95146127A100DC46CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B15BF96146127A100DC46CD /* Build configuration list for PBXNativeTarget "fb2kmac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B15BF97146127A100DC46CD /* Debug */,
+				2B15BF98146127A100DC46CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2B15BF99146127A100DC46CD /* Build configuration list for PBXNativeTarget "fb2kmacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B15BF9A146127A100DC46CD /* Debug */,
+				2B15BF9B146127A100DC46CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2B15BF5B146127A100DC46CD /* Project object */;
+}
