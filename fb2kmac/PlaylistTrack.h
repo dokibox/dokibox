@@ -1,0 +1,16 @@
+//
+//  PlaylistTrack.h
+//  fb2kmac
+//
+//  Created by Miles Wu on 20/11/2011.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface PlaylistTrack : NSObject {
+    NSString *title;
+}
+@property (copy) NSString *title;
+
+@end
