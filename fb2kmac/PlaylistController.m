@@ -8,6 +8,7 @@
 
 #import "PlaylistController.h"
 #import "PlaylistTrack.h"
+#import "MusicController.h"
 
 @implementation PlaylistController
 @synthesize trackArray;
@@ -19,12 +20,13 @@
     [pt setTitle:@"hi"];
     [trackArray addObject:pt];
     
-    NSLog(@"hi");
     return self;
 }
 
 - (void)awakeFromNib {
     [playlistTableView registerForDraggedTypes: [NSArray arrayWithObject:NSFilenamesPboardType]];
+    [playlistTableView setTarget:self];
+    [playlistTableView setDoubleAction:@selector(trackDoubleClicked:)];
     NSLog(@"awake from nib in Playlist controller");
 }
 
@@ -50,6 +52,18 @@
         [playlistArrayController addObject:track];
     }
     return YES;
+}
+
+- (void)trackDoubleClicked:(id)sender {
+    NSTableView *tv = sender;
+    PlaylistTrack *pt = [trackArray objectAtIndex:[tv clickedRow]];
+    [musicController play:self];
+
+    NSLog([pt title]);
+}
+
+- (PlaylistTrack *)getCurrentTrack {
+    return([trackArray objectAtIndex:0]);
 }
     
 @end

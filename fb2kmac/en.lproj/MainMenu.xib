@@ -1371,7 +1371,7 @@
 						<object class="NSButton" id="762360755">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{113, 312}, {65, 32}}</string>
+							<string key="NSFrame">{{107, 312}, {77, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="607271711"/>
@@ -1380,7 +1380,7 @@
 							<object class="NSButtonCell" key="NSCell" id="675053172">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Play</string>
+								<string key="NSContents">Pause</string>
 								<reference key="NSSupport" ref="482164245"/>
 								<string key="NSCellIdentifier">_NS:687</string>
 								<reference key="NSControlView" ref="762360755"/>
@@ -1554,7 +1554,6 @@
 													</object>
 													<int key="NSResizingMask">3</int>
 													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="850498941"/>
 												</object>
 											</array>
@@ -1668,6 +1667,9 @@
 			</object>
 			<object class="NSCustomObject" id="927759043">
 				<string key="NSClassName">PlaylistController</string>
+			</object>
+			<object class="NSCustomObject" id="1033886218">
+				<string key="NSClassName">MusicController</string>
 			</object>
 			<object class="NSArrayController" id="421100351">
 				<bool key="NSEditable">YES</bool>
@@ -2376,6 +2378,14 @@
 						<reference key="destination" ref="421100351"/>
 					</object>
 					<int key="connectionID">604</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">musicController</string>
+						<reference key="source" ref="927759043"/>
+						<reference key="destination" ref="1033886218"/>
+					</object>
+					<int key="connectionID">617</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3630,6 +3640,11 @@
 						<reference key="object" ref="474204411"/>
 						<reference key="parent" ref="961891861"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">605</int>
+						<reference key="object" ref="1033886218"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3805,6 +3820,7 @@
 				<string key="586.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="587.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="588.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="605.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3821,7 +3837,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">604</int>
+			<int key="maxID">617</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3842,6 +3858,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MusicController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MusicController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3889,10 +3913,15 @@
 					<string key="className">PlaylistController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="musicController">MusicController</string>
 						<string key="playlistArrayController">NSArrayController</string>
 						<string key="playlistTableView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="musicController">
+							<string key="name">musicController</string>
+							<string key="candidateClassName">MusicController</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="playlistArrayController">
 							<string key="name">playlistArrayController</string>
 							<string key="candidateClassName">NSArrayController</string>

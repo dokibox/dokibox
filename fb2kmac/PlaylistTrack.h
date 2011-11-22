@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "common.h"
+
 
 @interface PlaylistTrack : NSObject {
     NSString *title;
