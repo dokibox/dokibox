@@ -13,6 +13,7 @@
     
     IBOutlet NSTableView *playlistTableView;
     IBOutlet NSArrayController *playlistArrayController;
+    
 }
 
 @property (retain) NSMutableArray *trackArray;
@@ -24,5 +25,6 @@
 // Dragging operations
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op;
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id)info row:(int)row dropOperation:(NSTableViewDropOperation)op;
+- (IBAction)deleteButtonPressed:(id)sender;
 
 @end

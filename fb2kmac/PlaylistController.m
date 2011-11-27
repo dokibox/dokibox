@@ -14,8 +14,8 @@
 
 - (id)init{
     self = [super init];
-    trackArray = [NSMutableArray array];
-    PlaylistTrack *pt = [[PlaylistTrack alloc] init];
+    trackArray = [NSMutableArray array]; //automatic allocation
+    PlaylistTrack *pt = [[PlaylistTrack alloc] init]; //manual allocation
     [pt setTitle:@"hi"];
     [trackArray addObject:pt];
     
@@ -23,7 +23,7 @@
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib { //runs when the nib file finishes loading
     [playlistTableView registerForDraggedTypes: [NSArray arrayWithObject:NSFilenamesPboardType]];
     NSLog(@"awake from nib in Playlist controller");
 }
@@ -51,5 +51,12 @@
     }
     return YES;
 }
+
+- (IBAction)deleteButtonPressed:(id)sender {
+    NSLog(@"Delete button pressed.");
+    [playlistArrayController removeObjectsAtArrangedObjectIndexes:[playlistTableView selectedRowIndexes]];
+    //NSString *argh = nil;
     
+}
+
 @end
