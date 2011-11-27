@@ -15,11 +15,11 @@
 - (id)init{
     self = [super init];
     trackArray = [NSMutableArray array]; //automatic allocation
-    PlaylistTrack *pt = [[PlaylistTrack alloc] init]; //manual allocation
-    [pt setTitle:@"hi"];
-    [trackArray addObject:pt];
+    //PlaylistTrack *pt = [[PlaylistTrack alloc] init]; //manual allocation
+    //[pt setTitle:@"hi"];
+    //[trackArray addObject:pt];
     
-    NSLog(@"hi");
+    NSLog(@"It lives!");
     return self;
 }
 
@@ -44,19 +44,21 @@
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id)info row:(int)row dropOperation:(NSTableViewDropOperation)op {
     NSPasteboard *pb = [info draggingPasteboard];
     NSArray *arr = [pb propertyListForType:NSFilenamesPboardType];
+    NSLog(@"Inserting %lu rows, starting at row %i",[arr count],row);
+    NSUInteger i = 0;
     for(id s in arr) {
         PlaylistTrack *track = [[PlaylistTrack alloc] init];
         [track setTitle:s];
-        [playlistArrayController addObject:track];
+        [playlistArrayController insertObject:track atArrangedObjectIndex:row+i]; //inserts rather than appends
+        i++;
     }
     return YES;
 }
 
 - (IBAction)deleteButtonPressed:(id)sender {
-    NSLog(@"Delete button pressed.");
+    //NSLog(@"Delete button pressed.");
+    NSLog(@"Deleting %lu rows.",[[playlistTableView selectedRowIndexes] count]);
     [playlistArrayController removeObjectsAtArrangedObjectIndexes:[playlistTableView selectedRowIndexes]];
-    //NSString *argh = nil;
-    
 }
 
 @end
