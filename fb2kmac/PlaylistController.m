@@ -20,11 +20,10 @@
     [pt setTitle:@"hi"];
     [trackArray addObject:pt];
     currentPlayingTrackIndex = -1;
-    
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib { //runs when the nib file finishes loading
     [playlistTableView registerForDraggedTypes: [NSArray arrayWithObject:NSFilenamesPboardType]];
     [playlistTableView setTarget:self];
     [playlistTableView setDoubleAction:@selector(trackDoubleClicked:)];
@@ -47,10 +46,13 @@
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id)info row:(int)row dropOperation:(NSTableViewDropOperation)op {
     NSPasteboard *pb = [info draggingPasteboard];
     NSArray *arr = [pb propertyListForType:NSFilenamesPboardType];
+    NSLog(@"Inserting %lu rows, starting at row %i",[arr count],row);
+    NSUInteger i = 0;
     for(id s in arr) {
         PlaylistTrack *track = [[PlaylistTrack alloc] init];
         [track setTitle:s];
-        [playlistArrayController addObject:track];
+        [playlistArrayController insertObject:track atArrangedObjectIndex:row+i]; //inserts rather than appends
+        i++;
     }
     return YES;
 }
@@ -67,4 +69,10 @@
     return([trackArray objectAtIndex:currentPlayingTrackIndex]);
 }
     
+- (IBAction)deleteButtonPressed:(id)sender {
+    //NSLog(@"Delete button pressed.");
+    NSLog(@"Deleting %lu rows.",[[playlistTableView selectedRowIndexes] count]);
+    [playlistArrayController removeObjectsAtArrangedObjectIndexes:[playlistTableView selectedRowIndexes]];
+}
+
 @end
