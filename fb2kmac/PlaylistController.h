@@ -11,6 +11,7 @@
 
 @interface PlaylistController : NSObject <NSApplicationDelegate> {
     NSMutableArray *trackArray;
+    int currentPlayingTrackIndex;
     
     IBOutlet NSTableView *playlistTableView;
     IBOutlet NSArrayController *playlistArrayController;

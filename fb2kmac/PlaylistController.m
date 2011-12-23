@@ -19,6 +19,7 @@
     PlaylistTrack *pt = [[PlaylistTrack alloc] init];
     [pt setTitle:@"hi"];
     [trackArray addObject:pt];
+    currentPlayingTrackIndex = -1;
     
     return self;
 }
@@ -56,14 +57,14 @@
 
 - (void)trackDoubleClicked:(id)sender {
     NSTableView *tv = sender;
-    PlaylistTrack *pt = [trackArray objectAtIndex:[tv clickedRow]];
+    if([tv clickedRow] == -1)
+        return;
+    currentPlayingTrackIndex = (int) [tv clickedRow];
     [musicController play:self];
-
-    NSLog([pt title]);
 }
 
 - (PlaylistTrack *)getCurrentTrack {
-    return([trackArray objectAtIndex:0]);
+    return([trackArray objectAtIndex:currentPlayingTrackIndex]);
 }
     
 @end
