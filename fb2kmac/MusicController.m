@@ -31,8 +31,8 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     
     outOutputData->mBuffers[0].mDataByteSize = size;
     outOutputData->mBuffers[0].mData = data;
-    NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
-    NSLog(@"Gave: %d", size);
+    //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
+    //NSLog(@"Gave: %d", size);
     
     return(noErr);
     

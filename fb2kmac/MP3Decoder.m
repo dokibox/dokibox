@@ -36,9 +36,10 @@
     }
     *size = 1024;
     return(audio);*/
-    void *audio;
+    void *audio = malloc(2048);
     int retval = -1;
-    retval = mpg123_decode_frame(mh, &num, (unsigned char **)&audio, size);
+    //retval = mpg123_decode_frame(mh, &num, (unsigned char **)&audio, size);
+    retval = mpg123_read(mh, (char *)audio, 2048, size);
     
     long rate; int channels; int enc;
     //mpg123_getformat(mh, &rate, &channels, &enc);
