@@ -23,14 +23,22 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     MusicController *mc = (__bridge MusicController *)h->controller;
     
     size_t size = 0;
-    void * data = [mc getBuffer:&size];
+    void * data = [mc getBuffer:&size];    
     //NSLog(@"Size: %d", size);
     
     if(size == 0)
         return -1;
+    [mc writeFifo: data size:size];
     
-    outOutputData->mBuffers[0].mDataByteSize = size;
-    outOutputData->mBuffers[0].mData = data;
+    if(h->buffer_provider_size != 2048) {
+        h->buffer_provider_size = 2048;
+        h->buffer_provider = realloc(h->buffer_provider, h->buffer_provider_size);
+    }
+    
+    [mc readFifo:h->buffer_provider size:h->buffer_provider_size];
+    
+    outOutputData->mBuffers[0].mDataByteSize = h->buffer_provider_size;
+    outOutputData->mBuffers[0].mData = h->buffer_provider;
     //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
     //NSLog(@"Gave: %d", size);
     
@@ -124,8 +132,59 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
                                 0,
                                 &renderCallback, 
                                 sizeof(AURenderCallbackStruct));
-        
+    h.buffer_fifo_size = 20000;
+    h.buffer_fifo_wpos = 0;
+    h.buffer_fifo_rpos = 0;
+    h.buffer_fifo = malloc(h.buffer_fifo_size);
+    
+    h.buffer_provider_size = 1;
+    h.buffer_provider = malloc(h.buffer_provider_size);
+
     return self;
+}
+
+-(int)storedFifo {
+    int stored;
+    if(h.buffer_fifo_wpos >= h.buffer_fifo_rpos)
+        stored = h.buffer_fifo_wpos - h.buffer_fifo_rpos;
+    else
+        stored = h.buffer_fifo_size - h.buffer_fifo_rpos + h.buffer_fifo_wpos;
+    return(stored);
+}
+
+-(int)freespaceFifo {
+    return(h.buffer_fifo_size - [self storedFifo]);
+}
+
+- (void)writeFifo:(void *)data size:(int)size {
+    // check enough space
+    assert(size <= [self freespaceFifo]);
+    
+    if(size + h.buffer_fifo_wpos > h.buffer_fifo_size) {
+        //split write up into two halves
+        memcpy(h.buffer_fifo + h.buffer_fifo_wpos, data, h.buffer_fifo_size - h.buffer_fifo_wpos);
+        size -= h.buffer_fifo_size - h.buffer_fifo_wpos;
+        data += h.buffer_fifo_size - h.buffer_fifo_wpos;
+        h.buffer_fifo_wpos = 0;
+    }
+    memcpy(h.buffer_fifo + h.buffer_fifo_wpos, data, size);
+    h.buffer_fifo_wpos += size;
+}
+
+- (void)readFifo:(void *)data size:(int)size {
+    if([self storedFifo] < size) {
+        NSLog(@"not enough space");
+        return;
+    }
+    if(size + h.buffer_fifo_rpos > h.buffer_fifo_size) {
+        //split read up into two halves
+        memcpy(data, h.buffer_fifo + h.buffer_fifo_rpos, h.buffer_fifo_size - h.buffer_fifo_rpos);
+        size -= h.buffer_fifo_size - h.buffer_fifo_rpos;
+        data += h.buffer_fifo_size - h.buffer_fifo_rpos;
+        h.buffer_fifo_rpos = 0;
+    }
+    memcpy(data, h.buffer_fifo + h.buffer_fifo_rpos, size);
+    h.buffer_fifo_rpos += size;
 }
 
 - (void)play:(id)sender {

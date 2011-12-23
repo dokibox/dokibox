@@ -16,6 +16,13 @@
 struct hilarity {
     void *controller;
     AudioConverterRef converter;
+    
+    void *buffer_fifo;
+    int buffer_fifo_size;
+    int buffer_fifo_wpos;
+    int buffer_fifo_rpos;
+    void *buffer_provider;
+    int buffer_provider_size;
 };
 
 @interface MusicController : NSObject {
@@ -26,10 +33,14 @@ struct hilarity {
     
     ComponentInstance outputUnit;
     struct hilarity h;
-    void *buffer;
 }
 
 - (void)play:(id)sender;
 - (void *)getBuffer:(size_t *)size;
+
+-(int)storedFifo;
+-(int)freespaceFifo;
+- (void)writeFifo:(void *)data size:(int)size;
+- (void)readFifo:(void *)data size:(int)size;
 
 @end
