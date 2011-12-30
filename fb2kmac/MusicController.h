@@ -33,6 +33,7 @@ struct hilarity {
     
     ComponentInstance outputUnit;
     struct hilarity h;
+    BOOL firstDataRecieved;
 }
 
 - (void)play:(id)sender;

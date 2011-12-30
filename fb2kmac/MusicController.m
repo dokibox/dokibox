@@ -17,30 +17,29 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
                          AudioBufferList *outOutputData,
                          AudioStreamPacketDescription **outDataPacketDescription,
                          void* inClientData) {
-    
     //NSLog(@"Number of buffers %d", outOutputData->mNumberBuffers);
     struct hilarity *h = (struct hilarity *)inClientData;
     MusicController *mc = (__bridge MusicController *)h->controller;
-    
-    size_t size = 0;
-    void * data = [mc getBuffer:&size];    
-    //NSLog(@"Size: %d", size);
-    
-    if(size == 0)
-        return -1;
-    [mc writeFifo: data size:size];
-    
+        
     if(h->buffer_provider_size != 2048) {
         h->buffer_provider_size = 2048;
         h->buffer_provider = realloc(h->buffer_provider, h->buffer_provider_size);
     }
     
     [mc readFifo:h->buffer_provider size:h->buffer_provider_size];
-    
+
     outOutputData->mBuffers[0].mDataByteSize = h->buffer_provider_size;
     outOutputData->mBuffers[0].mData = h->buffer_provider;
     //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
     //NSLog(@"Gave: %d", size);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
+        size_t size = 0;
+        void * data = [mc getBuffer:&size];    
+        //NSLog(@"Size: %d", size);
+
+        [mc writeFifo: data size:size];
+    });
     
     return(noErr);
     
@@ -172,7 +171,7 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
 }
 
 - (void)readFifo:(void *)data size:(int)size {
-    if([self storedFifo] < size) {
+    if([self freespaceFifo] < size) {
         NSLog(@"not enough space");
         return;
     }
@@ -199,18 +198,32 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
         NSLog(@"File does not exist at %@", fp);
         return;
     }
+    firstDataRecieved = FALSE;
+
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self selector:@selector(dataReceived:) name:NSFileHandleReadCompletionNotification object:fh];
     [fh readInBackgroundAndNotify];
     
     currentDecoder = mp3Decoder;
-    AudioOutputUnitStart(outputUnit);
 };
 
 - (void)dataReceived:(NSNotification *)notification {
     NSData *d = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
     if([d length]) {
         [currentDecoder feedData:d];
+        
+        if(firstDataRecieved == FALSE) {
+            size_t size;
+            void * data = [self getBuffer:&size];
+            //size = 0;
+            //void * data;
+            if(size != 0) {
+                firstDataRecieved = TRUE;
+                [self writeFifo: data size:size];
+                AudioOutputUnitStart(outputUnit);
+            }
+        }
+        
         [[notification object] readInBackgroundAndNotify];
     }
 }
