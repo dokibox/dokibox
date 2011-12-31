@@ -10,6 +10,6 @@
 
 @protocol DecoderProtocol <NSObject>
 -(void)feedData:(NSData *)data;
--(void *)getBuffer:(size_t *)size;
+- (void)getBuffer:(void *)data size:(size_t *)size;
 
 @end

@@ -23,6 +23,8 @@ struct hilarity {
     int buffer_fifo_rpos;
     void *buffer_provider;
     int buffer_provider_size;
+    
+    dispatch_queue_t decoding_queue;
 };
 
 @interface MusicController : NSObject {
@@ -37,7 +39,7 @@ struct hilarity {
 }
 
 - (void)play:(id)sender;
-- (void *)getBuffer:(size_t *)size;
+- (void)getBuffer:(void *)data size:(size_t *)size;
 
 -(int)storedFifo;
 -(int)freespaceFifo;

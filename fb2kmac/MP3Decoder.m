@@ -23,8 +23,8 @@
     return self;
 }
 
-- (void *)getBuffer:(size_t *)size {
-    off_t num;
+- (void)getBuffer:(void *)data size:(size_t *)size {
+    //off_t num;
     /*
     void *audio = malloc(1024);
     int size_loop;
@@ -36,12 +36,12 @@
     }
     *size = 1024;
     return(audio);*/
-    void *audio = malloc(2048);
     int retval = -1;
+    size_t desired_size = *size;
     //retval = mpg123_decode_frame(mh, &num, (unsigned char **)&audio, size);
-    retval = mpg123_read(mh, (char *)audio, 2048, size);
+    retval = mpg123_read(mh, (unsigned char *)data, desired_size, size);
     
-    long rate; int channels; int enc;
+    //long rate; int channels; int enc;
     //mpg123_getformat(mh, &rate, &channels, &enc);
     /*NSLog(@"New format: %li Hz, %i channels, encoding value %i\n", rate, channels, enc);
 
@@ -70,10 +70,6 @@
     if(retval != 0) {
         NSLog(@"%s", mpg123_strerror(mh));
         *size = 0;
-        return NULL;
-    }
-    else {
-        return(audio);
     }
 }
 

@@ -33,12 +33,18 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
     //NSLog(@"Gave: %d", size);
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
-        size_t size = 0;
-        void * data = [mc getBuffer:&size];    
-        //NSLog(@"Size: %d", size);
-
-        [mc writeFifo: data size:size];
+    dispatch_async(h->decoding_queue, ^{
+        size_t size = [mc freespaceFifo];
+        if(size != 0) {
+            //NSLog(@"Need size: %d", size);
+            void * data = malloc(size);
+            [mc getBuffer:data size:&size];
+            if(size != 0) {
+                //NSLog(@"Got size: %d", size);q
+                [mc writeFifo: data size:size];
+            }
+            free(data);
+        }
     });
     
     return(noErr);
@@ -138,6 +144,7 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
     
     h.buffer_provider_size = 1;
     h.buffer_provider = malloc(h.buffer_provider_size);
+    h.decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
 
     return self;
 }
@@ -152,7 +159,7 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
 }
 
 -(int)freespaceFifo {
-    return(h.buffer_fifo_size - [self storedFifo]);
+    return(h.buffer_fifo_size - [self storedFifo] - 1); //This must be 1 less or how would you tell a full buffer from an empty one when (wpos==rpos).
 }
 
 - (void)writeFifo:(void *)data size:(int)size {
@@ -171,8 +178,8 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
 }
 
 - (void)readFifo:(void *)data size:(int)size {
-    if([self freespaceFifo] < size) {
-        NSLog(@"not enough space");
+    if([self storedFifo] < size) {
+        NSLog(@"not enough to read from");
         return;
     }
     if(size + h.buffer_fifo_rpos > h.buffer_fifo_size) {
@@ -213,23 +220,25 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
         [currentDecoder feedData:d];
         
         if(firstDataRecieved == FALSE) {
-            size_t size;
-            void * data = [self getBuffer:&size];
-            //size = 0;
-            //void * data;
+            size_t size = [self freespaceFifo];
+            void * data = malloc(size);
+            [self getBuffer:data size:&size];
             if(size != 0) {
+                //NSLog(@"First data was: %d", size);
                 firstDataRecieved = TRUE;
                 [self writeFifo: data size:size];
                 AudioOutputUnitStart(outputUnit);
             }
+            free(data);
         }
         
         [[notification object] readInBackgroundAndNotify];
     }
 }
 
-- (void *)getBuffer:(size_t *)size {
-    return ([currentDecoder getBuffer:size]);
+- (void)getBuffer:(void *)data size:(size_t *)size {
+    //NSLog(@"Attempting to get %d", *size);
+    [currentDecoder getBuffer:data size:size];
 }
 
 @end
