@@ -12,6 +12,7 @@
 
 #import <AudioUnit/AudioUnit.h>
 
+
 static OSStatus playProc(AudioConverterRef inAudioConverter,
 						 UInt32 *ioNumberDataPackets,
                          AudioBufferList *outOutputData,
@@ -61,7 +62,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (id)init {
     self = [super init];
-    //mp3Decoder = [[MP3Decoder alloc] init];
+    mp3Decoder = [[MP3Decoder alloc] init];
     flacDecoder = [[FLACDecoder alloc] init];
 
     int err;
@@ -144,7 +145,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     PlaylistTrack *pt = [currentPlaylistController getCurrentTrack];
     
     NSLog(@"Playing %@", [pt title]);
-    NSString *fp = @"/test.flac";
+    NSString *fp = @"/test.mp3";
     
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
     if(fileHandle == nil) {
@@ -152,7 +153,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         return;
     }
     
-    currentDecoder = flacDecoder;
+    currentDecoder = mp3Decoder;
     [currentDecoder setMusicController:self];
     [currentDecoder decodeMetadata];
     size_t size = [fifoBuffer freespace];

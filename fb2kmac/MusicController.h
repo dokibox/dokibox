@@ -14,19 +14,10 @@
 #import "FIFOBuffer.h"
 #include <AudioToolbox/AudioToolbox.h>
 
-
-struct hilarity {
-    void *controller;
-    
-    void *buffer_provider;
-    int buffer_provider_size;
-    
-};
-
 @interface MusicController : NSObject {
     PlaylistController  *currentPlaylistController;
     
-    //MP3Decoder *mp3Decoder;
+    MP3Decoder *mp3Decoder;
     FLACDecoder *flacDecoder;
     id<DecoderProtocol> currentDecoder;
     
