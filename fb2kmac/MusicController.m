@@ -18,32 +18,20 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
                          AudioStreamPacketDescription **outDataPacketDescription,
                          void* inClientData) {
     //NSLog(@"Number of buffers %d", outOutputData->mNumberBuffers);
-    struct hilarity *h = (struct hilarity *)inClientData;
-    MusicController *mc = (__bridge MusicController *)h->controller;
+    MusicController *mc = (__bridge MusicController *)inClientData;
         
-    if(h->buffer_provider_size != 2048) {
-        h->buffer_provider_size = 2048;
-        h->buffer_provider = realloc(h->buffer_provider, h->buffer_provider_size);
-    }
-    
-    [mc readFifo:h->buffer_provider size:h->buffer_provider_size];
+    [[mc fifoBuffer] read:[[mc auBuffer] bytes] size:[[mc auBuffer] length]];
 
-    outOutputData->mBuffers[0].mDataByteSize = h->buffer_provider_size;
-    outOutputData->mBuffers[0].mData = h->buffer_provider;
+    outOutputData->mBuffers[0].mDataByteSize = [[mc auBuffer] length];
+    outOutputData->mBuffers[0].mData = [[mc auBuffer] bytes];
     //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
     //NSLog(@"Gave: %d", size);
     
-    dispatch_async(h->decoding_queue, ^{
-        size_t size = [mc freespaceFifo];
-        if(size != 0) {
-            //NSLog(@"Need size: %d", size);
-            void * data = malloc(size);
-            [mc getBuffer:data size:&size];
-            if(size != 0) {
-                //NSLog(@"Got size: %d", size);q
-                [mc writeFifo: data size:size];
-            }
-            free(data);
+    dispatch_async([mc decoding_queue], ^{
+        size_t size = [[mc fifoBuffer] freespace];
+        while(size > 30000) {
+            [mc decodeNextFrame];
+            size = [[mc fifoBuffer] freespace];
         }
     });
     
@@ -51,14 +39,14 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     
 }
 
-static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionFlags,
+static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionFlags,
                             const AudioTimeStamp *inTimeStamp, UInt32 inBusNumber,
                             UInt32 inNumFrames, AudioBufferList *ioData)
 {
-    struct hilarity *h = (struct hilarity *)inRefCon;
+    MusicController *mc = (__bridge MusicController *)inRefCon;
     AudioStreamPacketDescription* outPacketDescription = NULL;
 
-    OSStatus err = AudioConverterFillComplexBuffer(h->converter, playProc, inRefCon, &inNumFrames, ioData, outPacketDescription);
+    OSStatus err = AudioConverterFillComplexBuffer([mc converter], playProc, inRefCon, &inNumFrames, ioData, outPacketDescription);
     return(err);
 }
 
@@ -66,15 +54,20 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
 
 @implementation MusicController
 
+@synthesize decoding_queue;
+@synthesize fifoBuffer;
+@synthesize auBuffer;
+@synthesize converter;
+
 - (id)init {
     self = [super init];
-    mp3Decoder = [[MP3Decoder alloc] init];
+    //mp3Decoder = [[MP3Decoder alloc] init];
+    flacDecoder = [[FLACDecoder alloc] init];
 
     int err;
     UInt32 size;
     Boolean outWritable;
     
-    AudioConverterRef converter;
     AudioStreamBasicDescription inFormat;
     AudioStreamBasicDescription outFormat;
     AURenderCallbackStruct renderCallback;
@@ -126,10 +119,13 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
     err = AudioConverterNew(&inFormat, &outFormat, &converter);
     
     memset(&renderCallback, 0, sizeof(AURenderCallbackStruct));
-    renderCallback.inputProc = MyFileRenderProc;
-    h.controller = (__bridge void *)self;
-    h.converter = converter;
-    renderCallback.inputProcRefCon = &h;
+    renderCallback.inputProc = renderProc;
+    renderCallback.inputProcRefCon = (__bridge void *)self;
+    
+    fifoBuffer = [[FIFOBuffer alloc] initWithSize:100000];
+    int auBufferSize = 2048;
+    void *auBufferContents = malloc(auBufferSize);
+    auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];
     
     err = AudioUnitSetProperty (outputUnit, 
                                 kAudioUnitProperty_SetRenderCallback, 
@@ -137,60 +133,10 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
                                 0,
                                 &renderCallback, 
                                 sizeof(AURenderCallbackStruct));
-    h.buffer_fifo_size = 20000;
-    h.buffer_fifo_wpos = 0;
-    h.buffer_fifo_rpos = 0;
-    h.buffer_fifo = malloc(h.buffer_fifo_size);
     
-    h.buffer_provider_size = 1;
-    h.buffer_provider = malloc(h.buffer_provider_size);
-    h.decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
+    decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
 
     return self;
-}
-
--(int)storedFifo {
-    int stored;
-    if(h.buffer_fifo_wpos >= h.buffer_fifo_rpos)
-        stored = h.buffer_fifo_wpos - h.buffer_fifo_rpos;
-    else
-        stored = h.buffer_fifo_size - h.buffer_fifo_rpos + h.buffer_fifo_wpos;
-    return(stored);
-}
-
--(int)freespaceFifo {
-    return(h.buffer_fifo_size - [self storedFifo] - 1); //This must be 1 less or how would you tell a full buffer from an empty one when (wpos==rpos).
-}
-
-- (void)writeFifo:(void *)data size:(int)size {
-    // check enough space
-    assert(size <= [self freespaceFifo]);
-    
-    if(size + h.buffer_fifo_wpos > h.buffer_fifo_size) {
-        //split write up into two halves
-        memcpy(h.buffer_fifo + h.buffer_fifo_wpos, data, h.buffer_fifo_size - h.buffer_fifo_wpos);
-        size -= h.buffer_fifo_size - h.buffer_fifo_wpos;
-        data += h.buffer_fifo_size - h.buffer_fifo_wpos;
-        h.buffer_fifo_wpos = 0;
-    }
-    memcpy(h.buffer_fifo + h.buffer_fifo_wpos, data, size);
-    h.buffer_fifo_wpos += size;
-}
-
-- (void)readFifo:(void *)data size:(int)size {
-    if([self storedFifo] < size) {
-        NSLog(@"not enough to read from");
-        return;
-    }
-    if(size + h.buffer_fifo_rpos > h.buffer_fifo_size) {
-        //split read up into two halves
-        memcpy(data, h.buffer_fifo + h.buffer_fifo_rpos, h.buffer_fifo_size - h.buffer_fifo_rpos);
-        size -= h.buffer_fifo_size - h.buffer_fifo_rpos;
-        data += h.buffer_fifo_size - h.buffer_fifo_rpos;
-        h.buffer_fifo_rpos = 0;
-    }
-    memcpy(data, h.buffer_fifo + h.buffer_fifo_rpos, size);
-    h.buffer_fifo_rpos += size;
 }
 
 - (void)play:(id)sender {
@@ -198,47 +144,32 @@ static OSStatus MyFileRenderProc(void *inRefCon, AudioUnitRenderActionFlags *inA
     PlaylistTrack *pt = [currentPlaylistController getCurrentTrack];
     
     NSLog(@"Playing %@", [pt title]);
-    NSString *fp = @"/test.mp3";
+    NSString *fp = @"/test.flac";
     
-    NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:fp];
-    if(fh == nil) {
+    fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
+    if(fileHandle == nil) {
         NSLog(@"File does not exist at %@", fp);
         return;
     }
-    firstDataRecieved = FALSE;
-
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(dataReceived:) name:NSFileHandleReadCompletionNotification object:fh];
-    [fh readInBackgroundAndNotify];
     
-    currentDecoder = mp3Decoder;
+    currentDecoder = flacDecoder;
+    [currentDecoder setMusicController:self];
+    [currentDecoder decodeMetadata];
+    size_t size = [fifoBuffer freespace];
+    while(size > 30000) {
+        [self decodeNextFrame];
+        size = [fifoBuffer freespace];
+    }
+    AudioOutputUnitStart(outputUnit);
 };
 
-- (void)dataReceived:(NSNotification *)notification {
-    NSData *d = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    if([d length]) {
-        [currentDecoder feedData:d];
-        
-        if(firstDataRecieved == FALSE) {
-            size_t size = [self freespaceFifo];
-            void * data = malloc(size);
-            [self getBuffer:data size:&size];
-            if(size != 0) {
-                //NSLog(@"First data was: %d", size);
-                firstDataRecieved = TRUE;
-                [self writeFifo: data size:size];
-                AudioOutputUnitStart(outputUnit);
-            }
-            free(data);
-        }
-        
-        [[notification object] readInBackgroundAndNotify];
-    }
+- (NSData *)readInput:(int)bytes {
+    return [fileHandle readDataOfLength:(NSUInteger)bytes];
 }
 
-- (void)getBuffer:(void *)data size:(size_t *)size {
-    //NSLog(@"Attempting to get %d", *size);
-    [currentDecoder getBuffer:data size:size];
+-(void)decodeNextFrame {
+    [currentDecoder decodeNextFrame];
 }
+
 
 @end

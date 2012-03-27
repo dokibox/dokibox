@@ -9,41 +9,45 @@
 #import <Foundation/Foundation.h>
 #import "common.h"
 #import "MP3Decoder.h"
+#import "FLACDecoder.h"
 #import "DecoderProtocol.h"
+#import "FIFOBuffer.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 
 struct hilarity {
     void *controller;
-    AudioConverterRef converter;
     
-    void *buffer_fifo;
-    int buffer_fifo_size;
-    int buffer_fifo_wpos;
-    int buffer_fifo_rpos;
     void *buffer_provider;
     int buffer_provider_size;
     
-    dispatch_queue_t decoding_queue;
 };
 
 @interface MusicController : NSObject {
     PlaylistController  *currentPlaylistController;
     
-    MP3Decoder *mp3Decoder;
+    //MP3Decoder *mp3Decoder;
+    FLACDecoder *flacDecoder;
     id<DecoderProtocol> currentDecoder;
     
     ComponentInstance outputUnit;
-    struct hilarity h;
-    BOOL firstDataRecieved;
+    AudioConverterRef converter;
+
+    
+    FIFOBuffer *fifoBuffer;
+    NSData *auBuffer;
+    
+    NSFileHandle *fileHandle;
 }
+@property(readonly) FIFOBuffer *fifoBuffer;
+@property(readonly) dispatch_queue_t decoding_queue;
+@property(readonly) NSData *auBuffer;
+@property(readonly) AudioConverterRef converter;
 
 - (void)play:(id)sender;
-- (void)getBuffer:(void *)data size:(size_t *)size;
+- (NSData *)readInput:(int)bytes;
+-(void)decodeNextFrame;
 
--(int)storedFifo;
--(int)freespaceFifo;
-- (void)writeFifo:(void *)data size:(int)size;
-- (void)readFifo:(void *)data size:(int)size;
+
 
 @end

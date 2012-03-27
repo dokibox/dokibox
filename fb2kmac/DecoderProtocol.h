@@ -7,9 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "common.h"
 
 @protocol DecoderProtocol <NSObject>
--(void)feedData:(NSData *)data;
-- (void)getBuffer:(void *)data size:(size_t *)size;
+
+@property (retain) MusicController *musicController;
+
+-(void)decodeMetadata;
+-(void)decodeNextFrame;
 
 @end
