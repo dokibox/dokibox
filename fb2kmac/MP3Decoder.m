@@ -7,8 +7,10 @@
 //
 
 #import "MP3Decoder.h"
+#import "MusicController.h"
 
 @implementation MP3Decoder
+@synthesize musicController;
 
 -(id)init {
     self = [super init];
@@ -23,60 +25,52 @@
     return self;
 }
 
-- (void)getBuffer:(void *)data size:(size_t *)size {
-    //off_t num;
-    /*
-    void *audio = malloc(1024);
-    int size_loop;
-    for(int i=0; i<1024;) {
-        char *temp;
-        mpg123_decode_frame(mh, &num, &temp, (size_t *)&size_loop);
-        memcpy(audio+i, temp, size_loop);
-        i+=size_loop;
-    }
-    *size = 1024;
-    return(audio);*/
-    int retval = -1;
-    size_t desired_size = *size;
-    //retval = mpg123_decode_frame(mh, &num, (unsigned char **)&audio, size);
-    retval = mpg123_read(mh, (unsigned char *)data, desired_size, size);
-    
-    //long rate; int channels; int enc;
-    //mpg123_getformat(mh, &rate, &channels, &enc);
-    /*NSLog(@"New format: %li Hz, %i channels, encoding value %i\n", rate, channels, enc);
 
-    switch(enc)
-	{
-		case MPG123_ENC_SIGNED_16:
-			NSLog(@"enc16");
-			break;
-		case MPG123_ENC_SIGNED_8:
-			NSLog(@"enc8");
-			break;
-		case MPG123_ENC_UNSIGNED_8:
-			NSLog(@"encu8");
-			break;
-		case MPG123_ENC_SIGNED_32:
-			NSLog(@"enc32");
-			break;
-		case MPG123_ENC_FLOAT_32:
-			NSLog(@"encf32");
-			break;
-	}*/
-    
-    
-    
-    //NSLog(@"retval: %d", retval);
-    if(retval != 0) {
-        NSLog(@"%s", mpg123_strerror(mh));
-        *size = 0;
-    }
+-(void)decodeMetadata {
+    [self decodeNextFrame];
 }
 
-
--(void)feedData:(NSData *)data {
-    NSLog(@"Feed data (%d)", [data length]);
-    mpg123_feed(mh, [data bytes], [data length]);
+-(void)decodeNextFrame {
+    off_t frame;
+    unsigned char *audio;
+    size_t bytes;
+    int retval = mpg123_decode_frame(mh, &frame, &audio, &bytes);
+    
+    if(retval == MPG123_NEED_MORE) {
+        int readsize = 10000;
+        NSData *data = [musicController readInput:readsize];
+        mpg123_feed(mh, [data bytes], [data length]);
+        [self decodeNextFrame];
+    }
+    
+    if(retval == MPG123_NEW_FORMAT) {
+        long rate; int channels; int enc;
+        mpg123_getformat(mh, &rate, &channels, &enc);
+        NSLog(@"New format: %li Hz, %i channels, encoding value %i\n", rate, channels, enc);
+        
+        switch(enc)
+        {
+            case MPG123_ENC_SIGNED_16:
+                NSLog(@"enc16");
+                break;
+            case MPG123_ENC_SIGNED_8:
+                NSLog(@"enc8");
+                break;
+            case MPG123_ENC_UNSIGNED_8:
+                NSLog(@"encu8");
+                break;
+            case MPG123_ENC_SIGNED_32:
+                NSLog(@"enc32");
+                break;
+            case MPG123_ENC_FLOAT_32:
+                NSLog(@"encf32");
+                break;
+        }
+    }
+    
+    if(bytes > 0) {
+        [[musicController fifoBuffer] write:audio size:bytes];
+        
+    }
 }
-
 @end

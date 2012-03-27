@@ -12,10 +12,12 @@
 
 @interface MP3Decoder : NSObject<DecoderProtocol> {
     mpg123_handle *mh;
-    
-     
+    MusicController *musicController;
 }
--(void)feedData:(NSData *)data;
-- (void)getBuffer:(void *)data size:(size_t *)size;
+
+@property (retain) MusicController *musicController;
+
+-(void)decodeMetadata;
+-(void)decodeNextFrame;
 
 @end
