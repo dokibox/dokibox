@@ -62,8 +62,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (id)init {
     self = [super init];
-    mp3Decoder = [[MP3Decoder alloc] init];
-    flacDecoder = [[FLACDecoder alloc] init];
 
     int err;
     UInt32 size;
@@ -145,7 +143,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     PlaylistTrack *pt = [currentPlaylistController getCurrentTrack];
     
     NSLog(@"Playing %@", [pt title]);
-    NSString *fp = @"/test.mp3";
+    NSString *fp = @"/test.ogg";
     
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
     if(fileHandle == nil) {
@@ -153,8 +151,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         return;
     }
     
-    currentDecoder = mp3Decoder;
-    [currentDecoder setMusicController:self];
+    currentDecoder = [[VorbisDecoder alloc] initWithMusicController:self];
     [currentDecoder decodeMetadata];
     size_t size = [fifoBuffer freespace];
     while(size > 30000) {

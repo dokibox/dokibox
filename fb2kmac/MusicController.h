@@ -10,6 +10,7 @@
 #import "common.h"
 #import "MP3Decoder.h"
 #import "FLACDecoder.h"
+#import "VorbisDecoder.h"
 #import "DecoderProtocol.h"
 #import "FIFOBuffer.h"
 #include <AudioToolbox/AudioToolbox.h>
@@ -17,8 +18,6 @@
 @interface MusicController : NSObject {
     PlaylistController  *currentPlaylistController;
     
-    MP3Decoder *mp3Decoder;
-    FLACDecoder *flacDecoder;
     id<DecoderProtocol> currentDecoder;
     
     ComponentInstance outputUnit;

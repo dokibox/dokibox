@@ -12,8 +12,10 @@
 @implementation MP3Decoder
 @synthesize musicController;
 
--(id)init {
+-(id)initWithMusicController:(MusicController *)mc {
     self = [super init];
+    
+    musicController = mc;
     
     int retval;
     retval = mpg123_init();

@@ -9,7 +9,7 @@
 #import "FLACDecoder.h"
 #import "MusicController.h"
 
-FLAC__StreamDecoderReadStatus readcallback(FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data) {
+FLAC__StreamDecoderReadStatus flac_readcallback(FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data) {
     FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
     MusicController *mc = [flacDecoder musicController];
     
@@ -24,7 +24,7 @@ FLAC__StreamDecoderReadStatus readcallback(FLAC__StreamDecoder *decoder, FLAC__b
     return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
 
-FLAC__StreamDecoderWriteStatus writecallback(FLAC__StreamDecoder *decoder, FLAC__Frame *frame, FLAC__int32 *buffer[], void *client_data) {
+FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, FLAC__Frame *frame, FLAC__int32 *buffer[], void *client_data) {
     FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
     MusicController *mc = [flacDecoder musicController];
     //NSLog(@"writecallback %d", frame->header.blocksize*2*2);
@@ -41,7 +41,7 @@ FLAC__StreamDecoderWriteStatus writecallback(FLAC__StreamDecoder *decoder, FLAC_
     return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 
-void metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metadata, void *client_Data) {
+void flac_metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metadata, void *client_Data) {
     if(metadata->type == FLAC__METADATA_TYPE_STREAMINFO) {
         int total_samples = metadata->data.stream_info.total_samples;
         int sample_rate = metadata->data.stream_info.sample_rate;
@@ -51,15 +51,15 @@ void metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metada
     }
 }
 
-FLAC__bool eofcallback(FLAC__StreamDecoder *decoder, void *client_data) {
+FLAC__bool flac_eofcallback(FLAC__StreamDecoder *decoder, void *client_data) {
     return false;
 }
 
-FLAC__StreamDecoderLengthStatus lengthcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data) {
+FLAC__StreamDecoderLengthStatus flac_lengthcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data) {
     return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
 }
 
-void errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data) {
+void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data) {
     
 }
 
@@ -67,22 +67,24 @@ void errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus 
 
 @synthesize musicController;
 
--(id)init {
+-(id)initWithMusicController:(MusicController *)mc {
     self = [super init];
+    
+    musicController = mc;
     
     decoder = FLAC__stream_decoder_new();
     FLAC__StreamDecoderInitStatus retval;
     
     retval = FLAC__stream_decoder_init_stream(
         decoder,
-        (FLAC__StreamDecoderReadCallback)readcallback,
+        (FLAC__StreamDecoderReadCallback)flac_readcallback,
         (FLAC__StreamDecoderSeekCallback)NULL,
         (FLAC__StreamDecoderTellCallback)NULL,
-        (FLAC__StreamDecoderLengthCallback)lengthcallback,
-        (FLAC__StreamDecoderEofCallback)eofcallback,
-        (FLAC__StreamDecoderWriteCallback)writecallback,
-        (FLAC__StreamDecoderMetadataCallback)metadatacallback,
-        (FLAC__StreamDecoderErrorCallback)errorcallback,
+        (FLAC__StreamDecoderLengthCallback)flac_lengthcallback,
+        (FLAC__StreamDecoderEofCallback)flac_eofcallback,
+        (FLAC__StreamDecoderWriteCallback)flac_writecallback,
+        (FLAC__StreamDecoderMetadataCallback)flac_metadatacallback,
+        (FLAC__StreamDecoderErrorCallback)flac_errorcallback,
         (__bridge void *)self);
     
     NSLog(@"init: %d", retval);

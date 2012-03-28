@@ -11,6 +11,11 @@
 		2B05BBE315227FED003DCE57 /* libmpg123.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */; };
 		2B05BBE415227FF3003DCE57 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */; };
 		2B05BBE515227FF5003DCE57 /* libFLAC.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */; };
+		2B05BBE81522BA78003DCE57 /* VorbisDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */; };
+		2B05BBEB1522C04A003DCE57 /* libvorbis.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */; };
+		2B05BBEC1522C04A003DCE57 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
+		2B05BBED1522C05E003DCE57 /* libvorbis.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */; };
+		2B05BBEE1522C08C003DCE57 /* libvorbisfile.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
 		2B0E032915214B3900B80884 /* libogg.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
 		2B0E032B15214B4600B80884 /* libogg.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
 		2B0E032E15214BC200B80884 /* FLACDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E032D15214BC200B80884 /* FLACDecoder.m */; };
@@ -51,7 +56,9 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2B0E032B15214B4600B80884 /* libogg.0.dylib in CopyFiles */,
+				2B05BBEE1522C08C003DCE57 /* libvorbisfile.3.dylib in CopyFiles */,
 				2B05BBE415227FF3003DCE57 /* libmpg123.0.dylib in CopyFiles */,
+				2B05BBED1522C05E003DCE57 /* libvorbis.0.dylib in CopyFiles */,
 				2B05BBE515227FF5003DCE57 /* libFLAC.8.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +68,10 @@
 /* Begin PBXFileReference section */
 		2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = prefix/lib/libFLAC.8.dylib; sourceTree = "<group>"; };
 		2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
+		2B05BBE61522BA78003DCE57 /* VorbisDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VorbisDecoder.h; sourceTree = "<group>"; };
+		2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VorbisDecoder.m; sourceTree = "<group>"; };
+		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
+		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B0E032C15214BC200B80884 /* FLACDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLACDecoder.h; sourceTree = "<group>"; };
 		2B0E032D15214BC200B80884 /* FLACDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLACDecoder.m; sourceTree = "<group>"; };
@@ -110,6 +121,8 @@
 				2B0E032915214B3900B80884 /* libogg.0.dylib in Frameworks */,
 				2B05BBE115227FE5003DCE57 /* libFLAC.8.dylib in Frameworks */,
 				2B05BBE315227FED003DCE57 /* libmpg123.0.dylib in Frameworks */,
+				2B05BBEB1522C04A003DCE57 /* libvorbis.0.dylib in Frameworks */,
+				2B05BBEC1522C04A003DCE57 /* libvorbisfile.3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +160,8 @@
 		2B15BF67146127A100DC46CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
+				2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */,
 				2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */,
 				2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */,
 				2B0E032815214B3900B80884 /* libogg.0.dylib */,
@@ -190,6 +205,8 @@
 				2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */,
 				2B0E032C15214BC200B80884 /* FLACDecoder.h */,
 				2B0E032D15214BC200B80884 /* FLACDecoder.m */,
+				2B05BBE61522BA78003DCE57 /* VorbisDecoder.h */,
+				2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */,
 			);
 			path = fb2kmac;
 			sourceTree = "<group>";
@@ -341,6 +358,7 @@
 				2BEC84CA147CAA4D008102F8 /* MP3Decoder.m in Sources */,
 				2B0E032E15214BC200B80884 /* FLACDecoder.m in Sources */,
 				2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */,
+				2B05BBE81522BA78003DCE57 /* VorbisDecoder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
