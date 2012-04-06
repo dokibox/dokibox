@@ -10,3 +10,6 @@
 [submodule "deps/mpg123"]
 	path = deps/mpg123
 	url = https://github.com/mileswu/mpg123.git
+[submodule "deps/PSMTabBarControl"]
+	path = deps/PSMTabBarControl
+	url = https://github.com/mileswu/PSMTabBarControl.git
