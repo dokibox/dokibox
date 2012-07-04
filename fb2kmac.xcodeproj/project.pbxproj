@@ -16,6 +16,7 @@
 		2B05BBEC1522C04A003DCE57 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
 		2B05BBED1522C05E003DCE57 /* libvorbis.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */; };
 		2B05BBEE1522C08C003DCE57 /* libvorbisfile.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
+		2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B0E032915214B3900B80884 /* libogg.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
 		2B0E032B15214B4600B80884 /* libogg.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
 		2B0E032E15214BC200B80884 /* FLACDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0E032D15214BC200B80884 /* FLACDecoder.m */; };
@@ -36,9 +37,41 @@
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
 		2BEC84CA147CAA4D008102F8 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */; };
+		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
+		2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC915A0BC3C000C906E /* WindowView.m */; };
+		2BF18DCD15A0C10F000C906E /* PlaylistTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */; };
+		2BF18DD015A3AA8B000C906E /* Column.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DCF15A3AA8A000C906E /* Column.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB5B264C13BE6DA200579B1E;
+			remoteInfo = TwUI;
+		};
+		2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB5E321813BE7098004B7899;
+			remoteInfo = "Dynamic Library";
+		};
+		2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5EE983B713BE7809005F430D;
+			remoteInfo = "Static Library";
+		};
+		2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
+			remoteInfo = Tests;
+		};
 		2B15BF89146127A100DC46CD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
@@ -72,6 +105,7 @@
 		2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VorbisDecoder.m; sourceTree = "<group>"; };
 		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
+		2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwUI.xcodeproj; path = deps/twui/TwUI.xcodeproj; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B0E032C15214BC200B80884 /* FLACDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLACDecoder.h; sourceTree = "<group>"; };
 		2B0E032D15214BC200B80884 /* FLACDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLACDecoder.m; sourceTree = "<group>"; };
@@ -108,6 +142,14 @@
 		2BEC84C8147CAA4C008102F8 /* MP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP3Decoder.h; sourceTree = "<group>"; };
 		2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP3Decoder.m; sourceTree = "<group>"; };
 		2BEC84CB147CAB07008102F8 /* DecoderProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderProtocol.h; sourceTree = "<group>"; };
+		2BF18DC515A0BBD1000C906E /* PlaylistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistView.h; sourceTree = "<group>"; };
+		2BF18DC615A0BBD1000C906E /* PlaylistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistView.m; sourceTree = "<group>"; };
+		2BF18DC815A0BC3C000C906E /* WindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowView.h; sourceTree = "<group>"; };
+		2BF18DC915A0BC3C000C906E /* WindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowView.m; sourceTree = "<group>"; };
+		2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackCell.h; sourceTree = "<group>"; };
+		2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackCell.m; sourceTree = "<group>"; };
+		2BF18DCE15A3AA89000C906E /* Column.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Column.h; sourceTree = "<group>"; };
+		2BF18DCF15A3AA8A000C906E /* Column.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Column.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
 				2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */,
@@ -138,6 +181,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B05E176159E3AAD001FBE70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B05E180159E3AAE001FBE70 /* TwUI.framework */,
+				2B05E182159E3AAE001FBE70 /* libtwui.dylib */,
+				2B05E184159E3AAE001FBE70 /* libtwui.a */,
+				2B05E186159E3AAE001FBE70 /* Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2B15BF59146127A100DC46CD = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +214,7 @@
 		2B15BF67146127A100DC46CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
 				2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */,
 				2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */,
@@ -192,6 +247,14 @@
 				2B46605B1479FDBD0036B5AB /* PlaylistController.m */,
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2BF18DC815A0BC3C000C906E /* WindowView.h */,
+				2BF18DC915A0BC3C000C906E /* WindowView.m */,
+				2BF18DC515A0BBD1000C906E /* PlaylistView.h */,
+				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
+				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
+				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
+				2BF18DCE15A3AA89000C906E /* Column.h */,
+				2BF18DCF15A3AA8A000C906E /* Column.m */,
 				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
 				2B8DB9341479FB7E006133CA /* PlaylistTrack.h */,
 				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
@@ -300,6 +363,12 @@
 			mainGroup = 2B15BF59146127A100DC46CD;
 			productRefGroup = 2B15BF65146127A100DC46CD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2B05E176159E3AAD001FBE70 /* Products */;
+					ProjectRef = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2B15BF63146127A100DC46CD /* fb2kmac */,
@@ -307,6 +376,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2B05E180159E3AAE001FBE70 /* TwUI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TwUI.framework;
+			remoteRef = 2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B05E182159E3AAE001FBE70 /* libtwui.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libtwui.dylib;
+			remoteRef = 2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B05E184159E3AAE001FBE70 /* libtwui.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libtwui.a;
+			remoteRef = 2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B05E186159E3AAE001FBE70 /* Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.octest;
+			remoteRef = 2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2B15BF62146127A100DC46CD /* Resources */ = {
@@ -359,6 +459,10 @@
 				2B0E032E15214BC200B80884 /* FLACDecoder.m in Sources */,
 				2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */,
 				2B05BBE81522BA78003DCE57 /* VorbisDecoder.m in Sources */,
+				2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */,
+				2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */,
+				2BF18DCD15A0C10F000C906E /* PlaylistTrackCell.m in Sources */,
+				2BF18DD015A3AA8B000C906E /* Column.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,7 +572,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/prefix/include/\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/prefix/include/\"",
+					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
+					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
+				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -484,7 +592,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "fb2kmac/fb2kmac-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/prefix/include/\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/prefix/include/\"",
+					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
+					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
+				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -10,11 +10,25 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+	CGRect b = CGRectMake(0, 0, 500, 450);
+	
+	/** Scroll View */
+	_window = [[NSWindow alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
+	[_window setReleasedWhenClosed:FALSE];
+	[_window setMinSize:NSMakeSize(300, 250)];
+	[_window center];
+	
+	/* TUINSView is the bridge between the standard AppKit NSView-based heirarchy and the TUIView-based heirarchy */
+	TUINSView *tuiWindow = [[TUINSView alloc] initWithFrame:b];
+	[_window setContentView:tuiWindow];
+	
+	WindowView *windowView = [[WindowView alloc] initWithFrame:b];
+	tuiWindow.rootView = windowView;
+	
+    [_window makeKeyAndOrderFront:nil];
+
 }
 
 @end

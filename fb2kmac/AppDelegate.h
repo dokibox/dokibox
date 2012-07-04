@@ -7,9 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <TUIKit.h>
+#import "WindowView.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+{
+    NSWindow    * _window;
 
-@property (assign) IBOutlet NSWindow *window;
-
+}
 @end

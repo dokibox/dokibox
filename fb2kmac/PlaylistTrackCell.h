@@ -6,8 +6,17 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "TUITableViewCell.h"
+#import "TUIKit.h"
+#import "PlaylistTrack.h"
+#import "Column.h"
 
 @interface PlaylistTrackCell : TUITableViewCell
+{
+    TUITextRenderer *_textRenderer;
+    TUIFont *_font;
+    PlaylistTrack *_track;
+    
+}
+@property() PlaylistTrack *track;
 
 @end

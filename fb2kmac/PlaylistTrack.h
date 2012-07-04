@@ -11,8 +11,8 @@
 
 
 @interface PlaylistTrack : NSObject {
-    NSString *title;
+    NSMutableDictionary *_attributes;
 }
-@property (copy) NSString *title;
+@property (readonly) NSMutableDictionary *attributes;
 
 @end

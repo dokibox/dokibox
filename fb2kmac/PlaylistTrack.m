@@ -9,6 +9,13 @@
 #import "PlaylistTrack.h"
 
 @implementation PlaylistTrack
-@synthesize title;
+
+@synthesize attributes = _attributes;
+
+- (id)init{
+    self = [super init];
+    _attributes = [NSMutableDictionary dictionary];
+    return self;
+}
 
 @end

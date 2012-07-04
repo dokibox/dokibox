@@ -142,7 +142,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     currentPlaylistController = sender;
     PlaylistTrack *pt = [currentPlaylistController getCurrentTrack];
     
-    NSLog(@"Playing %@", [pt title]);
+    //NSLog(@"Playing %@", [pt title]);
     NSString *fp = @"/test.ogg";
     
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];

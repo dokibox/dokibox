@@ -7,7 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <TUIKit.h>
 
-@interface Column : NSObject
+@interface Column : NSObject {
+    NSString *_key;
+    int _offset;
+    TUIImage *_image;
+}
+
+-(id)initWithKey:(NSString *)key offset:(int)offset;
+-(void)reloadImage;
+
+@property(copy) NSString *key;
+@property() int offset;
+@property() TUIImage* image;
 
 @end

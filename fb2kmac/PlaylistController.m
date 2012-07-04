@@ -17,7 +17,7 @@
     self = [super init];
     trackArray = [NSMutableArray array];
     PlaylistTrack *pt = [[PlaylistTrack alloc] init];
-    [pt setTitle:@"hi"];
+    //[pt setTitle:@"hi"];
     [trackArray addObject:pt];
     currentPlayingTrackIndex = -1;
     return self;
@@ -50,7 +50,7 @@
     NSUInteger i = 0;
     for(id s in arr) {
         PlaylistTrack *track = [[PlaylistTrack alloc] init];
-        [track setTitle:s];
+        //[track setTitle:s];
         [playlistArrayController insertObject:track atArrangedObjectIndex:row+i]; //inserts rather than appends
         i++;
     }

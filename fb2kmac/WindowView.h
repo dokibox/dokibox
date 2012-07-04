@@ -7,6 +7,7 @@
 //
 
 #import "TUIView.h"
+#import "PlaylistView.h"
 
 @interface WindowView : TUIView
 

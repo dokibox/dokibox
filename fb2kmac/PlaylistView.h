@@ -6,8 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "TUIView.h"
+#import "TUIKit.h"
+#import "PlaylistTrackCell.h"
+#import "PlaylistTrack.h"
 
-@interface PlaylistView : TUIView
+@interface PlaylistView : TUIView <TUITableViewDelegate, TUITableViewDataSource>
+{
+    TUITableView *_tableView;
+    NSMutableArray *_playlistTracks;
+}
 
 @end
