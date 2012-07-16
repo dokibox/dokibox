@@ -66,6 +66,25 @@
 	return cell;
 }
 
+-(BOOL)tableView:(TUITableView *)tableView canMoveRowAtIndexPath:(TUIFastIndexPath *)indexPath {
+    // return TRUE to enable row reordering by dragging; don't implement this method or return
+    // FALSE to disable
+    return TRUE;
+}
+
+-(void)tableView:(TUITableView *)tableView moveRowAtIndexPath:(TUIFastIndexPath *)fromIndexPath toIndexPath:(TUIFastIndexPath *)toIndexPath {
+    // update the model to reflect the changed index paths; since this example isn't backed by
+    // a "real" model, after dropping a cell the table will revert to it's previous state
+    NSLog(@"Move dragged row: %@ => %@", fromIndexPath, toIndexPath);
+}
+
+-(TUIFastIndexPath *)tableView:(TUITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(TUIFastIndexPath *)fromPath toProposedIndexPath:(TUIFastIndexPath *)proposedPath {
+    // optionally revise the drag-to-reorder drop target index path by returning a different index path
+    // than proposedPath.  if proposedPath is suitable, return that.  if this method is not implemented,
+    // proposedPath is used by default.
+    return proposedPath;
+}
+
 
 
 
