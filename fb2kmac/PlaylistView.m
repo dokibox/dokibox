@@ -18,6 +18,23 @@
     [[t attributes] setObject:@"albmu" forKey:@"album"];
     [_playlistTracks addObject:t];
     
+    t = [[PlaylistTrack alloc] init];
+    [[t attributes] setObject:@"titl3e" forKey:@"title"];
+    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [_playlistTracks addObject:t];
+    t = [[PlaylistTrack alloc] init];
+    [[t attributes] setObject:@"titl4e" forKey:@"title"];
+    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [_playlistTracks addObject:t];
+    t = [[PlaylistTrack alloc] init];
+    [[t attributes] setObject:@"titl5e" forKey:@"title"];
+    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [_playlistTracks addObject:t];
+    t = [[PlaylistTrack alloc] init];
+    [[t attributes] setObject:@"titl6e" forKey:@"title"];
+    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [_playlistTracks addObject:t];
+    
 	if((self = [super initWithFrame:frame])) {
 		self.backgroundColor = [TUIColor colorWithWhite:0.5 alpha:1.0];
         
