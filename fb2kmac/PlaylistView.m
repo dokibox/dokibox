@@ -44,7 +44,7 @@
         [_tableView setDataSource:self];
         [_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
-        [_tableView setPasteboardDraggingEnabled:TRUE];
+        [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
         [self addSubview:_tableView];
 
         
