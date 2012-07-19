@@ -15,10 +15,7 @@
 - (id)initWithStyle:(TUITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		_textRenderer = [[TUITextRenderer alloc] init];
-        // This is for event routing for dictionary/selection
-		self.textRenderers = [NSArray arrayWithObjects:_textRenderer, nil];
-        
+		_textRenderer = [[TUITextRenderer alloc] init];        
         _font = [TUIFont fontWithName:@"HelveticaNeue" size:12];
 	}
 	return self;
