@@ -30,6 +30,7 @@
 		2B15BF88146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF90146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF8E146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF93146127A100DC46CD /* fb2kmacTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF92146127A100DC46CD /* fb2kmacTests.m */; };
+		2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B46605C1479FDBD0036B5AB /* PlaylistController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B46605B1479FDBD0036B5AB /* PlaylistController.m */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
@@ -88,6 +89,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */,
 				2B0E032B15214B4600B80884 /* libogg.0.dylib in CopyFiles */,
 				2B05BBEE1522C08C003DCE57 /* libvorbisfile.3.dylib in CopyFiles */,
 				2B05BBE415227FF3003DCE57 /* libmpg123.0.dylib in CopyFiles */,
