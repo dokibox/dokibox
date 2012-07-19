@@ -95,6 +95,21 @@
     [_playlistTracks insertObject:t atIndex:[toIndexPath row]];
 }
 
+- (BOOL)tableView:(TUITableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info path:(TUIFastIndexPath *)path
+{
+    PlaylistTrack *t = [[PlaylistTrack alloc] init];
+    [[t attributes] setObject:@"new" forKey:@"title"];
+    [[t attributes] setObject:@"new" forKey:@"album"];
+    [_playlistTracks insertObject:t atIndex:[path row]];
+    return YES;
+}
+
+- (NSDragOperation)tableView:(TUITableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedPath:(TUIFastIndexPath *)path withGapHeight:(float *)height
+{
+    *height = 25.0;
+    return NSDragOperationCopy;
+}
+
 
 
 
