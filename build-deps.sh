@@ -41,3 +41,10 @@ cd $PREFIX/lib
 install_name_tool -id @executable_path/../Frameworks/libvorbisfile.3.dylib libvorbisfile.3.dylib
 install_name_tool -id @executable_path/../Frameworks/libvorbis.0.dylib libvorbis.0.dylib
 install_name_tool -change $PREFIX/lib/libvorbis.0.dylib @executable_path/../Frameworks/libvorbis.0.dylib libvorbisfile.3.dylib
+
+cd $DEPS/taglib
+cmake -DCMAKE_INSTALL_PREFIX=$PREFIX
+make -j2
+make install
+cd $PREFIX/lib
+install_name_tool -id @executable_path/../Frameworks/libtag.1.7.2.dylib libtag.1.7.2.dylib

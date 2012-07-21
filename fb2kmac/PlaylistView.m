@@ -97,6 +97,12 @@
 
 - (BOOL)tableView:(TUITableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info path:(TUIFastIndexPath *)path
 {
+    NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    NSLog(@"number of files: %d", [filenames count]);
+    for (NSString *s in filenames) {
+        NSLog(@"%@", s);
+    }
+    
     PlaylistTrack *t = [[PlaylistTrack alloc] init];
     [[t attributes] setObject:@"new" forKey:@"title"];
     [[t attributes] setObject:@"new" forKey:@"album"];
@@ -106,8 +112,14 @@
 
 - (NSDragOperation)tableView:(TUITableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedPath:(TUIFastIndexPath *)path withGapHeight:(float *)height
 {
-    *height = 25.0;
-    return NSDragOperationCopy;
+    NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    if([filenames count] == 0) {
+        return NSDragOperationNone;
+    }
+    else {
+        *height = 25.0;
+        return NSDragOperationCopy;
+    }
 }
 
 

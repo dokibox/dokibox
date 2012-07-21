@@ -16,3 +16,6 @@
 [submodule "deps/twui"]
 	path = deps/twui
 	url = git://github.com/twitter/twui.git
+[submodule "deps/taglib"]
+	path = deps/taglib
+	url = git://github.com/taglib/taglib.git
