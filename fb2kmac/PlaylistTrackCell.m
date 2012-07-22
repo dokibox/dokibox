@@ -46,8 +46,8 @@
     NSMutableArray *arr = [NSMutableArray array];
     CGRect textRect = CGRectOffset(b, 10, -5);
     
-    [arr addObject:[[Column alloc] initWithKey:@"title" offset:0]];
-    [arr addObject:[[Column alloc] initWithKey:@"album" offset:100]];    
+    [arr addObject:[[Column alloc] initWithKey:@"TITLE" offset:0]];
+    [arr addObject:[[Column alloc] initWithKey:@"ALBUM" offset:100]];    
     for(Column *c in arr) {
         if([[_track attributes] objectForKey:[c key]] == nil) {
             continue;

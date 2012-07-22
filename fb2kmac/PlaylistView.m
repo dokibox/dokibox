@@ -14,25 +14,25 @@
 {
     _playlistTracks= [NSMutableArray array];
     PlaylistTrack *t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"titl2e" forKey:@"title"];
-    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [[t attributes] setObject:@"titl2e" forKey:@"TITLE"];
+    [[t attributes] setObject:@"albmu" forKey:@"ALBUM"];
     [_playlistTracks addObject:t];
     
     t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"titl3e" forKey:@"title"];
-    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [[t attributes] setObject:@"titl3e" forKey:@"TITLE"];
+    [[t attributes] setObject:@"albmu" forKey:@"ALBUM"];
     [_playlistTracks addObject:t];
     t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"titl4e" forKey:@"title"];
-    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [[t attributes] setObject:@"titl4e" forKey:@"TITLE"];
+    [[t attributes] setObject:@"albmu" forKey:@"ALBUM"];
     [_playlistTracks addObject:t];
     t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"titl5e" forKey:@"title"];
-    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [[t attributes] setObject:@"titl5e" forKey:@"TITLE"];
+    [[t attributes] setObject:@"albmu" forKey:@"ALBUM"];
     [_playlistTracks addObject:t];
     t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"titl6e" forKey:@"title"];
-    [[t attributes] setObject:@"albmu" forKey:@"album"];
+    [[t attributes] setObject:@"titl6e" forKey:@"TITLE"];
+    [[t attributes] setObject:@"albmu" forKey:@"ALBUM"];
     [_playlistTracks addObject:t];
     
 	if((self = [super initWithFrame:frame])) {
