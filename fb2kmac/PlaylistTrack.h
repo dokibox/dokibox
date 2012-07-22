@@ -12,7 +12,10 @@
 
 @interface PlaylistTrack : NSObject {
     NSMutableDictionary *_attributes;
+    NSString *_filename;
 }
 @property (readonly) NSMutableDictionary *attributes;
+
+- (id)initWithFilename:(NSString *)filename;
 
 @end

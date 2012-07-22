@@ -37,6 +37,9 @@
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
+		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
+		2BBB23D615BC731700169E80 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
+		2BBB23D715BC733300169E80 /* libtag.1.11.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2BEC84CA147CAA4D008102F8 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
 		2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC915A0BC3C000C906E /* WindowView.m */; };
@@ -89,6 +92,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2BBB23D715BC733300169E80 /* libtag.1.11.0.dylib in CopyFiles */,
 				2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */,
 				2B0E032B15214B4600B80884 /* libogg.0.dylib in CopyFiles */,
 				2B05BBEE1522C08C003DCE57 /* libvorbisfile.3.dylib in CopyFiles */,
@@ -140,6 +144,10 @@
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
 		2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2BA3129E14A3D7A20062E234 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaggerProtocol.h; sourceTree = "<group>"; };
+		2BAC978C15BC571400FBE907 /* TaglibTagger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaglibTagger.h; sourceTree = "<group>"; };
+		2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TaglibTagger.mm; sourceTree = "<group>"; };
+		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		2BEC84C8147CAA4C008102F8 /* MP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP3Decoder.h; sourceTree = "<group>"; };
 		2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP3Decoder.m; sourceTree = "<group>"; };
@@ -168,6 +176,7 @@
 				2B05BBE315227FED003DCE57 /* libmpg123.0.dylib in Frameworks */,
 				2B05BBEB1522C04A003DCE57 /* libvorbis.0.dylib in Frameworks */,
 				2B05BBEC1522C04A003DCE57 /* libvorbisfile.3.dylib in Frameworks */,
+				2BBB23D615BC731700169E80 /* libtag.1.11.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +227,7 @@
 			children = (
 				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
+				2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */,
 				2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */,
 				2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */,
 				2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */,
@@ -255,6 +265,8 @@
 				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
 				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
 				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
+				2BAC978C15BC571400FBE907 /* TaglibTagger.h */,
+				2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */,
 				2BF18DCE15A3AA89000C906E /* Column.h */,
 				2BF18DCF15A3AA8A000C906E /* Column.m */,
 				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
@@ -266,6 +278,7 @@
 				2B86BDBF15216B740022E813 /* FIFOBuffer.h */,
 				2B86BDC015216B740022E813 /* FIFOBuffer.m */,
 				2BEC84CB147CAB07008102F8 /* DecoderProtocol.h */,
+				2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */,
 				2BEC84C8147CAA4C008102F8 /* MP3Decoder.h */,
 				2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */,
 				2B0E032C15214BC200B80884 /* FLACDecoder.h */,
@@ -465,6 +478,7 @@
 				2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */,
 				2BF18DCD15A0C10F000C906E /* PlaylistTrackCell.m in Sources */,
 				2BF18DD015A3AA8B000C906E /* Column.m in Sources */,
+				2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -100,13 +100,10 @@
     NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     NSLog(@"number of files: %d", [filenames count]);
     for (NSString *s in filenames) {
-        NSLog(@"%@", s);
+        PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
+        [_playlistTracks insertObject:t atIndex:[path row]];
     }
     
-    PlaylistTrack *t = [[PlaylistTrack alloc] init];
-    [[t attributes] setObject:@"new" forKey:@"title"];
-    [[t attributes] setObject:@"new" forKey:@"album"];
-    [_playlistTracks insertObject:t atIndex:[path row]];
     return YES;
 }
 
