@@ -60,6 +60,23 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 @synthesize auBuffer;
 @synthesize converter;
 
++ (BOOL)isSupportedAudioFile:(NSString *)filename
+{
+    NSString *ext = [[filename pathExtension] lowercaseString];
+    if([ext compare:@"flac"] == NSOrderedSame) {
+        return YES;
+    }
+    else if([ext compare:@"mp3"] == NSOrderedSame) {
+        return YES;
+    }
+    else if([ext compare:@"ogg"] == NSOrderedSame) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
 - (id)init {
     self = [super init];
 

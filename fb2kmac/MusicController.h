@@ -34,6 +34,7 @@
 @property(readonly) NSData *auBuffer;
 @property(readonly) AudioConverterRef converter;
 
++ (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)play:(id)sender;
 - (NSData *)readInput:(int)bytes;
 -(void)decodeNextFrame;

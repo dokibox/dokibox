@@ -7,6 +7,7 @@
 //
 
 #import "PlaylistView.h"
+#import "MusicController.h"
 
 @implementation PlaylistView
 
@@ -77,23 +78,34 @@
 - (BOOL)tableView:(TUITableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info path:(TUIFastIndexPath *)path
 {
     NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
-    NSLog(@"number of files: %d", [filenames count]);
+    int count=0;
     for (NSString *s in filenames) {
-        PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
-        [_playlistTracks insertObject:t atIndex:[path row]];
+        if([MusicController isSupportedAudioFile:s]) {
+            count++;
+            PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
+            [_playlistTracks insertObject:t atIndex:[path row]];
+        }
     }
     
-    return YES;
+    if(count == 0)
+        return NO;
+    else
+        return YES;
 }
 
 - (NSDragOperation)tableView:(TUITableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedPath:(TUIFastIndexPath *)path withGapHeight:(float *)height
 {
     NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
-    if([filenames count] == 0) {
+    int count=0;
+    for (NSString *s in filenames)
+        if([MusicController isSupportedAudioFile:s])
+            count++;
+    
+    if(count == 0) {
         return NSDragOperationNone;
     }
     else {
-        *height = 25.0;
+        *height = 25.0*count;
         return NSDragOperationCopy;
     }
 }
