@@ -80,7 +80,7 @@
 {
     NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     int count=0;
-    for (NSString *s in filenames) {
+    for (NSString *s in [filenames reverseObjectEnumerator]) {
         if([MusicController isSupportedAudioFile:s]) {
             count++;
             PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
