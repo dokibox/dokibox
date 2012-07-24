@@ -84,7 +84,10 @@
         if([MusicController isSupportedAudioFile:s]) {
             count++;
             PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
-            [_playlistTracks insertObject:t atIndex:[path row]];
+            if([path row] == [_playlistTracks count])
+                [_playlistTracks addObject:t];
+            else
+                [_playlistTracks insertObject:t atIndex:[path row]];
         }
     }
     
