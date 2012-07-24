@@ -5,19 +5,22 @@
 PREFIX=`pwd`/prefix
 export PATH="$PREFIX/bin:$PATH"
 
+CURL="curl -O"
+TAR="tar xf" # os x's BSD tar autodetects gzip and bzip2 compression (as does GNU tar)
+
 mkdir tmp
 cd tmp
 
-curl -O ftp://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
-curl -O ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.68.tar.bz2
-curl -O ftp://ftp.gnu.org/gnu/automake/automake-1.11.1.tar.bz2
-curl -O ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.tar.gz
-curl -O http://pkg-config.freedesktop.org/releases/pkg-config-0.25.tar.gz
-curl -O http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-curl -O http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
+$CURL ftp://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
+$CURL ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.68.tar.bz2
+$CURL ftp://ftp.gnu.org/gnu/automake/automake-1.11.1.tar.bz2
+$CURL ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.tar.gz
+$CURL http://pkg-config.freedesktop.org/releases/pkg-config-0.25.tar.gz
+$CURL http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+$CURL http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
 
 # m4
-tar xjf m4*
+$TAR m4*
 cd m4*
 ./configure\
     --prefix=$PREFIX
@@ -26,7 +29,7 @@ make install-strip
 cd ..
 
 # autoconf
-tar xjf autoconf-2*
+$TAR autoconf-2*
 cd autoconf-2*
 ./configure\
     --prefix=$PREFIX\
@@ -36,7 +39,7 @@ make install-strip
 cd ..
 
 # automake
-tar xjf automake-*
+$TAR automake-*
 cd automake-*
 ./configure\
     --prefix=$PREFIX
@@ -46,7 +49,7 @@ make install-strip
 cd ..
 
 # libtool
-tar xjf libtool-*
+$TAR libtool-*
 cd libtool-*
 ./configure\
     --prefix=$PREFIX
@@ -55,7 +58,7 @@ make install-strip
 cd ..
 
 #pkg-config
-tar xjf pkg-config*
+$TAR pkg-config*
 cd pkg-config*
 ./configure\
     --prefix=$PREFIX
@@ -64,7 +67,7 @@ make install
 cd ..
 
 #iconv
-tar xjf libiconv*
+$TAR libiconv*
 cd libiconv*
 ./configure\
     --prefix=$PREFIX
@@ -73,7 +76,7 @@ make install
 cd ..
 
 #gettext
-tar xjf gettext*
+$TAR gettext*
 cd gettext*
 curl -O https://trac.macports.org/export/79617/trunk/dports/devel/gettext/files/stpncpy.patch
 patch -p0 < stpncpy.patch
@@ -86,4 +89,3 @@ cd ..
 
 cd ..
 rm -rf tmp
-
