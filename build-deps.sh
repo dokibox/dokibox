@@ -3,6 +3,7 @@
 START=`pwd`
 PREFIX=`pwd`/prefix
 DEPS=`pwd`/deps
+PATH=$PREFIX/bin:$PATH
 
 mkdir $PREFIX
 
