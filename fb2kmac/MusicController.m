@@ -44,11 +44,13 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
                             const AudioTimeStamp *inTimeStamp, UInt32 inBusNumber,
                             UInt32 inNumFrames, AudioBufferList *ioData)
 {
-    MusicController *mc = (__bridge MusicController *)inRefCon;
-    AudioStreamPacketDescription* outPacketDescription = NULL;
-
-    OSStatus err = AudioConverterFillComplexBuffer([mc converter], playProc, inRefCon, &inNumFrames, ioData, outPacketDescription);
-    return(err);
+    @autoreleasepool {
+        MusicController *mc = (__bridge MusicController *)inRefCon;
+        AudioStreamPacketDescription* outPacketDescription = NULL;
+        
+        OSStatus err = AudioConverterFillComplexBuffer([mc converter], playProc, inRefCon, &inNumFrames, ioData, outPacketDescription);
+        return(err);
+    }
 }
 
 
