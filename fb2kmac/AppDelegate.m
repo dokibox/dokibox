@@ -12,6 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    AtLeastLion = YES;
 	CGRect b = CGRectMake(0, 0, 500, 450);
 	
 	/** Scroll View */
