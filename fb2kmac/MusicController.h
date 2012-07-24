@@ -16,8 +16,6 @@
 #include <AudioToolbox/AudioToolbox.h>
 
 @interface MusicController : NSObject {
-    PlaylistController  *currentPlaylistController;
-    
     id<DecoderProtocol> currentDecoder;
     
     ComponentInstance outputUnit;
@@ -35,8 +33,9 @@
 @property(readonly) AudioConverterRef converter;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
-- (void)play:(id)sender;
+- (void)receivedPlayTrackNotification:(NSNotification *)notification;
 - (NSData *)readInput:(int)bytes;
+- (id<DecoderProtocol>)decoderForFile:(NSString *)filename;
 -(void)decodeNextFrame;
 
 

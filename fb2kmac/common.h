@@ -11,7 +11,6 @@
 #import "TaggerProtocol.h"
 
 @class MusicController;
-@class PlaylistController;
 @class PlaylistTrack;
 
 @interface TaglibTagger : NSObject<TaggerProtocol> {    

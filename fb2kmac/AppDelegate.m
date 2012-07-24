@@ -28,7 +28,8 @@
 	tuiWindow.rootView = windowView;
 	
     [_window makeKeyAndOrderFront:nil];
-
+    
+    _musicController = [[MusicController alloc] init];
 }
 
 @end

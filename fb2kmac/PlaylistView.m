@@ -40,7 +40,8 @@
 
 - (void)tableView:(TUITableView *)tableView didClickRowAtIndexPath:(TUIFastIndexPath *)indexPath withEvent:(NSEvent *)event {
     if([event clickCount] == 2) { // Double click
-        
+        PlaylistTrack *track = [_playlistTracks objectAtIndex:[indexPath row]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:track];
     }
 }
 

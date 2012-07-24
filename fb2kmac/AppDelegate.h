@@ -9,10 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import <TUIKit.h>
 #import "WindowView.h"
+#import "MusicController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     NSWindow    * _window;
+    MusicController *_musicController;
 
 }
 @end

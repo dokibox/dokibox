@@ -8,10 +8,8 @@
 
 #import "MusicController.h"
 #import "PlaylistTrack.h"
-#import "PlaylistController.h"
 
 #import <AudioUnit/AudioUnit.h>
-
 
 static OSStatus playProc(AudioConverterRef inAudioConverter,
 						 UInt32 *ioNumberDataPackets,
@@ -153,24 +151,42 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
                                 sizeof(AURenderCallbackStruct));
     
     decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
 
     return self;
 }
 
-- (void)play:(id)sender {
-    currentPlaylistController = sender;
-    PlaylistTrack *pt = [currentPlaylistController getCurrentTrack];
-    
-    //NSLog(@"Playing %@", [pt title]);
-    NSString *fp = @"/test.ogg";
-    
+- (id<DecoderProtocol>)decoderForFile:(NSString *)filename
+{
+    NSString *ext = [[filename pathExtension] lowercaseString];
+    if([ext compare:@"flac"] == NSOrderedSame) {
+        return [[FLACDecoder alloc] initWithMusicController:self];
+    }
+    else if([ext compare:@"mp3"] == NSOrderedSame) {
+        return [[MP3Decoder alloc] initWithMusicController:self];
+    }
+    else if([ext compare:@"ogg"] == NSOrderedSame) {
+        return [[VorbisDecoder alloc] initWithMusicController:self];
+    }
+    else {
+        return nil;
+    }
+}
+
+- (void)receivedPlayTrackNotification:(NSNotification *)notification
+{
+    PlaylistTrack *pt = [notification object];
+    NSString *fp = [pt filename];
+    NSLog(@"%@", fp);
+
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
     if(fileHandle == nil) {
         NSLog(@"File does not exist at %@", fp);
         return;
     }
     
-    currentDecoder = [[VorbisDecoder alloc] initWithMusicController:self];
+    currentDecoder = [self decoderForFile:fp];
     [currentDecoder decodeMetadata];
     size_t size = [fifoBuffer freespace];
     while(size > 30000) {
