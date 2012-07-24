@@ -15,6 +15,7 @@
     NSString *_filename;
 }
 @property (readonly) NSMutableDictionary *attributes;
+@property (copy) NSString *filename;
 
 - (id)initWithFilename:(NSString *)filename;
 

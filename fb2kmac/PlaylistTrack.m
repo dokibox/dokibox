@@ -12,6 +12,7 @@
 @implementation PlaylistTrack
 
 @synthesize attributes = _attributes;
+@synthesize filename = _filename;
 
 - (id)init {
     self = [super init];
