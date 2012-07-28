@@ -22,8 +22,8 @@
 		b.size.height -= 2*inlay;
 		b.size.width -= 2*inlay;
         
-        
-        PlaylistView *playlistView = [[PlaylistView alloc] initWithFrame:b];
+        Playlist *playlist = [[Playlist alloc] init];
+        PlaylistView *playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
         [playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
         [self addSubview:playlistView];
 		

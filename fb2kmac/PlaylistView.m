@@ -11,12 +11,12 @@
 
 @implementation PlaylistView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist
 {
-    _playlistTracks= [NSMutableArray array];
-    
 	if((self = [super initWithFrame:frame])) {
 		self.backgroundColor = [TUIColor colorWithWhite:0.5 alpha:1.0];
+
+        _playlist = playlist;
         
         _tableView = [[TUITableView alloc] initWithFrame:self.bounds];
         [_tableView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
@@ -26,8 +26,6 @@
         [_tableView setClipsToBounds:TRUE];
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
         [self addSubview:_tableView];
-
-        
 	}
 	return self;
 }
@@ -40,20 +38,20 @@
 
 - (void)tableView:(TUITableView *)tableView didClickRowAtIndexPath:(TUIFastIndexPath *)indexPath withEvent:(NSEvent *)event {
     if([event clickCount] == 2) { // Double click
-        PlaylistTrack *track = [_playlistTracks objectAtIndex:[indexPath row]];
+        PlaylistTrack *track = [_playlist trackAtIndex:[indexPath row]];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:track];
     }
 }
 
 - (NSInteger)tableView:(TUITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    return [_playlistTracks count];
+    return [_playlist numberOfTracks];
 }
 
 - (TUITableViewCell *)tableView:(TUITableView *)tableView cellForRowAtIndexPath:(TUIFastIndexPath *)indexPath
 {
 	PlaylistTrackCell *cell = reusableTableCellOfClass(tableView, PlaylistTrackCell);
-    [cell setTrack:[_playlistTracks objectAtIndex:[indexPath row]]];
+    [cell setTrack:[_playlist trackAtIndex:[indexPath row]]];
 	
 	/*TUIAttributedString *s = [TUIAttributedString stringWithString:[NSString stringWithFormat:@"example cell %d", indexPath.row]];
 	s.color = [TUIColor blackColor];
@@ -71,9 +69,9 @@
 }
 
 -(void)tableView:(TUITableView *)tableView moveRowAtIndexPath:(TUIFastIndexPath *)fromIndexPath toIndexPath:(TUIFastIndexPath *)toIndexPath {
-    PlaylistTrack *t = [_playlistTracks objectAtIndex:[fromIndexPath row]];
-    [_playlistTracks removeObjectAtIndex:[fromIndexPath row]];
-    [_playlistTracks insertObject:t atIndex:[toIndexPath row]];
+    PlaylistTrack *t = [_playlist trackAtIndex:[fromIndexPath row]];
+    [_playlist removeTrackAtIndex:[fromIndexPath row]];
+    [_playlist insertTrack:t atIndex:[toIndexPath row]];
 }
 
 - (BOOL)tableView:(TUITableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info path:(TUIFastIndexPath *)path
@@ -84,10 +82,10 @@
         if([MusicController isSupportedAudioFile:s]) {
             count++;
             PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
-            if([path row] == [_playlistTracks count])
-                [_playlistTracks addObject:t];
+            if([path row] == [_playlist numberOfTracks])
+                [_playlist addTrack:t];
             else
-                [_playlistTracks insertObject:t atIndex:[path row]];
+                [_playlist insertTrack:t atIndex:[path row]];
         }
     }
     

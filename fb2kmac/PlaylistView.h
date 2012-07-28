@@ -9,11 +9,14 @@
 #import "TUIKit.h"
 #import "PlaylistTrackCell.h"
 #import "PlaylistTrack.h"
+#import "Playlist.h"
 
 @interface PlaylistView : TUIView <TUITableViewDelegate, TUITableViewDataSource>
 {
     TUITableView *_tableView;
-    NSMutableArray *_playlistTracks;
+    Playlist *_playlist;
 }
+
+- (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist;
 
 @end
