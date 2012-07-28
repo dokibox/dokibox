@@ -97,7 +97,7 @@
         return YES;
 }
 
-- (NSDragOperation)tableView:(TUITableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedPath:(TUIFastIndexPath *)path withGapHeight:(float *)height
+- (NSDragOperation)tableView:(TUITableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedPath:(TUIFastIndexPath *)path
 {
     NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     int count=0;
@@ -109,12 +109,20 @@
         return NSDragOperationNone;
     }
     else {
-        *height = 25.0*count;
         return NSDragOperationCopy;
     }
 }
 
-
+- (float)tableView:(TUITableView *)aTableView heightForDropGapAtIndexPath:(TUIFastIndexPath *)path drop:(id < NSDraggingInfo >)info
+{
+    NSArray *filenames = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    int count=0;
+    for (NSString *s in filenames)
+        if([MusicController isSupportedAudioFile:s])
+            count++;
+    
+    return ((float)count)*25.0;
+}
 
 
 @end
