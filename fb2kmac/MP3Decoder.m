@@ -32,17 +32,22 @@
     [self decodeNextFrame];
 }
 
--(void)decodeNextFrame {
+-(DecodeStatus)decodeNextFrame {
     off_t frame;
     unsigned char *audio;
     size_t bytes;
     int retval = mpg123_decode_frame(mh, &frame, &audio, &bytes);
-    
+
     if(retval == MPG123_NEED_MORE) {
         int readsize = 10000;
         NSData *data = [musicController readInput:readsize];
-        mpg123_feed(mh, [data bytes], [data length]);
-        [self decodeNextFrame];
+        if([data length] != 0) {
+            mpg123_feed(mh, [data bytes], [data length]);
+            retval = [self decodeNextFrame];
+        }
+        else {
+            return DecoderEOF;
+        }
     }
     
     if(retval == MPG123_NEW_FORMAT) {
@@ -72,7 +77,7 @@
     
     if(bytes > 0) {
         [[musicController fifoBuffer] write:audio size:bytes];
-        
     }
+    return DecoderSuccess;
 }
 @end

@@ -22,8 +22,4 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
 
 @property (retain) MusicController *musicController;
 
--(id)initWithMusicController:(MusicController *)mc;
--(void)decodeMetadata;
--(void)decodeNextFrame;
-
 @end

@@ -25,9 +25,4 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 
 @property (retain) MusicController *musicController;
 
--(id)initWithMusicController:(MusicController *)mc;
--(void)decodeMetadata;
--(void)decodeNextFrame;
-
-
 @end

@@ -9,12 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "common.h"
 
+typedef enum {
+    DecoderSuccess,
+    DecoderEOF
+} DecodeStatus;
+
 @protocol DecoderProtocol <NSObject>
 
 @property (retain) MusicController *musicController;
 
 -(id)initWithMusicController:(MusicController *)mc;
 -(void)decodeMetadata;
--(void)decodeNextFrame;
+-(DecodeStatus)decodeNextFrame;
 
 @end

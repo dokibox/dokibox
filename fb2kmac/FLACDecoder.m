@@ -96,8 +96,12 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     FLAC__stream_decoder_process_until_end_of_metadata(decoder);
 }
 
--(void)decodeNextFrame {
-    FLAC__stream_decoder_process_single(decoder);
+-(DecodeStatus)decodeNextFrame {
+    FLAC__bool retval = FLAC__stream_decoder_process_single(decoder);
+    if(retval != true) {
+        NSLog(@"hi");
+    }
+    return DecoderSuccess;
 }
 
 

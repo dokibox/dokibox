@@ -19,6 +19,6 @@
 -(int)stored;
 -(int)freespace;
 - (void)write:(void *)data size:(int)size;
-- (void)read:(void *)data size:(int)size;
+- (void)read:(void *)data size:(int *)size;
 
 @end

@@ -18,20 +18,20 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
                          void* inClientData) {
     //NSLog(@"Number of buffers %d", outOutputData->mNumberBuffers);
     MusicController *mc = (__bridge MusicController *)inClientData;
-        
-    [[mc fifoBuffer] read:[[mc auBuffer] bytes] size:[[mc auBuffer] length]];
+    
+    int size = [[mc auBuffer] length];
+    [[mc fifoBuffer] read:[[mc auBuffer] bytes] size:&size];
 
-    outOutputData->mBuffers[0].mDataByteSize = [[mc auBuffer] length];
+    outOutputData->mBuffers[0].mDataByteSize = size;
     outOutputData->mBuffers[0].mData = [[mc auBuffer] bytes];
     //NSLog(@"Wanted: %d", *ioNumberDataPackets*2*2);
-    //NSLog(@"Gave: %d", size);
+    
+    if(size == 0) {
+        [mc trackEnded];
+    }
     
     dispatch_async([mc decoding_queue], ^{
-        size_t size = [[mc fifoBuffer] freespace];
-        while(size > 30000) {
-            [mc decodeNextFrame];
-            size = [[mc fifoBuffer] freespace];
-        }
+        [mc fillBuffer];
     });
     
     return(noErr);
@@ -59,6 +59,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 @synthesize fifoBuffer;
 @synthesize auBuffer;
 @synthesize converter;
+@synthesize status = _status;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename
 {
@@ -79,6 +80,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (id)init {
     self = [super init];
+    _status = MusicControllerIdle;
 
     int err;
     UInt32 size;
@@ -186,22 +188,32 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         return;
     }
     
+    [self setStatus:MusicControllerDecodingSong];
+    
     currentDecoder = [self decoderForFile:fp];
     [currentDecoder decodeMetadata];
-    size_t size = [fifoBuffer freespace];
-    while(size > 30000) {
-        [self decodeNextFrame];
-        size = [fifoBuffer freespace];
-    }
+    [self fillBuffer];
     AudioOutputUnitStart(outputUnit);
 };
+
+-(void)fillBuffer {
+    size_t size = [fifoBuffer freespace];
+    while(size > 30000 && [self status] == MusicControllerDecodingSong) {
+        DecodeStatus status = [currentDecoder decodeNextFrame];
+        if(status == DecoderEOF) {
+            [self setStatus:MusicControllerDecodedSong];
+        }
+        size = [fifoBuffer freespace];
+    }
+}
 
 - (NSData *)readInput:(int)bytes {
     return [fileHandle readDataOfLength:(NSUInteger)bytes];
 }
 
--(void)decodeNextFrame {
-    [currentDecoder decodeNextFrame];
+- (void)trackEnded {
+    AudioOutputUnitStop(outputUnit);
+    [self setStatus:MusicControllerIdle];
 }
 
 

@@ -49,20 +49,21 @@
     buffer_fifo_wpos += size;
 }
 
-- (void)read:(void *)data size:(int)size {
-    if([self stored] < size) {
-        NSLog(@"not enough to read from");
-        return;
+- (void)read:(void *)data size:(int *)size {
+    if([self stored] < *size) {
+        *size = [self stored];
     }
-    if(size + buffer_fifo_rpos > buffer_fifo_size) {
+    int tempsize = *size;
+
+    if(tempsize + buffer_fifo_rpos > buffer_fifo_size) {
         //split read up into two halves
         memcpy(data, buffer_fifo + buffer_fifo_rpos, buffer_fifo_size - buffer_fifo_rpos);
-        size -= buffer_fifo_size - buffer_fifo_rpos;
+        tempsize -= buffer_fifo_size - buffer_fifo_rpos;
         data += buffer_fifo_size - buffer_fifo_rpos;
         buffer_fifo_rpos = 0;
     }
-    memcpy(data, buffer_fifo + buffer_fifo_rpos, size);
-    buffer_fifo_rpos += size;
+    memcpy(data, buffer_fifo + buffer_fifo_rpos, tempsize);
+    buffer_fifo_rpos += tempsize;
 }
 
 

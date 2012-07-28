@@ -17,8 +17,4 @@
 
 @property (retain) MusicController *musicController;
 
--(id)initWithMusicController:(MusicController *)mc;
--(void)decodeMetadata;
--(void)decodeNextFrame;
-
 @end

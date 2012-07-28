@@ -55,7 +55,7 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     }
 }
 
--(void)decodeNextFrame {
+-(DecodeStatus)decodeNextFrame {
     int sizetoread = 4096;
     int sizeread;
     int bitstreamno;
@@ -66,7 +66,15 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     if(sizeread > 0) {
         [[musicController fifoBuffer] write:audio size:sizeread];
     }
+
     free(audio);
+    
+    if(sizeread == 0) {
+        return DecoderEOF;
+    }
+    else {
+        return DecoderSuccess;
+    }
 }
 
 
