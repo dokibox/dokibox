@@ -178,8 +178,13 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (void)receivedPlayTrackNotification:(NSNotification *)notification
 {
-    PlaylistTrack *pt = [notification object];
-    NSString *fp = [pt filename];
+    if([self status] != MusicControllerIdle) { //still playing something at the moment
+        AudioOutputUnitStop(outputUnit);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:nil];
+    }
+    
+    _currentTrack = [notification object];
+    NSString *fp = [_currentTrack filename];
     NSLog(@"%@", fp);
 
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
@@ -214,6 +219,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 - (void)trackEnded {
     AudioOutputUnitStop(outputUnit);
     [self setStatus:MusicControllerIdle];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:_currentTrack];
+    _currentTrack = nil;
 }
 
 

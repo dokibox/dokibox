@@ -28,6 +28,7 @@ typedef enum {
     AudioConverterRef converter;
     
     MusicControllerStatus _status;
+    PlaylistTrack *_currentTrack;
 
     
     FIFOBuffer *fifoBuffer;

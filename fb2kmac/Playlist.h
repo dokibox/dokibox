@@ -18,5 +18,8 @@
 -(void)removeTrackAtIndex:(NSUInteger)index;
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index;
 -(void)addTrack:(PlaylistTrack *)track;
+-(void)playTrackAtIndex:(NSUInteger)index;
+
+-(void)receivedTrackEndedNotification:(NSNotification *)notification;
 
 @end
