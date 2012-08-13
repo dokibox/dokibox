@@ -8,6 +8,7 @@
 
 #import "TUIView.h"
 #import "PlaylistView.h"
+#import "PlayControlsView.h"
 
 @interface WindowView : TUIView
 

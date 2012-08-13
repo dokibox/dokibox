@@ -32,12 +32,17 @@
 		2B15BF93146127A100DC46CD /* fb2kmacTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF92146127A100DC46CD /* fb2kmacTests.m */; };
 		2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
+		2B53558615D0797E0054E61F /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53558515D0797D0054E61F /* Button.m */; };
+		2B53558715D07A2B0054E61F /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53558515D0797D0054E61F /* Button.m */; };
+		2B53558D15D1CEA30054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
+		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
 		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
 		2BBAC63F15C4193300965635 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC63E15C4193300965635 /* Playlist.m */; };
+		2BBAC64215C575D900965635 /* PlayControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC64115C575D900965635 /* PlayControlsView.m */; };
 		2BBB23D615BC731700169E80 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2BBB23D715BC733300169E80 /* libtag.1.11.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2BEC84CA147CAA4D008102F8 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */; };
@@ -136,6 +141,9 @@
 		2B15BF92146127A100DC46CD /* fb2kmacTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fb2kmacTests.m; sourceTree = "<group>"; };
 		2B466061147C4C6E0036B5AB /* MusicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicController.h; sourceTree = "<group>"; };
 		2B466062147C4C6F0036B5AB /* MusicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicController.m; sourceTree = "<group>"; };
+		2B53558415D0797D0054E61F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		2B53558515D0797D0054E61F /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
+		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		2B86BDBF15216B740022E813 /* FIFOBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFOBuffer.h; sourceTree = "<group>"; };
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
@@ -147,6 +155,8 @@
 		2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TaglibTagger.mm; sourceTree = "<group>"; };
 		2BBAC63D15C4193200965635 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
 		2BBAC63E15C4193300965635 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
+		2BBAC64015C575D800965635 /* PlayControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayControlsView.h; sourceTree = "<group>"; };
+		2BBAC64115C575D900965635 /* PlayControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayControlsView.m; sourceTree = "<group>"; };
 		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		2BEC84C8147CAA4C008102F8 /* MP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP3Decoder.h; sourceTree = "<group>"; };
@@ -167,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
 				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
@@ -186,6 +197,7 @@
 			files = (
 				2B15BF87146127A100DC46CD /* SenTestingKit.framework in Frameworks */,
 				2B15BF88146127A100DC46CD /* Cocoa.framework in Frameworks */,
+				2B53558D15D1CEA30054E61F /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +244,7 @@
 				2B05BBE215227FED003DCE57 /* libmpg123.0.dylib */,
 				2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */,
 				2B0E032815214B3900B80884 /* libogg.0.dylib */,
+				2B53558C15D1CEA30054E61F /* QuartzCore.framework */,
 				2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */,
 				2BA3129E14A3D7A20062E234 /* AudioUnit.framework */,
 				2B15BF68146127A100DC46CD /* Cocoa.framework */,
@@ -261,6 +274,10 @@
 				2BF18DC915A0BC3C000C906E /* WindowView.m */,
 				2BF18DC515A0BBD1000C906E /* PlaylistView.h */,
 				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
+				2BBAC64015C575D800965635 /* PlayControlsView.h */,
+				2BBAC64115C575D900965635 /* PlayControlsView.m */,
+				2B53558415D0797D0054E61F /* Button.h */,
+				2B53558515D0797D0054E61F /* Button.m */,
 				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
 				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
 				2BAC978C15BC571400FBE907 /* TaglibTagger.h */,
@@ -465,6 +482,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B53558715D07A2B0054E61F /* Button.m in Sources */,
 				2B15BF75146127A100DC46CD /* main.m in Sources */,
 				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,
 				2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */,
@@ -479,6 +497,7 @@
 				2BF18DD015A3AA8B000C906E /* Column.m in Sources */,
 				2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */,
 				2BBAC63F15C4193300965635 /* Playlist.m in Sources */,
+				2BBAC64215C575D900965635 /* PlayControlsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B15BF93146127A100DC46CD /* fb2kmacTests.m in Sources */,
+				2B53558615D0797E0054E61F /* Button.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
