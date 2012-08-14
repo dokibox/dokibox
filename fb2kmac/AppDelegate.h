@@ -10,10 +10,11 @@
 #import <TUIKit.h>
 #import "WindowView.h"
 #import "MusicController.h"
+#import "Window.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
-    NSWindow    * _window;
+    Window    * _window;
     MusicController *_musicController;
 
 }
