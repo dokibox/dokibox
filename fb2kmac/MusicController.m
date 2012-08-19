@@ -59,6 +59,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 @synthesize fifoBuffer;
 @synthesize auBuffer;
 @synthesize converter;
+@synthesize decoderStatus = _decoderStatus;
 @synthesize status = _status;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename
@@ -80,7 +81,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (id)init {
     self = [super init];
-    _status = MusicControllerIdle;
+    _decoderStatus = MusicControllerDecoderIdle;
+    _status = MusicControllerStopped;
 
     int err;
     UInt32 size;
@@ -176,9 +178,27 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     }
 }
 
+- (void)pause
+{
+    if([self status] == MusicControllerPlaying) {
+        [self setStatus:MusicControllerPaused];
+        AudioOutputUnitStop(outputUnit);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pausedPlayback" object:_currentTrack];
+    }
+}
+
+- (void)unpause
+{
+    if([self status] == MusicControllerPaused) {
+        [self setStatus:MusicControllerPlaying];
+        AudioOutputUnitStart(outputUnit);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"unpausedPlayback" object:_currentTrack];
+    }
+}
+
 - (void)receivedPlayTrackNotification:(NSNotification *)notification
 {
-    if([self status] != MusicControllerIdle) { //still playing something at the moment
+    if([self decoderStatus] != MusicControllerDecoderIdle) { //still playing something at the moment
         AudioOutputUnitStop(outputUnit);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:nil];
     }
@@ -193,20 +213,22 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         return;
     }
     
-    [self setStatus:MusicControllerDecodingSong];
+    [self setDecoderStatus:MusicControllerDecodingSong];
+    [self setStatus:MusicControllerPlaying];
     
     currentDecoder = [self decoderForFile:fp];
     [currentDecoder decodeMetadata];
     [self fillBuffer];
     AudioOutputUnitStart(outputUnit);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"startedPlayback" object:_currentTrack];
 };
 
 -(void)fillBuffer {
     size_t size = [fifoBuffer freespace];
-    while(size > 30000 && [self status] == MusicControllerDecodingSong) {
+    while(size > 30000 && [self decoderStatus] == MusicControllerDecodingSong) {
         DecodeStatus status = [currentDecoder decodeNextFrame];
         if(status == DecoderEOF) {
-            [self setStatus:MusicControllerDecodedSong];
+            [self setDecoderStatus:MusicControllerDecodedSong];
         }
         size = [fifoBuffer freespace];
     }
@@ -218,8 +240,10 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (void)trackEnded {
     AudioOutputUnitStop(outputUnit);
-    [self setStatus:MusicControllerIdle];
+    [self setStatus:MusicControllerStopped];
+    [self setDecoderStatus:MusicControllerDecoderIdle];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:_currentTrack];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
     _currentTrack = nil;
 }
 

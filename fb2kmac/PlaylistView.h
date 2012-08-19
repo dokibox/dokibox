@@ -18,5 +18,6 @@
 }
 
 - (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist;
+@property Playlist *playlist;
 
 @end

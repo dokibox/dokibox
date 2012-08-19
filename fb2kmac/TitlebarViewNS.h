@@ -22,6 +22,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
 -(NSViewDrawRect)playButtonDrawBlock;
 -(void)playButtonPressed:(id)sender;
+-(void)updatePlayButtonState:(NSNotification *)notification;
+-(void)updatePlayButtonState;
 
 @property MusicController *musicController;
 

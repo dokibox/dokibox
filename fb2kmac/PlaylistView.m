@@ -10,6 +10,7 @@
 #import "MusicController.h"
 
 @implementation PlaylistView
+@synthesize playlist = _playlist;
 
 - (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist
 {

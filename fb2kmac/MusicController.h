@@ -16,9 +16,15 @@
 #include <AudioToolbox/AudioToolbox.h>
 
 typedef enum {
-    MusicControllerIdle,
+    MusicControllerDecoderIdle,
     MusicControllerDecodingSong,
     MusicControllerDecodedSong
+} MusicControllerDecoderStatus;
+
+typedef enum {
+    MusicControllerStopped,
+    MusicControllerPaused,
+    MusicControllerPlaying
 } MusicControllerStatus;
 
 @interface MusicController : NSObject {
@@ -27,6 +33,7 @@ typedef enum {
     ComponentInstance outputUnit;
     AudioConverterRef converter;
     
+    MusicControllerDecoderStatus _decoderStatus;
     MusicControllerStatus _status;
     PlaylistTrack *_currentTrack;
 
@@ -41,6 +48,7 @@ typedef enum {
 @property(readonly) dispatch_queue_t decoding_queue;
 @property(readonly) NSData *auBuffer;
 @property(readonly) AudioConverterRef converter;
+@property(assign) MusicControllerDecoderStatus decoderStatus;
 @property(assign) MusicControllerStatus status;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
@@ -49,6 +57,8 @@ typedef enum {
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename;
 - (void)fillBuffer;
 - (void)trackEnded;
+- (void)pause;
+- (void)unpause;
 
 
 

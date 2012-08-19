@@ -9,6 +9,10 @@
 #import "TUIView.h"
 #import "PlaylistView.h"
 
-@interface WindowView : TUIView
+@interface WindowView : TUIView {
+    PlaylistView *_playlistView;
+}
+
+@property PlaylistView *playlistView;
 
 @end

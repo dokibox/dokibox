@@ -10,6 +10,8 @@
 
 @implementation WindowView
 
+@synthesize playlistView = _playlistView;
+
 - (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
@@ -23,9 +25,9 @@
 		b.size.width -= 2*inlay;
         
         Playlist *playlist = [[Playlist alloc] init];
-        PlaylistView *playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
-        [playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
-        [self addSubview:playlistView];
+        _playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
+        [_playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
+        [self addSubview:_playlistView];
 	}
 	return self;
 }

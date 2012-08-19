@@ -8,6 +8,9 @@
 
 #import "TitlebarViewNS.h"
 #import "TitlebarButtonNS.h"
+#import "WindowView.h"
+#import "PlaylistView.h"
+#import "Playlist.h"
 
 
 @implementation TitlebarViewNS
@@ -16,8 +19,11 @@
 - (id)initWithMusicController:(MusicController *)mc {
     if(self = [super init]) {
         _musicController = mc;
-        if([mc status] == MusicControllerIdle)
-            _playing = false;
+        [self updatePlayButtonState];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"startedPlayback" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"stoppedPlayback" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"unpausedPlayback" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"pausedPlayback" object:nil];
         
         TitlebarButtonNS *b = [[TitlebarButtonNS alloc] initWithFrame:NSMakeRect(150, 6, 28, 28)];
         [b setButtonType:NSMomentaryLightButton];
@@ -29,6 +35,20 @@
         [self addSubview:b];
     }
     return self;
+}
+
+-(void)updatePlayButtonState:(NSNotification *)notification
+{
+    [self updatePlayButtonState];
+}
+
+-(void)updatePlayButtonState
+{
+    if([_musicController status] == MusicControllerPlaying)
+        _playing = true;
+    else
+        _playing = false;
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -122,10 +142,21 @@
 
 -(void)playButtonPressed:(id)sender
 {
-    _playing = !_playing;
-    TitlebarButtonNS *b = sender;
-    NSLog(@"button pressed: %@", [_musicController className]);
-    //NSLog(@"button pressed: %@", [[[[self window] contentView] rootView] className]);
+    if(_playing) {
+        [_musicController pause];
+    }
+    else {
+        if([_musicController status] == MusicControllerPaused) {
+            [_musicController unpause];
+        }
+        else {
+            WindowView *wv = (WindowView *)[[[self window] contentView] rootView];
+            Playlist *p = [[wv playlistView] playlist];
+            if([p numberOfTracks] > 0) {
+                [p playTrackAtIndex:0];
+            }
+        }
+    }
 }
 
 @end
