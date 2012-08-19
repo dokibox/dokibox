@@ -7,12 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "TitlebarViewNS.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     AtLeastLion = YES;
+    
+    _musicController = [[MusicController alloc] init];
+    
 	CGRect b = CGRectMake(0, 0, 500, 450);
 	
 	/** Scroll View */
@@ -20,6 +24,10 @@
 	[_window setReleasedWhenClosed:FALSE];
 	[_window setMinSize:NSMakeSize(300, 250)];
 	[_window center];
+    
+    TitlebarViewNS *titlebarView = [[TitlebarViewNS alloc] initWithMusicController:_musicController];
+    [_window setTitlebarSize:40.0];
+    [_window setTitlebarView:titlebarView];
 	
 	/* TUINSView is the bridge between the standard AppKit NSView-based heirarchy and the TUIView-based heirarchy */
 	TUINSView *tuiWindow = [[TUINSView alloc] initWithFrame:b];
@@ -37,7 +45,6 @@
     [_window makeKeyAndOrderFront:nil];
     [_window relayout];
     
-    _musicController = [[MusicController alloc] init];
 }
 
 @end

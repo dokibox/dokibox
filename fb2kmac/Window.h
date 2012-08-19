@@ -10,7 +10,12 @@
 
 @interface Window : NSWindow {
     NSView *_titlebarView;
+    CGFloat _titlebarSize;
 }
+
+@property NSView* titlebarView;
+@property CGFloat titlebarSize;
+
 - (void)relayout;
 
 @end

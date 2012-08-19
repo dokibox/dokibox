@@ -8,9 +8,22 @@
 
 #import "TUIKit.h"
 #import <Cocoa/Cocoa.h>
+#import "MusicController.h"
 
-@interface TitlebarViewNS : NSView
+typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
+@interface TitlebarViewNS : NSView {
+    BOOL _playing;
+    MusicController *_musicController;
+    
+}
+
+- (id)initWithMusicController:(MusicController *)mc;
+
+-(NSViewDrawRect)playButtonDrawBlock;
 -(void)playButtonPressed:(id)sender;
+
+@property MusicController *musicController;
+
 
 @end

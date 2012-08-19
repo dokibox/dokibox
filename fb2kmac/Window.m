@@ -7,30 +7,35 @@
 //
 
 #import "Window.h"
-#import "TitlebarViewNS.h"
 
-#define TITLEBARSIZE 40
 
 @implementation Window
+@synthesize titlebarSize = _titlebarSize;
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     if ((self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag])) {
         [self setMovableByWindowBackground:YES];
         
-        NSView *themeFrame = [[self contentView] superview];
-        NSView *firstSubview = [[themeFrame subviews] objectAtIndex:0];
-        
-        NSRect themeFrameRect = [themeFrame frame];
-        NSRect titleFrame = NSMakeRect(0.0, NSMaxY(themeFrameRect) - TITLEBARSIZE, NSWidth(themeFrameRect), TITLEBARSIZE);
-        _titlebarView = [[TitlebarViewNS alloc] initWithFrame:titleFrame];
-        [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
-    
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(relayout) name:NSWindowDidResizeNotification object:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidBecomeKeyNotification object:self];
     }
     return self;
+}
+
+- (NSView *)titlebarView
+{
+    return _titlebarView;
+}
+
+- (void)setTitlebarView:(NSView *)view
+{
+    NSView *themeFrame = [[self contentView] superview];
+    NSView *firstSubview = [[themeFrame subviews] objectAtIndex:0];
+
+    _titlebarView = view;
+    [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
 }
 
 - (void)setContentView:(NSView *)view
@@ -49,12 +54,12 @@
     // Relayout titlebar view
     NSView *themeFrame = [[self contentView] superview];
     NSRect themeFrameRect = [themeFrame frame];
-    NSRect titleFrame = NSMakeRect(0.0, NSMaxY(themeFrameRect) - TITLEBARSIZE, NSWidth(themeFrameRect), TITLEBARSIZE);
+    NSRect titleFrame = NSMakeRect(0.0, NSMaxY(themeFrameRect) - _titlebarSize, NSWidth(themeFrameRect), _titlebarSize);
     [_titlebarView setFrame:titleFrame];
     
     // Relayout content view
     NSRect contentFrame = [[self contentView] frame];
-    contentFrame.size.height = [self frame].size.height - TITLEBARSIZE;
+    contentFrame.size.height = [self frame].size.height - _titlebarSize;
     [[self contentView] setFrame:contentFrame];
     
     // Relayout control buttons
