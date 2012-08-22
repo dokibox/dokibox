@@ -30,8 +30,12 @@ typedef enum {
 @interface MusicController : NSObject {
     id<DecoderProtocol> currentDecoder;
     
-    ComponentInstance outputUnit;
+    AUGraph _outputGraph;
+    AudioUnit _outputUnit;
+    AudioUnit _mixerUnit;
     AudioConverterRef converter;
+    AudioStreamBasicDescription _inFormat;
+
     
     MusicControllerDecoderStatus _decoderStatus;
     MusicControllerStatus _status;
@@ -50,6 +54,7 @@ typedef enum {
 @property(readonly) AudioConverterRef converter;
 @property(assign) MusicControllerDecoderStatus decoderStatus;
 @property(assign) MusicControllerStatus status;
+@property(readonly) AudioStreamBasicDescription inFormat;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)receivedPlayTrackNotification:(NSNotification *)notification;

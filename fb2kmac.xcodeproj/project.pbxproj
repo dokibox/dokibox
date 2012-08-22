@@ -39,6 +39,7 @@
 		2B53558D15D1CEA30054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */; };
+		2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B824B4D15E1BAF500B26228 /* CoreAudio.framework */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -152,6 +153,7 @@
 		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
 		2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarButtonNS.m; sourceTree = "<group>"; };
+		2B824B4D15E1BAF500B26228 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		2B86BDBF15216B740022E813 /* FIFOBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFOBuffer.h; sourceTree = "<group>"; };
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
 				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
@@ -251,6 +254,7 @@
 				2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */,
 				2B0E032815214B3900B80884 /* libogg.0.dylib */,
 				2B53558C15D1CEA30054E61F /* QuartzCore.framework */,
+				2B824B4D15E1BAF500B26228 /* CoreAudio.framework */,
 				2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */,
 				2BA3129E14A3D7A20062E234 /* AudioUnit.framework */,
 				2B15BF68146127A100DC46CD /* Cocoa.framework */,
