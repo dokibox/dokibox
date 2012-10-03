@@ -78,13 +78,12 @@
     if(_hover) {
         
         TUIColor *gradientStartColor, *gradientEndColor, *borderColor;
-            
-        if(_hover && _held) {
+
+        if(_held) {
             gradientStartColor = [TUIColor colorWithWhite:0.72 alpha:1.0];
             gradientEndColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
             borderColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
-        }
-        else if(_hover) {
+        } else {
             gradientStartColor = [TUIColor colorWithWhite:0.92 alpha:1.0];
             gradientEndColor = [TUIColor colorWithWhite:0.82 alpha:1.0];
             borderColor = [TUIColor colorWithWhite:0.65 alpha:1.0];

@@ -322,5 +322,17 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _currentTrack = nil;
 }
 
+- (PlaylistTrack*)getCurrentTrack { // all instance variables are private
+    return _currentTrack;
+}
+
+- (void)stop {
+    AUGraphStop(_outputGraph);
+    [self setStatus:MusicControllerStopped];
+    [self setDecoderStatus:MusicControllerDecoderIdle];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
+    [fifoBuffer reset];
+    _currentTrack = nil;
+}
 
 @end

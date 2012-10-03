@@ -64,7 +64,8 @@ typedef enum {
 - (void)trackEnded;
 - (void)pause;
 - (void)unpause;
-
+- (void)stop;
+-(PlaylistTrack*)getCurrentTrack;
 
 
 @end

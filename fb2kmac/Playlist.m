@@ -21,6 +21,10 @@
     return [_tracks count];
 }
 
+-(NSUInteger)getTrackIndex:(PlaylistTrack *)track {
+    return [_tracks indexOfObject:track];
+}
+
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index {
     return [_tracks objectAtIndex:index];
 }

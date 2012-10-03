@@ -18,7 +18,8 @@
 -(id)initWithSize:(int)size;
 -(int)stored;
 -(int)freespace;
-- (void)write:(void *)data size:(int)size;
-- (void)read:(void *)data size:(int *)size;
+-(void)write:(void *)data size:(int)size;
+-(void)read:(void *)data size:(int *)size;
+-(void)reset;
 
 @end

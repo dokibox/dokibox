@@ -66,7 +66,9 @@
     buffer_fifo_rpos += tempsize;
 }
 
-
-
+-(void)reset {
+    buffer_fifo_wpos = 0;
+    buffer_fifo_rpos = 0;
+}
 
 @end
