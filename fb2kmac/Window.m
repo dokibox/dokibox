@@ -35,6 +35,11 @@
     NSView *firstSubview = [[themeFrame subviews] objectAtIndex:0];
 
     _titlebarView = view;
+    NSRect themeFrameRect = [themeFrame frame];
+    NSRect titleFrame = NSMakeRect(0.0, NSMaxY(themeFrameRect) - _titlebarSize, NSWidth(themeFrameRect), _titlebarSize);
+    [_titlebarView setFrame:titleFrame];
+    [_titlebarView setAutoresizingMask:NSViewWidthSizable];
+    
     [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
 }
 
@@ -51,6 +56,8 @@
 
 - (void)relayout
 {
+    if(_titlebarView == nil) return;
+    
     // Relayout titlebar view
     NSView *themeFrame = [[self contentView] superview];
     NSRect themeFrameRect = [themeFrame frame];

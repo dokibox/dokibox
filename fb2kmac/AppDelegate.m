@@ -26,9 +26,10 @@
 	[_window center];
     
     TitlebarViewNS *titlebarView = [[TitlebarViewNS alloc] initWithMusicController:_musicController];
-    [_window setTitlebarSize:40.0];
+    [_window setTitlebarSize:46.0];
     [_window setTitlebarView:titlebarView];
-	
+	[titlebarView initSubviews];
+    
 	/* TUINSView is the bridge between the standard AppKit NSView-based heirarchy and the TUIView-based heirarchy */
 	TUINSView *tuiWindow = [[TUINSView alloc] initWithFrame:b];
 	[_window setContentView:tuiWindow];

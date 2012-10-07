@@ -19,6 +19,7 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 }
 
 -(id)initWithMusicController:(MusicController *)mc;
+-(void)initSubviews;
 -(NSViewDrawRect)playButtonDrawBlock;
 -(NSViewDrawRect)seekButtonDrawBlock;
 -(void)playButtonPressed:(id)sender;

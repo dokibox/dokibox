@@ -16,7 +16,7 @@
 @implementation TitlebarViewNS
 @synthesize musicController = _musicController;
 
-- (id)initWithMusicController:(MusicController *)mc {
+- (id)initWithMusicController:(MusicController *)mc{
     if(self = [super init]) {
         _musicController = mc;
         [self updatePlayButtonState];
@@ -25,31 +25,43 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"unpausedPlayback" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"pausedPlayback" object:nil];
         
-        TitlebarButtonNS *b = [[TitlebarButtonNS alloc] initWithFrame:NSMakeRect(150, 6, 28, 28)];
-        [b setButtonType:NSMomentaryLightButton];
-        [b setTarget:self];
-        [b setAction:@selector(playButtonPressed:)];
-        [b setDrawIcon: [self playButtonDrawBlock]];
-
-        TitlebarSeekButtonNS *c = [[TitlebarSeekButtonNS alloc] initWithFrame:NSMakeRect(180, 6, 28, 28)];
-        [c setButtonType:NSMomentaryLightButton];
-        [c setTarget:self];
-        [c setType:FFSeekButton];
-        [c setAction:@selector(nextButtonPressed:)];
-        [c setDrawIcon: [self seekButtonDrawBlock:[c getType]]];
-        
-        TitlebarSeekButtonNS *d = [[TitlebarSeekButtonNS alloc] initWithFrame:NSMakeRect(120, 6, 28, 28)];
-        [d setButtonType:NSMomentaryLightButton];
-        [d setTarget:self];
-        [d setType:RWSeekButton];
-        [d setAction:@selector(prevButtonPressed:)];
-        [d setDrawIcon: [self seekButtonDrawBlock:[d getType]]];
-        
-        [self addSubview:b];
-        [self addSubview:c];
-        [self addSubview:d];
+        self.autoresizesSubviews = YES;
     }
     return self;
+}
+
+-(void)initSubviews {
+    CGFloat rightedge = [self bounds].size.width - 30;
+    CGFloat gap = 30.0;
+    
+    CGFloat size = 28.0;
+    CGFloat height = 6.0;
+    TitlebarButtonNS *b = [[TitlebarButtonNS alloc] initWithFrame:NSMakeRect(rightedge-gap, height, size, size)];
+    [b setAutoresizingMask:NSViewMinXMargin];
+    [b setButtonType:NSMomentaryLightButton];
+    [b setTarget:self];
+    [b setAction:@selector(playButtonPressed:)];
+    [b setDrawIcon: [self playButtonDrawBlock]];
+
+    TitlebarSeekButtonNS *c = [[TitlebarSeekButtonNS alloc] initWithFrame:NSMakeRect(rightedge, height, size, size)];
+    [c setAutoresizingMask:NSViewMinXMargin];
+    [c setButtonType:NSMomentaryLightButton];
+    [c setTarget:self];
+    [c setType:FFSeekButton];
+    [c setAction:@selector(nextButtonPressed:)];
+    [c setDrawIcon: [self seekButtonDrawBlock:[c getType]]];
+    
+    TitlebarSeekButtonNS *d = [[TitlebarSeekButtonNS alloc] initWithFrame:NSMakeRect(rightedge-2*gap, height, size, size)];
+    [d setAutoresizingMask:NSViewMinXMargin];
+    [d setButtonType:NSMomentaryLightButton];
+    [d setTarget:self];
+    [d setType:RWSeekButton];
+    [d setAction:@selector(prevButtonPressed:)];
+    [d setDrawIcon: [self seekButtonDrawBlock:[d getType]]];
+    
+    [self addSubview:b];
+    [self addSubview:c];
+    [self addSubview:d];
 }
 
 -(void)updatePlayButtonState:(NSNotification *)notification
@@ -91,7 +103,7 @@
     }
     else {
         gradientStartColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.86 alpha:1.0];
+        gradientEndColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
     }
     
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
@@ -115,7 +127,7 @@
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
         CGContextSaveGState(ctx);
 
-        float size = 9.0;
+        float size = 8.0;
         float gradient_height;
         
         if(_playing) {
@@ -128,7 +140,6 @@
             CGContextClipToRects(ctx, rects, 2);
             gradient_height = height/2.0;
         } else {
-            float size = 9;
             CGPoint playPoints[] =
             {
                 CGPointMake(middle.x + size, middle.y),
