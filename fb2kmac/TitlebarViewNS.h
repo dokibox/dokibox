@@ -9,12 +9,16 @@
 #import "TUIKit.h"
 #import <Cocoa/Cocoa.h>
 #import "MusicController.h"
+#import "PlaylistTrack.h"
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
 @interface TitlebarViewNS : NSView {
     BOOL _playing;
     MusicController *_musicController;
+    
+    NSString *_title;
+    NSString *_artist;
     
 }
 
@@ -26,6 +30,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 -(void)seekButtonPressed:(id)sender;
 -(void)updatePlayButtonState:(NSNotification *)notification;
 -(void)updatePlayButtonState;
+
+-(void)receivedStartedPlaybackNotification:(NSNotification *)notification;
 
 @property MusicController *musicController;
 

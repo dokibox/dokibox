@@ -26,11 +26,16 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePlayButtonState:) name:@"pausedPlayback" object:nil];
         
         self.autoresizesSubviews = YES;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedStartedPlaybackNotification:) name:@"startedPlayback" object:nil];
+        _title = @"";
+        _artist = @"";
     }
     return self;
 }
 
 -(void)initSubviews {
+    // Right side buttons
     CGFloat rightedge = [self bounds].size.width - 30;
     CGFloat gap = 30.0;
     
@@ -83,6 +88,7 @@
     CGRect b = [self bounds];
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
 
+    // Draw titlebar itself
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     
     float r = 4;
@@ -116,7 +122,40 @@
 
     CGGradientRelease(gradient);
     
+    // Draw our text
+    CGFloat topmargin = 20.0;
+    NSMutableDictionary *attr = [NSMutableDictionary dictionary];
+    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
+
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:_title attributes:attr];
+    NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" - " attributes:attr];
+    
+    NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
+    [boldattr setObject:[NSFont fontWithName:@"Lucida Grande Bold" size:12] forKey:NSFontAttributeName];
+    NSAttributedString *artist = [[NSAttributedString alloc] initWithString:_artist attributes:boldattr];
+    
+    NSMutableAttributedString *titlebarText = [[NSMutableAttributedString alloc] init];
+    [titlebarText appendAttributedString:artist];
+    [titlebarText appendAttributedString:spacing];
+    [titlebarText appendAttributedString:title];
+    
+    NSSize textSize = [titlebarText size];
+    
+    NSPoint textPoint = NSMakePoint(b.origin.x + b.size.width/2.0 - textSize.width/2.0, b.origin.y + b.size.height - topmargin);
+    [titlebarText drawAtPoint:textPoint];
+    
     [super drawRect:b];
+}
+
+-(void)receivedStartedPlaybackNotification:(NSNotification *)notification
+{
+    PlaylistTrack *t = [notification object];
+    _title = [[t attributes] objectForKey:@"TITLE"];
+    _title = _title == nil ? @"" : _title;
+    _artist = [[t attributes] objectForKey:@"ARTIST"];
+    _artist = _artist == nil ? @"" : _artist;
+    [self setNeedsDisplay:YES];
+
 }
 
 -(NSViewDrawRect)playButtonDrawBlock
