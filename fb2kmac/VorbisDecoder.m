@@ -48,11 +48,14 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     return self;
 }
 
--(void)decodeMetadata {
+-(DecoderMetadata)decodeMetadata {
     vorbis_info *vi = ov_info(&decoder, -1);
     if(vi != NULL) {
-        NSLog(@"channels %d, rate %d", vi->channels, vi->rate);
+        _metadata.numberOfChannels = vi->channels;
+        _metadata.sampleRate = vi->rate;
+        _metadata.totalSamples = ov_pcm_total(&decoder, -1);
     }
+    return _metadata;
 }
 
 -(DecodeStatus)decodeNextFrame {

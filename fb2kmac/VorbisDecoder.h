@@ -17,7 +17,8 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
 @interface VorbisDecoder : NSObject<DecoderProtocol> {
     MusicController *musicController;
 
-    OggVorbis_File decoder; 
+    OggVorbis_File decoder;
+    DecoderMetadata _metadata;
 }
 
 @property (retain) MusicController *musicController;

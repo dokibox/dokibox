@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "DecoderProtocol.h"
+#import "common.h"
 #include <mpg123.h>
 
 @interface MP3Decoder : NSObject<DecoderProtocol> {
     mpg123_handle *mh;
     MusicController *musicController;
+    DecoderMetadata _metadata;
 }
 
 @property (retain) MusicController *musicController;
+
 
 @end

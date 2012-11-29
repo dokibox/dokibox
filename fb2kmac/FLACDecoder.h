@@ -21,7 +21,10 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 @interface FLACDecoder : NSObject<DecoderProtocol> {
     MusicController *musicController;
     FLAC__StreamDecoder *decoder;
+    DecoderMetadata _metadata;
 }
+
+-(void)setMetadata:(FLAC__StreamMetadata *)metadata;
 
 @property (retain) MusicController *musicController;
 

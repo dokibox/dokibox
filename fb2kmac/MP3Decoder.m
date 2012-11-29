@@ -28,8 +28,10 @@
 }
 
 
--(void)decodeMetadata {
+-(DecoderMetadata)decodeMetadata {
     [self decodeNextFrame];
+    _metadata.totalSamples = (int)mpg123_length(mh);
+    return _metadata;
 }
 
 -(DecodeStatus)decodeNextFrame {
@@ -53,24 +55,31 @@
     if(retval == MPG123_NEW_FORMAT) {
         long rate; int channels; int enc;
         mpg123_getformat(mh, &rate, &channels, &enc);
-        NSLog(@"New format: %li Hz, %i channels, encoding value %i\n", rate, channels, enc);
+        
+        _metadata.sampleRate = (int)rate;
+        _metadata.numberOfChannels = channels;
         
         switch(enc)
         {
             case MPG123_ENC_SIGNED_16:
-                NSLog(@"enc16");
+                _metadata.bitsPerSample = 16;
+                _metadata.format = DecoderFormatSigned;
                 break;
             case MPG123_ENC_SIGNED_8:
-                NSLog(@"enc8");
+                _metadata.bitsPerSample = 8;
+                _metadata.format = DecoderFormatSigned;
                 break;
             case MPG123_ENC_UNSIGNED_8:
-                NSLog(@"encu8");
+                _metadata.bitsPerSample = 8;
+                _metadata.format = DecoderFormatUnsigned;
                 break;
             case MPG123_ENC_SIGNED_32:
-                NSLog(@"enc32");
+                _metadata.bitsPerSample = 32;
+                _metadata.format = DecoderFormatSigned;
                 break;
             case MPG123_ENC_FLOAT_32:
-                NSLog(@"encf32");
+                _metadata.bitsPerSample = 32;
+                _metadata.format = DecoderFormatFloat;
                 break;
         }
     }
@@ -80,4 +89,5 @@
     }
     return DecoderSuccess;
 }
+
 @end

@@ -41,13 +41,11 @@ FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, 
     return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 
-void flac_metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metadata, void *client_Data) {
+void flac_metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metadata, void *client_data) {
+    FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
+    
     if(metadata->type == FLAC__METADATA_TYPE_STREAMINFO) {
-        int total_samples = metadata->data.stream_info.total_samples;
-        int sample_rate = metadata->data.stream_info.sample_rate;
-        int channels = metadata->data.stream_info.channels;
-        int bps = metadata->data.stream_info.bits_per_sample;
-        NSLog(@"%d samples, %d Hz, %d channels, %d bps", total_samples, sample_rate, channels, bps);
+        [flacDecoder setMetadata:metadata];
     }
 }
 
@@ -92,8 +90,22 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     return self;
 }
 
--(void)decodeMetadata {
+-(DecoderMetadata)decodeMetadata {
     FLAC__stream_decoder_process_until_end_of_metadata(decoder);
+    return _metadata;
+}
+
+-(void)setMetadata:(FLAC__StreamMetadata *)metadata
+{
+    int total_samples = metadata->data.stream_info.total_samples;
+    int sample_rate = metadata->data.stream_info.sample_rate;
+    int channels = metadata->data.stream_info.channels;
+    int bps = metadata->data.stream_info.bits_per_sample;
+    
+    _metadata.totalSamples = total_samples;
+    _metadata.sampleRate = sample_rate;
+    _metadata.numberOfChannels = channels;
+    _metadata.bitsPerSample = bps;
 }
 
 -(DecodeStatus)decodeNextFrame {
