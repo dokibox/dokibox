@@ -40,6 +40,7 @@
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B5DA9721620DDD10057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
+		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
 		2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */; };
 		2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B824B4D15E1BAF500B26228 /* CoreAudio.framework */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
@@ -155,6 +156,8 @@
 		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarSeekButtonNS.h; sourceTree = "<group>"; };
 		2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarSeekButtonNS.m; sourceTree = "<group>"; };
+		2B5DA981162758320057D0D5 /* SliderBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBar.h; sourceTree = "<group>"; };
+		2B5DA982162758320057D0D5 /* SliderBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderBar.m; sourceTree = "<group>"; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
 		2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarButtonNS.m; sourceTree = "<group>"; };
 		2B824B4D15E1BAF500B26228 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -284,6 +287,8 @@
 				2BEC84B8147C602B008102F8 /* common.h */,
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2B5DA981162758320057D0D5 /* SliderBar.h */,
+				2B5DA982162758320057D0D5 /* SliderBar.m */,
 				2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */,
 				2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */,
 				2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */,
@@ -521,6 +526,7 @@
 				2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */,
 				2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */,
 				2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */,
+				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
