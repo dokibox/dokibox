@@ -10,6 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MusicController.h"
 #import "PlaylistTrack.h"
+#import "SliderBar.h"
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
@@ -19,6 +20,9 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     
     NSString *_title;
     NSString *_artist;
+    
+    SliderBar *_progressBar;
+    
     
 }
 
@@ -32,6 +36,7 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 -(void)updatePlayButtonState;
 
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification;
+-(void)receivedPlaybackProgressNotification:(NSNotification *)notification;
 
 @property MusicController *musicController;
 

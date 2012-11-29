@@ -40,6 +40,9 @@ typedef enum {
     MusicControllerDecoderStatus _decoderStatus;
     MusicControllerStatus _status;
     PlaylistTrack *_currentTrack;
+    int _elapsedFrames;
+    int _totalFrames;
+    float _prevElapsedTimeSent;
 
     
     FIFOBuffer *fifoBuffer;
@@ -55,6 +58,7 @@ typedef enum {
 @property(assign) MusicControllerDecoderStatus decoderStatus;
 @property(assign) MusicControllerStatus status;
 @property(readonly) AudioStreamBasicDescription inFormat;
+@property(assign,nonatomic) int elapsedFrames;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)receivedPlayTrackNotification:(NSNotification *)notification;

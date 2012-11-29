@@ -30,6 +30,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedStartedPlaybackNotification:) name:@"startedPlayback" object:nil];
         _title = @"";
         _artist = @"";
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaybackProgressNotification:) name:@"playbackProgress" object:nil];
+
     }
     return self;
 }
@@ -67,6 +71,18 @@
     [self addSubview:b];
     [self addSubview:c];
     [self addSubview:d];
+    
+    CGFloat sliderbarMargin = 120.0;
+    CGRect sliderbarRect = [self bounds];
+    sliderbarRect.origin.x += sliderbarMargin;
+    sliderbarRect.size.width -= 2.0*sliderbarMargin;
+    sliderbarRect.origin.y = 5.0;
+    sliderbarRect.size.height = 7.0;
+    
+    
+    _progressBar = [[SliderBar alloc] initWithFrame:sliderbarRect];
+    [_progressBar setAutoresizingMask:NSViewWidthSizable];
+    [self addSubview:_progressBar];
 }
 
 -(void)updatePlayButtonState:(NSNotification *)notification
@@ -314,6 +330,15 @@
         NSLog(@"Next song.");
         [p playTrackAtIndex:++trackIndex];
     }
+}
+
+-(void)receivedPlaybackProgressNotification:(NSNotification *)notification
+{
+    NSDictionary *dict = (NSDictionary *)[notification object];
+    
+    float timeElapsed = [(NSNumber *)[dict objectForKey:@"timeElapsed"] floatValue];
+    float timeTotal = [(NSNumber *)[dict objectForKey:@"timeTotal"] floatValue];
+    [_progressBar setPercentage:timeElapsed/timeTotal];
 }
 
 @end

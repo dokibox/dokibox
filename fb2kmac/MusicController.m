@@ -22,6 +22,8 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     int size = *ioNumberDataPackets * [mc inFormat].mBytesPerPacket;
     
     [[mc fifoBuffer] read:(void *)[[mc auBuffer] bytes] size:&size];
+    
+    [mc setElapsedFrames:[mc elapsedFrames] + size/[mc inFormat].mBytesPerFrame];
 
     outOutputData->mNumberBuffers = 1;
     outOutputData->mBuffers[0].mDataByteSize = size;
@@ -63,6 +65,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 @synthesize decoderStatus = _decoderStatus;
 @synthesize status = _status;
 @synthesize inFormat = _inFormat;
+@synthesize elapsedFrames = _elapsedFrames;
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename
 {
@@ -289,9 +292,21 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [self setDecoderStatus:MusicControllerDecodingSong];
     [self setStatus:MusicControllerPlaying];
     
+    _elapsedFrames = 0;
+    _prevElapsedTimeSent = 0;
+    
     currentDecoder = [self decoderForFile:fp];
-    [currentDecoder decodeMetadata];
+    DecoderMetadata metadata = [currentDecoder decodeMetadata];
+    _totalFrames = metadata.totalSamples;
+    NSLog(@"total frames: %d", metadata.totalSamples);
+    
     [self fillBuffer];
+    
+    
+    
+    
+    
+    
     AUGraphStart(_outputGraph);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startedPlayback" object:_currentTrack];
     CAShow(_outputGraph);
@@ -333,6 +348,24 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
     [fifoBuffer reset];
     _currentTrack = nil;
+}
+
+- (void)setElapsedFrames:(int)elapsedFrames {
+    _elapsedFrames = elapsedFrames;
+    
+    float sec = (float)elapsedFrames / (float)_inFormat.mSampleRate;
+    if(sec - _prevElapsedTimeSent > 0.1) {
+        _prevElapsedTimeSent = sec;
+        
+        NSNumber *timeElapsed = [NSNumber numberWithFloat:sec];
+        NSNumber *timeTotal = [NSNumber numberWithFloat:(float)_totalFrames / (float) _inFormat.mSampleRate];
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:timeElapsed forKey:@"timeElapsed"];
+        [dict setObject:timeTotal forKey:@"timeTotal"];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackProgress" object:dict];
+    }
 }
 
 @end
