@@ -24,8 +24,6 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    float percentage = 0.3;
-    
     CGRect b = [self bounds];
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
     
