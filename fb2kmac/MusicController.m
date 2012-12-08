@@ -340,6 +340,14 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     return [fileHandle offsetInFile];
 }
 
+- (unsigned long long)inputLength {
+    unsigned long long curpos = [self inputPosition];
+    [self seekInputToEnd];
+    unsigned long long length = [self inputPosition];
+    [self seekInput:curpos];
+    return length;
+}
+
 - (void)trackEnded {
     AUGraphStop(_outputGraph);
     [self setStatus:MusicControllerStopped];

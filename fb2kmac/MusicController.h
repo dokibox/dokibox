@@ -66,6 +66,7 @@ typedef enum {
 - (void)seekInput:(unsigned long long)offset;
 - (void)seekInputToEnd;
 - (unsigned long long)inputPosition;
+- (unsigned long long)inputLength;
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename;
 - (void)fillBuffer;
 - (void)trackEnded;

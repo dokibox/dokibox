@@ -54,8 +54,26 @@ FLAC__bool flac_eofcallback(FLAC__StreamDecoder *decoder, void *client_data) {
 }
 
 FLAC__StreamDecoderLengthStatus flac_lengthcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data) {
-    return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
+    FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
+    MusicController *mc = [flacDecoder musicController];
+    *stream_length = [mc inputLength];
+    return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 }
+
+FLAC__StreamDecoderSeekStatus flac_seekcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data) {
+    FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
+    MusicController *mc = [flacDecoder musicController];
+    [mc seekInput:absolute_byte_offset];
+    return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
+}
+
+FLAC__StreamDecoderTellStatus flac_tellcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data) {
+    FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
+    MusicController *mc = [flacDecoder musicController];
+    *absolute_byte_offset = [mc inputPosition];
+    return FLAC__STREAM_DECODER_TELL_STATUS_OK;
+}
+
 
 void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data) {
     
@@ -76,8 +94,8 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     retval = FLAC__stream_decoder_init_stream(
         decoder,
         (FLAC__StreamDecoderReadCallback)flac_readcallback,
-        (FLAC__StreamDecoderSeekCallback)NULL,
-        (FLAC__StreamDecoderTellCallback)NULL,
+        (FLAC__StreamDecoderSeekCallback)flac_seekcallback,
+        (FLAC__StreamDecoderTellCallback)flac_tellcallback,
         (FLAC__StreamDecoderLengthCallback)flac_lengthcallback,
         (FLAC__StreamDecoderEofCallback)flac_eofcallback,
         (FLAC__StreamDecoderWriteCallback)flac_writecallback,
