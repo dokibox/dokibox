@@ -25,6 +25,31 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     return sizeread;
 }
 
+int vorbis_seekcallback(void *datasource, ogg_int64_t offset, int whence) {
+    VorbisDecoder *vorbisDecoder = (__bridge VorbisDecoder *)datasource;
+    MusicController *mc = [vorbisDecoder musicController];
+    
+    unsigned long long off;
+    if(whence == SEEK_SET) {
+        off = offset;
+    } else if(whence == SEEK_CUR) {
+        off = offset + [mc inputPosition];
+    }
+    else { //SEEK_END
+        [mc seekInputToEnd];
+        off = offset + [mc inputPosition];
+    }
+    [mc seekInput:off];
+    
+    return 0;
+}
+
+long vorbis_tellcallback(void *datasource) {
+    VorbisDecoder *vorbisDecoder = (__bridge VorbisDecoder *)datasource;
+    MusicController *mc = [vorbisDecoder musicController];
+    return [mc inputPosition];
+}
+
 @implementation VorbisDecoder
 
 @synthesize musicController;
@@ -36,9 +61,9 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     musicController = mc;
     
     ov_callbacks callbacks;
-    callbacks.seek_func = NULL;
+    callbacks.seek_func = vorbis_seekcallback;
     callbacks.close_func = NULL;
-    callbacks.tell_func = NULL;
+    callbacks.tell_func = vorbis_tellcallback;
     callbacks.read_func = vorbis_readcallback;
     
     retval = ov_open_callbacks((__bridge void *)self, &decoder, NULL, 0, callbacks);
@@ -63,7 +88,7 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     int sizeread;
     int bitstreamno;
     char *audio = malloc(sizetoread);
-
+    
     sizeread = ov_read(&decoder, audio, sizetoread, 0, 2, 1, &bitstreamno);
     
     if(sizeread > 0) {

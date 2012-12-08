@@ -13,6 +13,8 @@
 #include <vorbis/vorbisfile.h>
 
 size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasource);
+int vorbis_seekcallback(void *datasource, ogg_int64_t offset, int whence);
+long vorbis_tellcallback(void *datasource);
 
 @interface VorbisDecoder : NSObject<DecoderProtocol> {
     MusicController *musicController;
