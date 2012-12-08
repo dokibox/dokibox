@@ -63,6 +63,9 @@ typedef enum {
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)receivedPlayTrackNotification:(NSNotification *)notification;
 - (NSData *)readInput:(int)bytes;
+- (void)seekInput:(unsigned long long)offset;
+- (void)seekInputToEnd;
+- (unsigned long long)inputPosition;
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename;
 - (void)fillBuffer;
 - (void)trackEnded;
