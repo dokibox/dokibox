@@ -22,8 +22,17 @@
     return self;
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)mouseDown:(NSEvent *)event
 {
+    NSPoint event_location = [event locationInWindow];
+    NSPoint local_point = [self convertPoint:event_location fromView:nil];
+    float p = local_point.x / [self bounds].size.width;
+    NSNumber *percentage = [NSNumber numberWithFloat:p];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{    
     CGRect b = [self bounds];
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
     

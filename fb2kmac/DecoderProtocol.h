@@ -35,5 +35,6 @@ typedef struct  {
 -(id)initWithMusicController:(MusicController *)mc;
 -(DecoderMetadata)decodeMetadata;
 -(DecodeStatus)decodeNextFrame;
+-(void)seekToFrame:(unsigned long long)frame;
 
 @end

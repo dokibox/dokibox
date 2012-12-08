@@ -90,4 +90,14 @@
     return DecoderSuccess;
 }
 
+-(void)seekToFrame:(unsigned long long)frame {
+    off_t ioinput_offset;
+    int retval = mpg123_feedseek(mh, frame, SEEK_SET, &ioinput_offset);
+    if(retval < 0) {
+        NSLog(@"Seek failed with error=%d", retval);
+        return;
+    }
+    [musicController seekInput:ioinput_offset];
+}
+
 @end

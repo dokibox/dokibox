@@ -105,5 +105,13 @@ long vorbis_tellcallback(void *datasource) {
     }
 }
 
+-(void)seekToFrame:(unsigned long long)frame
+{
+    int retval = ov_pcm_seek_lap(&decoder, frame);
+    if(retval) {
+        NSLog(@"Seeking failed, error=%d", retval);
+    }
+}
+
 
 @end

@@ -233,6 +233,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrack" object:nil];
 
     return self;
 }
@@ -312,6 +313,16 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     CAShow(_outputGraph);
 
 };
+
+- (void)receivedSeekTrackNotification:(NSNotification *)notification
+{
+    float seekto = [(NSNumber *)[notification object] floatValue];
+    
+    int sampleno = seekto * _totalFrames;
+    _elapsedFrames = sampleno;
+    NSLog(@"Seeking to %f percent", seekto);
+    [currentDecoder seekToFrame:sampleno];
+}
 
 -(void)fillBuffer {
     size_t size = [fifoBuffer freespace];

@@ -134,5 +134,12 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     return DecoderSuccess;
 }
 
+-(void)seekToFrame:(unsigned long long)frame {
+    FLAC__bool retval = FLAC__stream_decoder_seek_absolute(decoder, frame);
+    if(retval != true) {
+        NSLog(@"Seek failed");
+    }
+}
+
 
 @end
