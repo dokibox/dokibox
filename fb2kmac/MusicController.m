@@ -20,6 +20,7 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     MusicController *mc = (__bridge MusicController *)inClientData;
     
     int size = *ioNumberDataPackets * [mc inFormat].mBytesPerPacket;
+    //NSLog(@"size: %d", size);
     
     [[mc fifoBuffer] read:(void *)[[mc auBuffer] bytes] size:&size];
     
@@ -218,8 +219,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     renderCallback.inputProc = renderProc;
     renderCallback.inputProcRefCon = (__bridge void *)self;
     
-    fifoBuffer = [[FIFOBuffer alloc] initWithSize:100000];
-    int auBufferSize = 2048;
+    fifoBuffer = [[FIFOBuffer alloc] initWithSize:200000];
+    int auBufferSize = 4096*2;
     void *auBufferContents = malloc(auBufferSize);
     auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];
     
@@ -326,7 +327,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 -(void)fillBuffer {
     size_t size = [fifoBuffer freespace];
-    while(size > 30000 && [self decoderStatus] == MusicControllerDecodingSong) {
+    while(size > 4096*4*2 && [self decoderStatus] == MusicControllerDecodingSong) {
         DecodeStatus status = [currentDecoder decodeNextFrame];
         if(status == DecoderEOF) {
             [self setDecoderStatus:MusicControllerDecodedSong];

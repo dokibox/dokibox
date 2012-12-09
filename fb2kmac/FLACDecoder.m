@@ -30,12 +30,15 @@ FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, 
     //NSLog(@"writecallback %d", frame->header.blocksize*2*2);
     
     int i;
+    //NSLog(@"how many frames in flac frame: %d", frame->header.blocksize);
     for(i=0; i < frame->header.blocksize; i++) {
-        FLAC__uint16 l, r;
+        //FLAC__in
+        FLAC__int32 l, r;
         l = buffer[0][i];
         r = buffer[1][i];
-        [[mc fifoBuffer] write:&l size:sizeof(FLAC__uint16)];
-        [[mc fifoBuffer] write:&r size:sizeof(FLAC__uint16)];
+        int bps = 2;
+        [[mc fifoBuffer] write:&l size:bps];
+        [[mc fifoBuffer] write:&r size:bps];
     }
     
     return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;

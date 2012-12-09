@@ -36,7 +36,11 @@
 
 - (void)write:(void *)data size:(int)size {
     // check enough space
-    assert(size <= [self freespace]);
+    if(size > [self freespace]) {
+        NSLog(@"size we tried to write: %d", size);
+        NSLog(@"free space: %d", [self freespace]);
+        assert(size <= [self freespace]);
+    }
     
     if(size + buffer_fifo_wpos > buffer_fifo_size) {
         //split write up into two halves
