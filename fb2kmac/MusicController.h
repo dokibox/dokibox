@@ -18,6 +18,7 @@
 typedef enum {
     MusicControllerDecoderIdle,
     MusicControllerDecodingSong,
+    MusicControllerSeekingSong,
     MusicControllerDecodedSong
 } MusicControllerDecoderStatus;
 

@@ -322,7 +322,14 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     int sampleno = seekto * _totalFrames;
     _elapsedFrames = sampleno;
     NSLog(@"Seeking to %f percent", seekto);
+    
+    [self setDecoderStatus:MusicControllerSeekingSong];
+    AUGraphStop(_outputGraph);
     [currentDecoder seekToFrame:sampleno];
+    [fifoBuffer reset];
+    [self setDecoderStatus:MusicControllerDecodingSong];
+    [self fillBuffer];
+    AUGraphStart(_outputGraph);
 }
 
 -(void)fillBuffer {
