@@ -294,13 +294,13 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [self setDecoderStatus:MusicControllerDecodingSong];
     [self setStatus:MusicControllerPlaying];
     
-    _elapsedFrames = 0;
-    _prevElapsedTimeSent = 0;
-    
     currentDecoder = [self decoderForFile:fp];
     DecoderMetadata metadata = [currentDecoder decodeMetadata];
     _totalFrames = metadata.totalSamples;
     NSLog(@"total frames: %d", metadata.totalSamples);
+    
+    _prevElapsedTimeSent = 0;
+    [self setElapsedFrames:0];
     
     [self fillBuffer];
     
@@ -320,7 +320,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     float seekto = [(NSNumber *)[notification object] floatValue];
     
     int sampleno = seekto * _totalFrames;
-    _elapsedFrames = sampleno;
     NSLog(@"Seeking to %f percent", seekto);
     
     [self setDecoderStatus:MusicControllerSeekingSong];
@@ -329,6 +328,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [fifoBuffer reset];
     [self setDecoderStatus:MusicControllerDecodingSong];
     [self fillBuffer];
+    [self setElapsedFrames:sampleno];
     AUGraphStart(_outputGraph);
 }
 
@@ -393,7 +393,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _elapsedFrames = elapsedFrames;
     
     float sec = (float)elapsedFrames / (float)_inFormat.mSampleRate;
-    if(sec - _prevElapsedTimeSent > 0.1) {
+    if(fabs(sec - _prevElapsedTimeSent) > 0.1) {
         _prevElapsedTimeSent = sec;
         
         NSNumber *timeElapsed = [NSNumber numberWithFloat:sec];
