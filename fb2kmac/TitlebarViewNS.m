@@ -72,15 +72,14 @@
     [self addSubview:c];
     [self addSubview:d];
     
-    CGFloat sliderbarMargin = 120.0;
-    CGRect sliderbarRect = [self bounds];
-    sliderbarRect.origin.x += sliderbarMargin;
-    sliderbarRect.size.width -= 2.0*sliderbarMargin;
-    sliderbarRect.origin.y = 5.0;
-    sliderbarRect.size.height = 7.0;
+    CGFloat sliderbarMargin = 150.0;
+    CGRect progressBarRect = [self bounds];
+    progressBarRect.origin.x += sliderbarMargin;
+    progressBarRect.size.width -= 2.0*sliderbarMargin;
+    progressBarRect.origin.y = 5.0;
+    progressBarRect.size.height = 7.0;
     
-    
-    _progressBar = [[SliderBar alloc] initWithFrame:sliderbarRect];
+    _progressBar = [[SliderBar alloc] initWithFrame:progressBarRect];
     [_progressBar setAutoresizingMask:NSViewWidthSizable];
     [self addSubview:_progressBar];
 }
@@ -159,6 +158,33 @@
     
     NSPoint textPoint = NSMakePoint(b.origin.x + b.size.width/2.0 - textSize.width/2.0, b.origin.y + b.size.height - topmargin);
     [titlebarText drawAtPoint:textPoint];
+    
+    // Progress bar stuff
+    float timeElapsed = 0;
+    float timeTotal = 0;
+    if(_progressDict) {
+        timeElapsed = [(NSNumber *)[_progressDict objectForKey:@"timeElapsed"] floatValue];
+        timeTotal = [(NSNumber *)[_progressDict objectForKey:@"timeTotal"] floatValue];
+    }
+    
+    NSString *timeElapsedString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeElapsed/60.0), (int)timeElapsed%60];
+    NSString *timeTotalString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeTotal/60.0), (int)timeTotal%60];
+    
+    NSMutableDictionary *progressBarTextAttr = [NSMutableDictionary dictionary];
+    [progressBarTextAttr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
+    NSAttributedString *timeElapsedAttrString = [[NSAttributedString alloc] initWithString:timeElapsedString attributes:progressBarTextAttr];
+    NSAttributedString *timeTotalAttrString = [[NSAttributedString alloc] initWithString:timeTotalString attributes:progressBarTextAttr];
+
+    NSPoint timeElapsedStringPoint = [_progressBar frame].origin;
+    NSSize timeElapsedStringSize = [timeElapsedAttrString size];
+    timeElapsedStringPoint.y -= 2;
+    timeElapsedStringPoint.x -= timeElapsedStringSize.width + 5;
+    [timeElapsedAttrString drawAtPoint:timeElapsedStringPoint];
+    
+    NSPoint timeTotalStringPoint = [_progressBar frame].origin;
+    timeTotalStringPoint.y -= 2;
+    timeTotalStringPoint.x += [_progressBar frame].size.width + 5;
+    [timeTotalAttrString drawAtPoint:timeTotalStringPoint];
     
     [super drawRect:b];
 }
@@ -334,11 +360,12 @@
 
 -(void)receivedPlaybackProgressNotification:(NSNotification *)notification
 {
-    NSDictionary *dict = (NSDictionary *)[notification object];
+    _progressDict = (NSDictionary *)[notification object];
     
-    float timeElapsed = [(NSNumber *)[dict objectForKey:@"timeElapsed"] floatValue];
-    float timeTotal = [(NSNumber *)[dict objectForKey:@"timeTotal"] floatValue];
+    float timeElapsed = [(NSNumber *)[_progressDict objectForKey:@"timeElapsed"] floatValue];
+    float timeTotal = [(NSNumber *)[_progressDict objectForKey:@"timeTotal"] floatValue];
     [_progressBar setPercentage:timeElapsed/timeTotal];
+    [self setNeedsDisplay:YES];
 }
 
 @end
