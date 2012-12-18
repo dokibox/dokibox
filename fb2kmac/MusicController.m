@@ -317,6 +317,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (void)receivedSeekTrackNotification:(NSNotification *)notification
 {
+    if([self status] == MusicControllerStopped) return;
+    
     float seekto = [(NSNumber *)[notification object] floatValue];
     
     int sampleno = seekto * _totalFrames;
@@ -329,7 +331,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [self setDecoderStatus:MusicControllerDecodingSong];
     [self fillBuffer];
     [self setElapsedFrames:sampleno];
-    AUGraphStart(_outputGraph);
+    
+    if([self status] == MusicControllerPlaying)
+        AUGraphStart(_outputGraph);
 }
 
 -(void)fillBuffer {
