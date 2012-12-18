@@ -303,12 +303,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     [self setElapsedFrames:0];
     
     [self fillBuffer];
-    
-    
-    
-    
-    
-    
+        
     AUGraphStart(_outputGraph);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startedPlayback" object:_currentTrack];
     CAShow(_outputGraph);
@@ -408,6 +403,22 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         [dict setObject:timeTotal forKey:@"timeTotal"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackProgress" object:dict];
+    }
+}
+
+- (float)volume {
+    AudioUnitParameterValue volvalue;
+    int err = AudioUnitGetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, &volvalue);
+    if(err) {
+        NSLog(@"AudioUnitGetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
+    }
+    return volvalue;
+}
+
+- (void)setVolume:(float)volume {
+    int err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0);
+    if(err) {
+        NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
     }
 }
 

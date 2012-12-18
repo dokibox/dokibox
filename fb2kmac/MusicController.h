@@ -60,6 +60,8 @@ typedef enum {
 @property(assign) MusicControllerStatus status;
 @property(readonly) AudioStreamBasicDescription inFormat;
 @property(assign,nonatomic) int elapsedFrames;
+@property() float volume;
+
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)receivedPlayTrackNotification:(NSNotification *)notification;
@@ -75,6 +77,8 @@ typedef enum {
 - (void)pause;
 - (void)unpause;
 - (void)stop;
+
+
 -(PlaylistTrack*)getCurrentTrack;
 
 
