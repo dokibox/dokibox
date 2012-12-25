@@ -40,11 +40,11 @@
 
 -(void)initSubviews {
     // Right side buttons
-    CGFloat rightedge = [self bounds].size.width - 30;
+    CGFloat rightedge = [self bounds].size.width - 35;
     CGFloat gap = 30.0;
     
     CGFloat size = 28.0;
-    CGFloat height = 6.0;
+    CGFloat height = 15.0;
     TitlebarButtonNS *b = [[TitlebarButtonNS alloc] initWithFrame:NSMakeRect(rightedge-gap, height, size, size)];
     [b setAutoresizingMask:NSViewMinXMargin];
     [b setButtonType:NSMomentaryLightButton];
@@ -72,6 +72,8 @@
     [self addSubview:c];
     [self addSubview:d];
     
+    
+    // Create Progress Bar
     CGFloat sliderbarMargin = 150.0;
     CGRect progressBarRect = [self bounds];
     progressBarRect.origin.x += sliderbarMargin;
@@ -82,6 +84,15 @@
     _progressBar = [[SliderBar alloc] initWithFrame:progressBarRect];
     [_progressBar setAutoresizingMask:NSViewWidthSizable];
     [self addSubview:_progressBar];
+    
+    
+    // Create Volume Bar
+    CGRect volumeBarRect = NSMakeRect(rightedge-2*gap, 5.0, 90.0, 7.0);
+    _volumeBar = [[SliderBar alloc] initWithFrame:volumeBarRect];
+    [_volumeBar setAutoresizingMask:NSViewMinXMargin];
+    [_volumeBar setPercentage:[_musicController volume]];
+    [_volumeBar setDrawHandle:YES];
+    [self addSubview:_volumeBar];
 }
 
 -(void)updatePlayButtonState:(NSNotification *)notification

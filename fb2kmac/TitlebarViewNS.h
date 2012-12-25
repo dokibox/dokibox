@@ -23,6 +23,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     
     SliderBar *_progressBar;
     NSDictionary *_progressDict;
+    
+    SliderBar *_volumeBar;
 }
 
 -(id)initWithMusicController:(MusicController *)mc;

@@ -11,8 +11,12 @@
 
 @interface SliderBar : NSView {
     float _percentage;
+    BOOL _drawHandle;
+    
 }
 
 @property(assign, nonatomic) float percentage;
+@property(assign, nonatomic) BOOL drawHandle;
+
 
 @end

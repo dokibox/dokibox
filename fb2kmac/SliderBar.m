@@ -11,6 +11,7 @@
 @implementation SliderBar
 
 @synthesize percentage = _percentage;
+@synthesize drawHandle = _drawHandle;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -73,6 +74,10 @@
 
     CGContextEOFillPath(ctx);
     CGContextRestoreGState(ctx);    
+    // Draw Handle
+    if(_drawHandle) {
+        
+    }
 }
 
 -(void)setPercentage:(float)percentage {
