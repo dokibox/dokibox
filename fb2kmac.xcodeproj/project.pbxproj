@@ -51,6 +51,7 @@
 		2BBAC63F15C4193300965635 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC63E15C4193300965635 /* Playlist.m */; };
 		2BBB23D615BC731700169E80 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2BBB23D715BC733300169E80 /* libtag.1.11.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
+		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BEC84CA147CAA4D008102F8 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
 		2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC915A0BC3C000C906E /* WindowView.m */; };
@@ -173,6 +174,8 @@
 		2BBAC63D15C4193200965635 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
 		2BBAC63E15C4193300965635 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
 		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
+		2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBarHoverView.h; sourceTree = "<group>"; };
+		2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderBarHoverView.m; sourceTree = "<group>"; };
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		2BEC84C8147CAA4C008102F8 /* MP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP3Decoder.h; sourceTree = "<group>"; };
 		2BEC84C9147CAA4C008102F8 /* MP3Decoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP3Decoder.m; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				2BEC84B8147C602B008102F8 /* common.h */,
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
+				2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */,
 				2B5DA981162758320057D0D5 /* SliderBar.h */,
 				2B5DA982162758320057D0D5 /* SliderBar.m */,
 				2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */,
@@ -527,6 +532,7 @@
 				2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */,
 				2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */,
 				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
+				2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
