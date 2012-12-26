@@ -144,6 +144,7 @@
 
     CGContextEOFillPath(ctx);
     CGContextRestoreGState(ctx);
+    CGPathRelease(shadowpath);
     
     // Draw Handle
     if(_drawHandle) {
