@@ -9,6 +9,10 @@
 #import "TUIKit.h"
 #import <Cocoa/Cocoa.h>
 
-@interface SliderBarHoverView : NSView
+@interface SliderBarHoverView : NSView {
+    NSString *_stringValue;
+}
+
+@property NSString *stringValue;
 
 @end

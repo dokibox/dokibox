@@ -18,7 +18,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         _percentage = 0.0;
-        _hoverPercentage = -1.0;
     }
     
     // Mouse tracking for hovers
@@ -76,23 +75,23 @@
 
     [_hoverWindow close];
     _hoverWindow = nil;
-    _hoverPercentage = -1.0;
-    [self setNeedsDisplay:YES];
+    _hoverView = nil;
 }
 
 -(void)mouseMoved:(NSEvent *)event
 {
     NSPoint event_location = [event locationInWindow];
-    NSPoint window_location_of_bottombar = [self convertPoint:NSMakePoint(0.0, 0.0) toView:nil];
-    event_location.y = window_location_of_bottombar.y;
+    NSPoint window_location_of_topbar = [self convertPoint:NSMakePoint(0.0, [self frame].size.height) toView:nil];
+    event_location.y = window_location_of_topbar.y + [_hoverWindow frame].size.height; // window_location_of_bottombar.y; //;
     event_location.x -= 0.5*[_hoverWindow frame].size.width;
 
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
     [_hoverWindow setFrameTopLeftPoint:screen_location];
 
     float p = [self convertMouseEventToPercentage:event];
-    _hoverPercentage = p;
-    [self setNeedsDisplay:YES];
+    NSString *str = [[NSString alloc] initWithFormat:@"%.0f%%", p*100];
+    [_hoverView setStringValue:str];
+    [_hoverView setNeedsDisplay:YES];
 }
 
 - (void)mouseDown:(NSEvent *)event
