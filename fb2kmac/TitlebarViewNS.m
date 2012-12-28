@@ -130,7 +130,7 @@
     
     TUIColor *gradientStartColor, *gradientEndColor;
     if(isActive) {
-        gradientStartColor = [TUIColor colorWithWhite:0.71 alpha:1.0];
+        gradientStartColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
         gradientEndColor = [TUIColor colorWithWhite:0.90 alpha:1.0];
     }
     else {
