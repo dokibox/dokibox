@@ -14,7 +14,7 @@
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
-@interface TitlebarViewNS : NSView {
+@interface TitlebarViewNS : NSView <SliderBarDelegate> {
     BOOL _playing;
     MusicController *_musicController;
     

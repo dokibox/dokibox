@@ -11,7 +11,10 @@
 @implementation SliderBar
 
 @synthesize percentage = _percentage;
+@synthesize movable = _movable;
+@synthesize hoverable = _hoverable;
 @synthesize drawHandle = _drawHandle;
+@synthesize delegate = _delegate;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -38,6 +41,9 @@
 
 -(void)mouseEntered:(NSEvent *)event
 {
+    if(_hoverable != YES)
+        return;
+    
     NSPoint event_location = [event locationInWindow];
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
     NSLog(@"entered at %f %f", screen_location.x, screen_location.y);
@@ -69,6 +75,9 @@
 
 -(void)mouseExited:(NSEvent *)event
 {
+    if(_hoverable != YES)
+        return;
+    
     NSPoint event_location = [event locationInWindow];
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
     NSLog(@"exited at %f %f", screen_location.x, screen_location.y);
@@ -80,6 +89,9 @@
 
 -(void)mouseMoved:(NSEvent *)event
 {
+    if(_hoverable != YES)
+        return;
+    
     NSPoint event_location = [event locationInWindow];
     NSPoint window_location_of_topbar = [self convertPoint:NSMakePoint(0.0, [self frame].size.height) toView:nil];
     event_location.y = window_location_of_topbar.y + [_hoverWindow frame].size.height; // window_location_of_bottombar.y; //;
@@ -89,16 +101,27 @@
     [_hoverWindow setFrameTopLeftPoint:screen_location];
 
     float p = [self convertMouseEventToPercentage:event];
-    NSString *str = [[NSString alloc] initWithFormat:@"%.0f%%", p*100];
+    NSString *str;
+    if(_delegate) {
+        str = [_delegate sliderBar:self textForHoverAt:p];
+    }
+    else {
+        str = [[NSString alloc] initWithFormat:@"%.0f%%", p*100.0];
+    }
     [_hoverView setStringValue:str];
     [_hoverView setNeedsDisplay:YES];
 }
 
 - (void)mouseDown:(NSEvent *)event
 {
+    if(_movable != YES || !_delegate)
+        return;
+    
     float p = [self convertMouseEventToPercentage:event];
     NSNumber *percentage = [NSNumber numberWithFloat:p];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];
+    
+    NSNotification *notification = [NSNotification notificationWithName:@"SliderBarMoved" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:percentage, @"percentage", nil]];
+    [_delegate sliderBarDidMove:notification];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

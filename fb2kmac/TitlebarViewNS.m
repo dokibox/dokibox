@@ -83,6 +83,9 @@
     
     _progressBar = [[SliderBar alloc] initWithFrame:progressBarRect];
     [_progressBar setAutoresizingMask:NSViewWidthSizable];
+    [_progressBar setMovable:YES];
+    [_progressBar setHoverable:YES];
+    [_progressBar setDelegate:self];
     [self addSubview:_progressBar];
     
     
@@ -92,6 +95,8 @@
     [_volumeBar setAutoresizingMask:NSViewMinXMargin];
     [_volumeBar setPercentage:[_musicController volume]];
     [_volumeBar setDrawHandle:YES];
+    [_volumeBar setMovable:YES];
+    [_volumeBar setDelegate:self];
     [self addSubview:_volumeBar];
 }
 
@@ -378,5 +383,29 @@
     [_progressBar setPercentage:timeElapsed/timeTotal];
     [self setNeedsDisplay:YES];
 }
+
+-(NSString *)sliderBar:(SliderBar *)sliderBar textForHoverAt:(float)percentage
+{
+    float timeTotal = 0;
+    if(_progressDict) {
+        timeTotal = [(NSNumber *)[_progressDict objectForKey:@"timeTotal"] floatValue];
+    }
+    float time = timeTotal * percentage;
+    NSString *str = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(time/60.0), (int)time%60];
+
+    return str;
+}
+
+-(void)sliderBarDidMove:(NSNotification *)notification
+{
+    NSNumber *percentage = [[notification userInfo] objectForKey:@"percentage"];
+    if([notification object] == _volumeBar) {
+        
+    }
+    else if([notification object] == _progressBar) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];
+    }
+}
+
 
 @end
