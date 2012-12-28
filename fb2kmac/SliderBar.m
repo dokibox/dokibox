@@ -57,7 +57,7 @@
     [_hoverWindow setIgnoresMouseEvents:YES];
     //[_hoverWindow setAlphaValue:0.80];
     [_hoverWindow setBackgroundColor:[NSColor colorWithDeviceRed:1.0 green:0.96 blue:0.76 alpha:0.0]];
-    //[_hoverWindow setHasShadow:YES];
+    [_hoverWindow setHasShadow:YES];
     [_hoverWindow setLevel:NSStatusWindowLevel];
     
     _hoverView = [[SliderBarHoverView alloc] initWithFrame:frame];
