@@ -83,8 +83,6 @@
     
     _progressBar = [[SliderBar alloc] initWithFrame:progressBarRect];
     [_progressBar setAutoresizingMask:NSViewWidthSizable];
-    [_progressBar setMovable:YES];
-    [_progressBar setHoverable:YES];
     [_progressBar setDelegate:self];
     [self addSubview:_progressBar];
     
@@ -111,6 +109,16 @@
         _playing = true;
     else
         _playing = false;
+    
+    if([_musicController status] == MusicControllerStopped) {
+        [_progressBar setMovable:NO];
+        [_progressBar setHoverable:NO];
+    }
+    else {
+        [_progressBar setMovable:YES];
+        [_progressBar setHoverable:YES];
+    }
+    
     [self setNeedsDisplay:YES];
 }
 
@@ -400,7 +408,7 @@
 {
     NSNumber *percentage = [[notification userInfo] objectForKey:@"percentage"];
     if([notification object] == _volumeBar) {
-        
+        [_musicController setVolume:[percentage floatValue]];
     }
     else if([notification object] == _progressBar) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];

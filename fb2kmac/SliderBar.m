@@ -118,6 +118,7 @@
         return;
     
     float p = [self convertMouseEventToPercentage:event];
+    [self setPercentage:p];
     NSNumber *percentage = [NSNumber numberWithFloat:p];
     
     NSNotification *notification = [NSNotification notificationWithName:@"SliderBarMoved" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:percentage, @"percentage", nil]];
