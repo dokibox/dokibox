@@ -1,15 +1,15 @@
 [submodule "deps/flac"]
 	path = deps/flac
-	url = https://git.xiph.org/mirrors/flac.git
+	url = git://git.xiph.org/mirrors/flac.git
 [submodule "deps/ogg"]
 	path = deps/ogg
-	url = https://git.xiph.org/mirrors/ogg.git
+	url = git://git.xiph.org/mirrors/ogg.git
 [submodule "deps/vorbis"]
 	path = deps/vorbis
-	url = https://git.xiph.org/mirrors/vorbis.git
+	url = git://git.xiph.org/mirrors/vorbis.git
 [submodule "deps/mpg123"]
 	path = deps/mpg123
-	url = https://github.com/mileswu/mpg123.git
+	url = git://github.com/mileswu/mpg123.git
 [submodule "deps/twui"]
 	path = deps/twui
 	url = git://github.com/twitter/twui.git
