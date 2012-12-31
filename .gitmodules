@@ -12,7 +12,7 @@
 	url = git://github.com/mileswu/mpg123.git
 [submodule "deps/twui"]
 	path = deps/twui
-	url = git://github.com/twitter/twui.git
+	url = git://github.com/mileswu/twui.git
 [submodule "deps/taglib"]
 	path = deps/taglib
 	url = git://github.com/taglib/taglib.git
