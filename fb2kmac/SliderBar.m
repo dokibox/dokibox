@@ -30,6 +30,10 @@
     return self;
 }
 
+-(BOOL)isOpaque {
+    return YES;
+}
+
 -(float)convertMouseEventToPercentage:(NSEvent *)event
 {
     NSPoint event_location = [event locationInWindow];
