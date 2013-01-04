@@ -241,7 +241,6 @@
 		2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FLACDecoderPlugin.h; path = fb2kmac/decoders/flac/FLACDecoderPlugin.h; sourceTree = "<group>"; };
 		2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FLACDecoderPlugin.m; path = fb2kmac/decoders/flac/FLACDecoderPlugin.m; sourceTree = "<group>"; };
 		2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fb2kmac-decoder-vorbis.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BB25CFA1697432400243B27 /* fb2kmac-decoder-flac copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "fb2kmac-decoder-flac copy-Info.plist"; path = "/Users/mileswu/Documents/Programming/fb2kmac/fb2kmac-decoder-flac copy-Info.plist"; sourceTree = "<absolute>"; };
 		2BB25CFE1697439200243B27 /* VorbisDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VorbisDecoder.h; path = fb2kmac/decoders/vorbis/VorbisDecoder.h; sourceTree = "<group>"; };
 		2BB25CFF1697439200243B27 /* VorbisDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VorbisDecoder.m; path = fb2kmac/decoders/vorbis/VorbisDecoder.m; sourceTree = "<group>"; };
 		2BB25D001697439200243B27 /* VorbisDecoderPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VorbisDecoderPlugin.h; path = fb2kmac/decoders/vorbis/VorbisDecoderPlugin.h; sourceTree = "<group>"; };
@@ -327,7 +326,6 @@
 				2B15BF6E146127A100DC46CD /* fb2kmac */,
 				2B15BF67146127A100DC46CD /* Frameworks */,
 				2B15BF65146127A100DC46CD /* Products */,
-				2BB25CFA1697432400243B27 /* fb2kmac-decoder-flac copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
