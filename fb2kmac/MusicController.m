@@ -8,6 +8,7 @@
 
 #import "MusicController.h"
 #import "PlaylistTrack.h"
+#import "plugins/PluginManager.h"
 
 #import <AudioUnit/AudioUnit.h>
 
@@ -242,18 +243,11 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename
 {
     NSString *ext = [[filename pathExtension] lowercaseString];
-    if([ext compare:@"flac"] == NSOrderedSame) {
-        return [[FLACDecoder alloc] initWithMusicController:self];
-    }
-    else if([ext compare:@"mp3"] == NSOrderedSame) {
-        return [[MP3Decoder alloc] initWithMusicController:self];
-    }
-    else if([ext compare:@"ogg"] == NSOrderedSame) {
-        return [[VorbisDecoder alloc] initWithMusicController:self];
-    }
-    else {
-        return nil;
-    }
+    
+    PluginManager *pluginManager = [PluginManager sharedInstance];
+    Class decoderClass = [pluginManager decoderClassForExtension:ext];
+    
+    return [((id<DecoderProtocol>)[decoderClass alloc]) initWithMusicController:self];
 }
 
 - (void)pause

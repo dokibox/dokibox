@@ -32,7 +32,7 @@ autoreconf -iv
 make -j2
 make install
 cd $PREFIX/lib
-install_name_tool -id @executable_path/../Frameworks/libmpg123.0.dylib libmpg123.0.dylib
+install_name_tool -id @rpath/libmpg123.0.dylib libmpg123.0.dylib
 
 cd $DEPS/vorbis
 CFLAGS="-O2 $CLFAGS" ./autogen.sh --with-ogg=$PREFIX --prefix=$PREFIX

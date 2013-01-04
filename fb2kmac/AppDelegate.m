@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TitlebarViewNS.h"
+#import "PluginManager.h"
 
 @implementation AppDelegate
 
@@ -15,6 +16,9 @@
 {
     AtLeastLion = YES;
     
+    PluginManager *pluginManager = [PluginManager sharedInstance];
+    [pluginManager loadAll];
+
     _musicController = [[MusicController alloc] init];
     
 	CGRect b = CGRectMake(0, 0, 500, 450);
