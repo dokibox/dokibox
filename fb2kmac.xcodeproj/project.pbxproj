@@ -45,6 +45,15 @@
 		2BB25CE216973E1700243B27 /* fb2kmac-decoder-flac.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */; };
 		2BB25CE81697412F00243B27 /* libFLAC.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */; };
 		2BB25CE91697419100243B27 /* libogg.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
+		2BB25CF01697432300243B27 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
+		2BB25CF41697432300243B27 /* libogg.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
+		2BB25CFB1697433000243B27 /* libvorbis.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */; };
+		2BB25CFC1697433000243B27 /* libvorbisfile.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
+		2BB25D021697439500243B27 /* VorbisDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CFF1697439200243B27 /* VorbisDecoder.m */; };
+		2BB25D031697439700243B27 /* VorbisDecoderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25D011697439200243B27 /* VorbisDecoderPlugin.m */; };
+		2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BB25D07169743B700243B27 /* InfoPlist.strings */; };
+		2BB25D0C1697440100243B27 /* fb2kmac-decoder-vorbis.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */; };
+		2BB25D0D1697443900243B27 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
 		2BBAC63F15C4193300965635 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC63E15C4193300965635 /* Playlist.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
@@ -96,6 +105,13 @@
 			remoteGlobalIDString = 2BB25CC716973CCD00243B27;
 			remoteInfo = "fb2kmac-decoder-flac";
 		};
+		2BB25D0A169743F300243B27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BB25CEB1697432300243B27;
+			remoteInfo = "fb2kmac-decoder-vorbis";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,6 +121,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				2BB25D0C1697440100243B27 /* fb2kmac-decoder-vorbis.bundle in CopyFiles */,
 				2BB25CE216973E1700243B27 /* fb2kmac-decoder-flac.bundle in CopyFiles */,
 				2BB25CA91692042A00243B27 /* fb2kmac-decoder-mp3.bundle in CopyFiles */,
 			);
@@ -131,6 +148,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CF31697432300243B27 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2BB25CFB1697433000243B27 /* libvorbis.0.dylib in CopyFiles */,
+				2BB25CFC1697433000243B27 /* libvorbisfile.3.dylib in CopyFiles */,
+				2BB25CF41697432300243B27 /* libogg.0.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BEC84BB147CA5D4008102F8 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,8 +175,6 @@
 
 /* Begin PBXFileReference section */
 		2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = prefix/lib/libFLAC.8.dylib; sourceTree = "<group>"; };
-		2B05BBE61522BA78003DCE57 /* VorbisDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VorbisDecoder.h; sourceTree = "<group>"; };
-		2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VorbisDecoder.m; sourceTree = "<group>"; };
 		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwUI.xcodeproj; path = deps/twui/TwUI.xcodeproj; sourceTree = "<group>"; };
@@ -213,6 +240,15 @@
 		2BB25CDB16973D6E00243B27 /* fb2kmac-decoder-flac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "fb2kmac-decoder-flac-Prefix.pch"; path = "fb2kmac/decoders/flac/fb2kmac-decoder-flac-Prefix.pch"; sourceTree = "<group>"; };
 		2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FLACDecoderPlugin.h; path = fb2kmac/decoders/flac/FLACDecoderPlugin.h; sourceTree = "<group>"; };
 		2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FLACDecoderPlugin.m; path = fb2kmac/decoders/flac/FLACDecoderPlugin.m; sourceTree = "<group>"; };
+		2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fb2kmac-decoder-vorbis.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BB25CFA1697432400243B27 /* fb2kmac-decoder-flac copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "fb2kmac-decoder-flac copy-Info.plist"; path = "/Users/mileswu/Documents/Programming/fb2kmac/fb2kmac-decoder-flac copy-Info.plist"; sourceTree = "<absolute>"; };
+		2BB25CFE1697439200243B27 /* VorbisDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VorbisDecoder.h; path = fb2kmac/decoders/vorbis/VorbisDecoder.h; sourceTree = "<group>"; };
+		2BB25CFF1697439200243B27 /* VorbisDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VorbisDecoder.m; path = fb2kmac/decoders/vorbis/VorbisDecoder.m; sourceTree = "<group>"; };
+		2BB25D001697439200243B27 /* VorbisDecoderPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VorbisDecoderPlugin.h; path = fb2kmac/decoders/vorbis/VorbisDecoderPlugin.h; sourceTree = "<group>"; };
+		2BB25D011697439200243B27 /* VorbisDecoderPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VorbisDecoderPlugin.m; path = fb2kmac/decoders/vorbis/VorbisDecoderPlugin.m; sourceTree = "<group>"; };
+		2BB25D05169743B200243B27 /* fb2kmac-decoder-vorbis-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "fb2kmac-decoder-vorbis-Info.plist"; path = "fb2kmac/decoders/vorbis/fb2kmac-decoder-vorbis-Info.plist"; sourceTree = "<group>"; };
+		2BB25D06169743B200243B27 /* fb2kmac-decoder-vorbis-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "fb2kmac-decoder-vorbis-Prefix.pch"; path = "fb2kmac/decoders/vorbis/fb2kmac-decoder-vorbis-Prefix.pch"; sourceTree = "<group>"; };
+		2BB25D08169743B700243B27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = fb2kmac/decoders/vorbis/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2BBAC63D15C4193200965635 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
 		2BBAC63E15C4193300965635 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
 		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
@@ -262,6 +298,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CEF1697432300243B27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB25CF01697432300243B27 /* CoreFoundation.framework in Frameworks */,
+				2BB25D0D1697443900243B27 /* libvorbisfile.3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -282,6 +327,7 @@
 				2B15BF6E146127A100DC46CD /* fb2kmac */,
 				2B15BF67146127A100DC46CD /* Frameworks */,
 				2B15BF65146127A100DC46CD /* Products */,
+				2BB25CFA1697432400243B27 /* fb2kmac-decoder-flac copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -291,6 +337,7 @@
 				2B15BF64146127A100DC46CD /* fb2kmac.app */,
 				2B80D43F16920167000F3392 /* fb2kmac-decoder-mp3.bundle */,
 				2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */,
+				2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -367,8 +414,6 @@
 				2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */,
 				2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */,
 				2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */,
-				2B05BBE61522BA78003DCE57 /* VorbisDecoder.h */,
-				2B05BBE71522BA78003DCE57 /* VorbisDecoder.m */,
 				2B1FEF6115D9C9BB003C4435 /* Window.h */,
 				2B1FEF6215D9C9BB003C4435 /* Window.m */,
 				2BF18DC815A0BC3C000C906E /* WindowView.h */,
@@ -415,6 +460,7 @@
 		2B80D45016920361000F3392 /* decoders */ = {
 			isa = PBXGroup;
 			children = (
+				2BB25CEA169742E400243B27 /* vorbis */,
 				2BB25CD616973D5600243B27 /* flac */,
 				2BB25CB516972F7F00243B27 /* DecoderProtocol.h */,
 				2B80D44216920167000F3392 /* mp3 */,
@@ -454,6 +500,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2BB25CEA169742E400243B27 /* vorbis */ = {
+			isa = PBXGroup;
+			children = (
+				2BB25CFE1697439200243B27 /* VorbisDecoder.h */,
+				2BB25CFF1697439200243B27 /* VorbisDecoder.m */,
+				2BB25D001697439200243B27 /* VorbisDecoderPlugin.h */,
+				2BB25D011697439200243B27 /* VorbisDecoderPlugin.m */,
+				2BB25D041697439C00243B27 /* Supporting Files */,
+			);
+			name = vorbis;
+			sourceTree = "<group>";
+		};
+		2BB25D041697439C00243B27 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2BB25D07169743B700243B27 /* InfoPlist.strings */,
+				2BB25D05169743B200243B27 /* fb2kmac-decoder-vorbis-Info.plist */,
+				2BB25D06169743B200243B27 /* fb2kmac-decoder-vorbis-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -470,6 +538,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
 				2BB25CE416973E4F00243B27 /* PBXTargetDependency */,
 			);
@@ -514,6 +583,24 @@
 			productReference = 2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		2BB25CEB1697432300243B27 /* fb2kmac-decoder-vorbis */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BB25CF61697432300243B27 /* Build configuration list for PBXNativeTarget "fb2kmac-decoder-vorbis" */;
+			buildPhases = (
+				2BB25CEC1697432300243B27 /* Sources */,
+				2BB25CEF1697432300243B27 /* Frameworks */,
+				2BB25CF21697432300243B27 /* Resources */,
+				2BB25CF31697432300243B27 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "fb2kmac-decoder-vorbis";
+			productName = "fb2kmac-decoder-mp3";
+			productReference = 2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -543,6 +630,7 @@
 				2B15BF63146127A100DC46CD /* fb2kmac */,
 				2B80D43E16920167000F3392 /* fb2kmac-decoder-mp3 */,
 				2BB25CC716973CCD00243B27 /* fb2kmac-decoder-flac */,
+				2BB25CEB1697432300243B27 /* fb2kmac-decoder-vorbis */,
 			);
 		};
 /* End PBXProject section */
@@ -586,6 +674,7 @@
 				2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */,
 				2B15BF79146127A100DC46CD /* Credits.rtf in Resources */,
 				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
+				2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +686,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2BB25CCE16973CCD00243B27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BB25CF21697432300243B27 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -650,6 +746,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CEC1697432300243B27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB25D021697439500243B27 /* VorbisDecoder.m in Sources */,
+				2BB25D031697439700243B27 /* VorbisDecoderPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -662,6 +767,11 @@
 			isa = PBXTargetDependency;
 			target = 2BB25CC716973CCD00243B27 /* fb2kmac-decoder-flac */;
 			targetProxy = 2BB25CE516973E5100243B27 /* PBXContainerItemProxy */;
+		};
+		2BB25D0B169743F300243B27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BB25CEB1697432300243B27 /* fb2kmac-decoder-vorbis */;
+			targetProxy = 2BB25D0A169743F300243B27 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -694,6 +804,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				2BB25CBB16972FA900243B27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2BB25D07169743B700243B27 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BB25D08169743B700243B27 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -880,6 +998,50 @@
 			};
 			name = Release;
 		};
+		2BB25CF71697432300243B27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/decoders/mp3/fb2kmac-decoder-mp3-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "fb2kmac/decoders/vorbis/fb2kmac-decoder-vorbis-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/prefix/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "fb2kmac-decoder-vorbis";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		2BB25CF81697432300243B27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/decoders/mp3/fb2kmac-decoder-mp3-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "fb2kmac/decoders/vorbis/fb2kmac-decoder-vorbis-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/prefix/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "fb2kmac-decoder-vorbis";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -915,6 +1077,15 @@
 			buildConfigurations = (
 				2BB25CD216973CCD00243B27 /* Debug */,
 				2BB25CD316973CCD00243B27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BB25CF61697432300243B27 /* Build configuration list for PBXNativeTarget "fb2kmac-decoder-vorbis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BB25CF71697432300243B27 /* Debug */,
+				2BB25CF81697432300243B27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
