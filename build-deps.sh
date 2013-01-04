@@ -23,8 +23,8 @@ make install
 cd ../include
 make install
 cd $PREFIX/lib/
-install_name_tool -id @executable_path/../Frameworks/libFLAC.8.dylib libFLAC.8.dylib
-install_name_tool -change $START/libogg/../prefix/lib/libogg.0.dylib @executable_path/../Frameworks/libogg.0.dylib libFLAC.8.dylib
+install_name_tool -id @rpath/libFLAC.8.dylib libFLAC.8.dylib
+install_name_tool -change $START/libogg/../prefix/lib/libogg.0.dylib @rpath/libogg.0.dylib libFLAC.8.dylib
 
 cd $DEPS/mpg123
 autoreconf -iv

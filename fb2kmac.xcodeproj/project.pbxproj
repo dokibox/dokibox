@@ -38,6 +38,13 @@
 		2BB25CBD16972FC600243B27 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CB716972F9400243B27 /* MP3Decoder.m */; };
 		2BB25CC01697303000243B27 /* PluginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CBF1697302F00243B27 /* PluginManager.m */; };
 		2BB25CC61697369F00243B27 /* MP3DecoderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CC4169733BB00243B27 /* MP3DecoderPlugin.m */; };
+		2BB25CCC16973CCD00243B27 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
+		2BB25CDC16973D7700243B27 /* FLACDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CD816973D6000243B27 /* FLACDecoder.m */; };
+		2BB25CDD16973D8200243B27 /* libFLAC.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */; };
+		2BB25CE116973E0C00243B27 /* FLACDecoderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */; };
+		2BB25CE216973E1700243B27 /* fb2kmac-decoder-flac.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */; };
+		2BB25CE81697412F00243B27 /* libFLAC.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */; };
+		2BB25CE91697419100243B27 /* libogg.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B0E032815214B3900B80884 /* libogg.0.dylib */; };
 		2BBAC63F15C4193300965635 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC63E15C4193300965635 /* Playlist.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
@@ -75,6 +82,20 @@
 			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
 			remoteInfo = Tests;
 		};
+		2BB25CE316973E4F00243B27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B80D43E16920167000F3392;
+			remoteInfo = "fb2kmac-decoder-mp3";
+		};
+		2BB25CE516973E5100243B27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BB25CC716973CCD00243B27;
+			remoteInfo = "fb2kmac-decoder-flac";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,6 +105,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				2BB25CE216973E1700243B27 /* fb2kmac-decoder-flac.bundle in CopyFiles */,
 				2BB25CA91692042A00243B27 /* fb2kmac-decoder-mp3.bundle in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +117,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BB25CCF16973CCD00243B27 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2BB25CE91697419100243B27 /* libogg.0.dylib in CopyFiles */,
+				2BB25CE81697412F00243B27 /* libFLAC.8.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +152,6 @@
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwUI.xcodeproj; path = deps/twui/TwUI.xcodeproj; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
-		2B0E032C15214BC200B80884 /* FLACDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLACDecoder.h; sourceTree = "<group>"; };
-		2B0E032D15214BC200B80884 /* FLACDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLACDecoder.m; sourceTree = "<group>"; };
 		2B15BF64146127A100DC46CD /* fb2kmac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fb2kmac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2B15BF6B146127A100DC46CD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -175,6 +206,13 @@
 		2BB25CC21697308300243B27 /* PluginProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProtocol.h; path = plugins/PluginProtocol.h; sourceTree = "<group>"; };
 		2BB25CC3169733BB00243B27 /* MP3DecoderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MP3DecoderPlugin.h; path = fb2kmac/decoders/mp3/MP3DecoderPlugin.h; sourceTree = SOURCE_ROOT; };
 		2BB25CC4169733BB00243B27 /* MP3DecoderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MP3DecoderPlugin.m; path = fb2kmac/decoders/mp3/MP3DecoderPlugin.m; sourceTree = SOURCE_ROOT; };
+		2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fb2kmac-decoder-flac.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BB25CD716973D6000243B27 /* FLACDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FLACDecoder.h; path = fb2kmac/decoders/flac/FLACDecoder.h; sourceTree = "<group>"; };
+		2BB25CD816973D6000243B27 /* FLACDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FLACDecoder.m; path = fb2kmac/decoders/flac/FLACDecoder.m; sourceTree = "<group>"; };
+		2BB25CDA16973D6E00243B27 /* fb2kmac-decoder-flac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "fb2kmac-decoder-flac-Info.plist"; path = "fb2kmac/decoders/flac/fb2kmac-decoder-flac-Info.plist"; sourceTree = "<group>"; };
+		2BB25CDB16973D6E00243B27 /* fb2kmac-decoder-flac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "fb2kmac-decoder-flac-Prefix.pch"; path = "fb2kmac/decoders/flac/fb2kmac-decoder-flac-Prefix.pch"; sourceTree = "<group>"; };
+		2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FLACDecoderPlugin.h; path = fb2kmac/decoders/flac/FLACDecoderPlugin.h; sourceTree = "<group>"; };
+		2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FLACDecoderPlugin.m; path = fb2kmac/decoders/flac/FLACDecoderPlugin.m; sourceTree = "<group>"; };
 		2BBAC63D15C4193200965635 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
 		2BBAC63E15C4193300965635 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
 		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
@@ -215,6 +253,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CCB16973CCD00243B27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB25CCC16973CCD00243B27 /* CoreFoundation.framework in Frameworks */,
+				2BB25CDD16973D8200243B27 /* libFLAC.8.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -243,6 +290,7 @@
 			children = (
 				2B15BF64146127A100DC46CD /* fb2kmac.app */,
 				2B80D43F16920167000F3392 /* fb2kmac-decoder-mp3.bundle */,
+				2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -293,8 +341,6 @@
 				2B80D45016920361000F3392 /* decoders */,
 				2B86BDBF15216B740022E813 /* FIFOBuffer.h */,
 				2B86BDC015216B740022E813 /* FIFOBuffer.m */,
-				2B0E032C15214BC200B80884 /* FLACDecoder.h */,
-				2B0E032D15214BC200B80884 /* FLACDecoder.m */,
 				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
 				2B466061147C4C6E0036B5AB /* MusicController.h */,
 				2B466062147C4C6F0036B5AB /* MusicController.m */,
@@ -369,6 +415,7 @@
 		2B80D45016920361000F3392 /* decoders */ = {
 			isa = PBXGroup;
 			children = (
+				2BB25CD616973D5600243B27 /* flac */,
 				2BB25CB516972F7F00243B27 /* DecoderProtocol.h */,
 				2B80D44216920167000F3392 /* mp3 */,
 			);
@@ -384,6 +431,27 @@
 				2BB25CC21697308300243B27 /* PluginProtocol.h */,
 			);
 			name = plugins;
+			sourceTree = "<group>";
+		};
+		2BB25CD616973D5600243B27 /* flac */ = {
+			isa = PBXGroup;
+			children = (
+				2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */,
+				2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */,
+				2BB25CD716973D6000243B27 /* FLACDecoder.h */,
+				2BB25CD816973D6000243B27 /* FLACDecoder.m */,
+				2BB25CD916973D6500243B27 /* Supporting Files */,
+			);
+			name = flac;
+			sourceTree = "<group>";
+		};
+		2BB25CD916973D6500243B27 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2BB25CDA16973D6E00243B27 /* fb2kmac-decoder-flac-Info.plist */,
+				2BB25CDB16973D6E00243B27 /* fb2kmac-decoder-flac-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +470,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
+				2BB25CE416973E4F00243B27 /* PBXTargetDependency */,
 			);
 			name = fb2kmac;
 			productName = fb2kmac;
@@ -424,6 +494,24 @@
 			name = "fb2kmac-decoder-mp3";
 			productName = "fb2kmac-decoder-mp3";
 			productReference = 2B80D43F16920167000F3392 /* fb2kmac-decoder-mp3.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		2BB25CC716973CCD00243B27 /* fb2kmac-decoder-flac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BB25CD116973CCD00243B27 /* Build configuration list for PBXNativeTarget "fb2kmac-decoder-flac" */;
+			buildPhases = (
+				2BB25CC816973CCD00243B27 /* Sources */,
+				2BB25CCB16973CCD00243B27 /* Frameworks */,
+				2BB25CCE16973CCD00243B27 /* Resources */,
+				2BB25CCF16973CCD00243B27 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "fb2kmac-decoder-flac";
+			productName = "fb2kmac-decoder-mp3";
+			productReference = 2BB25CD416973CCD00243B27 /* fb2kmac-decoder-flac.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -454,6 +542,7 @@
 			targets = (
 				2B15BF63146127A100DC46CD /* fb2kmac */,
 				2B80D43E16920167000F3392 /* fb2kmac-decoder-mp3 */,
+				2BB25CC716973CCD00243B27 /* fb2kmac-decoder-flac */,
 			);
 		};
 /* End PBXProject section */
@@ -507,6 +596,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CCE16973CCD00243B27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -545,7 +641,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BB25CC816973CCD00243B27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB25CDC16973D7700243B27 /* FLACDecoder.m in Sources */,
+				2BB25CE116973E0C00243B27 /* FLACDecoderPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2BB25CE416973E4F00243B27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B80D43E16920167000F3392 /* fb2kmac-decoder-mp3 */;
+			targetProxy = 2BB25CE316973E4F00243B27 /* PBXContainerItemProxy */;
+		};
+		2BB25CE616973E5100243B27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BB25CC716973CCD00243B27 /* fb2kmac-decoder-flac */;
+			targetProxy = 2BB25CE516973E5100243B27 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2B15BF71146127A100DC46CD /* InfoPlist.strings */ = {
@@ -718,6 +836,50 @@
 			};
 			name = Release;
 		};
+		2BB25CD216973CCD00243B27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/decoders/mp3/fb2kmac-decoder-mp3-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "fb2kmac/decoders/flac/fb2kmac-decoder-flac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/prefix/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "fb2kmac-decoder-flac";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		2BB25CD316973CCD00243B27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fb2kmac/decoders/mp3/fb2kmac-decoder-mp3-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "fb2kmac/decoders/flac/fb2kmac-decoder-flac-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/prefix/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "fb2kmac-decoder-flac";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -744,6 +906,15 @@
 			buildConfigurations = (
 				2B80D44A16920167000F3392 /* Debug */,
 				2B80D44B16920167000F3392 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BB25CD116973CCD00243B27 /* Build configuration list for PBXNativeTarget "fb2kmac-decoder-flac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BB25CD216973CCD00243B27 /* Debug */,
+				2BB25CD316973CCD00243B27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
