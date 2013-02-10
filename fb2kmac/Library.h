@@ -10,4 +10,7 @@
 
 @interface Library : NSObject
 
+-(void)addFile:(NSString*)file;
+-(void)searchDirectory:(NSString*)dir;
+
 @end

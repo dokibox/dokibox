@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TUIKit.h"
 
-@interface LibaryView : NSObject
+
+@interface LibraryView : TUIView <TUITableViewDelegate, TUITableViewDataSource> {
+    TUITableView *_tableView;
+}
 
 @end

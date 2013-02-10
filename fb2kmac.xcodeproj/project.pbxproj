@@ -55,6 +55,11 @@
 		2BB25D0C1697440100243B27 /* fb2kmac-decoder-vorbis.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CF91697432300243B27 /* fb2kmac-decoder-vorbis.bundle */; };
 		2BB25D0D1697443900243B27 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */; };
 		2BBAC63F15C4193300965635 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBAC63E15C4193300965635 /* Playlist.m */; };
+		2BBEC89216C20EF200160279 /* LibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89116C20EF200160279 /* LibraryView.m */; };
+		2BBEC89516C32B3B00160279 /* LibraryViewArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89416C32B3B00160279 /* LibraryViewArtistCell.m */; };
+		2BBEC89816C36AC100160279 /* LibraryViewAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */; };
+		2BBEC89B16C44C0900160279 /* LibraryViewTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */; };
+		2BBEC89E16C60A7F00160279 /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89D16C60A7F00160279 /* Library.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
 		2BF18DCA15A0BC3C000C906E /* WindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC915A0BC3C000C906E /* WindowView.m */; };
@@ -251,6 +256,16 @@
 		2BBAC63D15C4193200965635 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playlist.h; sourceTree = "<group>"; };
 		2BBAC63E15C4193300965635 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playlist.m; sourceTree = "<group>"; };
 		2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.11.0.dylib; path = prefix/lib/libtag.1.11.0.dylib; sourceTree = "<group>"; };
+		2BBEC89016C20EF200160279 /* LibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryView.h; sourceTree = "<group>"; };
+		2BBEC89116C20EF200160279 /* LibraryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryView.m; sourceTree = "<group>"; };
+		2BBEC89316C32B3B00160279 /* LibraryViewArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewArtistCell.h; sourceTree = "<group>"; };
+		2BBEC89416C32B3B00160279 /* LibraryViewArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewArtistCell.m; sourceTree = "<group>"; };
+		2BBEC89616C36AC100160279 /* LibraryViewAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewAlbumCell.h; sourceTree = "<group>"; };
+		2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewAlbumCell.m; sourceTree = "<group>"; };
+		2BBEC89916C44C0800160279 /* LibraryViewTrackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewTrackCell.h; sourceTree = "<group>"; };
+		2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewTrackCell.m; sourceTree = "<group>"; };
+		2BBEC89C16C60A7E00160279 /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Library.h; sourceTree = "<group>"; };
+		2BBEC89D16C60A7F00160279 /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Library.m; sourceTree = "<group>"; };
 		2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBarHoverView.h; sourceTree = "<group>"; };
 		2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderBarHoverView.m; sourceTree = "<group>"; };
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -393,10 +408,20 @@
 				2BBAC63E15C4193300965635 /* Playlist.m */,
 				2B8DB9341479FB7E006133CA /* PlaylistTrack.h */,
 				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
+				2BBEC89C16C60A7E00160279 /* Library.h */,
+				2BBEC89D16C60A7F00160279 /* Library.m */,
 				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
 				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
 				2BF18DC515A0BBD1000C906E /* PlaylistView.h */,
 				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
+				2BBEC89016C20EF200160279 /* LibraryView.h */,
+				2BBEC89116C20EF200160279 /* LibraryView.m */,
+				2BBEC89316C32B3B00160279 /* LibraryViewArtistCell.h */,
+				2BBEC89416C32B3B00160279 /* LibraryViewArtistCell.m */,
+				2BBEC89616C36AC100160279 /* LibraryViewAlbumCell.h */,
+				2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */,
+				2BBEC89916C44C0800160279 /* LibraryViewTrackCell.h */,
+				2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */,
 				2BB25CC11697304600243B27 /* plugins */,
 				2B5DA981162758320057D0D5 /* SliderBar.h */,
 				2B5DA982162758320057D0D5 /* SliderBar.m */,
@@ -723,6 +748,11 @@
 				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
 				2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */,
 				2BB25CC01697303000243B27 /* PluginManager.m in Sources */,
+				2BBEC89216C20EF200160279 /* LibraryView.m in Sources */,
+				2BBEC89516C32B3B00160279 /* LibraryViewArtistCell.m in Sources */,
+				2BBEC89816C36AC100160279 /* LibraryViewAlbumCell.m in Sources */,
+				2BBEC89B16C44C0900160279 /* LibraryViewTrackCell.m in Sources */,
+				2BBEC89E16C60A7F00160279 /* Library.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,8 @@
 //
 
 #import "WindowView.h"
+#import "LibraryView.h"
+#import "Library.h"
 
 @implementation WindowView
 
@@ -24,10 +26,16 @@
 		b.size.height -= 2*inlay;
 		b.size.width -= 2*inlay;
         
-        Playlist *playlist = [[Playlist alloc] init];
+        /*Playlist *playlist = [[Playlist alloc] init];
         _playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
         [_playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
-        [self addSubview:_playlistView];
+        [self addSubview:_playlistView];*/
+        
+        Library *lib = [[Library alloc] init];
+        [lib searchDirectory:@"/Users/mileswu/Downloads"];
+        LibraryView *libraryView = [[LibraryView alloc] initWithFrame:b];
+        [libraryView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
+        [self addSubview:libraryView];
 	}
 	return self;
 }

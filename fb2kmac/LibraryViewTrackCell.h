@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TUIKit.h"
 
-@interface LibraryViewTrackCell : NSObject
+@interface LibraryViewTrackCell : TUITableViewCell {
+    TUITextRenderer *_textRenderer;
+}
 
 @end
