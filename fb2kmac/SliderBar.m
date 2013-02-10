@@ -144,7 +144,7 @@
     CGFloat locations[] = { 0.0, 1.0 };
     CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
 
-    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x+b.size.width, b.origin.y+b.size.height), 0);
+    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x/*+b.size.width*/, b.origin.y+b.size.height), 0);
     CGGradientRelease(gradient);
     
     
