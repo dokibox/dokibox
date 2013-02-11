@@ -8,7 +8,8 @@
 
 #import "WindowView.h"
 #import "LibraryView.h"
-#import "Library.h"
+
+#import "CoreDataManager.h"
 
 @implementation WindowView
 
@@ -30,9 +31,10 @@
         _playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
         [_playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
         [self addSubview:_playlistView];*/
-        
-        Library *lib = [[Library alloc] init];
-        [lib searchDirectory:@"/Users/mileswu/Downloads"];
+                
+        _library = [[Library alloc] init];
+        [_library searchDirectory:@"/Users/mileswu/Downloads"];
+        NSLog(@"done serach");
         LibraryView *libraryView = [[LibraryView alloc] initWithFrame:b];
         [libraryView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
         [self addSubview:libraryView];

@@ -10,6 +10,8 @@
 
 @implementation LibraryViewAlbumCell
 
+@synthesize album = _album;
+
 - (id)initWithStyle:(TUITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
@@ -35,7 +37,7 @@
     
     CGFloat imagesize = 50;
     {   // Draw text for name
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"Houses of Holy (1973)"];
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:[[self album] name]];
         [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:13]];
         [astr setColor:[TUIColor blackColor]];
         

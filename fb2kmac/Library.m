@@ -7,12 +7,15 @@
 //
 
 #import "Library.h"
-#import "PlaylistTrack.h"
+#import "Track.h"
+#import "CoreDataManager.h"
 
 @implementation Library
 
 -(void)searchDirectory:(NSString*)dir
 {
+    NSError *error;
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     NSFileManager *fm = [NSFileManager defaultManager];
     NSDirectoryEnumerator *denum = [fm enumeratorAtPath:dir];
     
@@ -26,17 +29,51 @@
             filepath = [denum nextObject];
         }
     }
+    if([[cdm context] save:&error] == NO) {
+        NSLog(@"error saving");
+        NSLog(@"%@", [error localizedDescription]);
+        for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
+            NSLog(@"%@", [e localizedDescription]);
+        }
+    };
+    
+    /*{
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+    [fr setReturnsObjectsAsFaults:NO];
+    
+    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    for(Track* i in results) {
+        NSLog(@"%@", [i filename]);
+        NSLog(@"%@", [[i attributes] objectForKey:@"TITLE"]);
+    }
+    NSLog(@"finished retrive@");
+    }*/
 }
 
 -(void)addFile:(NSString*)file
 {
-    PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:file];
-    NSDictionary *dict = [t attributes];
+    NSError *error;
+    Track *t;
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     
-    for(id key in dict) {
-        NSLog(@"%@: %@", key, [dict objectForKey:key]);
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename LIKE %@", file];
+    [fr setPredicate:predicate];
+    
+    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    if(results == nil) {
+        NSLog(@"error fetching results");
     }
-    
+    else if([results count] == 0) {
+        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:[cdm context]];
+        [t setFilename:file];
+        [t setName:[[t attributes] objectForKey:@"TITLE"]];
+        [t setArtistByName:[[t attributes] objectForKey:@"ARTIST"] andAlbumByName:[[t attributes] objectForKey:@"ALBUM"]];
+        
+    }
+    else { //already exists in library
+        t = [results objectAtIndex:0];
+    }
 }
 
 @end

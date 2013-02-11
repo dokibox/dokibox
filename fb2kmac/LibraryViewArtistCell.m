@@ -10,6 +10,8 @@
 
 @implementation LibraryViewArtistCell
 
+@synthesize artist = _artist;
+
 - (id)initWithStyle:(TUITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
@@ -50,7 +52,7 @@
 	}
     
     {   // Draw text for name
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"Example Artist"];
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:[[self artist] name]];
         [astr setFont:[TUIFont fontWithName:@"Lucida Grande" size:13]];
         [astr setColor:[TUIColor blackColor]];
         

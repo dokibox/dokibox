@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "TUIKit.h"
+#import "Track.h"
 
 @interface LibraryViewTrackCell : TUITableViewCell {
     TUITextRenderer *_textRenderer;
+    Track *_track;
+    
 }
+
+@property() Track *track;
 
 @end

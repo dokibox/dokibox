@@ -9,6 +9,7 @@
 #import "LibraryViewTrackCell.h"
 
 @implementation LibraryViewTrackCell
+@synthesize track = _track;
 
 - (id)initWithStyle:(TUITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -20,6 +21,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    NSAssert([self track], @"track for cell nil");
 	CGRect b = self.bounds;
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
 	
@@ -36,7 +38,7 @@
     CGContextFillRect(ctx, b);
     
     {   // Draw text for name
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"1. The Song Remains the Same"];
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:[[self track] name]];
         [astr setFont:[TUIFont fontWithName:@"Lucida Grande" size:10]];
         [astr setColor:[TUIColor blackColor]];
         
