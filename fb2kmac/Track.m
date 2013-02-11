@@ -12,29 +12,6 @@
 #import "Album.h"
 #import "CoreDataManager.h"
 
-/*@synthesize attributes = _attributes;
-@synthesize filename = _filename;
-
-- (id)init {
-    self = [super init];
-    _attributes = [NSMutableDictionary dictionary];
-    return self;
-}
-
-- (id)initWithFilename:(NSString *)filename {
-    self = [self init];
-    
-    id<TaggerProtocol> tagger = [[TaglibTagger alloc] initWithFilename:filename];
-    _attributes = [tagger tag];
-    
-    _filename = filename;
-    
-    return self;
-}
-
-@end*/
-
-
 @implementation Track
 @dynamic filename;
 @dynamic name;
