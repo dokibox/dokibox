@@ -15,6 +15,7 @@
 
 @property (nonatomic) NSString *name;
 @property (nonatomic) Artist *artist;
+@property (nonatomic) NSSet* tracks;
 
 
 @end

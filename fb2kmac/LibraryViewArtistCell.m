@@ -7,6 +7,7 @@
 //
 
 #import "LibraryViewArtistCell.h"
+#import "Album.h"
 
 @implementation LibraryViewArtistCell
 
@@ -43,7 +44,7 @@
         
         CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
         CGGradientRelease(gradient);
-		
+        
 		// emboss
 		/*CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
 		CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
@@ -63,7 +64,8 @@
     }
     
     { // Draw alt text
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"1 album, 5 tracks"];
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", [[[self artist] albums] count],[[[self artist] tracks] count]];
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:str];
         [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:10]];
         [astr setColor:[TUIColor colorWithWhite:0.35 alpha:1.0]];
         NSSize textSize = [astr size];

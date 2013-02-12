@@ -7,9 +7,12 @@
 //
 
 #import <CoreData/CoreData.h>
+#import "common.h"
 
 @interface Artist : NSManagedObject
 
 @property (nonatomic) NSString *name;
+@property (readonly, nonatomic) NSSet* albums;
+@property (readonly, nonatomic) NSSet* tracks;
 
 @end

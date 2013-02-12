@@ -18,5 +18,6 @@
 @property (nonatomic) NSMutableDictionary *primitiveAttributes;
 @property (nonatomic) Album *album;
 @property (readonly, nonatomic) NSMutableDictionary *attributes;
+@property (readonly, nonatomic) NSSet* tracks;
 
 @end

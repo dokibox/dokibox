@@ -13,6 +13,7 @@
 @implementation Album
 @dynamic name;
 @dynamic artist;
+@dynamic tracks;
 
 -(void)setArtistByName:(NSString *)artistName
 {

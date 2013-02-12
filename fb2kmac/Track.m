@@ -17,6 +17,7 @@
 @dynamic name;
 @dynamic primitiveAttributes;
 @dynamic album;
+@dynamic tracks;
 
 -(NSMutableDictionary *)attributes
 {
