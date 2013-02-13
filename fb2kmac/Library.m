@@ -67,9 +67,8 @@
     else if([results count] == 0) {
         t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:[cdm context]];
         [t setFilename:file];
-        [t setName:[[t attributes] objectForKey:@"TITLE"]];
-        [t setArtistByName:[[t attributes] objectForKey:@"ARTIST"] andAlbumByName:[[t attributes] objectForKey:@"ALBUM"]];
-        
+        [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
+        [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
     }
     else { //already exists in library
         t = [results objectAtIndex:0];
