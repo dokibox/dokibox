@@ -48,7 +48,7 @@
 
 
 -(void)dealloc {
-    free(_fileref);
+    delete _fileref;
 }
 
 
