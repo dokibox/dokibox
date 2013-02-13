@@ -16,6 +16,8 @@ FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, 
 void flac_metadatacallback(FLAC__StreamDecoder *decoder, FLAC__StreamMetadata *metadata, void *client_Data);
 FLAC__bool flac_eofcallback(FLAC__StreamDecoder *decoder, void *client_data);
 FLAC__StreamDecoderLengthStatus flac_lengthcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data);
+FLAC__StreamDecoderSeekStatus flac_seekcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data);
+FLAC__StreamDecoderTellStatus flac_tellcallback(FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data);
 void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
 
 @interface FLACDecoder : NSObject<DecoderProtocol> {
