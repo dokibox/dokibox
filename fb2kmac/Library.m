@@ -24,7 +24,7 @@
     while(filepath) {
         @autoreleasepool {
             NSString *fullfilepath = [dir stringByAppendingPathComponent:filepath];
-            if([[fullfilepath pathExtension] isEqualToString:@"mp3"])
+            if([[fullfilepath pathExtension] isEqualToString:@"flac"] || [[fullfilepath pathExtension] isEqualToString:@"mp3"])
                 [self addFile:fullfilepath];
             filepath = [denum nextObject];
         }
@@ -67,9 +67,8 @@
     else if([results count] == 0) {
         t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:[cdm context]];
         [t setFilename:file];
-        [t setName:[[t attributes] objectForKey:@"TITLE"]];
-        [t setArtistByName:[[t attributes] objectForKey:@"ARTIST"] andAlbumByName:[[t attributes] objectForKey:@"ALBUM"]];
-        
+        [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
+        [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
     }
     else { //already exists in library
         t = [results objectAtIndex:0];

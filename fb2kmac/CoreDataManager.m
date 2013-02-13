@@ -34,7 +34,7 @@
         
         NSPersistentStoreCoordinator *persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
         
-        NSPersistentStore *persistanceStore __unused = [persistanceCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:[NSURL fileURLWithPath:@"/Users/mileswu/temp.xml"] options:nil error:&error];
+        NSPersistentStore *persistanceStore __unused = [persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[@"~/Desktop/fb2kmac/derp.sql" stringByExpandingTildeInPath]] options:nil error:&error];
         [_context setPersistentStoreCoordinator:persistanceCoordinator];
     }
     return self;

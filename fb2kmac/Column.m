@@ -24,7 +24,7 @@
 
 -(void)reloadImage
 {
-    NSString *path = [NSString stringWithFormat:@"%@/%@.png", @"/Users/mileswu/Desktop/fb2kmac/design/playlistmockups", _key];
+    NSString *path = [NSString stringWithFormat:@"%@/%@.png", [@"~/Desktop/fb2kmac/design/playlistmockups" stringByExpandingTildeInPath], _key];
     
     NSImage *nim = [[NSImage alloc] initByReferencingFile:path];
     if(nim == nil) {

@@ -33,8 +33,8 @@
         [self addSubview:_playlistView];*/
                 
         _library = [[Library alloc] init];
-        [_library searchDirectory:@"/Users/mileswu/Downloads"];
-        NSLog(@"done serach");
+        [_library searchDirectory:[@"~/Downloads" stringByExpandingTildeInPath]];
+        NSLog(@"done search");
         LibraryView *libraryView = [[LibraryView alloc] initWithFrame:b];
         [libraryView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
         [self addSubview:libraryView];

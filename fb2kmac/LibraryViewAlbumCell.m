@@ -48,7 +48,7 @@
     }
     
     { // Draw alt text
-        NSImage *nimage = [[NSImage alloc] initWithContentsOfFile:@"/Users/mileswu/Desktop/IMAG0102.jpg"];
+        NSImage *nimage = [[NSImage alloc] initWithContentsOfFile:[@"~/Desktop/IMAG0102.jpg" stringByExpandingTildeInPath]];
         TUIImage *timage = [TUIImage imageWithNSImage:nimage];
         //[timage drawAtPoint:b.origin];
         CGContextSaveGState(ctx);
