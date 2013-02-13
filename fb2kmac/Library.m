@@ -24,7 +24,7 @@
     while(filepath) {
         @autoreleasepool {
             NSString *fullfilepath = [dir stringByAppendingPathComponent:filepath];
-            if([[fullfilepath pathExtension] isEqualToString:@"mp3"])
+            if([[fullfilepath pathExtension] isEqualToString:@"flac"] || [[fullfilepath pathExtension] isEqualToString:@"mp3"])
                 [self addFile:fullfilepath];
             filepath = [denum nextObject];
         }
