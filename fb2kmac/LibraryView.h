@@ -12,6 +12,7 @@
 
 @interface LibraryView : TUIView <TUITableViewDelegate, TUITableViewDataSource> {
     TUITableView *_tableView;
+    NSMutableArray *_celldata;
 }
 
 @end

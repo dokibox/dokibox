@@ -8,6 +8,7 @@
 
 #import "LibraryViewArtistCell.h"
 #import "Album.h"
+#import "CoreDataManager.h"
 
 @implementation LibraryViewArtistCell
 
@@ -78,5 +79,12 @@
     }
 }
 
+
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    [[cdm context] refreshObject:[self artist] mergeChanges:NO];
+}
 
 @end

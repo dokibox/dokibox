@@ -11,6 +11,7 @@
 #import "LibraryViewAlbumCell.h"
 #import "LibraryViewTrackCell.h"
 #import "CoreDataManager.h"
+#import "Artist.h"
 
 @implementation LibraryView
 
@@ -27,6 +28,18 @@
         [_tableView setClipsToBounds:TRUE];
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
         [self addSubview:_tableView];
+        
+        _celldata = [[NSMutableArray alloc] init];
+        NSError *error;
+        CoreDataManager *cdm = [CoreDataManager sharedInstance];
+        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+        [fr setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
+        NSDate *d1 = [NSDate date];
+        NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+        [_celldata addObjectsFromArray:results];
+        NSDate *d2 = [NSDate date];
+        NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
+        
 	}
 	return self;
 }
@@ -44,12 +57,7 @@
 
 - (NSInteger)tableView:(TUITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-    [fr setReturnsObjectsAsFaults:NO];
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
-    return [results count];
+    return [_celldata count];
 }
 
 - (TUITableViewCell *)tableView:(TUITableView *)tableView cellForRowAtIndexPath:(TUIFastIndexPath *)indexPath
@@ -63,20 +71,7 @@
         cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);*/
     
     cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
-    
-    NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-    [fr setReturnsObjectsAsFaults:NO];
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
-
-    [((LibraryViewArtistCell *)cell) setArtist:(Artist *)[results objectAtIndex:[indexPath row]]];
-    
-	/*TUIAttributedString *s = [TUIAttributedString stringWithString:[NSString stringWithFormat:@"example cell %d", indexPath.row]];
-     s.color = [TUIColor blackColor];
-     s.font = exampleFont1;
-     [s setFont:exampleFont2 inRange:NSMakeRange(8, 4)]; // make the word "cell" bold
-     cell.attributedString = s;*/
+    [((LibraryViewArtistCell *)cell) setArtist:(Artist *)[_celldata objectAtIndex:[indexPath row]]];
 	
 	return cell;
 }
