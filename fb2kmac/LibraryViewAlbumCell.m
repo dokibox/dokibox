@@ -7,6 +7,7 @@
 //
 
 #import "LibraryViewAlbumCell.h"
+#import "CoreDataManager.h"
 
 @implementation LibraryViewAlbumCell
 
@@ -65,7 +66,8 @@
             
         CGContextRestoreGState(ctx);
         
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"5 tracks"];
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", [[[self album] tracks] count]];
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:str];
         [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:10]];
         [astr setColor:[TUIColor colorWithWhite:0.35 alpha:1.0]];
         NSSize textSize = [astr size];
@@ -78,6 +80,11 @@
     }
 }
 
-
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    [[cdm context] refreshObject:[self album] mergeChanges:NO];
+}
 
 @end
