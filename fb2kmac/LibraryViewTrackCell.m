@@ -7,6 +7,7 @@
 //
 
 #import "LibraryViewTrackCell.h"
+#import "CoreDataManager.h"
 
 @implementation LibraryViewTrackCell
 @synthesize track = _track;
@@ -60,6 +61,13 @@
         [_textRenderer setFrame: textRect]; //CGRectOffset(textRect, offset, 0)];
         [_textRenderer draw];
     }
+}
+
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    [[cdm context] refreshObject:[self track] mergeChanges:NO];
 }
 
 @end
