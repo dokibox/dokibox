@@ -15,4 +15,9 @@
     NSMutableArray *_celldata;
 }
 
+-(BOOL)isRowExpanded:(NSUInteger)row;
+-(void)collapseRow:(NSUInteger)row;
+-(void)expandRow:(NSUInteger)row;
+-(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
+
 @end
