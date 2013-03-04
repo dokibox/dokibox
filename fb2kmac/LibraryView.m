@@ -121,53 +121,105 @@
 - (void)tableView:(TUITableView *)tableView didClickRowAtIndexPath:(TUIFastIndexPath *)indexPath withEvent:(NSEvent *)event {
     if([event clickCount] == 2) { //double click
         NSLog(@"double click");
+        
+        [self expandRow:[indexPath row] recursive:YES];
+        
+        NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
+        NSMutableArray *tracks = [[NSMutableArray alloc] init];
+        if([obj isKindOfClass:[Track class]]) { // if its a track, only one
+            [tracks addObject:[((Track *)obj) filename]];
+        }
+        else {
+            for(NSUInteger i = [indexPath row] + 1; i<[_celldata count]; i++) {
+                NSObject *obj2 = [_celldata objectAtIndex:i];
+                if([obj isKindOfClass:[Album class]] && ([obj2 isKindOfClass:[Album class]] || [obj2 isKindOfClass:[Album class]]))
+                    break;
+                if([obj isKindOfClass:[Artist class]] && [obj2 isKindOfClass:[Artist class]])
+                    break;
+
+                if([obj2 isKindOfClass:[Track class]])
+                    [tracks addObject:[((Track *)obj2) filename]];
+            }
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
+        
+        [tableView reloadData];
         return;
     }
     
     if([self isRowExpanded:[indexPath row]]) {
-        NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
-        
-        NSUInteger size = 0;
-        for(NSUInteger i = [indexPath row] + 1; i < [_celldata count];i++) {
-            if([[_celldata objectAtIndex:i] isKindOfClass:[Artist class]]) break;
-            if([obj isKindOfClass:[Album class]])
-                if([[_celldata objectAtIndex:i] isKindOfClass:[Album class]]) break;
-            size++;
-        }
-            
-        [_celldata removeObjectsInRange:NSMakeRange([indexPath row] + 1, size)];
+        [self collapseRow:[indexPath row]];
     }
     else {
-        NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
+        [self expandRow:[indexPath row]];
+    }
+    
+
+    [tableView reloadData];
+}
+
+-(void)collapseRow:(NSUInteger)row
+{
+    if(![self isRowExpanded:row]) return;
+    
+    NSObject *obj = [_celldata objectAtIndex:row];
+    
+    NSUInteger size = 0;
+    for(NSUInteger i = row + 1; i < [_celldata count];i++) {
+        if([[_celldata objectAtIndex:i] isKindOfClass:[Artist class]]) break;
+        if([obj isKindOfClass:[Album class]])
+            if([[_celldata objectAtIndex:i] isKindOfClass:[Album class]]) break;
+        size++;
+    }
+    
+    [_celldata removeObjectsInRange:NSMakeRange(row + 1, size)];
+}
+
+-(void)expandRow:(NSUInteger)row
+{
+    [self expandRow:row recursive:NO];
+}
+
+-(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
+{
+    NSObject *obj = [_celldata objectAtIndex:row];
+    
+    if([obj isKindOfClass:[Artist class]]) {
+        Artist *artist = (Artist *)obj;
+        NSUInteger i = row + 1;
         
-        
-        if([obj isKindOfClass:[Artist class]]) {
-            Artist *artist = (Artist *)obj;
-            NSUInteger i = [indexPath row] + 1;
-            
+        if(![self isRowExpanded:row]) {
             NSSortDescriptor *sortd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-            
             for(Album *album in [[artist albums] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
                 [_celldata insertObject:album atIndex:i];
                 i++;
             }
         }
-        else if([obj isKindOfClass:[Album class]]) {
-            Album *album = (Album *)obj;
-            NSUInteger i = [indexPath row] + 1;
-            
-            // this needs to be changed to tracknumber
-            NSSortDescriptor *sortd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-            
-            for(Track *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
-                [_celldata insertObject:track atIndex:i];
-                i++;
+        if(recursive) {
+            for(i = row + 1; i<[_celldata count]; i++) {
+                NSObject *obj2 = [_celldata objectAtIndex:i];
+                if([obj2 isKindOfClass:[Artist class]])
+                    break;
+                else if([obj2 isKindOfClass:[Album class]])
+                    [self expandRow:i];
             }
         }
     }
-    
+    else if([obj isKindOfClass:[Album class]]) {
+        if([self isRowExpanded:row]) return;
 
-    [tableView reloadData];
+        Album *album = (Album *)obj;
+        NSUInteger i = row + 1;
+        
+        // this needs to be changed to tracknumber
+        NSSortDescriptor *sortd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        
+        for(Track *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
+            [_celldata insertObject:track atIndex:i];
+            i++;
+        }
+    }
 }
 
 @end

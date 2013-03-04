@@ -21,23 +21,44 @@
 		self.backgroundColor = [TUIColor colorWithWhite:0.3 alpha:1.0];
                 
         int inlay = 20;
-        CGRect b = frame;
-		b.origin.y += inlay;
-		b.origin.x += inlay;
-		b.size.height -= 2*inlay;
-		b.size.width -= 2*inlay;
-        
-        /*Playlist *playlist = [[Playlist alloc] init];
-        _playlistView = [[PlaylistView alloc] initWithFrame:b andPlaylist:playlist];
-        [_playlistView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
-        [self addSubview:_playlistView];*/
+        width_divider = 0.60;
                 
         _library = [[Library alloc] init];
         [_library searchDirectory:[@"~/Downloads" stringByExpandingTildeInPath]];
-        NSLog(@"done search");
-        LibraryView *libraryView = [[LibraryView alloc] initWithFrame:b];
-        [libraryView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
+        NSLog(@"Starting to run search");
+        NSDate *d1 = [NSDate date];
+        NSDate *d2 = [NSDate date];
+        NSLog(@"Running search took %f sec", [d2 timeIntervalSinceDate:d1]);
+
+        LibraryView *libraryView = [[LibraryView alloc] initWithFrame:CGRectZero];
+        libraryView.layout = ^(TUIView *v) {
+            CGRect b = v.superview.bounds;
+            b.origin.y += inlay;
+            b.origin.x += inlay;
+            b.size.height -= 2*inlay;
+            b.size.width -= 2*inlay;
+            
+            CGRect libraryFrame = b;
+            libraryFrame.size.width = (int)(width_divider*b.size.width);
+            return libraryFrame;
+        };
         [self addSubview:libraryView];
+        
+        Playlist *playlist = [[Playlist alloc] init];
+        _playlistView = [[PlaylistView alloc] initWithFrame:CGRectZero andPlaylist:playlist];
+        _playlistView.layout = ^(TUIView *v) {
+            CGRect b = v.superview.bounds;
+            b.origin.y += inlay;
+            b.origin.x += inlay;
+            b.size.height -= 2*inlay;
+            b.size.width -= 2*inlay;
+            
+            CGRect playlistFrame = b;
+            playlistFrame.origin.x += (int)(width_divider*b.size.width);
+            playlistFrame.size.width = b.size.width - (int)(width_divider*b.size.width);
+            return playlistFrame;
+        };
+        [self addSubview:_playlistView];
 	}
 	return self;
 }

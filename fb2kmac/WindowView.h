@@ -13,6 +13,8 @@
 @interface WindowView : TUIView {
     PlaylistView *_playlistView;
     Library *_library;
+    
+    CGFloat width_divider;
 }
 
 @property PlaylistView *playlistView;

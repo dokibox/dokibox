@@ -27,8 +27,22 @@
         [_tableView setClipsToBounds:TRUE];
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
         [self addSubview:_tableView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
 	}
 	return self;
+}
+
+- (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
+{
+    NSArray *tracks = [notification object];
+    for (NSString *s in tracks) {
+        if([MusicController isSupportedAudioFile:s]) {
+            PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
+            [_playlist addTrack:t];
+        }
+    }
+    [_tableView reloadData];
 }
 
 - (CGFloat)tableView:(TUITableView *)tableView heightForRowAtIndexPath:(TUIFastIndexPath *)indexPath
