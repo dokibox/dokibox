@@ -26,6 +26,8 @@
 		2B65ED1E16C8381900DD327D /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED1D16C8381900DD327D /* Track.m */; };
 		2B65ED2516C8906900DD327D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2416C8906800DD327D /* Artist.m */; };
 		2B65ED2816C8907200DD327D /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2716C8907100DD327D /* Album.m */; };
+		2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
+		2B72D79E16F163C800324194 /* Lumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
@@ -99,6 +101,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
 			remoteInfo = Tests;
+		};
+		2B72D79716F1638E00324194 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB3185114EB418E001CFBEE;
+			remoteInfo = Lumberjack;
+		};
+		2B72D79916F1638E00324194 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB318CA14ED6C3B001CFBEE;
+			remoteInfo = FmwkTest;
+		};
+		2B72D79B16F163B400324194 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
+			remoteInfo = Lumberjack;
 		};
 		2BB25CE316973E4F00243B27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -175,6 +198,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2B72D79E16F163C800324194 /* Lumberjack.framework in CopyFiles */,
 				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in CopyFiles */,
 				2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */,
 			);
@@ -223,6 +247,7 @@
 		2B65ED2416C8906800DD327D /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		2B65ED2616C8907100DD327D /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
 		2B65ED2716C8907100DD327D /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
+		2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = deps/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		2B80D43F16920167000F3392 /* fb2kmac-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fb2kmac-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
@@ -300,6 +325,7 @@
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
 				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
+				2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
 				2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */,
@@ -370,6 +396,7 @@
 		2B15BF67146127A100DC46CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */,
 				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
 				2BB25CB01692327700243B27 /* libmpg123.0.dylib */,
@@ -477,6 +504,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2B72D78F16F1638E00324194 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B72D79816F1638E00324194 /* Lumberjack.framework */,
+				2B72D79A16F1638E00324194 /* FmwkTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2B80D44216920167000F3392 /* mp3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -581,6 +617,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2B72D79C16F163B400324194 /* PBXTargetDependency */,
 				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
 				2BB25CE416973E4F00243B27 /* PBXTargetDependency */,
@@ -664,6 +701,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 2B72D78F16F1638E00324194 /* Products */;
+					ProjectRef = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
+				},
+				{
 					ProductGroup = 2B05E176159E3AAD001FBE70 /* Products */;
 					ProjectRef = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
 				},
@@ -705,6 +746,20 @@
 			fileType = wrapper.cfbundle;
 			path = Tests.octest;
 			remoteRef = 2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B72D79816F1638E00324194 /* Lumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lumberjack.framework;
+			remoteRef = 2B72D79716F1638E00324194 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B72D79A16F1638E00324194 /* FmwkTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = FmwkTest.app;
+			remoteRef = 2B72D79916F1638E00324194 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -810,6 +865,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2B72D79C16F163B400324194 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Lumberjack;
+			targetProxy = 2B72D79B16F163B400324194 /* PBXContainerItemProxy */;
+		};
 		2BB25CE416973E4F00243B27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2B80D43E16920167000F3392 /* fb2kmac-decoder-mp3 */;
@@ -930,6 +990,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
 					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
+					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
@@ -950,6 +1011,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
 					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
+					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";

@@ -16,3 +16,6 @@
 [submodule "deps/taglib"]
 	path = deps/taglib
 	url = git://github.com/taglib/taglib.git
+[submodule "deps/cocoalumberjack"]
+	path = deps/cocoalumberjack
+	url = git://github.com/robbiehanson/CocoaLumberjack.git

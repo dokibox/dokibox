@@ -9,12 +9,18 @@
 #import "AppDelegate.h"
 #import "TitlebarViewNS.h"
 #import "PluginManager.h"
+#import "DDASLLogger.h"
+#import "DDTTYLogger.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     AtLeastLion = YES;
+    
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    DDLogVerbose(@"DD Logger ready");
     
     PluginManager *pluginManager = [PluginManager sharedInstance];
     [pluginManager loadAll];
