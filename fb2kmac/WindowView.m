@@ -8,6 +8,7 @@
 
 #import "WindowView.h"
 #import "LibraryView.h"
+#import "Track.h"
 
 #import "CoreDataManager.h"
 
@@ -24,11 +25,13 @@
         width_divider = 0.60;
                 
         _library = [[Library alloc] init];
-        [_library searchDirectory:[@"~/Downloads" stringByExpandingTildeInPath]];
-        NSLog(@"Starting to run search");
-        NSDate *d1 = [NSDate date];
-        NSDate *d2 = [NSDate date];
-        NSLog(@"Running search took %f sec", [d2 timeIntervalSinceDate:d1]);
+        //[_library searchDirectory:@"/Volumes/MILES'S IPO/iPod_Control/Music"];
+        [_library searchDirectory:[@"~/fb2kmusic" stringByExpandingTildeInPath] recurse:YES];
+        [_library startFSMonitor];
+        
+
+        
+        
 
         LibraryView *libraryView = [[LibraryView alloc] initWithFrame:CGRectZero];
         libraryView.layout = ^(TUIView *v) {

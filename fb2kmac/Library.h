@@ -11,6 +11,8 @@
 @interface Library : NSObject
 
 -(void)addFile:(NSString*)file;
+-(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;
 -(void)searchDirectory:(NSString*)dir;
+-(void)startFSMonitor;
 
 @end

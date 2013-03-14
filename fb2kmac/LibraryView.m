@@ -40,8 +40,25 @@
         NSDate *d2 = [NSDate date];
         NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibraryUpdatedNotification:) name:@"libraryUpdated" object:nil];
 	}
 	return self;
+}
+
+-(void)receivedLibraryUpdatedNotification:(NSNotification *)notification
+{
+    [_celldata removeAllObjects];
+    NSError *error;
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+    [fr setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
+    NSDate *d1 = [NSDate date];
+    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    [_celldata addObjectsFromArray:results];
+    NSDate *d2 = [NSDate date];
+    NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
+    
+    [_tableView reloadData];
 }
 
 - (CGFloat)tableView:(TUITableView *)tableView heightForRowAtIndexPath:(TUIFastIndexPath *)indexPath
