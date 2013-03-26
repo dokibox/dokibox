@@ -26,6 +26,10 @@
     [self didAccessValueForKey:@"attributes"];
     if(dict == nil) {
         id<TaggerProtocol> tagger = [[TaglibTagger alloc] initWithFilename:[self filename]];
+        if(!tagger) {
+            DDLogWarn(@"Tagger wasn't initialized properly");
+            return nil;
+        }
         dict = [tagger tag];
         [self setPrimitiveAttributes:dict];
     }

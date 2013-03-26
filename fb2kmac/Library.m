@@ -36,6 +36,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 {
     char **paths = eventPaths;
     Library *library = (__bridge Library *)clientCallBackInfo;
+    NSFileManager *fm = [NSFileManager defaultManager];
     
     // printf("Callback called\n");
     for (int i=0; i<numEvents; i++) {
@@ -50,14 +51,24 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
             NSLog(@"mount/unmount happened");
         
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsFile)) {
-            if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemCreated)) {
-                DDLogCVerbose(@"New file detected at: %@", path);
-                [library addFile:path];
+            if([fm fileExistsAtPath:path]) {
+                DDLogCVerbose(@"Detected new file at: %@", path);
+                [library addFileOrUpdate:path];
             }
-            NSLog(@"file");
+            else {
+                DDLogCVerbose(@"Detected removal of file at: %@", path);
+                [library removeFile:path];
+            }
         }
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsDir)) {
-            DDLogCVerbose(@"Dir change detected at: %@ [no action]", path);
+            if([fm fileExistsAtPath:path]) {
+                DDLogCVerbose(@"Detected new dir at: %@", path);
+                [library searchDirectory:path];
+            }
+            else {
+                DDLogCVerbose(@"Detected removal of dir at: %@", path);
+                [library removeFilesInDirectory:path];
+            }
         }
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsSymlink)) {
             DDLogCWarn(@"Symlink change detected at: %@ [unimplemented]", path);
@@ -77,7 +88,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 {
     DDLogVerbose(@"Searching directory: %@", dir);
     NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     NSFileManager *fm = [NSFileManager defaultManager];
     
     NSArray *files = [fm contentsOfDirectoryAtPath:dir error:&error];
@@ -95,19 +105,15 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
                 [self searchDirectory:fullfilepath recurse:YES];
             }
             else {
-                [self addFile:fullfilepath];
+                [self addFileOrUpdate:fullfilepath];
             }
         }
     }
 }
 
--(void)addFile:(NSString*)file
+-(Track *)trackFromFile:(NSString *)file
 {
-    if(!([[file pathExtension] isEqualToString:@"flac"] || [[file pathExtension] isEqualToString:@"mp3"]))
-        return;
-    
     NSError *error;
-    Track *t;
     CoreDataManager *cdm = [CoreDataManager sharedInstance];
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
@@ -116,16 +122,88 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     
     NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
     if(results == nil) {
-        NSLog(@"error fetching results");
+        DDLogError(@"error fetching results");
     }
-    else if([results count] == 0) {
+    else if([results count] == 1) {
+        return [results objectAtIndex:0];
+    }
+    else {
+        return nil;
+    }
+}
+
+-(void)addFileOrUpdate:(NSString*)file
+{
+    if(!([[file pathExtension] isEqualToString:@"flac"] || [[file pathExtension] isEqualToString:@"mp3"]))
+        return;
+    
+    NSError *error;
+    Track *t = [self trackFromFile:file];
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    BOOL isNew = false;
+    
+    if(!t) {
         DDLogVerbose(@"Adding file: %@", file);
+        isNew = true;
         
         t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:[cdm context]];
         [t setFilename:file];
-        [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
-        [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
-        
+    }
+    else { //already exists in library
+        [t setPrimitiveAttributes:nil];
+    }
+    
+    if([t attributes] == nil) { // perhaps IO error
+        DDLogWarn(@"Skipping %@... wasn't able to load tags", file);
+        if(isNew == true) { //delete if new
+            [[cdm context] deleteObject:t];
+        }
+        return;
+    }
+    
+    [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
+    [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
+    
+    if([[cdm context] save:&error] == NO) {
+        NSLog(@"error saving");
+        NSLog(@"%@", [error localizedDescription]);
+        for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
+            NSLog(@"%@", [e localizedDescription]);
+        }
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
+
+}
+
+-(void)removeFilesInDirectory:(NSString *)dir
+{
+    NSError *error;
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename BEGINSWITH %@", dir];
+    [fr setPredicate:predicate];
+    
+    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    if(results == nil) {
+        DDLogError(@"error fetching results");
+        return;
+    }
+    
+    for(Track *t in results) {
+        [self removeFile:[t filename]];
+    }
+}
+
+-(void)removeFile:(NSString*)file
+{
+    NSError *error;
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    Track *t = [self trackFromFile:file];
+    
+    if(t) {
+        DDLogVerbose(@"Deleting file: %@", file);
+        [[cdm context] deleteObject:t];
         if([[cdm context] save:&error] == NO) {
             NSLog(@"error saving");
             NSLog(@"%@", [error localizedDescription]);
@@ -134,9 +212,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
             }
         };
         [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
-    }
-    else { //already exists in library
-        t = [results objectAtIndex:0];
     }
 }
 
@@ -155,7 +230,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSLog(@"%d", FSEventsGetCurrentEventId());
     //FSEventStreamEventId since = 24630466;
     FSEventStreamEventId since = FSEventsGetCurrentEventId();
-    FSEventStreamRef stream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 1.0, kFSEventStreamCreateFlagFileEvents);
+    FSEventStreamRef stream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
     FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(stream);
     NSLog(@"started FS monitor");
