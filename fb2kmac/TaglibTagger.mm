@@ -16,10 +16,11 @@
         _fileref = new TagLib::FileRef([filename UTF8String]);
         
         if(_fileref->isNull()) {
-            NSLog(@"Can't find file %@", filename);
+            DDLogWarn(@"Can't find file %@", filename);
             self = nil;
+            return self;
         }
-        
+                
         _tag = _fileref->tag();
         _audioproperties = _fileref->audioProperties();
     }
@@ -32,7 +33,7 @@
     
     if(_tag) {
         TagLib::PropertyMap pm = _tag->properties();
-        NSLog(@"%@", [NSString stringWithUTF8String:pm.toString().toCString(true)]);
+        //DDLogVerbose(@"%@", [NSString stringWithUTF8String:pm.toString().toCString(true)]);
         
         TagLib::SimplePropertyMap::ConstIterator it;
         for(it = pm.begin(); it != pm.end(); it++) {
