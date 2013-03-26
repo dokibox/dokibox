@@ -29,7 +29,7 @@
         [_library searchDirectory:[@"~/fb2kmusic" stringByExpandingTildeInPath] recurse:YES];
         [_library startFSMonitor];
         
-
+        __block typeof(self) bself = self;
         
         
 
@@ -57,8 +57,8 @@
             b.size.width -= 2*inlay;
             
             CGRect playlistFrame = b;
-            playlistFrame.origin.x += (int)(width_divider*b.size.width);
-            playlistFrame.size.width = b.size.width - (int)(width_divider*b.size.width);
+            playlistFrame.origin.x += (int)(bself->width_divider*b.size.width);
+            playlistFrame.size.width = b.size.width - (int)(bself->width_divider*b.size.width);
             return playlistFrame;
         };
         [self addSubview:_playlistView];
