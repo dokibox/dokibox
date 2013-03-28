@@ -46,6 +46,10 @@
     NSError *error;
     Album *album;
     
+    if([self album]) { //prune old one
+        [[self album] pruneDueToTrackBeingDeleted:self];
+    }
+    
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"album"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name LIKE %@) AND (artist.name LIKE %@)", albumName, artistName];
     [fr setPredicate:predicate];
@@ -69,6 +73,11 @@
 -(void)resetAttributeCache
 {
     [self setPrimitiveAttributes:nil];
+}
+
+-(void)prepareForDeletion
+{
+    [[self album] pruneDueToTrackBeingDeleted:self];
 }
 
 

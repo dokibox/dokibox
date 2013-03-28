@@ -23,4 +23,16 @@
     return set;
 }
 
+-(void)pruneDueToAlbumBeingDeleted:(Album *)album
+{
+    if([[self albums] count] == 1) {
+        Album *lastAlbum = [[[self albums] allObjects] objectAtIndex:0];
+        if([[lastAlbum objectID] isEqual:[album objectID]]) {
+            [[self managedObjectContext] deleteObject:self];
+        }
+    }
+
+}
+
+
 @end

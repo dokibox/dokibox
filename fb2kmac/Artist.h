@@ -11,6 +11,8 @@
 
 @interface Artist : NSManagedObject
 
+-(void)pruneDueToAlbumBeingDeleted:(Album *)album;
+
 @property (nonatomic) NSString *name;
 @property (readonly, nonatomic) NSSet* albums;
 @property (readonly, nonatomic) NSSet* tracks;

@@ -8,6 +8,7 @@
 
 #import "Album.h"
 #import "Artist.h"
+#import "Track.h"
 #import "CoreDataManager.h"
 
 @implementation Album
@@ -19,6 +20,10 @@
 {
     NSError *error;
     Artist *artist;
+    
+    if([self artist]) { //prune old one
+        [[self artist] pruneDueToAlbumBeingDeleted:self];
+    }
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE %@", artistName];
@@ -37,6 +42,21 @@
     }
     
     [self setArtist:artist];
+}
+
+-(void)pruneDueToTrackBeingDeleted:(Track *)track;
+{
+    if([[self tracks] count] == 1) {
+        Track *lastTrack = [[[self tracks] allObjects] objectAtIndex:0];
+        if([[lastTrack objectID] isEqual:[track objectID]]) {
+            [[self managedObjectContext] deleteObject:self];
+        }
+    }
+}
+
+-(void)prepareForDeletion
+{
+    [[self artist] pruneDueToAlbumBeingDeleted:self];
 }
 
 @end

@@ -12,6 +12,7 @@
 @interface Album : NSManagedObject
 
 -(void)setArtistByName:(NSString *)artistName;
+-(void)pruneDueToTrackBeingDeleted:(Track *)track;
 
 @property (nonatomic) NSString *name;
 @property (nonatomic) Artist *artist;
