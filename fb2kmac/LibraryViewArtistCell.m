@@ -83,8 +83,7 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
-    [[cdm context] refreshObject:[self artist] mergeChanges:NO];
+    [[[self artist] managedObjectContext] refreshObject:[self artist] mergeChanges:NO];
 }
 
 @end

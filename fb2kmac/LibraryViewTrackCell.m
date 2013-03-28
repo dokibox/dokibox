@@ -66,8 +66,7 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
-    [[cdm context] refreshObject:[self track] mergeChanges:NO];
+    [[[self track] managedObjectContext] refreshObject:[self track] mergeChanges:NO];
 }
 
 @end
