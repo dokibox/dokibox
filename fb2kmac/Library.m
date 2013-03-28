@@ -150,7 +150,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         [t setFilename:file];
     }
     else { //already exists in library
-        [t setPrimitiveAttributes:nil];
+        [t resetAttributeCache];
     }
     
     if([t attributes] == nil) { // perhaps IO error

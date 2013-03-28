@@ -67,6 +67,11 @@
     [self setAlbum:album];
 }
 
+-(void)resetAttributeCache
+{
+    [self setPrimitiveAttributes:nil];
+}
+
 
 
 @end

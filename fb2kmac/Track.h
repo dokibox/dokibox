@@ -12,6 +12,7 @@
 @interface Track : NSManagedObject
 
 -(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName;
+-(void)resetAttributeCache;
 
 @property (nonatomic) NSString *filename;
 @property (nonatomic) NSString *name;
