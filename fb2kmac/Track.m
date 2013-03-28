@@ -45,18 +45,17 @@
 {
     NSError *error;
     Album *album;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"album"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name LIKE %@) AND (artist.name LIKE %@)", albumName, artistName];
     [fr setPredicate:predicate];
     
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];
     if(results == nil) {
         NSLog(@"error fetching results");
     }
     else if([results count] == 0) {
-        album = [NSEntityDescription insertNewObjectForEntityForName:@"album" inManagedObjectContext:[cdm context]];
+        album = [NSEntityDescription insertNewObjectForEntityForName:@"album" inManagedObjectContext:[self managedObjectContext]];
         [album setName:albumName];
         [album setArtistByName:artistName];
     }

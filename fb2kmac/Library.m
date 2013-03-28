@@ -150,6 +150,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         [t setFilename:file];
     }
     else { //already exists in library
+        DDLogVerbose(@"Updating file: %@", file);
         [t resetAttributeCache];
     }
     
