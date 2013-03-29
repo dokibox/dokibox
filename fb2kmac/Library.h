@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "common.h"
 
-@interface Library : NSObject
+@interface Library : NSObject {
+    NSManagedObjectContext *_objectContext;
+}
 
 -(Track *)trackFromFile:(NSString *)file;
 -(void)addFileOrUpdate:(NSString*)file;

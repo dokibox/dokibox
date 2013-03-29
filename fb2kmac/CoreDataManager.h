@@ -10,12 +10,13 @@
 #import <CoreData/CoreData.h>
 
 @interface CoreDataManager : NSObject {
-    NSManagedObjectContext *_context;
     NSManagedObjectModel *_model;
+    NSPersistentStoreCoordinator *_persistanceCoordinator;
 }
 +(CoreDataManager *)sharedInstance;
 -(NSManagedObjectModel*)model;
++(NSManagedObjectContext *)newContext;
 
-@property(readonly) NSManagedObjectContext *context;
+@property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 
 @end

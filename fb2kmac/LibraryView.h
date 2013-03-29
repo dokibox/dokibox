@@ -13,6 +13,7 @@
 @interface LibraryView : TUIView <TUITableViewDelegate, TUITableViewDataSource> {
     TUITableView *_tableView;
     NSMutableArray *_celldata;
+    NSManagedObjectContext *_objectContext;
 }
 
 -(BOOL)isRowExpanded:(NSUInteger)row;

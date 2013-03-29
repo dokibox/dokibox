@@ -11,7 +11,7 @@
 
 @implementation CoreDataManager
 
-@synthesize context = _context;
+@synthesize persistanceCoordinator = _persistanceCoordinator;
 
 +(CoreDataManager *)sharedInstance
 {
@@ -24,15 +24,23 @@
     return shared;
 }
 
++(NSManagedObjectContext *)newContext
+{
+    CoreDataManager *cdm = [CoreDataManager sharedInstance];
+    NSManagedObjectContext *context;
+    context = [[NSManagedObjectContext alloc] init];
+    [context setPersistentStoreCoordinator:[cdm persistanceCoordinator]];
+    return context;
+}
+
 -(id)init
 {
     if(self = [super init]) {
         NSError *error;
         
         _model = [self model];        
-        _context = [[NSManagedObjectContext alloc] init];
         
-        NSPersistentStoreCoordinator *persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
+        _persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
         
         NSPersistentStore *persistanceStore __unused = [persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[@"~/Desktop/fb2kmac/derp.sql" stringByExpandingTildeInPath]] options:nil error:&error];
         [_context setPersistentStoreCoordinator:persistanceCoordinator];

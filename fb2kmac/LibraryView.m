@@ -30,12 +30,13 @@
         [self addSubview:_tableView];
         
         _celldata = [[NSMutableArray alloc] init];
+        _objectContext = [CoreDataManager newContext];
+        
         NSError *error;
-        CoreDataManager *cdm = [CoreDataManager sharedInstance];
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
         [fr setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
         NSDate *d1 = [NSDate date];
-        NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
         [_celldata addObjectsFromArray:results];
         NSDate *d2 = [NSDate date];
         NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
@@ -49,11 +50,10 @@
 {
     [_celldata removeAllObjects];
     NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
     [fr setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
     NSDate *d1 = [NSDate date];
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
     [_celldata addObjectsFromArray:results];
     NSDate *d2 = [NSDate date];
     NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);

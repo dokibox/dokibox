@@ -79,6 +79,14 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 @implementation Library
 
+-(id)init
+{
+    if(self = [super init]) {
+            _objectContext = [CoreDataManager newContext];
+    }
+    return self;
+}
+
 -(void)searchDirectory:(NSString*)dir
 {
     [self searchDirectory:dir recurse:YES];
@@ -114,13 +122,12 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(Track *)trackFromFile:(NSString *)file
 {
     NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename LIKE %@", file];
     [fr setPredicate:predicate];
     
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
     }
@@ -139,14 +146,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     
     NSError *error;
     Track *t = [self trackFromFile:file];
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     BOOL isNew = false;
     
     if(!t) {
         DDLogVerbose(@"Adding file: %@", file);
         isNew = true;
         
-        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:[cdm context]];
+        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:_objectContext];
         [t setFilename:file];
     }
     else { //already exists in library
@@ -157,7 +163,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     if([t attributes] == nil) { // perhaps IO error
         DDLogWarn(@"Skipping %@... wasn't able to load tags", file);
         if(isNew == true) { //delete if new
-            [[cdm context] deleteObject:t];
+            [_objectContext deleteObject:t];
         }
         return;
     }
@@ -165,7 +171,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
     [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
     
-    if([[cdm context] save:&error] == NO) {
+    if([_objectContext save:&error] == NO) {
         NSLog(@"error saving");
         NSLog(@"%@", [error localizedDescription]);
         for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
@@ -179,13 +185,12 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(void)removeFilesInDirectory:(NSString *)dir
 {
     NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename BEGINSWITH %@", dir];
     [fr setPredicate:predicate];
     
-    NSArray *results = [[cdm context] executeFetchRequest:fr error:&error];
+    NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
         return;
@@ -199,13 +204,12 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(void)removeFile:(NSString*)file
 {
     NSError *error;
-    CoreDataManager *cdm = [CoreDataManager sharedInstance];
     Track *t = [self trackFromFile:file];
     
     if(t) {
         DDLogVerbose(@"Deleting file: %@", file);
-        [[cdm context] deleteObject:t];
-        if([[cdm context] save:&error] == NO) {
+        [_objectContext deleteObject:t];
+        if([_objectContext save:&error] == NO) {
             NSLog(@"error saving");
             NSLog(@"%@", [error localizedDescription]);
             for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
