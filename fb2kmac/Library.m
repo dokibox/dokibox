@@ -82,7 +82,14 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(id)init
 {
     if(self = [super init]) {
+        _dispatchQueue = dispatch_queue_create("fb2k.library", DISPATCH_QUEUE_SERIAL);
+        dispatch_queue_t lowPriorityQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
+        dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
+        
+        dispatch_async(_dispatchQueue, ^{
             _objectContext = [CoreDataManager newContext];
+        });
+
     }
     return self;
 }
@@ -94,6 +101,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;
 {
+    if(dispatch_get_current_queue() != _dispatchQueue) {
+        dispatch_async(_dispatchQueue, ^{
+            [self searchDirectory:dir recurse:recursive];
+        });
+        return;
+    }
+    
     DDLogVerbose(@"Searching directory: %@", dir);
     NSError *error;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -141,6 +155,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)addFileOrUpdate:(NSString*)file
 {
+    if(dispatch_get_current_queue() != _dispatchQueue) {
+        dispatch_async(_dispatchQueue, ^{
+            [self addFileOrUpdate:file];
+        });
+        return;
+    }
+    
     if(!([[file pathExtension] isEqualToString:@"flac"] || [[file pathExtension] isEqualToString:@"mp3"]))
         return;
     
@@ -178,12 +199,21 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
             NSLog(@"%@", [e localizedDescription]);
         }
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
-
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
+    });
 }
 
 -(void)removeFilesInDirectory:(NSString *)dir
 {
+    if(dispatch_get_current_queue() != _dispatchQueue) {
+        dispatch_async(_dispatchQueue, ^{
+            [self removeFilesInDirectory:dir];
+        });
+        return;
+    }
+    
     NSError *error;
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
@@ -203,6 +233,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)removeFile:(NSString*)file
 {
+    if(dispatch_get_current_queue() != _dispatchQueue) {
+        dispatch_async(_dispatchQueue, ^{
+            [self removeFile:file];
+        });
+        return;
+    }
+    
     NSError *error;
     Track *t = [self trackFromFile:file];
     
@@ -216,7 +253,9 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
                 NSLog(@"%@", [e localizedDescription]);
             }
         };
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
+        });
     }
 }
 

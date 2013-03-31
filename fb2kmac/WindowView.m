@@ -26,7 +26,7 @@
                 
         _library = [[Library alloc] init];
         //[_library searchDirectory:@"/Volumes/MILES'S IPO/iPod_Control/Music"];
-        [_library searchDirectory:[@"~/fb2kmusic" stringByExpandingTildeInPath] recurse:YES];
+        //[_library searchDirectory:[@"~/fb2kmusic" stringByExpandingTildeInPath] recurse:YES];
         [_library startFSMonitor];
         
         __block typeof(self) bself = self;

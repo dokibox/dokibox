@@ -10,6 +10,7 @@
 #import "common.h"
 
 @interface Library : NSObject {
+    dispatch_queue_t _dispatchQueue;
     NSManagedObjectContext *_objectContext;
 }
 
