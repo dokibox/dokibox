@@ -200,7 +200,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         }
     };
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
     });
 }
@@ -253,7 +253,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
                 NSLog(@"%@", [e localizedDescription]);
             }
         };
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
         });
     }
