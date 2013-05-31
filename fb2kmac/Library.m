@@ -199,10 +199,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
             NSLog(@"%@", [e localizedDescription]);
         }
     };
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
-    });
 }
 
 -(void)removeFilesInDirectory:(NSString *)dir
@@ -253,9 +249,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
                 NSLog(@"%@", [e localizedDescription]);
             }
         };
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"libraryUpdated" object:nil];
-        });
     }
 }
 
