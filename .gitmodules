@@ -1,6 +1,6 @@
 [submodule "deps/flac"]
 	path = deps/flac
-	url = git://git.xiph.org/mirrors/flac.git
+	url = git://git.xiph.org/flac.git
 [submodule "deps/ogg"]
 	path = deps/ogg
 	url = git://git.xiph.org/mirrors/ogg.git
