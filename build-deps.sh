@@ -15,8 +15,8 @@ cd $PREFIX/lib/
 install_name_tool -id @rapth/libogg.0.dylib libogg.0.dylib
 
 cd $DEPS/flac
-touch config.rpath
-CFLAGS="-L$PREFIX/lib -I$PREFIX/include $CFLAGS" ./autogen.sh --disable-asm-optimizations --with-ogg=$PREFIX --prefix=$PREFIX
+./autogen.sh
+CFLAGS="-L$PREFIX/lib -I$PREFIX/include $CFLAGS" ./configure --disable-asm-optimizations --with-ogg=$PREFIX --prefix=$PREFIX
 CFLAGS="-L$PREFIX/lib -I$PREFIX/include $CFLAGS" make -j2
 cd src
 make install
@@ -48,4 +48,4 @@ cmake -DCMAKE_INSTALL_PREFIX=$PREFIX
 make -j2
 make install
 cd $PREFIX/lib
-install_name_tool -id @executable_path/../Frameworks/libtag.1.7.2.dylib libtag.1.7.2.dylib
+install_name_tool -id @executable_path/../Frameworks/libtag.1.11.0.dylib libtag.1.11.0.dylib
