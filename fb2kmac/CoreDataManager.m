@@ -42,8 +42,18 @@
         
         _persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
         
-        NSPersistentStore *persistanceStore __unused = [persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[@"~/Desktop/fb2kmac/derp.sql" stringByExpandingTildeInPath]] options:nil error:&error];
-        [_context setPersistentStoreCoordinator:persistanceCoordinator];
+        /* Create directory if it doesn't exist */
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        if([paths count] == 0) {
+            DDLogError(@"Could not find Application Support folder");
+            return nil;
+        }
+        NSString *path = [(NSString *)[paths objectAtIndex:0] stringByAppendingPathComponent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"]];
+        if(![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil]) {
+            DDLogError(@"Error creating Application Support folder at: %@", path);
+        };
+        
+        NSPersistentStore *persistanceStore __unused = [_persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:@"db.sql"]] options:nil error:&error];
     }
     return self;
 }
