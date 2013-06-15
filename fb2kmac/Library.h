@@ -12,6 +12,7 @@
 @interface Library : NSObject {
     dispatch_queue_t _dispatchQueue;
     NSManagedObjectContext *_objectContext;
+    NSUserDefaults *_userDefaults;
 }
 
 -(Track *)trackFromFile:(NSString *)file;
@@ -21,6 +22,8 @@
 -(void)searchDirectory:(NSString*)dir;
 -(void)removeFilesInDirectory:(NSString *)dir;
 -(void)startFSMonitor;
+
+@property(readonly) NSUserDefaults* userDefaults;
 
 
 @end

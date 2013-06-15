@@ -42,6 +42,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     for (int i=0; i<numEvents; i++) {
         NSString *path = [NSString stringWithUTF8String:paths[i]];
         /* flags are unsigned long, IDs are uint64_t */
+        if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagHistoryDone)) continue;
+        
         printf("Change %llu in %s, flags %lu\n", eventIds[i], paths[i], eventFlags[i]);
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagMustScanSubDirs))
             NSLog(@"must scan subdirs");
@@ -73,11 +75,16 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsSymlink)) {
             DDLogCWarn(@"Symlink change detected at: %@ [unimplemented]", path);
         }
+        
+        [[library userDefaults] setInteger:eventIds[i] forKey:@"libraryMonitoringLastEventID"];
+
     }
 }
 
 
 @implementation Library
+
+@synthesize userDefaults = _userDefaults;
 
 -(id)init
 {
@@ -89,7 +96,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         dispatch_async(_dispatchQueue, ^{
             _objectContext = [CoreDataManager newContext];
         });
-
+        
+        _userDefaults = [NSUserDefaults standardUserDefaults];
     }
     return self;
 }
@@ -264,9 +272,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     context.copyDescription = NULL;
     context.info = (__bridge void *)self;
     
-    NSLog(@"%d", FSEventsGetCurrentEventId());
-    //FSEventStreamEventId since = 24630466;
-    FSEventStreamEventId since = FSEventsGetCurrentEventId();
+    NSInteger lastEventID;
+    if((lastEventID = [_userDefaults integerForKey:@"libraryMonitoringLastEventID"]) == 0) {
+        lastEventID = FSEventsGetCurrentEventId();
+        [_userDefaults setInteger:lastEventID forKey:@"libraryMonitoringLastEventID"];
+    }
+    
+    FSEventStreamEventId since = lastEventID;
     FSEventStreamRef stream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
     FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(stream);
