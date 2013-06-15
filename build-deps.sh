@@ -12,7 +12,7 @@ cd $DEPS/ogg
 make -j2
 make install
 cd $PREFIX/lib/
-install_name_tool -id @rapth/libogg.0.dylib libogg.0.dylib
+install_name_tool -id @rpath/libogg.0.dylib libogg.0.dylib
 
 cd $DEPS/flac
 ./autogen.sh
@@ -41,7 +41,7 @@ make install
 cd $PREFIX/lib
 install_name_tool -id @rpath/libvorbisfile.3.dylib libvorbisfile.3.dylib
 install_name_tool -id @rpath/libvorbis.0.dylib libvorbis.0.dylib
-install_name_tool -change $PREFIX/lib/libvorbis.0.dylib @executable_path/../Frameworks/libvorbis.0.dylib libvorbisfile.3.dylib
+install_name_tool -change $PREFIX/lib/libvorbis.0.dylib @rpath/libvorbis.0.dylib libvorbisfile.3.dylib
 
 cd $DEPS/taglib
 cmake -DCMAKE_INSTALL_PREFIX=$PREFIX
