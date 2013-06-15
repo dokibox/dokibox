@@ -14,7 +14,7 @@
 		2B15BF79146127A100DC46CD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF77146127A100DC46CD /* Credits.rtf */; };
 		2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF7B146127A100DC46CD /* AppDelegate.m */; };
 		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
-		2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
+		2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6215D9C9BB003C4435 /* Window.m */; };
 		2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
@@ -27,10 +27,10 @@
 		2B65ED2516C8906900DD327D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2416C8906800DD327D /* Artist.m */; };
 		2B65ED2816C8907200DD327D /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2716C8907100DD327D /* Album.m */; };
 		2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
-		2B72D79E16F163C800324194 /* Lumberjack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
+		2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
-		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
+		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */; };
 		2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B824B4D15E1BAF500B26228 /* CoreAudio.framework */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
@@ -192,16 +192,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2BEC84BB147CA5D4008102F8 /* CopyFiles */ = {
+		2BEC84BB147CA5D4008102F8 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2B72D79E16F163C800324194 /* Lumberjack.framework in CopyFiles */,
-				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in CopyFiles */,
-				2B18CEBE15B4C10700265F61 /* TwUI.framework in CopyFiles */,
+				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
+				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */,
+				2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -611,7 +612,7 @@
 				2B15BF60146127A100DC46CD /* Sources */,
 				2B15BF61146127A100DC46CD /* Frameworks */,
 				2B15BF62146127A100DC46CD /* Resources */,
-				2BEC84BB147CA5D4008102F8 /* CopyFiles */,
+				2BEC84BB147CA5D4008102F8 /* Copy Files */,
 				2BB25CA81692042000243B27 /* CopyFiles */,
 			);
 			buildRules = (
