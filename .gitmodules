@@ -19,3 +19,6 @@
 [submodule "deps/cocoalumberjack"]
 	path = deps/cocoalumberjack
 	url = git://github.com/robbiehanson/CocoaLumberjack.git
+[submodule "deps/MASPreferences"]
+	path = deps/MASPreferences
+	url = git@github.com:shpakovski/MASPreferences.git
