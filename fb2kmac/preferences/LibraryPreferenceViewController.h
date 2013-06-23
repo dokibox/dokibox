@@ -8,7 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MASPreferencesViewController.h"
+#import "Library.h"
 
-@interface LibraryPreferenceViewController : NSViewController
+@interface LibraryPreferenceViewController : NSViewController {
+    Library *_library;
+}
+
+- (id)initWithLibrary:(Library *)library;
+
+- (IBAction)locationBrowseButtonAction:(id)sender;
 
 @end

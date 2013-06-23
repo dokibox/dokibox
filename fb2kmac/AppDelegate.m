@@ -72,7 +72,7 @@
     // Not sure how to do this (windowWillClose in category of LibraryPreferenceViewController
     // to pass back here maybe to set _preferencesWindowController to nil?)
     if(_preferencesWindowController == nil) {
-        NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] init];
+        NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] initWithLibrary:_library];
         NSArray *controllers = [[NSArray alloc] initWithObjects:libraryPreferenceViewController, nil];
         _preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:controllers title:@"Preferences"];
     }

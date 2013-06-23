@@ -10,11 +10,11 @@
 
 @implementation LibraryPreferenceViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithLibrary:(Library *)library
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-        // Initialization code here.
+        _library = library;
     }
     
     return self;
@@ -33,6 +33,21 @@
 - (NSString *)toolbarItemLabel
 {
     return @"Library";
+}
+
+- (IBAction)locationBrowseButtonAction:(id)sender
+{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSInteger result) {
+        if(result == NSFileHandlingPanelOKButton) {
+            NSString *path = [[openPanel directoryURL] path];
+            [[NSUserDefaults standardUserDefaults] setValue:path forKey:@"libraryLocation"];
+            [_library reset];
+            [_library startFSMonitor];
+        }
+    }];
 }
 
 @end
