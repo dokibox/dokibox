@@ -59,11 +59,6 @@
     [_window relayout];
 }
 
--(void)windowWillClose:(NSNotification *)notification
-{
-    NSLog(@"hi");
-}
-
 -(IBAction)openPreferences:(id)sender
 {
     // Note: Perhaps we should release the preferenceWindowController when the preference window has closed
