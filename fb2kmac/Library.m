@@ -280,10 +280,55 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
     
     FSEventStreamEventId since = lastEventID;
-    FSEventStreamRef stream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
-    FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-    FSEventStreamStart(stream);
+    _fsEventStream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
+    FSEventStreamScheduleWithRunLoop(_fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    FSEventStreamStart(_fsEventStream);
     NSLog(@"started FS monitor for %@", path);
+}
+
+-(void)stopFSMonitor
+{
+    FSEventStreamStop(_fsEventStream);
+    FSEventStreamInvalidate(_fsEventStream);
+    FSEventStreamRelease(_fsEventStream);
+    _fsEventStream = nil;
+}
+
+-(void)removeAll:(NSString *)entityName
+{
+    dispatch_async(_dispatchQueue, ^{
+        NSError *error;
+        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:entityName];
+        [fr setIncludesPropertyValues:NO];
+        NSArray *arr = [_objectContext executeFetchRequest:fr error:&error];
+        if(arr == nil) {
+            DDLogError(@"Error executing fetch request");
+            return;
+        }
+        
+        for(NSManagedObject *obj in arr) {
+            [_objectContext deleteObject:obj];
+        }
+        
+        if([_objectContext save:&error] == NO) {
+            DDLogError(@"error saving");
+            DDLogError(@"%@", [error localizedDescription]);
+            for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
+                DDLogError(@"%@", [e localizedDescription]);
+            }
+        };
+    });
+}
+
+-(void)reset
+{
+    if(_fsEventStream) {
+        [self stopFSMonitor];
+    }
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"libraryMonitoringLastEventID"];
+    [self removeAll:@"track"];
+    [self removeAll:@"album"];
+    [self removeAll:@"artist"];
 }
 
 @end

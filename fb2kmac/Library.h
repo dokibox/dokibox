@@ -13,6 +13,7 @@
     dispatch_queue_t _dispatchQueue;
     NSManagedObjectContext *_objectContext;
     NSUserDefaults *_userDefaults;
+    FSEventStreamRef _fsEventStream;
 }
 
 -(Track *)trackFromFile:(NSString *)file;
@@ -22,6 +23,9 @@
 -(void)searchDirectory:(NSString*)dir;
 -(void)removeFilesInDirectory:(NSString *)dir;
 -(void)startFSMonitor;
+-(void)stopFSMonitor;
+-(void)reset;
+-(void)removeAll:(NSString *)entityName;
 
 @property(readonly) NSUserDefaults* userDefaults;
 
