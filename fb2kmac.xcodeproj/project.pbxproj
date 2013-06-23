@@ -24,6 +24,7 @@
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
 		2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */; };
 		2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
+		2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340717768E830093C292 /* defaultPrefs.plist */; };
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
 		2B65ED1B16C7447500DD327D /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED1A16C7447500DD327D /* CoreDataManager.m */; };
@@ -247,6 +248,7 @@
 		2B5B340217763C9A0093C292 /* LibraryPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryPreferenceViewController.h; path = preferences/LibraryPreferenceViewController.h; sourceTree = "<group>"; };
 		2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryPreferenceViewController.m; path = preferences/LibraryPreferenceViewController.m; sourceTree = "<group>"; };
 		2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LibraryPreferenceViewController.xib; path = preferences/LibraryPreferenceViewController.xib; sourceTree = "<group>"; };
+		2B5B340717768E830093C292 /* defaultPrefs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaultPrefs.plist; sourceTree = "<group>"; };
 		2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarSeekButtonNS.h; sourceTree = "<group>"; };
 		2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarSeekButtonNS.m; sourceTree = "<group>"; };
 		2B5DA981162758320057D0D5 /* SliderBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBar.h; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 				2B15BF74146127A100DC46CD /* main.m */,
 				2B15BF76146127A100DC46CD /* fb2kmac-Prefix.pch */,
 				2B15BF77146127A100DC46CD /* Credits.rtf */,
+				2B5B340717768E830093C292 /* defaultPrefs.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */,
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
 				2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */,
+				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

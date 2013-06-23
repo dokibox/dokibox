@@ -26,6 +26,10 @@
     
     PluginManager *pluginManager = [PluginManager sharedInstance];
     [pluginManager loadAll];
+    
+    NSString *defaultPrefsFile = [[NSBundle mainBundle] pathForResource:@"defaultPrefs" ofType:@"plist"];
+    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:defaultPrefsFile];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];
 
     _musicController = [[MusicController alloc] init];
     

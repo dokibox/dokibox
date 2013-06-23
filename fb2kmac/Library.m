@@ -262,7 +262,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)startFSMonitor
 {
-    CFStringRef path = (__bridge CFStringRef)([@"~/fb2kmusic" stringByExpandingTildeInPath]);
+    CFStringRef path = (__bridge CFStringRef)([[[NSUserDefaults standardUserDefaults] stringForKey:@"libraryLocation"] stringByExpandingTildeInPath]);
     CFArrayRef pathArray = CFArrayCreate(NULL, (const void **)&path, 1, NULL);
     
     FSEventStreamContext context;
@@ -276,13 +276,14 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     if((lastEventID = [_userDefaults integerForKey:@"libraryMonitoringLastEventID"]) == 0) {
         lastEventID = FSEventsGetCurrentEventId();
         [_userDefaults setInteger:lastEventID forKey:@"libraryMonitoringLastEventID"];
+        [self searchDirectory:(__bridge NSString *)path];
     }
     
     FSEventStreamEventId since = lastEventID;
     FSEventStreamRef stream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
     FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(stream);
-    NSLog(@"started FS monitor");
+    NSLog(@"started FS monitor for %@", path);
 }
 
 @end
