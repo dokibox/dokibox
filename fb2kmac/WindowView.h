@@ -8,12 +8,9 @@
 
 #import "TUIView.h"
 #import "PlaylistView.h"
-#import "Library.h"
 
 @interface WindowView : TUIView {
-    PlaylistView *_playlistView;
-    Library *_library;
-    
+    PlaylistView *_playlistView;    
     CGFloat width_divider;
 }
 

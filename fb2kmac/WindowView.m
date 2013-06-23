@@ -24,14 +24,7 @@
         int inlay = 20;
         width_divider = 0.60;
                 
-        _library = [[Library alloc] init];
-        //[_library searchDirectory:@"/Volumes/MILES'S IPO/iPod_Control/Music"];
-        //[_library searchDirectory:[@"~/fb2kmusic" stringByExpandingTildeInPath] recurse:YES];
-        [_library startFSMonitor];
-        
         __block typeof(self) bself = self;
-        
-        
 
         LibraryView *libraryView = [[LibraryView alloc] initWithFrame:CGRectZero];
         libraryView.layout = ^(TUIView *v) {

@@ -32,6 +32,8 @@
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];
 
     _musicController = [[MusicController alloc] init];
+    _library = [[Library alloc] init];
+    [_library startFSMonitor];
     
 	CGRect b = CGRectMake(0, 0, 500, 450);
 	

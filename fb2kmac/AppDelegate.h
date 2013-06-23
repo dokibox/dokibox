@@ -12,12 +12,14 @@
 #import "MusicController.h"
 #import "Window.h"
 #import "MASPreferencesWindowController.h"
+#import "Library.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     Window    * _window;
     MusicController *_musicController;
     NSWindowController *_preferencesWindowController;
+    Library *_library;
 }
 
 -(IBAction)openPreferences:(id)sender;
