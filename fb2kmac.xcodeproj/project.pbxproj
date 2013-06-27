@@ -444,65 +444,20 @@
 		2B15BF6E146127A100DC46CD /* fb2kmac */ = {
 			isa = PBXGroup;
 			children = (
-				2B5B33F317763BC10093C292 /* preferences */,
-				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
-				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
-				2B53558415D0797D0054E61F /* Button.h */,
-				2B53558515D0797D0054E61F /* Button.m */,
-				2BF18DCE15A3AA89000C906E /* Column.h */,
-				2BF18DCF15A3AA8A000C906E /* Column.m */,
-				2BEC84B8147C602B008102F8 /* common.h */,
+				2B82B257177C03C600E1EA0B /* app */,
 				2B80D45016920361000F3392 /* decoders */,
-				2B86BDBF15216B740022E813 /* FIFOBuffer.h */,
-				2B86BDC015216B740022E813 /* FIFOBuffer.m */,
-				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
-				2B466061147C4C6E0036B5AB /* MusicController.h */,
-				2B466062147C4C6F0036B5AB /* MusicController.m */,
-				2BBAC63D15C4193200965635 /* Playlist.h */,
-				2BBAC63E15C4193300965635 /* Playlist.m */,
-				2B8DB9341479FB7E006133CA /* PlaylistTrack.h */,
-				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
-				2BBEC89C16C60A7E00160279 /* Library.h */,
-				2BBEC89D16C60A7F00160279 /* Library.m */,
-				2B65ED1916C7447500DD327D /* CoreDataManager.h */,
-				2B65ED1A16C7447500DD327D /* CoreDataManager.m */,
-				2B65ED2316C8906700DD327D /* Artist.h */,
-				2B65ED2416C8906800DD327D /* Artist.m */,
-				2B65ED2616C8907100DD327D /* Album.h */,
-				2B65ED2716C8907100DD327D /* Album.m */,
-				2B65ED1C16C8381900DD327D /* Track.h */,
-				2B65ED1D16C8381900DD327D /* Track.m */,
-				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
-				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
-				2BF18DC515A0BBD1000C906E /* PlaylistView.h */,
-				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
-				2BBEC89016C20EF200160279 /* LibraryView.h */,
-				2BBEC89116C20EF200160279 /* LibraryView.m */,
-				2BBEC89316C32B3B00160279 /* LibraryViewArtistCell.h */,
-				2BBEC89416C32B3B00160279 /* LibraryViewArtistCell.m */,
-				2BBEC89616C36AC100160279 /* LibraryViewAlbumCell.h */,
-				2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */,
-				2BBEC89916C44C0800160279 /* LibraryViewTrackCell.h */,
-				2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */,
+				2B82B255177C034E00E1EA0B /* library backend */,
+				2B82B256177C035F00E1EA0B /* library view */,
+				2B82B258177C03D400E1EA0B /* playback */,
+				2B82B259177C043800E1EA0B /* playlist backend */,
+				2B82B25A177C044000E1EA0B /* playlist view */,
 				2BB25CC11697304600243B27 /* plugins */,
-				2B5DA981162758320057D0D5 /* SliderBar.h */,
-				2B5DA982162758320057D0D5 /* SliderBar.m */,
-				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
-				2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */,
+				2B5B33F317763BC10093C292 /* preferences */,
+				2B82B25C177C047900E1EA0B /* tagging */,
+				2B82B24F177C032C00E1EA0B /* titlebar */,
+				2B82B25B177C046000E1EA0B /* window */,
+				2BEC84B8147C602B008102F8 /* common.h */,
 				2B15BF6F146127A100DC46CD /* Supporting Files */,
-				2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */,
-				2BAC978C15BC571400FBE907 /* TaglibTagger.h */,
-				2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */,
-				2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */,
-				2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */,
-				2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */,
-				2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */,
-				2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */,
-				2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */,
-				2B1FEF6115D9C9BB003C4435 /* Window.h */,
-				2B1FEF6215D9C9BB003C4435 /* Window.m */,
-				2BF18DC815A0BC3C000C906E /* WindowView.h */,
-				2BF18DC915A0BC3C000C906E /* WindowView.m */,
 			);
 			path = fb2kmac;
 			sourceTree = "<group>";
@@ -576,6 +531,123 @@
 			);
 			name = decoders;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		2B82B24F177C032C00E1EA0B /* titlebar */ = {
+			isa = PBXGroup;
+			children = (
+				2B53558415D0797D0054E61F /* Button.h */,
+				2B53558515D0797D0054E61F /* Button.m */,
+				2B5DA981162758320057D0D5 /* SliderBar.h */,
+				2B5DA982162758320057D0D5 /* SliderBar.m */,
+				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
+				2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */,
+				2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */,
+				2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */,
+				2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */,
+				2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */,
+				2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */,
+				2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */,
+			);
+			name = titlebar;
+			sourceTree = "<group>";
+		};
+		2B82B255177C034E00E1EA0B /* library backend */ = {
+			isa = PBXGroup;
+			children = (
+				2BBEC89C16C60A7E00160279 /* Library.h */,
+				2BBEC89D16C60A7F00160279 /* Library.m */,
+				2B65ED1916C7447500DD327D /* CoreDataManager.h */,
+				2B65ED1A16C7447500DD327D /* CoreDataManager.m */,
+				2B65ED2316C8906700DD327D /* Artist.h */,
+				2B65ED2416C8906800DD327D /* Artist.m */,
+				2B65ED2616C8907100DD327D /* Album.h */,
+				2B65ED2716C8907100DD327D /* Album.m */,
+				2B65ED1C16C8381900DD327D /* Track.h */,
+				2B65ED1D16C8381900DD327D /* Track.m */,
+			);
+			name = "library backend";
+			sourceTree = "<group>";
+		};
+		2B82B256177C035F00E1EA0B /* library view */ = {
+			isa = PBXGroup;
+			children = (
+				2BBEC89016C20EF200160279 /* LibraryView.h */,
+				2BBEC89116C20EF200160279 /* LibraryView.m */,
+				2BBEC89316C32B3B00160279 /* LibraryViewArtistCell.h */,
+				2BBEC89416C32B3B00160279 /* LibraryViewArtistCell.m */,
+				2BBEC89616C36AC100160279 /* LibraryViewAlbumCell.h */,
+				2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */,
+				2BBEC89916C44C0800160279 /* LibraryViewTrackCell.h */,
+				2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */,
+			);
+			name = "library view";
+			sourceTree = "<group>";
+		};
+		2B82B257177C03C600E1EA0B /* app */ = {
+			isa = PBXGroup;
+			children = (
+				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
+				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
+			);
+			name = app;
+			sourceTree = "<group>";
+		};
+		2B82B258177C03D400E1EA0B /* playback */ = {
+			isa = PBXGroup;
+			children = (
+				2B86BDBF15216B740022E813 /* FIFOBuffer.h */,
+				2B86BDC015216B740022E813 /* FIFOBuffer.m */,
+				2B466061147C4C6E0036B5AB /* MusicController.h */,
+				2B466062147C4C6F0036B5AB /* MusicController.m */,
+			);
+			name = playback;
+			sourceTree = "<group>";
+		};
+		2B82B259177C043800E1EA0B /* playlist backend */ = {
+			isa = PBXGroup;
+			children = (
+				2BBAC63D15C4193200965635 /* Playlist.h */,
+				2BBAC63E15C4193300965635 /* Playlist.m */,
+				2B8DB9341479FB7E006133CA /* PlaylistTrack.h */,
+				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
+			);
+			name = "playlist backend";
+			sourceTree = "<group>";
+		};
+		2B82B25A177C044000E1EA0B /* playlist view */ = {
+			isa = PBXGroup;
+			children = (
+				2BF18DCE15A3AA89000C906E /* Column.h */,
+				2BF18DCF15A3AA8A000C906E /* Column.m */,
+				2BF18DCB15A0C10E000C906E /* PlaylistTrackCell.h */,
+				2BF18DCC15A0C10E000C906E /* PlaylistTrackCell.m */,
+				2BF18DC515A0BBD1000C906E /* PlaylistView.h */,
+				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
+			);
+			name = "playlist view";
+			sourceTree = "<group>";
+		};
+		2B82B25B177C046000E1EA0B /* window */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FEF6115D9C9BB003C4435 /* Window.h */,
+				2B1FEF6215D9C9BB003C4435 /* Window.m */,
+				2BF18DC815A0BC3C000C906E /* WindowView.h */,
+				2BF18DC915A0BC3C000C906E /* WindowView.m */,
+			);
+			name = window;
+			sourceTree = "<group>";
+		};
+		2B82B25C177C047900E1EA0B /* tagging */ = {
+			isa = PBXGroup;
+			children = (
+				2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */,
+				2BAC978C15BC571400FBE907 /* TaglibTagger.h */,
+				2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */,
+			);
+			name = tagging;
 			sourceTree = "<group>";
 		};
 		2BB25CC11697304600243B27 /* plugins */ = {
