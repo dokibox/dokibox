@@ -1,24 +1,32 @@
 [submodule "deps/flac"]
 	path = deps/flac
 	url = git://git.xiph.org/flac.git
+	ignore = dirty
 [submodule "deps/ogg"]
 	path = deps/ogg
 	url = git://git.xiph.org/mirrors/ogg.git
+	ignore = dirty
 [submodule "deps/vorbis"]
 	path = deps/vorbis
 	url = git://git.xiph.org/mirrors/vorbis.git
+	ignore = dirty
 [submodule "deps/mpg123"]
 	path = deps/mpg123
 	url = git://github.com/mileswu/mpg123.git
+	ignore = dirty
 [submodule "deps/twui"]
 	path = deps/twui
 	url = git://github.com/mileswu/twui.git
+	ignore = dirty
 [submodule "deps/taglib"]
 	path = deps/taglib
 	url = git://github.com/taglib/taglib.git
+	ignore = dirty
 [submodule "deps/cocoalumberjack"]
 	path = deps/cocoalumberjack
 	url = git://github.com/robbiehanson/CocoaLumberjack.git
+	ignore = dirty
 [submodule "deps/MASPreferences"]
 	path = deps/MASPreferences
 	url = git@github.com:shpakovski/MASPreferences.git
+	ignore = dirty
