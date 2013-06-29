@@ -262,8 +262,9 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)startFSMonitor
 {
-    CFStringRef path = (__bridge CFStringRef)([[[NSUserDefaults standardUserDefaults] stringForKey:@"libraryLocation"] stringByExpandingTildeInPath]);
-    CFArrayRef pathArray = CFArrayCreate(NULL, (const void **)&path, 1, NULL);
+    NSString *path = [[[NSUserDefaults standardUserDefaults] stringForKey:@"libraryLocation"] stringByExpandingTildeInPath];
+    CFStringRef cfpath = (__bridge CFStringRef)(path);
+    CFArrayRef pathArray = CFArrayCreate(NULL, (const void **)&cfpath, 1, NULL);
     
     FSEventStreamContext context;
     context.retain = NULL;
@@ -276,7 +277,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     if((lastEventID = [_userDefaults integerForKey:@"libraryMonitoringLastEventID"]) == 0) {
         lastEventID = FSEventsGetCurrentEventId();
         [_userDefaults setInteger:lastEventID forKey:@"libraryMonitoringLastEventID"];
-        [self searchDirectory:(__bridge NSString *)path];
     }
     
     FSEventStreamEventId since = lastEventID;
@@ -284,6 +284,17 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     FSEventStreamScheduleWithRunLoop(_fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(_fsEventStream);
     NSLog(@"started FS monitor for %@", path);
+    
+    // Initial search of directory
+    if([_userDefaults boolForKey:@"libraryMonitoringInitialDone"] == NO) {
+        dispatch_async(_dispatchQueue, ^{
+            DDLogVerbose(@"Starting initial library search");
+            [self searchDirectory:path];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"libraryMonitoringInitialDone"];
+            DDLogVerbose(@"Finished initial library search");
+        });
+    }
+
 }
 
 -(void)stopFSMonitor
@@ -326,6 +337,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         [self stopFSMonitor];
     }
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"libraryMonitoringLastEventID"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"libraryMonitoringInitialDone"];
     [self removeAll:@"track"];
     [self removeAll:@"album"];
     [self removeAll:@"artist"];
