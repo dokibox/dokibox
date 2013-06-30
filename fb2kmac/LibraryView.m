@@ -34,7 +34,11 @@
         
         NSError *error;
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        [fr setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                     initWithKey:@"name"
+                                     ascending:YES
+                                     selector:@selector(localizedCaseInsensitiveCompare:)];
+        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
         NSDate *d1 = [NSDate date];
         NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
         [_celldata addObjectsFromArray:results];
@@ -73,7 +77,7 @@
                     if([[_celldata objectAtIndex:i] isKindOfClass:[Track class]] || [[_celldata objectAtIndex:i] isKindOfClass:[Album class]]) {
                         continue; // skip over tracks and albums
                     }
-                    if([name compare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
+                    if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
                         insertIndex = i; // if we are above this item, then we know to put it here
                         break;
                     }
@@ -96,7 +100,7 @@
                     if([[_celldata objectAtIndex:i] isKindOfClass:[Track class]]) {
                         continue; //skip over tracks
                     }
-                    if([name compare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
+                    if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
                         insertIndex = i;
                         break;
                     }
@@ -115,7 +119,7 @@
                         insertIndex = i; //reached the end of the expanded block
                         break;
                     }
-                    if([name compare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
+                    if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
                         insertIndex = i;
                         break;
                     }
@@ -296,7 +300,10 @@
         NSUInteger i = row + 1;
         
         if(![self isRowExpanded:row]) {
-            NSSortDescriptor *sortd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            NSSortDescriptor *sortd = [[NSSortDescriptor alloc]
+                                        initWithKey:@"name"
+                                        ascending:YES
+                                        selector:@selector(localizedCaseInsensitiveCompare:)];
             for(Album *album in [[artist albums] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
                 [_celldata insertObject:album atIndex:i];
                 i++;
@@ -319,7 +326,10 @@
         NSUInteger i = row + 1;
         
         // this needs to be changed to tracknumber
-        NSSortDescriptor *sortd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        NSSortDescriptor *sortd = [[NSSortDescriptor alloc]
+                                   initWithKey:@"name"
+                                   ascending:YES
+                                   selector:@selector(localizedCaseInsensitiveCompare:)];
         
         for(Track *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
             [_celldata insertObject:track atIndex:i];
