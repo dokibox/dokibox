@@ -51,7 +51,7 @@
     }
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"album"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name LIKE %@) AND (artist.name LIKE %@)", albumName, artistName];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name == %@) AND (artist.name == %@)", albumName, artistName];
     [fr setPredicate:predicate];
     
     NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];

@@ -26,7 +26,7 @@
     }
     
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name LIKE %@", artistName];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", artistName];
     [fr setPredicate:predicate];
     
     NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];
