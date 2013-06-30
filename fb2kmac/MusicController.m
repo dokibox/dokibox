@@ -295,7 +295,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     
     _prevElapsedTimeSent = 0;
     [self setElapsedFrames:0];
-    
+    [fifoBuffer reset];
     [self fillBuffer];
         
     AUGraphStart(_outputGraph);
