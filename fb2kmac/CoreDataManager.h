@@ -10,13 +10,24 @@
 #import <CoreData/CoreData.h>
 
 @interface CoreDataManager : NSObject {
-    NSManagedObjectModel *_model;
     NSPersistentStoreCoordinator *_persistanceCoordinator;
 }
 +(CoreDataManager *)sharedInstance;
--(NSManagedObjectModel*)model;
 +(NSManagedObjectContext *)newContext;
+-(id)initWithFilename:(NSString *)filename andModel:(NSManagedObjectModel *)model;
 
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 
 @end
+
+#define SHAREDINSTANCE           \
++(CoreDataManager *)sharedInstance \
+{ \
+    static dispatch_once_t pred; \
+    static CoreDataManager *shared = nil;\
+    \
+    dispatch_once(&pred, ^{ \
+        shared = [[[self class] alloc] init]; \
+    }); \
+    return shared; \
+}

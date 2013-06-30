@@ -10,7 +10,7 @@
 #import "LibraryViewArtistCell.h"
 #import "LibraryViewAlbumCell.h"
 #import "LibraryViewTrackCell.h"
-#import "CoreDataManager.h"
+#import "LibraryCoreDataManager.h"
 #import "Artist.h"
 
 @implementation LibraryView
@@ -30,7 +30,7 @@
         [self addSubview:_tableView];
         
         _celldata = [[NSMutableArray alloc] init];
-        _objectContext = [CoreDataManager newContext];
+        _objectContext = [LibraryCoreDataManager newContext];
         
         NSError *error;
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];

@@ -8,7 +8,7 @@
 
 #import "Library.h"
 #import "Track.h"
-#import "CoreDataManager.h"
+#import "LibraryCoreDataManager.h"
 #import <CoreServices/CoreServices.h>
 
 
@@ -94,7 +94,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
         
         dispatch_async(_dispatchQueue, ^{
-            _objectContext = [CoreDataManager newContext];
+            _objectContext = [LibraryCoreDataManager newContext];
         });
         
         _userDefaults = [NSUserDefaults standardUserDefaults];
