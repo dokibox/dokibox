@@ -7,34 +7,13 @@
 //
 
 #import "LibraryTrack.h"
-#import "common.h"
 #import "LibraryArtist.h"
 #import "LibraryAlbum.h"
 #import "CoreDataManager.h"
 
 @implementation LibraryTrack
-@dynamic filename;
-@dynamic name;
-@dynamic primitiveAttributes;
 @dynamic album;
 @dynamic tracks;
-
--(NSMutableDictionary *)attributes
-{
-    [self willAccessValueForKey:@"attributes"];
-    NSMutableDictionary *dict = [self primitiveAttributes];
-    [self didAccessValueForKey:@"attributes"];
-    if(dict == nil) {
-        id<TaggerProtocol> tagger = [[TaglibTagger alloc] initWithFilename:[self filename]];
-        if(!tagger) {
-            DDLogWarn(@"Tagger wasn't initialized properly");
-            return nil;
-        }
-        dict = [tagger tag];
-        [self setPrimitiveAttributes:dict];
-    }
-    return dict;
-}
 
 -(void)didTurnIntoFault {
     //NSLog(@"hi turned into fault");
@@ -68,11 +47,6 @@
     }
     
     [self setAlbum:album];
-}
-
--(void)resetAttributeCache
-{
-    [self setPrimitiveAttributes:nil];
 }
 
 -(void)prepareForDeletion

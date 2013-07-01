@@ -8,17 +8,14 @@
 
 #import <CoreData/CoreData.h>
 #import "common.h"
+#import "ManagedObjectTrack.h"
 
-@interface LibraryTrack : NSManagedObject
+@interface LibraryTrack : ManagedObjectTrack
 
 -(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName;
--(void)resetAttributeCache;
 
-@property (nonatomic) NSString *filename;
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSMutableDictionary *primitiveAttributes;
+
 @property (nonatomic) LibraryAlbum *album;
-@property (readonly, nonatomic) NSMutableDictionary *attributes;
 @property (readonly, nonatomic) NSSet* tracks;
 
 @end
