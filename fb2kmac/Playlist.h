@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "PlaylistTrack.h"
 
-@interface Playlist : NSObject {
-    NSMutableArray *_tracks;
+@interface Playlist : NSManagedObject {
 }
 
 -(NSUInteger)numberOfTracks;
@@ -21,5 +21,8 @@
 -(void)addTrack:(PlaylistTrack *)track;
 -(void)playTrackAtIndex:(NSUInteger)index;
 -(void)receivedTrackEndedNotification:(NSNotification *)notification;
+
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSMutableOrderedSet* tracks;
 
 @end

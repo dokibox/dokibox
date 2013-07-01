@@ -11,24 +11,14 @@
 
 @implementation PlaylistTrack
 
-@synthesize attributes = _attributes;
-@synthesize filename = _filename;
+@dynamic artistName;
+@dynamic albumName;
 
-- (id)init {
-    self = [super init];
-    _attributes = [NSMutableDictionary dictionary];
-    return self;
-}
-
-- (id)initWithFilename:(NSString *)filename {
-    self = [self init];
-    
-    id<TaggerProtocol> tagger = [[TaglibTagger alloc] initWithFilename:filename];
-    _attributes = [tagger tag];
-    
-    _filename = filename;
-    
-    return self;
++(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext
+{
+    PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
+    [t setFilename:filename];
+    return t;
 }
 
 @end

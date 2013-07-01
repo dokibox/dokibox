@@ -8,16 +8,19 @@
 
 #import "PlaylistView.h"
 #import "MusicController.h"
+#import "PlaylistCoreDataManager.h"
 
 @implementation PlaylistView
 @synthesize playlist = _playlist;
 
-- (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist
+- (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
 		self.backgroundColor = [TUIColor colorWithWhite:0.5 alpha:1.0];
+        
+        _objectContext = [PlaylistCoreDataManager newContext];
 
-        _playlist = playlist;
+        _playlist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
         
         _tableView = [[TUITableView alloc] initWithFrame:self.bounds];
         [_tableView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
@@ -38,7 +41,7 @@
     NSArray *tracks = [notification object];
     for (NSString *s in tracks) {
         if([MusicController isSupportedAudioFile:s]) {
-            PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
+            PlaylistTrack *t = [PlaylistTrack trackWithFilename:s inContext:_objectContext];
             [_playlist addTrack:t];
         }
     }
@@ -95,7 +98,7 @@
     for (NSString *s in [filenames reverseObjectEnumerator]) {
         if([MusicController isSupportedAudioFile:s]) {
             count++;
-            PlaylistTrack *t = [[PlaylistTrack alloc] initWithFilename:s];
+            PlaylistTrack *t = [PlaylistTrack trackWithFilename:s inContext:_objectContext];
             if([path row] == [_playlist numberOfTracks])
                 [_playlist addTrack:t];
             else

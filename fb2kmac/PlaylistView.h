@@ -15,9 +15,9 @@
 {
     TUITableView *_tableView;
     Playlist *_playlist;
+    NSManagedObjectContext *_objectContext;
 }
 
-- (id)initWithFrame:(CGRect)frame andPlaylist:(Playlist *)playlist;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 
 @property Playlist *playlist;

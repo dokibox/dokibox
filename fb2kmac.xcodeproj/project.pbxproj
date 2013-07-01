@@ -40,6 +40,7 @@
 		2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B824B4D15E1BAF500B26228 /* CoreAudio.framework */; };
 		2B82B25F1780EDB700E1EA0B /* LibraryCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82B25E1780EDB700E1EA0B /* LibraryCoreDataManager.m */; };
 		2B82B272178114C400E1EA0B /* ManagedObjectTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82B271178114C400E1EA0B /* ManagedObjectTrack.m */; };
+		2B82B2621780F3E900E1EA0B /* PlaylistCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82B2611780F3E900E1EA0B /* PlaylistCoreDataManager.m */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -273,6 +274,8 @@
 		2B82B25E1780EDB700E1EA0B /* LibraryCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryCoreDataManager.m; sourceTree = "<group>"; };
 		2B82B270178114C400E1EA0B /* ManagedObjectTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectTrack.h; sourceTree = "<group>"; };
 		2B82B271178114C400E1EA0B /* ManagedObjectTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectTrack.m; sourceTree = "<group>"; };
+		2B82B2601780F3E900E1EA0B /* PlaylistCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistCoreDataManager.h; sourceTree = "<group>"; };
+		2B82B2611780F3E900E1EA0B /* PlaylistCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistCoreDataManager.m; sourceTree = "<group>"; };
 		2B86BDBF15216B740022E813 /* FIFOBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFOBuffer.h; sourceTree = "<group>"; };
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
@@ -622,6 +625,8 @@
 				2BBAC63E15C4193300965635 /* Playlist.m */,
 				2B8DB9341479FB7E006133CA /* PlaylistTrack.h */,
 				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
+				2B82B2601780F3E900E1EA0B /* PlaylistCoreDataManager.h */,
+				2B82B2611780F3E900E1EA0B /* PlaylistCoreDataManager.m */,
 			);
 			name = "playlist backend";
 			sourceTree = "<group>";
@@ -951,6 +956,7 @@
 				2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */,
 				2B82B25F1780EDB700E1EA0B /* LibraryCoreDataManager.m in Sources */,
 				2B82B272178114C400E1EA0B /* ManagedObjectTrack.m in Sources */,
+				2B82B2621780F3E900E1EA0B /* PlaylistCoreDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,35 +10,31 @@
 
 @implementation Playlist
 
--(id)init {
-    if((self = [super init])) {
-        _tracks = [NSMutableArray array];
-    }
-    return self;
-}
+@dynamic name;
+@dynamic tracks;
 
 -(NSUInteger)numberOfTracks {
-    return [_tracks count];
+    return [[self tracks] count];
 }
 
 -(NSUInteger)getTrackIndex:(PlaylistTrack *)track {
-    return [_tracks indexOfObject:track];
+    return [[self tracks] indexOfObject:track];
 }
 
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index {
-    return [_tracks objectAtIndex:index];
+    return [[self tracks] objectAtIndex:index];
 }
 
 -(void)removeTrackAtIndex:(NSUInteger)index {
-    [_tracks removeObjectAtIndex:index];
+    [[self tracks] removeObjectAtIndex:index];
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index {
-    [_tracks insertObject:track atIndex:index];
+    [[self tracks] insertObject:track atIndex:index];
 }
 
 -(void)addTrack:(PlaylistTrack *)track {
-    [_tracks addObject:track];
+    [[self tracks] addObject:track];
 }
 
 -(void)playTrackAtIndex:(NSUInteger)index {
@@ -53,7 +49,7 @@
     
     if([notification object] != nil) {
         PlaylistTrack *trackJustEnded = [notification object];
-        NSUInteger index = [_tracks indexOfObject:trackJustEnded];
+        NSUInteger index = [[self tracks] indexOfObject:trackJustEnded];
         if(index != NSNotFound && index != [self numberOfTracks]-1) {
             index += 1;
             [self playTrackAtIndex:index];

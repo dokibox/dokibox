@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "common.h"
+#import "ManagedObjectTrack.h"
 
-
-@interface PlaylistTrack : NSObject {
-    NSMutableDictionary *_attributes;
-    NSString *_filename;
+@interface PlaylistTrack : ManagedObjectTrack {
 }
-@property (readonly) NSMutableDictionary *attributes;
-@property (copy) NSString *filename;
 
-- (id)initWithFilename:(NSString *)filename;
++(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
+
+@property (nonatomic) NSString *albumName;
+@property (nonatomic) NSString *artistName;
 
 @end

@@ -40,8 +40,7 @@
         };
         [self addSubview:libraryView];
         
-        Playlist *playlist = [[Playlist alloc] init];
-        _playlistView = [[PlaylistView alloc] initWithFrame:CGRectZero andPlaylist:playlist];
+        _playlistView = [[PlaylistView alloc] initWithFrame:CGRectZero];
         _playlistView.layout = ^(TUIView *v) {
             CGRect b = v.superview.bounds;
             b.origin.y += inlay;
