@@ -16,7 +16,7 @@
     FSEventStreamRef _fsEventStream;
 }
 
--(Track *)trackFromFile:(NSString *)file;
+-(LibraryTrack *)trackFromFile:(NSString *)file;
 -(void)addFileOrUpdate:(NSString*)file;
 -(void)removeFile:(NSString*)file;
 -(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;

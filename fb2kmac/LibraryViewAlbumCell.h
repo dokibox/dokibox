@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "TUIKit.h"
-#import "Album.h"
+#import "LibraryAlbum.h"
 
 @interface LibraryViewAlbumCell : TUITableViewCell {
     TUITextRenderer *_textRenderer;
-    Album *_album;
+    LibraryAlbum *_album;
 }
 
-@property() Album* album;
+@property() LibraryAlbum* album;
 
 @end

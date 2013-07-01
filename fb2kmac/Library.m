@@ -7,7 +7,7 @@
 //
 
 #import "Library.h"
-#import "Track.h"
+#import "LibraryTrack.h"
 #import "LibraryCoreDataManager.h"
 #import <CoreServices/CoreServices.h>
 
@@ -141,7 +141,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 }
 
--(Track *)trackFromFile:(NSString *)file
+-(LibraryTrack *)trackFromFile:(NSString *)file
 {
     NSError *error;
     
@@ -174,7 +174,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         return;
     
     NSError *error;
-    Track *t = [self trackFromFile:file];
+    LibraryTrack *t = [self trackFromFile:file];
     BOOL isNew = false;
     
     if(!t) {
@@ -230,7 +230,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         return;
     }
     
-    for(Track *t in results) {
+    for(LibraryTrack *t in results) {
         [self removeFile:[t filename]];
     }
 }
@@ -245,7 +245,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
     
     NSError *error;
-    Track *t = [self trackFromFile:file];
+    LibraryTrack *t = [self trackFromFile:file];
     
     if(t) {
         DDLogVerbose(@"Deleting file: %@", file);

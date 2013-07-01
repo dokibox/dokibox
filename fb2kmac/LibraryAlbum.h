@@ -9,13 +9,13 @@
 #import <CoreData/CoreData.h>
 #import "common.h"
 
-@interface Album : NSManagedObject
+@interface LibraryAlbum : NSManagedObject
 
 -(void)setArtistByName:(NSString *)artistName;
--(void)pruneDueToTrackBeingDeleted:(Track *)track;
+-(void)pruneDueToTrackBeingDeleted:(LibraryTrack *)track;
 
 @property (nonatomic) NSString *name;
-@property (nonatomic) Artist *artist;
+@property (nonatomic) LibraryArtist *artist;
 @property (nonatomic) NSSet* tracks;
 
 

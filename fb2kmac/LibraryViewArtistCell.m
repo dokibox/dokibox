@@ -7,7 +7,7 @@
 //
 
 #import "LibraryViewArtistCell.h"
-#import "Album.h"
+#import "LibraryAlbum.h"
 #import "CoreDataManager.h"
 
 @implementation LibraryViewArtistCell

@@ -11,7 +11,7 @@
 #import "LibraryViewAlbumCell.h"
 #import "LibraryViewTrackCell.h"
 #import "LibraryCoreDataManager.h"
-#import "Artist.h"
+#import "LibraryArtist.h"
 
 @implementation LibraryView
 
@@ -67,14 +67,14 @@
         NSString *name = [m valueForKey:@"name"];
         NSLog(@"inserting %@", name);
         
-        if([m isKindOfClass:[Artist class]]) {
+        if([m isKindOfClass:[LibraryArtist class]]) {
             NSUInteger insertIndex = [_celldata count];
             if([_celldata count] == 0) { // if list is empty, only one place to go
                 insertIndex = 0;
             }
             else {
                 for(NSUInteger i = 0; i < [_celldata count]; i++) {
-                    if([[_celldata objectAtIndex:i] isKindOfClass:[Track class]] || [[_celldata objectAtIndex:i] isKindOfClass:[Album class]]) {
+                    if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryTrack class]] || [[_celldata objectAtIndex:i] isKindOfClass:[LibraryAlbum class]]) {
                         continue; // skip over tracks and albums
                     }
                     if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
@@ -86,18 +86,18 @@
             [_celldata insertObject:m atIndex:insertIndex];
         }
         
-        if([m isKindOfClass:[Album class]]) {
-            Album *a = (Album *)m;
+        if([m isKindOfClass:[LibraryAlbum class]]) {
+            LibraryAlbum *a = (LibraryAlbum *)m;
             NSUInteger parent_index = [_celldata indexOfObject:[a artist]];
             
             if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent artist is expanded
                 NSUInteger insertIndex = [_celldata count];
                 for(NSUInteger i = parent_index + 1; i < [_celldata count]; i++) {
-                    if([[_celldata objectAtIndex:i] isKindOfClass:[Artist class]]) {
+                    if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
                         insertIndex = i; //reached the end of the expanded block
                         break;
                     }
-                    if([[_celldata objectAtIndex:i] isKindOfClass:[Track class]]) {
+                    if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryTrack class]]) {
                         continue; //skip over tracks
                     }
                     if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
@@ -108,14 +108,14 @@
                 [_celldata insertObject:m atIndex:insertIndex];
             }
         }
-        if([m isKindOfClass:[Track class]]) {
-            Track *t = (Track *)m;
+        if([m isKindOfClass:[LibraryTrack class]]) {
+            LibraryTrack *t = (LibraryTrack *)m;
             NSUInteger parent_index = [_celldata indexOfObject:[t album]];
             
             if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent album is expanded
                 NSUInteger insertIndex = [_celldata count];
                 for(NSUInteger i = parent_index + 1; i < [_celldata count]; i++) {
-                    if([[_celldata objectAtIndex:i] isKindOfClass:[Album class]] || [[_celldata objectAtIndex:i] isKindOfClass:[Artist class]]) {
+                    if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryAlbum class]] || [[_celldata objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
                         insertIndex = i; //reached the end of the expanded block
                         break;
                     }
@@ -157,13 +157,13 @@
 - (CGFloat)tableView:(TUITableView *)tableView heightForRowAtIndexPath:(TUIFastIndexPath *)indexPath
 {
     NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
-    if([obj isKindOfClass:[Artist class]]) {
+    if([obj isKindOfClass:[LibraryArtist class]]) {
         return 25.0;
     }
-    else if([obj isKindOfClass:[Album class]]) {
+    else if([obj isKindOfClass:[LibraryAlbum class]]) {
         return 50.0;
     }
-    else if([obj isKindOfClass:[Track class]]) {
+    else if([obj isKindOfClass:[LibraryTrack class]]) {
         return 20.0;
     }
     else {
@@ -187,17 +187,17 @@
         cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);*/
     
     NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
-    if([obj isKindOfClass:[Artist class]]) {
+    if([obj isKindOfClass:[LibraryArtist class]]) {
         cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
-        [((LibraryViewArtistCell *)cell) setArtist:(Artist *)[_celldata objectAtIndex:[indexPath row]]];
+        [((LibraryViewArtistCell *)cell) setArtist:(LibraryArtist *)[_celldata objectAtIndex:[indexPath row]]];
     }
-    else if([obj isKindOfClass:[Album class]]) {
+    else if([obj isKindOfClass:[LibraryAlbum class]]) {
         cell = reusableTableCellOfClass(tableView, LibraryViewAlbumCell);
-        [((LibraryViewAlbumCell *)cell) setAlbum:(Album *)[_celldata objectAtIndex:[indexPath row]]];
+        [((LibraryViewAlbumCell *)cell) setAlbum:(LibraryAlbum *)[_celldata objectAtIndex:[indexPath row]]];
     }
-    else if([obj isKindOfClass:[Track class]]) {
+    else if([obj isKindOfClass:[LibraryTrack class]]) {
         cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);
-        [((LibraryViewTrackCell *)cell) setTrack:(Track *)[_celldata objectAtIndex:[indexPath row]]];
+        [((LibraryViewTrackCell *)cell) setTrack:(LibraryTrack *)[_celldata objectAtIndex:[indexPath row]]];
     }
     
     
@@ -212,14 +212,14 @@
     
     NSObject *c1 = [_celldata objectAtIndex:row];
     NSObject *c2 = [_celldata objectAtIndex:row+1];
-    if([c1 isKindOfClass:[Artist class]]) {
-        if([c2 isKindOfClass:[Album class]])
+    if([c1 isKindOfClass:[LibraryArtist class]]) {
+        if([c2 isKindOfClass:[LibraryAlbum class]])
             return YES;
         else
             return NO;
     }
-    else if([c1 isKindOfClass:[Album class]]) {
-        if([c2 isKindOfClass:[Track class]])
+    else if([c1 isKindOfClass:[LibraryAlbum class]]) {
+        if([c2 isKindOfClass:[LibraryTrack class]])
             return YES;
         else
             return NO;
@@ -236,19 +236,19 @@
         
         NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
         NSMutableArray *tracks = [[NSMutableArray alloc] init];
-        if([obj isKindOfClass:[Track class]]) { // if its a track, only one
-            [tracks addObject:[((Track *)obj) filename]];
+        if([obj isKindOfClass:[LibraryTrack class]]) { // if its a track, only one
+            [tracks addObject:[((LibraryTrack *)obj) filename]];
         }
         else {
             for(NSUInteger i = [indexPath row] + 1; i<[_celldata count]; i++) {
                 NSObject *obj2 = [_celldata objectAtIndex:i];
-                if([obj isKindOfClass:[Album class]] && ([obj2 isKindOfClass:[Album class]] || [obj2 isKindOfClass:[Album class]]))
+                if([obj isKindOfClass:[LibraryAlbum class]] && ([obj2 isKindOfClass:[LibraryAlbum class]] || [obj2 isKindOfClass:[LibraryAlbum class]]))
                     break;
-                if([obj isKindOfClass:[Artist class]] && [obj2 isKindOfClass:[Artist class]])
+                if([obj isKindOfClass:[LibraryArtist class]] && [obj2 isKindOfClass:[LibraryArtist class]])
                     break;
 
-                if([obj2 isKindOfClass:[Track class]])
-                    [tracks addObject:[((Track *)obj2) filename]];
+                if([obj2 isKindOfClass:[LibraryTrack class]])
+                    [tracks addObject:[((LibraryTrack *)obj2) filename]];
             }
         }
         
@@ -277,9 +277,9 @@
     
     NSUInteger size = 0;
     for(NSUInteger i = row + 1; i < [_celldata count];i++) {
-        if([[_celldata objectAtIndex:i] isKindOfClass:[Artist class]]) break;
-        if([obj isKindOfClass:[Album class]])
-            if([[_celldata objectAtIndex:i] isKindOfClass:[Album class]]) break;
+        if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) break;
+        if([obj isKindOfClass:[LibraryAlbum class]])
+            if([[_celldata objectAtIndex:i] isKindOfClass:[LibraryAlbum class]]) break;
         size++;
     }
     
@@ -295,8 +295,8 @@
 {
     NSObject *obj = [_celldata objectAtIndex:row];
     
-    if([obj isKindOfClass:[Artist class]]) {
-        Artist *artist = (Artist *)obj;
+    if([obj isKindOfClass:[LibraryArtist class]]) {
+        LibraryArtist *artist = (LibraryArtist *)obj;
         NSUInteger i = row + 1;
         
         if(![self isRowExpanded:row]) {
@@ -304,7 +304,7 @@
                                         initWithKey:@"name"
                                         ascending:YES
                                         selector:@selector(localizedCaseInsensitiveCompare:)];
-            for(Album *album in [[artist albums] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
+            for(LibraryAlbum *album in [[artist albums] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
                 [_celldata insertObject:album atIndex:i];
                 i++;
             }
@@ -312,17 +312,17 @@
         if(recursive) {
             for(i = row + 1; i<[_celldata count]; i++) {
                 NSObject *obj2 = [_celldata objectAtIndex:i];
-                if([obj2 isKindOfClass:[Artist class]])
+                if([obj2 isKindOfClass:[LibraryArtist class]])
                     break;
-                else if([obj2 isKindOfClass:[Album class]])
+                else if([obj2 isKindOfClass:[LibraryAlbum class]])
                     [self expandRow:i];
             }
         }
     }
-    else if([obj isKindOfClass:[Album class]]) {
+    else if([obj isKindOfClass:[LibraryAlbum class]]) {
         if([self isRowExpanded:row]) return;
 
-        Album *album = (Album *)obj;
+        LibraryAlbum *album = (LibraryAlbum *)obj;
         NSUInteger i = row + 1;
         
         // this needs to be changed to tracknumber
@@ -331,7 +331,7 @@
                                    ascending:YES
                                    selector:@selector(localizedCaseInsensitiveCompare:)];
         
-        for(Track *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
+        for(LibraryTrack *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
             [_celldata insertObject:track atIndex:i];
             i++;
         }

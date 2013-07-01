@@ -28,9 +28,9 @@
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
 		2B65ED1B16C7447500DD327D /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED1A16C7447500DD327D /* CoreDataManager.m */; };
-		2B65ED1E16C8381900DD327D /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED1D16C8381900DD327D /* Track.m */; };
-		2B65ED2516C8906900DD327D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2416C8906800DD327D /* Artist.m */; };
-		2B65ED2816C8907200DD327D /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2716C8907100DD327D /* Album.m */; };
+		2B65ED1E16C8381900DD327D /* LibraryTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED1D16C8381900DD327D /* LibraryTrack.m */; };
+		2B65ED2516C8906900DD327D /* LibraryArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2416C8906800DD327D /* LibraryArtist.m */; };
+		2B65ED2816C8907200DD327D /* LibraryAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B65ED2716C8907100DD327D /* LibraryAlbum.m */; };
 		2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
 		2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
@@ -256,12 +256,12 @@
 		2B5DA982162758320057D0D5 /* SliderBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderBar.m; sourceTree = "<group>"; };
 		2B65ED1916C7447500DD327D /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		2B65ED1A16C7447500DD327D /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
-		2B65ED1C16C8381900DD327D /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
-		2B65ED1D16C8381900DD327D /* Track.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
-		2B65ED2316C8906700DD327D /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
-		2B65ED2416C8906800DD327D /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
-		2B65ED2616C8907100DD327D /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		2B65ED2716C8907100DD327D /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
+		2B65ED1C16C8381900DD327D /* LibraryTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryTrack.h; sourceTree = "<group>"; };
+		2B65ED1D16C8381900DD327D /* LibraryTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryTrack.m; sourceTree = "<group>"; };
+		2B65ED2316C8906700DD327D /* LibraryArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryArtist.h; sourceTree = "<group>"; };
+		2B65ED2416C8906800DD327D /* LibraryArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryArtist.m; sourceTree = "<group>"; };
+		2B65ED2616C8907100DD327D /* LibraryAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryAlbum.h; sourceTree = "<group>"; };
+		2B65ED2716C8907100DD327D /* LibraryAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryAlbum.m; sourceTree = "<group>"; };
 		2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = deps/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		2B80D43F16920167000F3392 /* fb2kmac-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fb2kmac-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -560,12 +560,12 @@
 			children = (
 				2BBEC89C16C60A7E00160279 /* Library.h */,
 				2BBEC89D16C60A7F00160279 /* Library.m */,
-				2B65ED2316C8906700DD327D /* Artist.h */,
-				2B65ED2416C8906800DD327D /* Artist.m */,
-				2B65ED2616C8907100DD327D /* Album.h */,
-				2B65ED2716C8907100DD327D /* Album.m */,
-				2B65ED1C16C8381900DD327D /* Track.h */,
-				2B65ED1D16C8381900DD327D /* Track.m */,
+				2B65ED2316C8906700DD327D /* LibraryArtist.h */,
+				2B65ED2416C8906800DD327D /* LibraryArtist.m */,
+				2B65ED2616C8907100DD327D /* LibraryAlbum.h */,
+				2B65ED2716C8907100DD327D /* LibraryAlbum.m */,
+				2B65ED1C16C8381900DD327D /* LibraryTrack.h */,
+				2B65ED1D16C8381900DD327D /* LibraryTrack.m */,
 				2B82B25D1780EDB700E1EA0B /* LibraryCoreDataManager.h */,
 				2B82B25E1780EDB700E1EA0B /* LibraryCoreDataManager.m */,
 			);
@@ -939,9 +939,9 @@
 				2BBEC89B16C44C0900160279 /* LibraryViewTrackCell.m in Sources */,
 				2BBEC89E16C60A7F00160279 /* Library.m in Sources */,
 				2B65ED1B16C7447500DD327D /* CoreDataManager.m in Sources */,
-				2B65ED1E16C8381900DD327D /* Track.m in Sources */,
-				2B65ED2516C8906900DD327D /* Artist.m in Sources */,
-				2B65ED2816C8907200DD327D /* Album.m in Sources */,
+				2B65ED1E16C8381900DD327D /* LibraryTrack.m in Sources */,
+				2B65ED2516C8906900DD327D /* LibraryArtist.m in Sources */,
+				2B65ED2816C8907200DD327D /* LibraryAlbum.m in Sources */,
 				2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */,
 				2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */,
 				2B82B25F1780EDB700E1EA0B /* LibraryCoreDataManager.m in Sources */,

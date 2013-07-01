@@ -9,9 +9,9 @@
 #import <CoreData/CoreData.h>
 #import "common.h"
 
-@interface Artist : NSManagedObject
+@interface LibraryArtist : NSManagedObject
 
--(void)pruneDueToAlbumBeingDeleted:(Album *)album;
+-(void)pruneDueToAlbumBeingDeleted:(LibraryAlbum *)album;
 
 @property (nonatomic) NSString *name;
 @property (readonly, nonatomic) NSSet* albums;

@@ -7,7 +7,7 @@
 //
 
 #import "LibraryCoreDataManager.h"
-#import "Track.h"
+#import "LibraryTrack.h"
 
 @implementation LibraryCoreDataManager
 
@@ -31,7 +31,7 @@ SHAREDINSTANCE
     
     { // Track
         [trackEntity setName:@"track"];
-        [trackEntity setManagedObjectClassName:@"Track"];
+        [trackEntity setManagedObjectClassName:@"LibraryTrack"];
         NSMutableArray *trackProperties = [[NSMutableArray alloc] init];
         { // trackEntity properties
             NSAttributeDescription *filenameAttribute = [[NSAttributeDescription alloc] init];
@@ -66,7 +66,7 @@ SHAREDINSTANCE
     
     { // album
         [albumEntity setName:@"album"];
-        [albumEntity setManagedObjectClassName:@"Album"];
+        [albumEntity setManagedObjectClassName:@"LibraryAlbum"];
         NSMutableArray *albumProperties = [[NSMutableArray alloc] init];
         { // albumEntity properties
             NSAttributeDescription *nameAttribute = [[NSAttributeDescription alloc] init];
@@ -97,7 +97,7 @@ SHAREDINSTANCE
     
     { // Artist
         [artistEntity setName:@"artist"];
-        [artistEntity setManagedObjectClassName:@"Artist"];
+        [artistEntity setManagedObjectClassName:@"LibraryArtist"];
         NSMutableArray *artistProperties = [[NSMutableArray alloc] init];
         { // artistEntity properties
             NSAttributeDescription *nameAttribute = [[NSAttributeDescription alloc] init];

@@ -6,12 +6,12 @@
 //
 //
 
-#import "Album.h"
-#import "Artist.h"
-#import "Track.h"
+#import "LibraryAlbum.h"
+#import "LibraryArtist.h"
+#import "LibraryTrack.h"
 #import "CoreDataManager.h"
 
-@implementation Album
+@implementation LibraryAlbum
 @dynamic name;
 @dynamic artist;
 @dynamic tracks;
@@ -19,7 +19,7 @@
 -(void)setArtistByName:(NSString *)artistName
 {
     NSError *error;
-    Artist *artist;
+    LibraryArtist *artist;
     
     if([self artist]) { //prune old one
         [[self artist] pruneDueToAlbumBeingDeleted:self];
@@ -44,10 +44,10 @@
     [self setArtist:artist];
 }
 
--(void)pruneDueToTrackBeingDeleted:(Track *)track;
+-(void)pruneDueToTrackBeingDeleted:(LibraryTrack *)track;
 {
     if([[self tracks] count] == 1) {
-        Track *lastTrack = [[[self tracks] allObjects] objectAtIndex:0];
+        LibraryTrack *lastTrack = [[[self tracks] allObjects] objectAtIndex:0];
         if([[lastTrack objectID] isEqual:[track objectID]]) {
             [[self managedObjectContext] deleteObject:self];
         }

@@ -12,9 +12,9 @@
 
 @class MusicController;
 @class PlaylistTrack;
-@class Track;
-@class Album;
-@class Artist;
+@class LibraryTrack;
+@class LibraryAlbum;
+@class LibraryArtist;
 
 @interface TaglibTagger : NSObject<TaggerProtocol> {    
 }

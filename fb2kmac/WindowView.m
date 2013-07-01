@@ -8,7 +8,7 @@
 
 #import "WindowView.h"
 #import "LibraryView.h"
-#import "Track.h"
+#import "LibraryTrack.h"
 
 #import "CoreDataManager.h"
 

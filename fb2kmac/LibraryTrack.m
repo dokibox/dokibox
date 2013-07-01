@@ -6,13 +6,13 @@
 //
 //
 
-#import "Track.h"
+#import "LibraryTrack.h"
 #import "common.h"
-#import "Artist.h"
-#import "Album.h"
+#import "LibraryArtist.h"
+#import "LibraryAlbum.h"
 #import "CoreDataManager.h"
 
-@implementation Track
+@implementation LibraryTrack
 @dynamic filename;
 @dynamic name;
 @dynamic primitiveAttributes;
@@ -44,7 +44,7 @@
 -(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName
 {
     NSError *error;
-    Album *album;
+    LibraryAlbum *album;
     
     if([self album]) { //prune old one
         [[self album] pruneDueToTrackBeingDeleted:self];

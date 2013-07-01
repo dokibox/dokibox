@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 #import "common.h"
 
-@interface Track : NSManagedObject
+@interface LibraryTrack : NSManagedObject
 
 -(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName;
 -(void)resetAttributeCache;
@@ -17,7 +17,7 @@
 @property (nonatomic) NSString *filename;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSMutableDictionary *primitiveAttributes;
-@property (nonatomic) Album *album;
+@property (nonatomic) LibraryAlbum *album;
 @property (readonly, nonatomic) NSMutableDictionary *attributes;
 @property (readonly, nonatomic) NSSet* tracks;
 
