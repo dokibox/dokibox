@@ -16,6 +16,5 @@
 
 
 @property (nonatomic) LibraryAlbum *album;
-@property (readonly, nonatomic) NSSet* tracks;
 
 @end
