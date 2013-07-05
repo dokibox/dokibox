@@ -28,7 +28,7 @@ install_name_tool -change $START/libogg/../prefix/lib/libogg.0.dylib @rpath/libo
 
 cd $DEPS/mpg123
 autoreconf -iv
-./configure --with-cpu=x86-64 --enable-static --prefix=$PREFIX
+./configure --with-cpu=x86-64 --enable-modules=no --enable-static --prefix=$PREFIX
 make -j2
 make install
 cd $PREFIX/lib
