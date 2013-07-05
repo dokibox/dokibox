@@ -13,6 +13,7 @@
     PlaylistView *_playlistView;    
     CGFloat width_divider;
 }
+- (void)redisplay;
 
 @property PlaylistView *playlistView;
 

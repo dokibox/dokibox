@@ -16,12 +16,16 @@
 
 @synthesize playlistView = _playlistView;
 
+#define bottomToolbarHeight 30.0
+
 - (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
-		self.backgroundColor = [TUIColor colorWithWhite:0.3 alpha:1.0];
-                
-        int inlay = 20;
+        // triggers changing of gradients in bottom toolbar upon active/inactive window
+        // also triggers on all NSWindow (not just its window) changes, but doesn't seem too ineffecient
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidBecomeKeyNotification object:nil];
+        
         width_divider = 0.60;
                 
         __block typeof(self) bself = self;
@@ -29,10 +33,8 @@
         LibraryView *libraryView = [[LibraryView alloc] initWithFrame:CGRectZero];
         libraryView.layout = ^(TUIView *v) {
             CGRect b = v.superview.bounds;
-            b.origin.y += inlay;
-            b.origin.x += inlay;
-            b.size.height -= 2*inlay;
-            b.size.width -= 2*inlay;
+            b.size.height -= bottomToolbarHeight;
+            b.origin.y += bottomToolbarHeight;
             
             CGRect libraryFrame = b;
             libraryFrame.size.width = (int)(width_divider*b.size.width);
@@ -43,10 +45,8 @@
         _playlistView = [[PlaylistView alloc] initWithFrame:CGRectZero];
         _playlistView.layout = ^(TUIView *v) {
             CGRect b = v.superview.bounds;
-            b.origin.y += inlay;
-            b.origin.x += inlay;
-            b.size.height -= 2*inlay;
-            b.size.width -= 2*inlay;
+            b.size.height -= bottomToolbarHeight;
+            b.origin.y += bottomToolbarHeight;
             
             CGRect playlistFrame = b;
             playlistFrame.origin.x += (int)(bself->width_divider*b.size.width);
@@ -57,5 +57,37 @@
 	}
 	return self;
 }
+
+- (void)redisplay
+{
+    [self setNeedsDisplay];
+}
+
+- (void)drawRect:(NSRect)rect
+{
+    NSLog(@"gi");
+    CGRect b = [self bounds];
+	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+    
+    int isActive = [[self nsWindow] isMainWindow] && [[NSApplication sharedApplication] isActive];
+    TUIColor *gradientStartColor, *gradientEndColor;
+    if(isActive) {
+        gradientStartColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
+        gradientEndColor = [TUIColor colorWithWhite:0.90 alpha:1.0];
+    }
+    else {
+        gradientStartColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
+        gradientEndColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
+    }
+    
+    NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                       (id)[gradientEndColor CGColor], nil];
+    CGFloat locations[] = { 0.0, 1.0 };
+    CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+    
+    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+bottomToolbarHeight), 0);
+    CGGradientRelease(gradient);
+}
+
 
 @end
