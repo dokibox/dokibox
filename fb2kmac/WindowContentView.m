@@ -24,7 +24,7 @@
         width_divider = 0.60;
         [self setAutoresizesSubviews:YES];
         
-        CGRect libraryFrame = frame;
+        CGRect libraryFrame = self.bounds;
         libraryFrame.origin.y += bottomToolbarHeight;
         libraryFrame.size.height -= bottomToolbarHeight;
         libraryFrame.size.width *= width_divider;
@@ -35,7 +35,7 @@
         
         
         
-        CGRect playlistFrame = frame;
+        CGRect playlistFrame = self.bounds;
         playlistFrame.origin.y += bottomToolbarHeight;
         playlistFrame.size.height -= bottomToolbarHeight;
         playlistFrame.origin.x += playlistFrame.size.width*width_divider;
