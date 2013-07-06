@@ -25,7 +25,6 @@
         _playlist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
         
         NSRect b = self.bounds;
-        //NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:b];
         RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:b];
         [scrollView setHasVerticalScroller:YES];
         _tableView = [[RBLTableView alloc] initWithFrame: [[scrollView contentView] bounds]];
@@ -35,6 +34,8 @@
         [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_tableView setDoubleAction:@selector(doubleClickReceived:)];
         [scrollView setDocumentView:_tableView];
+        [scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxXMargin];
+
         
         NSTableColumn *firstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_tableView addTableColumn:firstColumn];
