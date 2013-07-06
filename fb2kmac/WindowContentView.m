@@ -41,11 +41,9 @@
         playlistFrame.origin.x += playlistFrame.size.width*width_divider;
         playlistFrame.size.width = playlistFrame.size.width - playlistFrame.size.width*width_divider;
         
-        TUINSView *twuiNSViewPlaylist = [[TUINSView alloc] initWithFrame:playlistFrame];
-        _playlistView = [[PlaylistView alloc] initWithFrame:CGRectZero];
-        twuiNSViewPlaylist.rootView = _playlistView;
-        [self addSubview:twuiNSViewPlaylist];
-        [twuiNSViewPlaylist setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin];
+        _playlistView = [[PlaylistView alloc] initWithFrame:playlistFrame];
+        [self addSubview:_playlistView];
+        [_playlistView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin];
         
         // triggers changing of gradients in bottom toolbar upon active/inactive window
         // also triggers on all NSWindow (not just its window) changes, but doesn't seem too ineffecient

@@ -7,18 +7,17 @@
 //
 
 #import "TUIKit.h"
-#import "PlaylistTrackCell.h"
-#import "PlaylistTrack.h"
 #import "Playlist.h"
 
-@interface PlaylistView : TUIView <TUITableViewDelegate, TUITableViewDataSource>
+@interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
-    TUITableView *_tableView;
+    NSTableView *_tableView;
     Playlist *_playlist;
     NSManagedObjectContext *_objectContext;
 }
 
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
+- (void)doubleClickReceived:(id)sender;
 
 @property Playlist *playlist;
 

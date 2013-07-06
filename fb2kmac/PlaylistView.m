@@ -7,29 +7,42 @@
 //
 
 #import "PlaylistView.h"
+#import "PlaylistTrack.h"
 #import "MusicController.h"
 #import "PlaylistCoreDataManager.h"
+#import "PlaylistTrackCellView.h"
 
 @implementation PlaylistView
 @synthesize playlist = _playlist;
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
-		self.backgroundColor = [TUIColor colorWithWhite:0.5 alpha:1.0];
         
         _objectContext = [PlaylistCoreDataManager newContext];
 
         _playlist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
         
-        _tableView = [[TUITableView alloc] initWithFrame:self.bounds];
-        [_tableView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
+        NSRect b = self.bounds;
+        NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:b];
+        [scrollView setHasVerticalScroller:YES];
+        _tableView = [[NSTableView alloc] initWithFrame: [[scrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
-        [_tableView setMaintainContentOffsetAfterReload:TRUE];
+        [_tableView setHeaderView:nil];
+        [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
+        [_tableView setDoubleAction:@selector(doubleClickReceived:)];
+        [scrollView setDocumentView:_tableView];
+        
+        NSTableColumn *firstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
+        [_tableView addTableColumn:firstColumn];
+        [firstColumn setWidth:[_tableView bounds].size.width];
+
+        [self addSubview:scrollView];
+        
+        /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
-        [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
-        [self addSubview:_tableView];
+        [_tableView setPasteboardReceiveDraggingEnabled:TRUE];*/
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
 	}
@@ -48,37 +61,39 @@
     [_tableView reloadData];
 }
 
-- (CGFloat)tableView:(TUITableView *)tableView heightForRowAtIndexPath:(TUIFastIndexPath *)indexPath
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row {
+    
+    PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
+    
+    if(view == nil) {
+        NSRect frame = NSMakeRect(0, 0, 0, 0);
+        view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
+        view.identifier = @"playlistTrackCellView";
+    }
+    
+    [view setTrack:[_playlist trackAtIndex:row]];
+    return view;
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
     CGFloat row_height = 25.0;
     return row_height;
 }
 
-- (void)tableView:(TUITableView *)tableView didClickRowAtIndexPath:(TUIFastIndexPath *)indexPath withEvent:(NSEvent *)event {
-    if([event clickCount] == 2) { // Double click
-        [_playlist playTrackAtIndex:[indexPath row]];
-    }
+- (void)doubleClickReceived:(id)sender
+{
+    [_playlist playTrackAtIndex:[_tableView clickedRow]];
 }
 
-- (NSInteger)tableView:(TUITableView *)table numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [_playlist numberOfTracks];
 }
 
-- (TUITableViewCell *)tableView:(TUITableView *)tableView cellForRowAtIndexPath:(TUIFastIndexPath *)indexPath
-{
-	PlaylistTrackCell *cell = reusableTableCellOfClass(tableView, PlaylistTrackCell);
-    [cell setTrack:[_playlist trackAtIndex:[indexPath row]]];
-	
-	/*TUIAttributedString *s = [TUIAttributedString stringWithString:[NSString stringWithFormat:@"example cell %d", indexPath.row]];
-	s.color = [TUIColor blackColor];
-	s.font = exampleFont1;
-	[s setFont:exampleFont2 inRange:NSMakeRange(8, 4)]; // make the word "cell" bold
-	cell.attributedString = s;*/
-	
-	return cell;
-}
-
+/*
 -(BOOL)tableView:(TUITableView *)tableView canMoveRowAtIndexPath:(TUIFastIndexPath *)indexPath {
     // return TRUE to enable row reordering by dragging; don't implement this method or return
     // FALSE to disable
@@ -138,6 +153,6 @@
     
     return ((float)count)*25.0;
 }
-
+*/
 
 @end
