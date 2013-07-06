@@ -11,6 +11,7 @@
 #import "PluginManager.h"
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
+#import "WindowContentView.h"
 
 #import "LibraryPreferenceViewController.h"
 
@@ -48,19 +49,9 @@
     [_window setTitlebarView:titlebarView];
 	[titlebarView initSubviews];
     
-	/* TUINSView is the bridge between the standard AppKit NSView-based heirarchy and the TUIView-based heirarchy */
-	TUINSView *tuiWindow = [[TUINSView alloc] initWithFrame:b];
-	[_window setContentView:tuiWindow];
-
-    /*NSRect windowFrame = [_window frame];
-    NSRect newFrame = [tuiWindow frame];
-    CGFloat titleHeight = NSHeight(windowFrame) - NSHeight(newFrame);
-    newFrame.size.height -= 60;*/
-    //[tuiWindow setFrame:windowFrame];
-	
-	WindowView *windowView = [[WindowView alloc] initWithFrame:[tuiWindow frame]];
-	tuiWindow.rootView = windowView;
-	
+    WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b];
+    [_window setContentView:wcv];
+    
     [_window makeKeyAndOrderFront:nil];
     [_window relayout];
 }

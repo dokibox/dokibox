@@ -9,9 +9,9 @@
 #import "TitlebarViewNS.h"
 #import "TitlebarButtonNS.h"
 #import "TitlebarSeekButtonNS.h"
-#import "WindowView.h"
 #import "PlaylistView.h"
 #import "Playlist.h"
+#import "WindowContentView.h"
 
 @implementation TitlebarViewNS
 @synthesize musicController = _musicController;
@@ -349,7 +349,7 @@
             [_musicController unpause];
         }
         else {
-            WindowView *wv = (WindowView *)[[[self window] contentView] rootView];
+            WindowContentView *wv = (WindowContentView *)[[self window] contentView];
             Playlist *p = [[wv playlistView] playlist];
             if([p numberOfTracks] > 0) {
                 [p playTrackAtIndex:0];
@@ -359,7 +359,7 @@
 }
 
 -(void)prevButtonPressed:(id)sender {
-    WindowView *wv = (WindowView *)[[[self window] contentView] rootView];
+    WindowContentView *wv = (WindowContentView *)[[self window] contentView];
     Playlist *p = [[wv playlistView] playlist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
     [_musicController stop];
@@ -371,7 +371,7 @@
 }
 
 -(void)nextButtonPressed:(id)sender {
-    WindowView *wv = (WindowView *)[[[self window] contentView] rootView];
+    WindowContentView *wv = (WindowContentView *)[[self window] contentView];
     Playlist *p = [[wv playlistView] playlist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
     [_musicController stop];

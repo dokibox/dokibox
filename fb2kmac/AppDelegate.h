@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <TUIKit.h>
-#import "WindowView.h"
 #import "MusicController.h"
 #import "Window.h"
 #import "MASPreferencesWindowController.h"
