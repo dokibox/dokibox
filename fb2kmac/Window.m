@@ -54,6 +54,11 @@
     [_titlebarView setNeedsDisplay:YES];
 }
 
+- (CGFloat)contentViewHeight
+{
+    return [self frame].size.height - _titlebarSize;
+}
+
 - (void)relayout
 {
     if(_titlebarView == nil) return;
@@ -66,7 +71,7 @@
     
     // Relayout content view
     NSRect contentFrame = [[self contentView] frame];
-    contentFrame.size.height = [self frame].size.height - _titlebarSize;
+    contentFrame.size.height = [self contentViewHeight];
     [[self contentView] setFrame:contentFrame];
     
     // Relayout control buttons
