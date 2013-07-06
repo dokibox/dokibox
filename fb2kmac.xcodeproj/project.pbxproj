@@ -20,6 +20,8 @@
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
 		2B5086D11787AAFB0066B014 /* WindowContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086D01787AAFB0066B014 /* WindowContentView.m */; };
 		2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */; };
+		2B5086F51787ED430066B014 /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
+		2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
 		2B53558715D07A2B0054E61F /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53558515D0797D0054E61F /* Button.m */; };
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
@@ -108,6 +110,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
 			remoteInfo = Tests;
+		};
+		2B5086EE1787ECEC0066B014 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D09AE4DF15C5F45200ECAD10;
+			remoteInfo = Rebel;
+		};
+		2B5086F01787ECEC0066B014 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D09AE4F715C5F45300ECAD10;
+			remoteInfo = RebelTests;
 		};
 		2B72D79716F1638E00324194 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -205,6 +221,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */,
 				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
 				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */,
 				2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */,
@@ -244,6 +261,7 @@
 		2B5086D01787AAFB0066B014 /* WindowContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowContentView.m; sourceTree = "<group>"; };
 		2B5086DA1787CFD20066B014 /* PlaylistTrackCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackCellView.h; sourceTree = "<group>"; };
 		2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackCellView.m; sourceTree = "<group>"; };
+		2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rebel.xcodeproj; path = deps/rebel/Rebel.xcodeproj; sourceTree = "<group>"; };
 		2B53558415D0797D0054E61F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
 		2B53558515D0797D0054E61F /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
 		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
@@ -349,6 +367,7 @@
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
 				2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */,
+				2B5086F51787ED430066B014 /* Rebel.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +435,7 @@
 		2B15BF67146127A100DC46CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */,
 				2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */,
 				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
@@ -479,6 +499,15 @@
 				2B5B340717768E830093C292 /* defaultPrefs.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2B5086E81787ECEC0066B014 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B5086EF1787ECEC0066B014 /* Rebel.framework */,
+				2B5086F11787ECEC0066B014 /* RebelTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		2B5B33F317763BC10093C292 /* preferences */ = {
@@ -817,6 +846,10 @@
 					ProjectRef = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
 				},
 				{
+					ProductGroup = 2B5086E81787ECEC0066B014 /* Products */;
+					ProjectRef = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
+				},
+				{
 					ProductGroup = 2B05E176159E3AAD001FBE70 /* Products */;
 					ProjectRef = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
 				},
@@ -858,6 +891,20 @@
 			fileType = wrapper.cfbundle;
 			path = Tests.octest;
 			remoteRef = 2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B5086EF1787ECEC0066B014 /* Rebel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Rebel.framework;
+			remoteRef = 2B5086EE1787ECEC0066B014 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B5086F11787ECEC0066B014 /* RebelTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RebelTests.octest;
+			remoteRef = 2B5086F01787ECEC0066B014 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2B72D79816F1638E00324194 /* Lumberjack.framework */ = {
@@ -1111,6 +1158,7 @@
 					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
 					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -1132,6 +1180,7 @@
 					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
 					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
 				LIBRARY_SEARCH_PATHS = (

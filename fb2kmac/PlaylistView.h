@@ -8,10 +8,11 @@
 
 #import "TUIKit.h"
 #import "Playlist.h"
+#import "RBLTableView.h"
 
 @interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
-    NSTableView *_tableView;
+    RBLTableView *_tableView;
     Playlist *_playlist;
     NSManagedObjectContext *_objectContext;
 }

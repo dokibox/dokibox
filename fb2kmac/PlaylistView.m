@@ -11,6 +11,7 @@
 #import "MusicController.h"
 #import "PlaylistCoreDataManager.h"
 #import "PlaylistTrackCellView.h"
+#import "RBLScrollView.h"
 
 @implementation PlaylistView
 @synthesize playlist = _playlist;
@@ -24,9 +25,10 @@
         _playlist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
         
         NSRect b = self.bounds;
-        NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:b];
+        //NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:b];
+        RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:b];
         [scrollView setHasVerticalScroller:YES];
-        _tableView = [[NSTableView alloc] initWithFrame: [[scrollView contentView] bounds]];
+        _tableView = [[RBLTableView alloc] initWithFrame: [[scrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
         [_tableView setHeaderView:nil];
