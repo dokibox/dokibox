@@ -50,4 +50,10 @@
     return self;
 }
 
++(BOOL)contextBelongs:(NSManagedObjectContext*)context
+{
+    CoreDataManager *cdm = [[self class] sharedInstance];
+    return ([context persistentStoreCoordinator] == [cdm persistanceCoordinator]);
+}
+
 @end

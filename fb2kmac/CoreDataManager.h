@@ -15,6 +15,7 @@
 +(CoreDataManager *)sharedInstance;
 +(NSManagedObjectContext *)newContext;
 -(id)initWithFilename:(NSString *)filename andModel:(NSManagedObjectModel *)model;
++(BOOL)contextBelongs:(NSManagedObjectContext*)context;
 
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 

@@ -134,6 +134,8 @@
 
 -(void)receivedLibrarySavedNotification:(NSNotification *)notification
 {
+    if([LibraryCoreDataManager contextBelongs:[notification object]] == false) return;
+    
     NSMutableDictionary *changes = [NSMutableDictionary dictionary];
     NSArray *keys = [[notification userInfo] allKeys];
     
