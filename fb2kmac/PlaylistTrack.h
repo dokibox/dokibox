@@ -11,12 +11,15 @@
 #import "common.h"
 #import "ManagedObjectTrack.h"
 
+@class Playlist;
+
 @interface PlaylistTrack : ManagedObjectTrack {
 }
 
-+(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
++(PlaylistTrack *)trackWithFilename:(NSString *)filename andPlaylist:(Playlist *)playlist inContext:(NSManagedObjectContext *)objectContext;
 
 @property (nonatomic) NSString *albumName;
 @property (nonatomic) NSString *artistName;
+@property (nonatomic) Playlist *playlist;
 
 @end

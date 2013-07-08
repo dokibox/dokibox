@@ -65,8 +65,8 @@ SHAREDINSTANCE
             NSRelationshipDescription *playlistRelation = [[NSRelationshipDescription alloc] init];
             [playlistRelation setName:@"playlist"];
             [playlistRelation setDestinationEntity:playlistEntity];
-            //[playlistRelation setMaxCount:1];
-            //[playlistRelation setMinCount:1];
+            [playlistRelation setMaxCount:1];
+            [playlistRelation setMinCount:1];
             //[albumRelation setOptional:NO];
             [playlistTrackProperties addObject:playlistRelation];
 

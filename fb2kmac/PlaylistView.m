@@ -104,7 +104,7 @@
     NSArray *tracks = [notification object];
     for (NSString *s in tracks) {
         if([MusicController isSupportedAudioFile:s]) {
-            PlaylistTrack *t = [PlaylistTrack trackWithFilename:s inContext:_objectContext];
+            PlaylistTrack *t = [PlaylistTrack trackWithFilename:s andPlaylist:_currentPlaylist inContext:_objectContext];
             [_currentPlaylist addTrack:t];
         }
     }

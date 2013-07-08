@@ -13,14 +13,17 @@
 
 @dynamic artistName;
 @dynamic albumName;
+@dynamic playlist;
 
-+(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext
++(PlaylistTrack *)trackWithFilename:(NSString *)filename andPlaylist:(Playlist *)playlist inContext:(NSManagedObjectContext *)objectContext
 {
     PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
     [t setFilename:filename];
     [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
     [t setArtistName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"")];
     [t setAlbumName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
+    [t setPlaylist:playlist];
+    
     return t;
 }
 
