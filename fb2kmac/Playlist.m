@@ -7,6 +7,7 @@
 //
 
 #import "Playlist.h"
+#import "MusicController.h"
 
 @implementation Playlist
 
@@ -27,14 +28,29 @@
 
 -(void)removeTrackAtIndex:(NSUInteger)index {
     [[self tracks] removeObjectAtIndex:index];
+    [self save];
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index {
     [[self tracks] insertObject:track atIndex:index];
+    [self save];
 }
 
 -(void)addTrack:(PlaylistTrack *)track {
     [[self tracks] addObject:track];
+    [self save];
+}
+
+-(void)save
+{
+    NSError *error;
+    if([[self managedObjectContext] save:&error] == NO) {
+        NSLog(@"error saving");
+        NSLog(@"%@", [error localizedDescription]);
+        for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
+            NSLog(@"%@", [e localizedDescription]);
+        }
+    }
 }
 
 -(void)playTrackAtIndex:(NSUInteger)index {
