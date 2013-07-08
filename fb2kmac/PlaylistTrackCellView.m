@@ -45,18 +45,13 @@
      CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));
     }
     
-    NSString *titleStr = [[_track attributes] objectForKey:@"TITLE"];
-    titleStr = titleStr == nil ? @"" : titleStr;
-    NSString *artistStr = [[_track attributes] objectForKey:@"ARTIST"];
-    artistStr = artistStr == nil ? @"" : artistStr;
-    
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
     [attr setObject:[NSFont fontWithName:@"HelveticaNeue" size:12] forKey:NSFontAttributeName];    
-    NSAttributedString *trackName = [[NSAttributedString alloc] initWithString:titleStr];
+    NSAttributedString *trackName = [[NSAttributedString alloc] initWithString:[_track name]];
     
     NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
     [boldattr setObject:[NSFont fontWithName:@"HelveticaNeue-Bold" size:12] forKey:NSFontAttributeName];
-    NSAttributedString *artistName = [[NSAttributedString alloc] initWithString:artistStr attributes:boldattr];
+    NSAttributedString *artistName = [[NSAttributedString alloc] initWithString:[_track artistName] attributes:boldattr];
     
     NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" " attributes:attr];
     
