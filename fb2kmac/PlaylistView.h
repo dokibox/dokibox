@@ -12,14 +12,17 @@
 
 @interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
-    RBLTableView *_tableView;
-    Playlist *_playlist;
+    RBLTableView *_trackTableView;
+    RBLTableView *_playlistTableView;
+    Playlist *_currentPlaylist;
+    NSArray *_playlists;
     NSManagedObjectContext *_objectContext;
 }
 
+- (void)fetchPlaylists;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 - (void)doubleClickReceived:(id)sender;
 
-@property Playlist *playlist;
+@property Playlist *currentPlaylist;
 
 @end

@@ -12,37 +12,72 @@
 #import "PlaylistCoreDataManager.h"
 #import "PlaylistTrackCellView.h"
 #import "RBLScrollView.h"
+#import "PlaylistCellView.h"
 
 @implementation PlaylistView
-@synthesize playlist = _playlist;
+@synthesize currentPlaylist = _currentPlaylist;
+
+#define playlistHeight 100
 
 - (id)initWithFrame:(NSRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
         
+        // Fetch stuff
         _objectContext = [PlaylistCoreDataManager newContext];
-
-        _playlist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
+        [self fetchPlaylists];
         
-        NSRect b = self.bounds;
-        RBLScrollView *scrollView = [[RBLScrollView alloc] initWithFrame:b];
-        [scrollView setHasVerticalScroller:YES];
-        _tableView = [[RBLTableView alloc] initWithFrame: [[scrollView contentView] bounds]];
-        [_tableView setDelegate:self];
-        [_tableView setDataSource:self];
-        [_tableView setHeaderView:nil];
-        [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
-        [_tableView setDoubleAction:@selector(doubleClickReceived:)];
-        [scrollView setDocumentView:_tableView];
-        [scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxXMargin];
+        if([_playlists count] == 0) {
+            NSError *err;
+            _currentPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
+            [_currentPlaylist setName:@"New playlist"];
+            [_currentPlaylist save];
+            [self fetchPlaylists];
+        }
+        else {
+            _currentPlaylist = [_playlists objectAtIndex:0];
+        }
+        
+        // Track table view
+        NSRect trackScrollViewFrame = self.bounds;
+        trackScrollViewFrame.origin.y += playlistHeight;
+        trackScrollViewFrame.size.height -= playlistHeight;
+        RBLScrollView *trackScrollView = [[RBLScrollView alloc] initWithFrame:trackScrollViewFrame];
+        [trackScrollView setHasVerticalScroller:YES];
+        _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
+        [_trackTableView setDelegate:self];
+        [_trackTableView setDataSource:self];
+        [_trackTableView setHeaderView:nil];
+        [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
+        [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
+        [trackScrollView setDocumentView:_trackTableView];
+        [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinYMargin];
 
         
-        NSTableColumn *firstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
-        [_tableView addTableColumn:firstColumn];
-        [firstColumn setWidth:[_tableView bounds].size.width];
+        NSTableColumn *trackFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
+        [_trackTableView addTableColumn:trackFirstColumn];
+        [trackFirstColumn setWidth:[_trackTableView bounds].size.width];
 
-        [self addSubview:scrollView];
+        [self addSubview:trackScrollView];
         
+        // Playlist table view
+        NSRect playlistScrollViewFrame = self.bounds;
+        playlistScrollViewFrame.size.height = playlistHeight;
+        RBLScrollView *playlistScrollView = [[RBLScrollView alloc] initWithFrame:playlistScrollViewFrame];
+        [playlistScrollView setHasVerticalScroller:YES];
+        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
+        [_playlistTableView setDelegate:self];
+        [_playlistTableView setDataSource:self];
+        [_playlistTableView setHeaderView:nil];
+        [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
+        [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
+        [playlistScrollView setDocumentView:_playlistTableView];
+        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxYMargin];
+        NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
+        [_playlistTableView addTableColumn:playlistFirstColumn];
+        [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
+        [self addSubview:playlistScrollView];
+
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];*/
@@ -52,32 +87,63 @@
 	return self;
 }
 
+- (void)fetchPlaylists
+{
+    NSError *error;
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"playlist"];
+    NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                initWithKey:@"name"
+                                ascending:YES
+                                selector:@selector(localizedCaseInsensitiveCompare:)];
+    [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+    _playlists = [_objectContext executeFetchRequest:fr error:&error];
+}
+
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
 {
     NSArray *tracks = [notification object];
     for (NSString *s in tracks) {
         if([MusicController isSupportedAudioFile:s]) {
             PlaylistTrack *t = [PlaylistTrack trackWithFilename:s inContext:_objectContext];
-            [_playlist addTrack:t];
+            [_currentPlaylist addTrack:t];
         }
     }
-    [_tableView reloadData];
+    [_trackTableView reloadData];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row {
     
-    PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
-    
-    if(view == nil) {
-        NSRect frame = NSMakeRect(0, 0, 0, 0);
-        view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
-        view.identifier = @"playlistTrackCellView";
+    if(tableView == _trackTableView) {
+        PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
+            view.identifier = @"playlistTrackCellView";
+        }
+        
+        [view setTrack:[_currentPlaylist trackAtIndex:row]];
+        return view;
     }
-    
-    [view setTrack:[_playlist trackAtIndex:row]];
-    return view;
+    else if (tableView == _playlistTableView) {
+        PlaylistCellView *view = [tableView makeViewWithIdentifier:@"playlistCellView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            view = [[PlaylistCellView alloc] initWithFrame:frame];
+            view.identifier = @"playlistCellView";
+        }
+        
+        [view setPlaylist:[_playlists objectAtIndex:row]];
+        return view;
+    }
+    else {
+        DDLogError(@"Unknown table view");
+        return nil;
+    }
+
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
@@ -88,12 +154,26 @@
 
 - (void)doubleClickReceived:(id)sender
 {
-    [_playlist playTrackAtIndex:[_tableView clickedRow]];
+    if(sender == _trackTableView)
+        [_currentPlaylist playTrackAtIndex:[_trackTableView clickedRow]];
+    else if (sender == _playlistTableView) {
+        
+    }
+    else {
+        DDLogError(@"Unknown table view");
+    }
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [_playlist numberOfTracks];
+    if(tableView == _trackTableView)
+        return [_currentPlaylist numberOfTracks];
+    else if (tableView == _playlistTableView)
+        return [_playlists count];
+    else {
+        DDLogError(@"Unknown table view");
+        return 0;
+    }
 }
 
 /*

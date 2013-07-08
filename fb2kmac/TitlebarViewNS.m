@@ -350,7 +350,7 @@
         }
         else {
             WindowContentView *wv = (WindowContentView *)[[self window] contentView];
-            Playlist *p = [[wv playlistView] playlist];
+            Playlist *p = [[wv playlistView] currentPlaylist];
             if([p numberOfTracks] > 0) {
                 [p playTrackAtIndex:0];
             }
@@ -360,7 +360,7 @@
 
 -(void)prevButtonPressed:(id)sender {
     WindowContentView *wv = (WindowContentView *)[[self window] contentView];
-    Playlist *p = [[wv playlistView] playlist];
+    Playlist *p = [[wv playlistView] currentPlaylist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
     [_musicController stop];
     NSLog(@"%lu",trackIndex);
@@ -372,7 +372,7 @@
 
 -(void)nextButtonPressed:(id)sender {
     WindowContentView *wv = (WindowContentView *)[[self window] contentView];
-    Playlist *p = [[wv playlistView] playlist];
+    Playlist *p = [[wv playlistView] currentPlaylist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
     [_musicController stop];
     NSLog(@"%lu",trackIndex);

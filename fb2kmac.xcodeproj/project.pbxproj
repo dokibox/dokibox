@@ -47,6 +47,7 @@
 		2B82B272178114C400E1EA0B /* ManagedObjectTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82B271178114C400E1EA0B /* ManagedObjectTrack.m */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
+		2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
 		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
@@ -301,6 +302,8 @@
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
+		2B9DA4F8178A5AF10065DC44 /* PlaylistCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistCellView.h; sourceTree = "<group>"; };
+		2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistCellView.m; sourceTree = "<group>"; };
 		2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2BA3129E14A3D7A20062E234 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaggerProtocol.h; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
 				2B5086DA1787CFD20066B014 /* PlaylistTrackCellView.h */,
 				2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */,
+				2B9DA4F8178A5AF10065DC44 /* PlaylistCellView.h */,
+				2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */,
 			);
 			name = "playlist view";
 			sourceTree = "<group>";
@@ -998,6 +1003,7 @@
 				2B82B2621780F3E900E1EA0B /* PlaylistCoreDataManager.m in Sources */,
 				2B5086D11787AAFB0066B014 /* WindowContentView.m in Sources */,
 				2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */,
+				2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
