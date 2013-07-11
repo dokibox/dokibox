@@ -72,4 +72,11 @@
     [_preferencesWindowController showWindow:nil];
 }
 
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+    if([[NSUserDefaults standardUserDefaults] synchronize] == NO) {
+        DDLogError(@"Error saving preferences to disk");
+    }
+}
+
 @end
