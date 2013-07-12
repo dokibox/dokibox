@@ -50,6 +50,7 @@
         [_trackTableView setHeaderView:nil];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
+        [_trackTableView setAllowsMultipleSelection:YES];
         [trackScrollView setDocumentView:_trackTableView];
         [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinYMargin];
 
