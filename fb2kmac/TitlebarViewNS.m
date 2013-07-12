@@ -209,8 +209,6 @@
     timeTotalStringPoint.y -= 2;
     timeTotalStringPoint.x += [_progressBar frame].size.width + 5;
     [timeTotalAttrString drawAtPoint:timeTotalStringPoint];
-    
-    [super drawRect:b];
 }
 
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification
