@@ -10,6 +10,7 @@
 #import <TUIKit.h>
 #import "LibraryView.h"
 #import "PlaylistView.h"
+#import "TitlebarButtonNS.h"
 
 #define bottomToolbarHeight 30.0
 
@@ -45,6 +46,18 @@
         [self addSubview:_playlistView];
         [_playlistView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin];
         
+        CGRect buttonFrame = self.bounds;
+        buttonFrame.origin.x += buttonFrame.size.width - 50;
+        buttonFrame.size = NSMakeSize(20, 20);
+        buttonFrame.origin.y += 5;
+        TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+        [button setAutoresizingMask:NSViewMinXMargin];
+        [button setButtonType:NSMomentaryLightButton];
+        [button setTarget:self];
+        [button setAction:@selector(newPlaylistButtonPressed:)];
+        [button setDrawIcon: [self newPlaylistButtonDrawRect]];
+        [self addSubview:button];
+        
         // triggers changing of gradients in bottom toolbar upon active/inactive window
         // also triggers on all NSWindow (not just its window) changes, but doesn't seem too ineffecient
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:nil];
@@ -52,6 +65,21 @@
     }
     
     return self;
+}
+
+-(void)newPlaylistButtonPressed:(id)sender
+{
+    [_playlistView newPlaylist];
+}
+
+-(NSViewDrawRect)newPlaylistButtonDrawRect
+{
+    return ^(NSView *v, CGRect rect) {
+        CGContextRef ctx = TUIGraphicsGetCurrentContext();
+        CGRect b = v.bounds;
+        CGContextSetRGBFillColor(ctx, 0.5, 0.5, 0, 1.0);
+        CGContextFillRect(ctx, b);
+    };
 }
 
 - (void)redisplay

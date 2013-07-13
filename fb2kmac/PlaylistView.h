@@ -22,6 +22,7 @@
 - (void)fetchPlaylists;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 - (void)doubleClickReceived:(id)sender;
+- (void)newPlaylist;
 
 @property Playlist *currentPlaylist;
 

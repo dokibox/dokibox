@@ -100,6 +100,15 @@
     _playlists = [_objectContext executeFetchRequest:fr error:&error];
 }
 
+- (void)newPlaylist
+{
+    _currentPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
+    [_currentPlaylist setName:@"New playlist"];
+    [_currentPlaylist save];
+    [self fetchPlaylists];
+    [_playlistTableView reloadData];
+}
+
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
 {
     NSArray *tracks = [notification object];
