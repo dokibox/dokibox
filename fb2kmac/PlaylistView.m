@@ -27,16 +27,30 @@
         _objectContext = [PlaylistCoreDataManager newContext];
         [self fetchPlaylists];
         
+        // Playlist table view
+        NSRect playlistScrollViewFrame = self.bounds;
+        playlistScrollViewFrame.size.height = playlistHeight;
+        RBLScrollView *playlistScrollView = [[RBLScrollView alloc] initWithFrame:playlistScrollViewFrame];
+        [playlistScrollView setHasVerticalScroller:YES];
+        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[playlistScrollView contentView] bounds]];
+        [_playlistTableView setDelegate:self];
+        [_playlistTableView setDataSource:self];
+        [_playlistTableView setHeaderView:nil];
+        [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
+        [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
+        [playlistScrollView setDocumentView:_playlistTableView];
+        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxYMargin];
+        NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
+        [_playlistTableView addTableColumn:playlistFirstColumn];
+        [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
+        [self addSubview:playlistScrollView];
+
+        // Select first playlist
         if([_playlists count] == 0) {
-            NSError *err;
-            _currentPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
-            [_currentPlaylist setName:@"New playlist"];
-            [_currentPlaylist save];
-            [self fetchPlaylists];
+            [self newPlaylist];
         }
-        else {
-            _currentPlaylist = [_playlists objectAtIndex:0];
-        }
+        [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+
         
         // Track table view
         NSRect trackScrollViewFrame = self.bounds;
@@ -61,23 +75,7 @@
 
         [self addSubview:trackScrollView];
         
-        // Playlist table view
-        NSRect playlistScrollViewFrame = self.bounds;
-        playlistScrollViewFrame.size.height = playlistHeight;
-        RBLScrollView *playlistScrollView = [[RBLScrollView alloc] initWithFrame:playlistScrollViewFrame];
-        [playlistScrollView setHasVerticalScroller:YES];
-        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
-        [_playlistTableView setDelegate:self];
-        [_playlistTableView setDataSource:self];
-        [_playlistTableView setHeaderView:nil];
-        [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
-        [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
-        [playlistScrollView setDocumentView:_playlistTableView];
-        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxYMargin];
-        NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
-        [_playlistTableView addTableColumn:playlistFirstColumn];
-        [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
-        [self addSubview:playlistScrollView];
+        
 
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
@@ -107,6 +105,7 @@
     [_currentPlaylist save];
     [self fetchPlaylists];
     [_playlistTableView reloadData];
+    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:_currentPlaylist]] byExtendingSelection:NO];
 }
 
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
@@ -160,6 +159,14 @@
 {
     CGFloat row_height = 25.0;
     return row_height;
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+    if([notification object] == _playlistTableView) {
+        _currentPlaylist = [_playlists objectAtIndex:[_playlistTableView selectedRow]];
+        [_trackTableView reloadData];
+    }
 }
 
 - (void)doubleClickReceived:(id)sender
