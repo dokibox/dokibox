@@ -47,7 +47,7 @@
         [_playlistView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin];
         
         CGRect buttonFrame = self.bounds;
-        buttonFrame.origin.x += buttonFrame.size.width - 50;
+        buttonFrame.origin.x += buttonFrame.size.width - 20 - 10;
         buttonFrame.size = NSMakeSize(20, 20);
         buttonFrame.origin.y += 5;
         TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
@@ -77,8 +77,28 @@
     return ^(NSView *v, CGRect rect) {
         CGContextRef ctx = TUIGraphicsGetCurrentContext();
         CGRect b = v.bounds;
-        CGContextSetRGBFillColor(ctx, 0.5, 0.5, 0, 1.0);
-        CGContextFillRect(ctx, b);
+        CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
+        CGContextSaveGState(ctx);
+        
+        CGFloat width = 3.0;
+        CGFloat height = 10.0;
+        
+        CGRect rects[] = {
+            CGRectMake(middle.x - width/2.0, middle.y - height/2.0, width, height),
+            CGRectMake(middle.x - height/2.0, middle.y - width/2.0, height, width)
+        };
+        CGContextClipToRects(ctx, rects, 2);
+        TUIColor *gradientEndColor = [TUIColor colorWithWhite:0.15 alpha:1.0];
+        TUIColor *gradientStartColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
+        
+        NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                           (id)[gradientEndColor CGColor], nil];
+        CGFloat locations[] = { 0.0, 1.0 };
+        CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+        
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + height/2.0), CGPointMake(middle.x, middle.y - height/2.0), 0);
+        CGGradientRelease(gradient);
+        CGContextRestoreGState(ctx);
     };
 }
 
