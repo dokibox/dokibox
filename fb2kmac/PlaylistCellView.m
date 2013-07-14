@@ -30,12 +30,12 @@
     NSString *name = [_playlist name];
     name = name == nil ? @"" : name;
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"HelveticaNeue" size:12] forKey:NSFontAttributeName];
+    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:10] forKey:NSFontAttributeName];
     NSAttributedString *nameAttStr = [[NSAttributedString alloc] initWithString:name attributes:attr];
     
     //CGContextSetShouldSmoothFonts(ctx, true);
     NSSize textSize = [nameAttStr size];
-    NSPoint textPoint = NSMakePoint(b.origin.x + 10.0, b.origin.y + b.size.height/2.0 - textSize.height/2.0);
+    NSPoint textPoint = NSMakePoint(b.origin.x + 7.0, b.origin.y + b.size.height/2.0 - textSize.height/2.0);
     [nameAttStr drawAtPoint:textPoint];
 }
 

@@ -159,8 +159,17 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    CGFloat row_height = 25.0;
-    return row_height;
+    
+    if(tableView == _trackTableView) {
+        return 25.0;
+    }
+    else if (tableView == _playlistTableView) {
+        return 20.0;
+    }
+    else {
+        DDLogError(@"Unknown table view");
+        return 0.0;
+    }
 }
 
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row

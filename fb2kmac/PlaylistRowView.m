@@ -19,27 +19,30 @@
 {    
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     CGRect b = self.bounds;
+    NSColor *gradientStartColor, *gradientEndColor;
     
     if([self isSelected]) {
         // selected background
-        if([self isEmphasized]) {
-            CGContextSetRGBFillColor(ctx, .77, .77, .87, 1);
+        if([self isEmphasized]) { // also active
+            gradientStartColor = [NSColor colorWithDeviceRed:0.52 green:0.65 blue:1.0 alpha:1.0];
+            gradientEndColor = [NSColor colorWithDeviceRed:0.72 green:0.85 blue:1.0 alpha:1.0];
         }
         else {
-            CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
+            gradientStartColor = [NSColor colorWithDeviceRed:0.82 green:0.88 blue:1.0 alpha:1.0];
+            gradientEndColor = [NSColor colorWithDeviceRed:0.92 green:0.97 blue:1.0 alpha:1.0];
         }
-        CGContextFillRect(ctx, b);
     } else {
-        // light gray background
-        CGContextSetRGBFillColor(ctx, .97, .97, .97, 1);
-        CGContextFillRect(ctx, b);
-        
-        // emboss
-        CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
-        CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
-        CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
-        CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.92 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.98 alpha:1.0];
     }
+    
+    NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                       (id)[gradientEndColor CGColor], nil];
+    CGFloat locations[] = { 0.0, 1.0 };
+    CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+    
+    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
+    CGGradientRelease(gradient);
 }
 
 @end
