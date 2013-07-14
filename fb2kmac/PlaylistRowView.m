@@ -10,6 +10,11 @@
 
 @implementation PlaylistRowView
 
+- (BOOL)isFlipped
+{
+    return NO;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {    
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
