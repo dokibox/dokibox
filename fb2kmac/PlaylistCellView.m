@@ -10,33 +10,43 @@
 
 @implementation PlaylistCellView
 
-@synthesize playlist = _playlist;
-
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+        CGRect b = [self bounds];
+        
+        b.origin.x += 7;
+        b.size.height -= 8;
+        _playlistNameTextField = [[NSTextField alloc] initWithFrame:b];
+        [_playlistNameTextField setStringValue:@"hi"];
+        [_playlistNameTextField setBordered:NO];
+        [_playlistNameTextField setBezeled:NO];
+        [_playlistNameTextField setDrawsBackground:NO];
+        [_playlistNameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
+        [self addSubview:_playlistNameTextField];
+        
+        [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin | NSViewMaxXMargin];
     }
     
     return self;
+}
+
+-(Playlist *)playlist
+{
+    return _playlist;
+}
+
+- (void)setPlaylist:(Playlist *)playlist
+{
+    _playlist = playlist;
+    [_playlistNameTextField setStringValue:[_playlist name]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = self.bounds;
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-        
-    NSString *name = [_playlist name];
-    name = name == nil ? @"" : name;
-    NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:10] forKey:NSFontAttributeName];
-    NSAttributedString *nameAttStr = [[NSAttributedString alloc] initWithString:name attributes:attr];
-    
-    //CGContextSetShouldSmoothFonts(ctx, true);
-    NSSize textSize = [nameAttStr size];
-    NSPoint textPoint = NSMakePoint(b.origin.x + 7.0, b.origin.y + b.size.height/2.0 - textSize.height/2.0);
-    [nameAttStr drawAtPoint:textPoint];
 }
 
 @end

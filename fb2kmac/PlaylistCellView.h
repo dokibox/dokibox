@@ -11,6 +11,7 @@
 
 @interface PlaylistCellView : NSView {
     Playlist *_playlist;
+    NSTextField *_playlistNameTextField;
 }
 
 @property() Playlist *playlist;

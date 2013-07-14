@@ -130,7 +130,7 @@
         PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
         
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            NSRect frame = NSMakeRect(0, 0, 200, 25);
             view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
             view.identifier = @"playlistTrackCellView";
         }
@@ -142,7 +142,7 @@
         PlaylistCellView *view = [tableView makeViewWithIdentifier:@"playlistCellView" owner:self];
         
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            NSRect frame = NSMakeRect(0, 0, 200, 25);
             view = [[PlaylistCellView alloc] initWithFrame:frame];
             view.identifier = @"playlistCellView";
         }
