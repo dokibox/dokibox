@@ -11,8 +11,10 @@
 #import "MusicController.h"
 #import "PlaylistCoreDataManager.h"
 #import "PlaylistTrackCellView.h"
+#import "PlaylistTrackRowView.h"
 #import "RBLScrollView.h"
 #import "PlaylistCellView.h"
+#import "PlaylistRowView.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -159,6 +161,36 @@
 {
     CGFloat row_height = 25.0;
     return row_height;
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+    if(tableView == _trackTableView) {
+        PlaylistTrackRowView *view = [tableView makeViewWithIdentifier:@"playlistTrackRowView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            view = [[PlaylistTrackRowView alloc] initWithFrame:frame];
+            view.identifier = @"playlistTrackRowView";
+        }
+        
+        return view;
+    }
+    else if (tableView == _playlistTableView) {
+        PlaylistRowView *view = [tableView makeViewWithIdentifier:@"playlistRowView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, 0);
+            view = [[PlaylistRowView alloc] initWithFrame:frame];
+            view.identifier = @"playlistRowView";
+        }
+        
+        return view;
+    }
+    else {
+        DDLogError(@"Unknown table view");
+        return nil;
+    }
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification

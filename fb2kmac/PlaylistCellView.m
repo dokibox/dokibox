@@ -26,23 +26,7 @@
 {
     CGRect b = self.bounds;
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    
-    /*if(false) {
-        // selected background
-        CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-        CGContextFillRect(ctx, b);
-    } else {
-        // light gray background
-        CGContextSetRGBFillColor(ctx, .97, .97, .97, 1);
-        CGContextFillRect(ctx, b);
         
-        // emboss
-        CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
-        CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
-        CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
-        CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));
-    }*/
-    
     NSString *name = [_playlist name];
     name = name == nil ? @"" : name;
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
