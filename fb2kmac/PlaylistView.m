@@ -39,6 +39,7 @@
         [_playlistTableView setDataSource:self];
         [_playlistTableView setHeaderView:nil];
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
+        [_playlistTableView setAllowsEmptySelection:NO];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
         [playlistScrollView setDocumentView:_playlistTableView];
         [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxYMargin];
