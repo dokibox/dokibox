@@ -1167,6 +1167,7 @@
 					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/prefix/lib\"",
@@ -1189,6 +1190,7 @@
 					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "fb2kmac/fb2kmac-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/prefix/lib\"",

@@ -1,0 +1,20 @@
+diff --git a/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj/project.pbxproj b/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj/project.pbxproj
+index 967fe95..5d86331 100644
+--- a/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj/project.pbxproj
++++ b/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj/project.pbxproj
+@@ -435,6 +435,7 @@
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+ 				GCC_PREFIX_HEADER = "Lumberjack/Lumberjack-Prefix.pch";
+ 				INFOPLIST_FILE = "Lumberjack/Lumberjack-Info.plist";
++				INSTALL_PATH = "@rpath";
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				WRAPPER_EXTENSION = framework;
+ 			};
+@@ -449,6 +450,7 @@
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+ 				GCC_PREFIX_HEADER = "Lumberjack/Lumberjack-Prefix.pch";
+ 				INFOPLIST_FILE = "Lumberjack/Lumberjack-Info.plist";
++				INSTALL_PATH = "@rpath";
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				WRAPPER_EXTENSION = framework;
+ 			};
