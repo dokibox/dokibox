@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Playlist.h"
 
-@interface PlaylistCellView : NSView {
+@interface PlaylistCellView : NSView < NSTextFieldDelegate > {
     Playlist *_playlist;
     NSTextField *_playlistNameTextField;
     NSTextField *_noTracksTextField;

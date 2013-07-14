@@ -20,13 +20,15 @@
         b.size.width += 7;
         b.size.height -= 8;
         _playlistNameTextField = [[NSTextField alloc] initWithFrame:b];
+        [_playlistNameTextField setDelegate:self];
+        [_playlistNameTextField setEditable:YES];
         [_playlistNameTextField setBordered:NO];
         [_playlistNameTextField setBezeled:NO];
         [_playlistNameTextField setDrawsBackground:NO];
         [_playlistNameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];        
         [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin | NSViewMaxXMargin];
         [self addSubview:_playlistNameTextField];
-        
+                
         b = [self bounds];
         b.origin.x += b.size.width - 40;
         b.size.width -= b.size.width - 40 + 15;
@@ -57,7 +59,8 @@
 - (void)setPlaylist:(Playlist *)playlist
 {
     _playlist = playlist;
-    [_playlistNameTextField setStringValue:[_playlist name]];
+    [_playlistNameTextField bind:@"value" toObject:_playlist withKeyPath:@"name" options:nil];
+    [_noTracksTextField bind:@"value" toObject:_playlist withKeyPath:@"tracks.@count" options:nil];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -80,6 +83,11 @@
     CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.x), CGPointMake(b.origin.x, b.origin.y + b.size.height), 0);
     CGGradientRelease(gradient);
     CGContextRestoreGState(ctx);
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
+{
+    [_playlist save];
 }
 
 @end
