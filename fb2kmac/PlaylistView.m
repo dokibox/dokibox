@@ -211,6 +211,29 @@
     }
 }
 
+- (IBAction)delete:(id)sender
+{
+    id selectedTableView = [[_trackTableView window] firstResponder];
+    if(selectedTableView == _playlistTableView) {
+        [_objectContext deleteObject:_currentPlaylist];
+        [_currentPlaylist save];
+        [self fetchPlaylists];
+        if([_playlists count] == 0) {
+            [self newPlaylist];
+        }
+        else {
+            [_playlistTableView reloadData];
+            [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+        }
+    }
+    else if (selectedTableView == _trackTableView) {
+        
+    }
+    else {
+        DDLogError(@"Unknown table view");
+    }
+}
+
 - (void)doubleClickReceived:(id)sender
 {
     if(sender == _trackTableView)
