@@ -211,6 +211,23 @@
     }
 }
 
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem
+{
+    SEL action = [anItem action];
+    if(action == @selector(delete:)) {
+        id selectedTableView = [[self window] firstResponder];
+        if(selectedTableView == _playlistTableView && [[_playlistTableView selectedRowIndexes] count] != 0)
+            return YES;
+        if(selectedTableView == _trackTableView && [[_trackTableView selectedRowIndexes] count] != 0)
+            return YES;
+        else
+            return NO;
+    }
+    else {
+        return NO;
+    }
+}
+
 - (IBAction)delete:(id)sender
 {
     id selectedTableView = [[_trackTableView window] firstResponder];
