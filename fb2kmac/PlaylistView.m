@@ -231,8 +231,10 @@
 
 - (IBAction)delete:(id)sender
 {
-    id selectedTableView = [[_trackTableView window] firstResponder];
+    id selectedTableView = [[self window] firstResponder];
     if(selectedTableView == _playlistTableView) {
+        for(PlaylistTrack *t in [_currentPlaylist tracks])
+            [_objectContext deleteObject:t];
         [_objectContext deleteObject:_currentPlaylist];
         [_currentPlaylist save];
         [self fetchPlaylists];
