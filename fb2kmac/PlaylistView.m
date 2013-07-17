@@ -245,7 +245,18 @@
         }
     }
     else if (selectedTableView == _trackTableView) {
-        
+        NSIndexSet *indexSet = [_trackTableView selectedRowIndexes];
+        NSUInteger index = [indexSet firstIndex];
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        while (index != NSNotFound) {
+            [arr addObject:[_currentPlaylist trackAtIndex:index]];
+            index = [indexSet indexGreaterThanIndex:index];
+        }
+        for (PlaylistTrack *t in arr) {
+            [_objectContext deleteObject:t];
+        }
+        [_currentPlaylist save];
+        [_trackTableView reloadData];
     }
     else {
         DDLogError(@"Unknown table view");
