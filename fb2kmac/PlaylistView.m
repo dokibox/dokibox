@@ -47,6 +47,7 @@
         [_playlistTableView addTableColumn:playlistFirstColumn];
         [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
         [self addSubview:playlistScrollView];
+        [_playlistTableView reloadData];
 
         // Select first playlist
         if([_playlists count] == 0) {
@@ -77,6 +78,7 @@
         [trackFirstColumn setWidth:[_trackTableView bounds].size.width];
 
         [self addSubview:trackScrollView];
+        [_trackTableView reloadData];
         
         
 
@@ -131,7 +133,7 @@
         PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
         
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            NSRect frame = NSMakeRect(0, 0, 200, 55);
             view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
             view.identifier = @"playlistTrackCellView";
         }
@@ -143,7 +145,7 @@
         PlaylistCellView *view = [tableView makeViewWithIdentifier:@"playlistCellView" owner:self];
         
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            NSRect frame = NSMakeRect(0, 0, 200, 22);
             view = [[PlaylistCellView alloc] initWithFrame:frame];
             view.identifier = @"playlistCellView";
         }
@@ -160,12 +162,11 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    
     if(tableView == _trackTableView) {
-        return 25.0;
+        return 55.0;
     }
     else if (tableView == _playlistTableView) {
-        return 20.0;
+        return 22.0;
     }
     else {
         DDLogError(@"Unknown table view");
