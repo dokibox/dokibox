@@ -7,6 +7,7 @@
 //
 
 #import "PlaylistCellView.h"
+#import "NSView+CGDrawing.h"
 
 @implementation PlaylistCellView
 
@@ -16,9 +17,10 @@
     if (self) {
         CGRect b = [self bounds];
         
+        b.size.width -= 60;
         b.origin.x += 7;
-        b.size.width += 7;
-        b.size.height -= 8;
+        b.origin.y += 5;
+        b.size.height -= 2*5;
         _playlistNameTextField = [[NSTextField alloc] initWithFrame:b];
         [_playlistNameTextField setDelegate:self];
         [_playlistNameTextField setEditable:YES];
@@ -31,12 +33,12 @@
                 
         b = [self bounds];
         b.origin.x += b.size.width - 40;
-        b.size.width -= b.size.width - 40 + 15;
-        b.size.height -= 9;
+        b.size.width -= b.size.width - 40 + 10;
+        b.origin.y += 5;
+        b.size.height -= 2*5;
         _noTracksTextField = [[NSTextField alloc] initWithFrame:b];
         [[_noTracksTextField cell] setUsesSingleLineMode:YES];
         [_noTracksTextField setAlignment:NSRightTextAlignment];
-        [_noTracksTextField setStringValue:@"4"];
         [_noTracksTextField setBordered:NO];
         [_noTracksTextField setBezeled:NO];
         [_noTracksTextField setDrawsBackground:NO];
@@ -61,6 +63,14 @@
     _playlist = playlist;
     [_playlistNameTextField bind:@"value" toObject:_playlist withKeyPath:@"name" options:nil];
     [_noTracksTextField bind:@"value" toObject:_playlist withKeyPath:@"tracks.@count" options:nil];
+    [_playlist addObserver:self forKeyPath:@"tracks.@count" options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath compare:@"tracks.@count"] == NSOrderedSame) {
+        [self setNeedsDisplay:YES];
+    }
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -70,10 +80,12 @@
     
     CGContextSaveGState(ctx);
     
-    CGRect cliprect = CGRectMake(b.origin.x + b.size.width - 28, b.origin.y + 3, 17, b.size.height - 6);
-    CGContextClipToRect(ctx, cliprect);
+    CGFloat noTrackTextLength = [[_noTracksTextField attributedStringValue] size].width;
+    CGRect cliprect = CGRectMake(b.origin.x + b.size.width - 16 - noTrackTextLength, b.origin.y + 3, noTrackTextLength + 8, b.size.height - 3*2);
+    [self CGContextRoundedCornerPath:cliprect context:ctx radius:3.0 withHalfPixelRedution:NO];
+    CGContextClip(ctx);
     NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.55 alpha:0.65];
-    NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.95 alpha:0.65];
+    NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.85 alpha:0.65];
     
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                        (id)[gradientEndColor CGColor], nil];
