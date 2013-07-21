@@ -28,7 +28,7 @@
         [_playlistNameTextField setBezeled:NO];
         [_playlistNameTextField setDrawsBackground:NO];
         [_playlistNameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];        
-        [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin | NSViewMaxXMargin];
+        [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
         [self addSubview:_playlistNameTextField];
                 
         b = [self bounds];
@@ -44,7 +44,7 @@
         [_noTracksTextField setDrawsBackground:NO];
         [_noTracksTextField setEditable:NO];
         [_noTracksTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
-        [_noTracksTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin | NSViewMaxXMargin];
+        [_noTracksTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin];
         [_noTracksTextField setTextColor:[NSColor colorWithDeviceWhite:0.34 alpha:1.0]];
         [self addSubview:_noTracksTextField];
 
@@ -84,8 +84,8 @@
     
     CGContextSaveGState(ctx);
     
-    CGFloat noTrackTextLength = [[_noTracksTextField attributedStringValue] size].width;
-    CGRect cliprect = CGRectMake(b.origin.x + b.size.width - 16 - noTrackTextLength, b.origin.y + 3, noTrackTextLength + 8, b.size.height - 3*2);
+    CGFloat noTrackTextLength = round([[_noTracksTextField attributedStringValue] size].width);
+    CGRect cliprect = CGRectMake(b.origin.x + b.size.width - 17 - noTrackTextLength, b.origin.y + 3, noTrackTextLength + 10, b.size.height - 3*2);
     [self CGContextRoundedCornerPath:cliprect context:ctx radius:3.0 withHalfPixelRedution:NO];
     CGContextClip(ctx);
     NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.55 alpha:0.65];
