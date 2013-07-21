@@ -60,6 +60,10 @@
 
 - (void)setPlaylist:(Playlist *)playlist
 {
+    if(_playlist) {
+        [_playlist removeObserver:self forKeyPath:@"tracks.@count"];
+    }
+    
     _playlist = playlist;
     [_playlistNameTextField bind:@"value" toObject:_playlist withKeyPath:@"name" options:nil];
     [_noTracksTextField bind:@"value" toObject:_playlist withKeyPath:@"tracks.@count" options:nil];
