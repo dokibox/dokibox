@@ -107,25 +107,41 @@
     }
     
     // Make backup of old version
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *storeBackupPath = [NSString stringWithFormat:@"%@.v%ld", storePath, sourceVersion];
-    [fileManager moveItemAtPath:storePath toPath:storeBackupPath error:&error];
-    if(error) {
-        DDLogError(@"Was not able to move old store version to %@", storeBackupPath);
+    success = [self moveSQLFilesFrom:storePath to:storeBackupPath];
+    if(!success) {
+        DDLogError(@"Failed migration.");
         return false;
     }
     
     // Move new version
-    [fileManager moveItemAtPath:tempPath toPath:storePath error:&error];
-    if(error) {
-        DDLogError(@"Was not able to move new store version to %@", storePath);
+    success = [self moveSQLFilesFrom:tempPath to:storePath];
+    if(!success) {
+        DDLogError(@"Failed migration.");
         return false;
     }
-
-    // Get rid of temp migration files
-    [self removeSQLFiles:tempPath];
     
     DDLogInfo(@"Migration successful");
+    return true;
+}
+
+-(BOOL)moveSQLFilesFrom:(NSString*)srcPath to:(NSString *)destPath
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    
+    NSArray *fileExtensions = [NSArray arrayWithObjects:@"", @"-shm", @"-wal", nil]; // Includes sqlite tmp files
+    for(NSString *ext in fileExtensions) {
+        NSString *src =[NSString stringWithFormat:@"%@%@", srcPath, ext];
+        NSString *dest =[NSString stringWithFormat:@"%@%@", destPath, ext];
+        
+        [fileManager moveItemAtPath:src toPath:dest error:&error];
+        if(error) {
+            DDLogError(@"Error moving SQL file from %@ to %@", src, dest);
+            return false;
+        }
+    }
+    
     return true;
 }
 
