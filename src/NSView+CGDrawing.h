@@ -11,5 +11,6 @@
 @interface NSView (CGDrawing)
 
 - (void)CGContextRoundedCornerPath:(CGRect)b context:(CGContextRef)ctx radius:(CGFloat)r withHalfPixelRedution:(BOOL)onpixel;
+-(void)CGContextVerticalGradient:(CGRect)b context:(CGContextRef)ctx bottomColor:(NSColor *)bottomColor topColor:(NSColor *)topColor;
 
 @end

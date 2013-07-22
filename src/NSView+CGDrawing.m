@@ -25,4 +25,15 @@
     CGContextAddArcToPoint(ctx, NSMinX(b)+diff, NSMinY(b)+diff, NSMinX(b)+diff, NSMinY(b)+r+diff, r);
 }
 
+-(void)CGContextVerticalGradient:(CGRect)b context:(CGContextRef)ctx bottomColor:(NSColor *)bottomColor topColor:(NSColor *)topColor
+{
+    NSArray *colors = [NSArray arrayWithObjects: (id)[bottomColor CGColor],
+                       (id)[topColor CGColor], nil];
+    CGFloat locations[] = { 0.0, 1.0 };
+    CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+    
+    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
+    CGGradientRelease(gradient);
+}
+
 @end
