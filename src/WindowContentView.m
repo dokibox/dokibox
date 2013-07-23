@@ -121,7 +121,16 @@
 {
     CGRect b = [self bounds];
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
-
+    
+    // Line divider
+    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
+    CGContextSetLineWidth(ctx, 1.0);
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
+    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height);
+    CGContextStrokePath(ctx);
+    
+    // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     TUIColor *gradientStartColor, *gradientEndColor;
     if(isActive) {
