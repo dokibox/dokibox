@@ -18,7 +18,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
-		self.backgroundColor = [TUIColor colorWithWhite:0.5 alpha:1.0];
+		self.backgroundColor = [TUIColor colorWithWhite:1.0 alpha:1.0];
 
         _tableView = [[TUITableView alloc] initWithFrame:self.bounds];
         [_tableView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];

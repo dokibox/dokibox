@@ -122,14 +122,14 @@
     CGRect b = [self bounds];
 	CGContextRef ctx = TUIGraphicsGetCurrentContext();
     
-    // Line divider
+    // Line divider for playlist/library
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
     CGContextSetLineWidth(ctx, 1.0);
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
     CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height);
     CGContextStrokePath(ctx);
-    
+        
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     TUIColor *gradientStartColor, *gradientEndColor;
@@ -149,6 +149,17 @@
 
     CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+bottomToolbarHeight), 0);
     CGGradientRelease(gradient);
+    
+    // Line divider for bottom
+    if(isActive)
+        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.7 alpha:1.0] CGColor]);
+    else
+        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.75 alpha:1.0] CGColor]);
+    CGContextSetLineWidth(ctx, 1.0);
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, b.origin.x, b.origin.y + bottomToolbarHeight-0.5);
+    CGContextAddLineToPoint(ctx, b.origin.x + b.size.width, b.origin.y + bottomToolbarHeight-0.5);
+    CGContextStrokePath(ctx);
 }
 
 @end
