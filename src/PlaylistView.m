@@ -43,7 +43,7 @@
         [_playlistTableView setAllowsEmptySelection:NO];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
         [playlistScrollView setDocumentView:_playlistTableView];
-        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxYMargin];
+        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
         NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_playlistTableView addTableColumn:playlistFirstColumn];
         [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
@@ -71,7 +71,7 @@
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
         [_trackTableView setAllowsMultipleSelection:YES];
         [trackScrollView setDocumentView:_trackTableView];
-        [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinYMargin];
+        [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
 
         NSTableColumn *trackFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
@@ -88,6 +88,13 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
 	}
 	return self;
+}
+
+- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
+{
+    [super resizeSubviewsWithOldSize:oldBoundsSize];
+    [[[_playlistTableView tableColumns] objectAtIndex:0] setWidth:[_playlistTableView bounds].size.width];
+    [[[_trackTableView tableColumns] objectAtIndex:0] setWidth:[_trackTableView bounds].size.width];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

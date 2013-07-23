@@ -23,28 +23,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         width_divider = 0.60;
-        [self setAutoresizesSubviews:YES];
 
-        CGRect libraryFrame = self.bounds;
-        libraryFrame.origin.y += bottomToolbarHeight;
-        libraryFrame.size.height -= bottomToolbarHeight;
-        libraryFrame.size.width *= width_divider;
-        TUINSView *twuiNSViewLibrary = [[TUINSView alloc] initWithFrame:libraryFrame];
-        twuiNSViewLibrary.rootView = [[LibraryView alloc] initWithFrame:CGRectZero];
-        [self addSubview:twuiNSViewLibrary];
-        [twuiNSViewLibrary setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMaxXMargin];
+        _twuiNSViewLibrary = [[TUINSView alloc] initWithFrame:[self libraryViewFrame]];
+        _twuiNSViewLibrary.rootView = [[LibraryView alloc] initWithFrame:CGRectZero];
+        [self addSubview:_twuiNSViewLibrary];
 
-
-
-        CGRect playlistFrame = self.bounds;
-        playlistFrame.origin.y += bottomToolbarHeight;
-        playlistFrame.size.height -= bottomToolbarHeight;
-        playlistFrame.origin.x += playlistFrame.size.width*width_divider;
-        playlistFrame.size.width = playlistFrame.size.width - playlistFrame.size.width*width_divider;
-
-        _playlistView = [[PlaylistView alloc] initWithFrame:playlistFrame];
+        _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
         [self addSubview:_playlistView];
-        [_playlistView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin];
 
         CGRect buttonFrame = self.bounds;
         buttonFrame.origin.x += buttonFrame.size.width - 20 - 10;
@@ -65,6 +50,31 @@
     }
 
     return self;
+}
+
+-(NSRect)libraryViewFrame
+{
+    CGRect libraryFrame = self.bounds;
+    libraryFrame.origin.y += bottomToolbarHeight;
+    libraryFrame.size.height -= bottomToolbarHeight;
+    libraryFrame.size.width = round(self.bounds.size.width * width_divider);
+    return libraryFrame;
+}
+
+-(NSRect)playlistViewFrame;
+{
+    CGRect playlistFrame = self.bounds;
+    playlistFrame.origin.y += bottomToolbarHeight;
+    playlistFrame.size.height -= bottomToolbarHeight;
+    playlistFrame.origin.x += round(playlistFrame.size.width * width_divider) + 1.0;
+    playlistFrame.size.width = playlistFrame.size.width - round(self.bounds.size.width * width_divider) - 1.0;
+    return playlistFrame;
+}
+
+- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
+{
+    [_twuiNSViewLibrary setFrame:[self libraryViewFrame]];
+    [_playlistView setFrame:[self playlistViewFrame]];
 }
 
 -(void)newPlaylistButtonPressed:(id)sender
