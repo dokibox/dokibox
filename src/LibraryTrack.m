@@ -13,6 +13,7 @@
 
 @implementation LibraryTrack
 @dynamic album;
+@dynamic trackNumber;
 
 -(void)didTurnIntoFault {
     //NSLog(@"hi turned into fault");

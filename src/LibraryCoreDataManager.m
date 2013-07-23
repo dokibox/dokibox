@@ -45,6 +45,12 @@ SHAREDINSTANCE
             [nameAttribute setAttributeType:NSStringAttributeType];
             [nameAttribute setOptional:NO];
             [trackProperties addObject:nameAttribute];
+            
+            NSAttributeDescription *trackNumberAttribute = [[NSAttributeDescription alloc] init];
+            [trackNumberAttribute setName:@"trackNumber"];
+            [trackNumberAttribute setAttributeType:NSInteger32AttributeType];
+            [trackNumberAttribute setOptional:YES];
+            [trackProperties addObject:trackNumberAttribute];
 
             NSAttributeDescription *attributesAttribute = [[NSAttributeDescription alloc] init];
             [attributesAttribute setName:@"attributes"];

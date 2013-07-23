@@ -119,7 +119,7 @@
                         insertIndex = i; //reached the end of the expanded block
                         break;
                     }
-                    if([name localizedCaseInsensitiveCompare:[[_celldata objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
+                    if([[m valueForKey:@"trackNumber"] compare:[[_celldata objectAtIndex:i] valueForKey:@"trackNumber"]] == NSOrderedAscending) {
                         insertIndex = i;
                         break;
                     }
@@ -329,9 +329,9 @@
 
         // this needs to be changed to tracknumber
         NSSortDescriptor *sortd = [[NSSortDescriptor alloc]
-                                   initWithKey:@"name"
+                                   initWithKey:@"trackNumber"
                                    ascending:YES
-                                   selector:@selector(localizedCaseInsensitiveCompare:)];
+                                   selector:@selector(compare:)];
 
         for(LibraryTrack *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
             [_celldata insertObject:track atIndex:i];

@@ -39,7 +39,13 @@
     CGContextFillRect(ctx, b);
 
     {   // Draw text for name
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:[[self track] name]];
+        NSMutableString *str = [[NSMutableString alloc] init];
+        if([[self track] trackNumber]) {
+            [str appendFormat:@"%d. ", [[[self track] trackNumber] intValue]];
+        }
+        [str appendString:[[self track] name]];
+        
+        TUIAttributedString *astr = [TUIAttributedString stringWithString:str];
         [astr setFont:[TUIFont fontWithName:@"Lucida Grande" size:10]];
         [astr setColor:[TUIColor blackColor]];
 
