@@ -43,6 +43,10 @@
             [retval setValue:value forKey:key];
         }
     }
+    
+    if(_audioproperties) {
+        [retval setValue:[NSNumber numberWithInt:_audioproperties->length()] forKey:@"length"];
+    }
 
     return retval;
 }

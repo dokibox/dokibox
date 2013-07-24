@@ -56,16 +56,21 @@
     }
 
     { // Draw alt text
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:@"3:01"];
-        [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:10]];
-        [astr setColor:[TUIColor colorWithWhite:0.35 alpha:1.0]];
-        NSSize textSize = [astr size];
-
-        CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -4);
-        //textRect.size.width -= textRect.origin.x - b.origin.x;
-        [_textRenderer setAttributedString:astr];
-        [_textRenderer setFrame: textRect]; //CGRectOffset(textRect, offset, 0)];
-        [_textRenderer draw];
+        if([[self track] length]) {
+            int length = [[[self track] length] intValue];
+            NSString *str = [NSString stringWithFormat:@"%d:%.2d", length/60, length%60];
+            
+            TUIAttributedString *astr = [TUIAttributedString stringWithString:str];
+            [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:10]];
+            [astr setColor:[TUIColor colorWithWhite:0.35 alpha:1.0]];
+            NSSize textSize = [astr size];
+            
+            CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -4);
+            //textRect.size.width -= textRect.origin.x - b.origin.x;
+            [_textRenderer setAttributedString:astr];
+            [_textRenderer setFrame: textRect]; //CGRectOffset(textRect, offset, 0)];
+            [_textRenderer draw];
+        }
     }
 }
 

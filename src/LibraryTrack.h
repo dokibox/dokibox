@@ -17,5 +17,6 @@
 
 @property (nonatomic) LibraryAlbum *album;
 @property (nonatomic) NSNumber *trackNumber;
+@property NSNumber *length;
 
 @end

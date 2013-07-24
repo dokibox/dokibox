@@ -203,6 +203,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
     [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
     [t setTrackNumber:[numberFormatter numberFromString:[[t attributes] objectForKey:@"TRACKNUMBER"]]];
+    [t setLength:[[t attributes] objectForKey:@"length"]];
 
     if([_objectContext save:&error] == NO) {
         NSLog(@"error saving");
