@@ -171,6 +171,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     }
 
     // Setup audio format chain
+    size = sizeof(outFormat);
 	err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size);
     if(err) {
 		NSLog(@"AudioUnitGetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
@@ -183,6 +184,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 		NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
 	}
 
+    size = sizeof(outFormat);
     err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size); //Ensures we have correct format, just in case it didnt set properly
     if(err) {
 		NSLog(@"AudioUnitGetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
