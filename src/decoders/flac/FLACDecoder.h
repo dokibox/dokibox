@@ -27,6 +27,7 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 }
 
 -(void)setMetadata:(FLAC__StreamMetadata *)metadata;
+-(DecoderMetadata)metadata;
 
 @property (retain) MusicController *musicController;
 

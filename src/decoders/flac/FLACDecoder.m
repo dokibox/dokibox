@@ -36,7 +36,8 @@ FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, 
         FLAC__int32 l, r;
         l = buffer[0][i];
         r = buffer[1][i];
-        int bps = 2;
+        int bps = [flacDecoder metadata].bitsPerSample/8;
+        
         [[mc fifoBuffer] write:&l size:bps];
         [[mc fifoBuffer] write:&r size:bps];
     }
@@ -113,6 +114,11 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 
 -(DecoderMetadata)decodeMetadata {
     FLAC__stream_decoder_process_until_end_of_metadata(decoder);
+    return _metadata;
+}
+
+-(DecoderMetadata)metadata
+{
     return _metadata;
 }
 
