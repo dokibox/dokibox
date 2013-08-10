@@ -417,7 +417,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 -(void)fillBuffer {
     size_t size = [fifoBuffer freespace];
-    while(size > 4096*4*2 && [self decoderStatus] == MusicControllerDecodingSong) {
+    while(size > [fifoBuffer size]/2 && [self decoderStatus] == MusicControllerDecodingSong) {
         DecodeStatus status = [currentDecoder decodeNextFrame];
         if(status == DecoderEOF) {
             [self setDecoderStatus:MusicControllerDecodedSong];

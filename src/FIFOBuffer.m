@@ -21,6 +21,10 @@
     return self;
 }
 
+-(int)size {
+    return buffer_fifo_size;
+}
+
 -(int)stored {
     int stored;
     if(buffer_fifo_wpos >= buffer_fifo_rpos)

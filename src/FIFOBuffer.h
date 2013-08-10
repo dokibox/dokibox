@@ -16,6 +16,7 @@
 }
 
 -(id)initWithSize:(int)size;
+-(int)size;
 -(int)stored;
 -(int)freespace;
 -(void)write:(void *)data size:(int)size;
