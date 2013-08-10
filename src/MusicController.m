@@ -90,20 +90,107 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     self = [super init];
     _decoderStatus = MusicControllerDecoderIdle;
     _status = MusicControllerStopped;
+    _volume = 1.0;
+        
+    decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrack" object:nil];
 
+    return self;
+}
+
+- (void)createOrReconfigureAudioGraph:(DecoderMetadata)decoderMetadata
+{
+    AUNodeInteraction *connections = NULL;
+    UInt32 noconns;
     int err;
-    UInt32 size;
-    Boolean outWritable;
+    
+    if(_outputGraph == 0) {
+        DDLogVerbose(@"Creating audio graph (first-time)");
+        [self createAudioGraph];
+    }
 
-    AudioStreamBasicDescription outFormat;
-    AURenderCallbackStruct renderCallback;
+    Boolean wasinitialized;
+    if((err = AUGraphIsInitialized(_outputGraph, &wasinitialized))) {
+        DDLogError(@"AUGraphIsInitialized failed");
+    }
+        
+    if(wasinitialized) {
+        // NB. This techincally only really needs to be if sample rate/format has changed, but we do it every time at the moment
+        DDLogVerbose(@"Reconfiguring audio graph for new format");
+        
+        // Uninitialize graph
+        if((err = AUGraphUninitialize(_outputGraph))) {
+            DDLogError(@"AUGraphUninitialize failed");
+        }
+    
+        // Save and clear connections
+        if((err = AUGraphGetNumberOfInteractions(_outputGraph, &noconns)))
+            DDLogError(@"AUGraphGetNumberofInteractions failed");
+        
+        connections = malloc(sizeof(AUNodeInteraction) * noconns);
+        for(int i=0; i<noconns; i++) {
+            if((err = AUGraphGetInteractionInfo(_outputGraph, i, &connections[i])))
+               DDLogError(@"AUGraphGetInteractionInfo failed");
+        }
+        if((err = AUGraphClearConnections(_outputGraph)))
+            DDLogError(@"AUGraphClearConnections failed");
+        
+        // Configure graph with new decoderMetadata
+        [self configureAudioGraph:decoderMetadata];
+        
+        // Restore connections
+        for(int i=0; i<noconns; i++) {
+            if(connections[i].nodeInteractionType == kAUNodeInteraction_Connection) {
+                AUNodeConnection c = connections[i].nodeInteraction.connection;
+                if((err = AUGraphConnectNodeInput(_outputGraph, c.sourceNode, c.sourceOutputNumber, c.destNode, c.destInputNumber)))
+                    DDLogError(@"AUGraphConnectNodeInput failed");;
+            }
+            if(connections[i].nodeInteractionType == kAUNodeInteraction_InputCallback) {
+                AUNodeRenderCallback c = connections[i].nodeInteraction.inputCallback;
+                if((err = AUGraphSetNodeInputCallback(_outputGraph, c.destNode, c.destInputNumber, &c.cback)))
+                    DDLogError(@"AUGraphSetNodeInputCallback failed");
+            }
+        }
+        free(connections);
+    }
+    
+    else { // First time
+        [self configureAudioGraph:decoderMetadata];
+    }
+    
+    DDLogVerbose(@"Initializing audio graph");
+    if((err = AUGraphInitialize(_outputGraph))) {
+        DDLogError(@"AUGraphInitialize failed: %d", err);
+    }
+    
+    /*AudioStreamBasicDescription outFormat;
+    UInt32 size = sizeof(outFormat);
+    err = AudioUnitGetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size); //Ensures we have correct format, just in case it didnt set properly
+    NSLog(@"output unit input sample rate: %f", outFormat.mSampleRate);
+    
+    Float64 outSampleRate = 0.0;
+    size = sizeof(Float64);
+    AudioUnitGetProperty (_outputUnit,
+                          kAudioUnitProperty_SampleRate,
+                          kAudioUnitScope_Output,
+                          0,
+                          &outSampleRate,
+                          &size);
+    NSLog(@"output unit output sample rate %f", outSampleRate);*/
+}
+
+- (void)createAudioGraph
+{
+    int err;
 
     // Create Graph
     err = NewAUGraph(&_outputGraph);
     if(err) {
         NSLog(@"NewAUGraph failed");
     }
-
+    
     // Node descriptions
     AudioComponentDescription mixerDesc;
 	mixerDesc.componentType = kAudioUnitType_Mixer;
@@ -111,135 +198,132 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 	mixerDesc.componentFlags = 0;
 	mixerDesc.componentFlagsMask = 0;
 	mixerDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
-
+    
     AudioComponentDescription outputDesc;
     outputDesc.componentType = kAudioUnitType_Output;
     outputDesc.componentSubType = kAudioUnitSubType_DefaultOutput;
     outputDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
     outputDesc.componentFlags = 0;
     outputDesc.componentFlagsMask = 0;
-
+    
     // Add nodes
-    AUNode outputNode, mixerNode;
-    err = AUGraphAddNode(_outputGraph, &outputDesc, &outputNode);
+    err = AUGraphAddNode(_outputGraph, &outputDesc, &_outputNode);
     if(err) {
         NSLog(@"AUGraphAddNode failed (output)");
     }
-
-
-    err = AUGraphAddNode(_outputGraph, &mixerDesc, &mixerNode);
+    
+    
+    err = AUGraphAddNode(_outputGraph, &mixerDesc, &_mixerNode);
     if(err) {
         NSLog(@"AUGraphAddNode failed (mixer)");
     }
-
+    
     // Connect nodes together
-    err = AUGraphConnectNodeInput(_outputGraph, mixerNode, 0, outputNode, 0);
+    err = AUGraphConnectNodeInput(_outputGraph, _mixerNode, 0, _outputNode, 0);
     if(err) {
         NSLog(@"AUGraphConnectNodeInput failed (mixer->output)");
     }
-
+    
     // Open and fetch the units
     err = AUGraphOpen(_outputGraph);
     if(err) {
         NSLog(@"AUGraphOpen failed");
     }
-
-    err = AUGraphNodeInfo(_outputGraph, outputNode, NULL, &_outputUnit);
+    
+    err = AUGraphNodeInfo(_outputGraph, _outputNode, NULL, &_outputUnit);
     if(err) {
         NSLog(@"AUGraphNodeInfo failed (output)");
     }
-
-    err = AUGraphNodeInfo(_outputGraph, mixerNode, NULL, &_mixerUnit);
+    
+    err = AUGraphNodeInfo(_outputGraph, _mixerNode, NULL, &_mixerUnit);
     if(err) {
         NSLog(@"AUGraphNodeInfo failed (mixer)");
     }
-
+    
     // Setup mixer
     UInt32 numbuses = 1;
     err = AudioUnitSetProperty(_mixerUnit, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &numbuses, sizeof(numbuses));
     if(err) {
         NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_ElementCount:mixerUnit input) failed");
     }
-
-    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Input, 0, 1.0, 0);
+    
+    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Input, 0, _volume, 0);
     if(err) {
         NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit input) failed");
     }
-    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, 1.0, 0);
+    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, _volume, 0);
     if(err) {
         NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
     }
+    
+    
+    // Set input callbacks to mixer
+    AURenderCallbackStruct renderCallback;
+    memset(&renderCallback, 0, sizeof(AURenderCallbackStruct));
+    renderCallback.inputProc = renderProc;
+    renderCallback.inputProcRefCon = (__bridge void *)self;
+    
+    fifoBuffer = [[FIFOBuffer alloc] initWithSize:200000];
+    int auBufferSize = 4096*2;
+    void *auBufferContents = malloc(auBufferSize);
+    auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];
+    
+    err = AUGraphSetNodeInputCallback(_outputGraph, _mixerNode, 0, &renderCallback);
+}
 
+- (void)configureAudioGraph:(DecoderMetadata)decoderMetadata
+{
     // Setup audio format chain
-    size = sizeof(outFormat);
+    int err;
+    AudioStreamBasicDescription outFormat;
+    UInt32 size = sizeof(outFormat);
+    
 	err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size);
     if(err) {
 		NSLog(@"AudioUnitGetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
 	}
-
-    outFormat.mSampleRate = 48000;
+    
+    outFormat.mSampleRate = decoderMetadata.sampleRate;
 
     err = AudioUnitSetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, sizeof(AudioStreamBasicDescription));
     if(err) {
 		NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
 	}
-
+    
     size = sizeof(outFormat);
     err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size); //Ensures we have correct format, just in case it didnt set properly
     if(err) {
 		NSLog(@"AudioUnitGetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
 	}
-
-    err = AudioUnitSetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outFormat, sizeof(AudioStreamBasicDescription));
+    
+    err = AudioUnitSetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &outFormat, &size);
     if(err) {
-		NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
+		NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_StreamFormat:mixerUnit output) failed");
 	}
-
-
-
-    NSLog(@"%f\n", outFormat.mSampleRate);
-    NSLog(@"%d\n", outFormat.mFramesPerPacket);
-
+        
     // Set up converter
-    _inFormat.mSampleRate = 44100;
-    _inFormat.mChannelsPerFrame = 2;
+    _inFormat.mSampleRate = decoderMetadata.sampleRate;
+    _inFormat.mChannelsPerFrame = decoderMetadata.numberOfChannels;
     _inFormat.mFormatID = kAudioFormatLinearPCM;
     _inFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked;
     _inFormat.mFormatFlags |= kLinearPCMFormatFlagIsSignedInteger;
-    int bps = 2;
-    _inFormat.mBitsPerChannel = bps << 3;
-	_inFormat.mBytesPerPacket = bps*_inFormat.mChannelsPerFrame;
+    int bps = decoderMetadata.bitsPerSample;
+    _inFormat.mBitsPerChannel = bps;
+	_inFormat.mBytesPerPacket = bps/8*_inFormat.mChannelsPerFrame;
 	_inFormat.mFramesPerPacket = 1;
-	_inFormat.mBytesPerFrame = bps*_inFormat.mChannelsPerFrame;
-
+	_inFormat.mBytesPerFrame = bps/8*_inFormat.mChannelsPerFrame;
+    
+    if(converter) {
+        err = AudioConverterDispose(converter);
+        if(err) {
+            NSLog(@"AudioConverterDispose failed");
+        }
+    }
+    
     err = AudioConverterNew(&_inFormat, &outFormat, &converter);
     if(err) {
         NSLog(@"AudioConverterNew failed");
-    }
-
-    // Set input callbacks to mixer
-    memset(&renderCallback, 0, sizeof(AURenderCallbackStruct));
-    renderCallback.inputProc = renderProc;
-    renderCallback.inputProcRefCon = (__bridge void *)self;
-
-    fifoBuffer = [[FIFOBuffer alloc] initWithSize:200000];
-    int auBufferSize = 4096*2;
-    void *auBufferContents = malloc(auBufferSize);
-    auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];
-
-    err = AUGraphSetNodeInputCallback(_outputGraph, mixerNode, 0, &renderCallback);
-
-    err = AUGraphInitialize(_outputGraph);
-    if(err) {
-        NSLog(@"AUGraphInitialize failed");
-    }
-
-    decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrack" object:nil];
-
-    return self;
+    }    
 }
 
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename
@@ -276,7 +360,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         AUGraphStop(_outputGraph);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:nil];
     }
-
     _currentTrack = [notification object];
     NSString *fp = [_currentTrack filename];
     NSLog(@"%@", fp);
@@ -294,7 +377,12 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     DecoderMetadata metadata = [currentDecoder decodeMetadata];
     _totalFrames = metadata.totalSamples;
     NSLog(@"total frames: %d", metadata.totalSamples);
-
+    NSLog(@"bitrate: %d", metadata.bitsPerSample);
+    
+    NSDate *d = [NSDate date];
+    [self createOrReconfigureAudioGraph:metadata];
+    NSLog(@"time to setup audio graph: %f", [[NSDate date] timeIntervalSinceDate:d]);
+    
     _prevElapsedTimeSent = 0;
     [self setElapsedFrames:0];
     [fifoBuffer reset];
@@ -403,18 +491,16 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 }
 
 - (float)volume {
-    AudioUnitParameterValue volvalue;
-    int err = AudioUnitGetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, &volvalue);
-    if(err) {
-        NSLog(@"AudioUnitGetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
-    }
-    return volvalue;
+    return _volume;
 }
 
 - (void)setVolume:(float)volume {
-    int err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0);
-    if(err) {
-        NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
+    _volume = volume;
+    if(_mixerUnit) {
+        int err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0);
+        if(err) {
+            NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
+        }
     }
 }
 

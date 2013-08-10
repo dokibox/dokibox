@@ -31,8 +31,10 @@ typedef enum {
     AUGraph _outputGraph;
     AudioUnit _outputUnit;
     AudioUnit _mixerUnit;
+    AUNode _mixerNode, _outputNode;
     AudioConverterRef converter;
     AudioStreamBasicDescription _inFormat;
+    float _volume;
 
 
     MusicControllerDecoderStatus _decoderStatus;
@@ -62,6 +64,11 @@ typedef enum {
 
 + (BOOL)isSupportedAudioFile:(NSString *)filename;
 - (void)receivedPlayTrackNotification:(NSNotification *)notification;
+
+- (void)createOrReconfigureAudioGraph:(DecoderMetadata)decoderMetadata;
+- (void)createAudioGraph;
+- (void)configureAudioGraph:(DecoderMetadata)decoderMetadata;
+
 - (void)receivedSeekTrackNotification:(NSNotification *)notification;
 - (NSData *)readInput:(int)bytes;
 - (void)seekInput:(unsigned long long)offset;
