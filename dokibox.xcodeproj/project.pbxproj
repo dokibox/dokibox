@@ -47,6 +47,8 @@
 		2B82B272178114C400E1EA0B /* ManagedObjectTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82B271178114C400E1EA0B /* ManagedObjectTrack.m */; };
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
+		2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B9B27DF17B85038005434F2 /* Carbon.framework */; };
 		2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */; };
 		2B9DA4FD1791E8C60065DC44 /* PlaylistTrackRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4FC1791E8C60065DC44 /* PlaylistTrackRowView.m */; };
 		2B9DA5001791FE910065DC44 /* PlaylistRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */; };
@@ -305,6 +307,9 @@
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
+		2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMediaKeyTap.m; path = deps/SPMediaKeyTap/SPMediaKeyTap.m; sourceTree = SOURCE_ROOT; };
+		2B9B27DD17B84E1E005434F2 /* SPMediaKeyTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SPMediaKeyTap.h; path = deps/SPMediaKeyTap/SPMediaKeyTap.h; sourceTree = SOURCE_ROOT; };
+		2B9B27DF17B85038005434F2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		2B9DA4F8178A5AF10065DC44 /* PlaylistCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistCellView.h; sourceTree = "<group>"; };
 		2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistCellView.m; sourceTree = "<group>"; };
 		2B9DA4FB1791E8C60065DC44 /* PlaylistTrackRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackRowView.h; sourceTree = "<group>"; };
@@ -371,6 +376,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */,
 				2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */,
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
@@ -427,6 +433,7 @@
 		2B15BF59146127A100DC46CD = {
 			isa = PBXGroup;
 			children = (
+				2B9B27DF17B85038005434F2 /* Carbon.framework */,
 				2B15BF6E146127A100DC46CD /* src */,
 				2B15BF67146127A100DC46CD /* Frameworks */,
 				2B15BF65146127A100DC46CD /* Products */,
@@ -589,6 +596,8 @@
 				2B5DA982162758320057D0D5 /* SliderBar.m */,
 				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
 				2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */,
+				2B9B27DD17B84E1E005434F2 /* SPMediaKeyTap.h */,
+				2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */,
 				2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */,
 				2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */,
 				2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */,
@@ -1022,6 +1031,7 @@
 				2B9DA4FD1791E8C60065DC44 /* PlaylistTrackRowView.m in Sources */,
 				2B9DA5001791FE910065DC44 /* PlaylistRowView.m in Sources */,
 				2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */,
+				2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

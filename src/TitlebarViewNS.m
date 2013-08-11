@@ -12,6 +12,7 @@
 #import "PlaylistView.h"
 #import "Playlist.h"
 #import "WindowContentView.h"
+#import "SPMediaKeyTap.h"
 
 @implementation TitlebarViewNS
 @synthesize musicController = _musicController;
@@ -33,7 +34,14 @@
 
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaybackProgressNotification:) name:@"playbackProgress" object:nil];
-
+        
+        // Media keys initialization
+        [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+            [SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey,
+            nil]];
+        _keyTap = [[SPMediaKeyTap alloc] initWithDelegate:self];
+        if([SPMediaKeyTap usesGlobalMediaKeyTap])
+            [_keyTap startWatchingMediaKeys]; //Remember to disable this when using gdb breakpoints
     }
     return self;
 }
@@ -350,6 +358,7 @@
 }
 
 -(void)playButtonPressed:(id)sender
+// sender can be a SPMediaKeyTap too
 {
     if(_playing) {
         [_musicController pause];
@@ -369,6 +378,7 @@
 }
 
 -(void)prevButtonPressed:(id)sender {
+    // sender can be a SPMediaKeyTap too
     WindowContentView *wv = (WindowContentView *)[[self window] contentView];
     Playlist *p = [[wv playlistView] currentPlaylist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
@@ -381,6 +391,7 @@
 }
 
 -(void)nextButtonPressed:(id)sender {
+    // sender can be a SPMediaKeyTap too
     WindowContentView *wv = (WindowContentView *)[[self window] contentView];
     Playlist *p = [[wv playlistView] currentPlaylist];
     NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
@@ -423,6 +434,36 @@
     else if([notification object] == _progressBar) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];
     }
+}
+
+-(void)mediaKeyTap:(SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event
+{
+    NSAssert([event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys, @"Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:");
+
+	int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+	int keyFlags = ([event data1] & 0x0000FFFF);
+	BOOL keyIsPressed = (((keyFlags & 0xFF00) >> 8)) == 0xA;
+	int keyRepeat = (keyFlags & 0x1);
+	
+	if (keyIsPressed && !keyRepeat) {
+		switch (keyCode) {
+			case NX_KEYTYPE_PLAY:
+                [self playButtonPressed:keyTap];
+				break;
+				
+			case NX_KEYTYPE_FAST:
+                [self nextButtonPressed:keyTap];
+				break;
+				
+			case NX_KEYTYPE_REWIND:
+                [self prevButtonPressed:keyTap];
+				break;
+                
+			default:
+                DDLogError(@"Unknown media key (keycode %d", keyCode);
+				break;
+		}
+	}
 }
 
 

@@ -13,6 +13,7 @@
 #import "SliderBar.h"
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
+@class SPMediaKeyTap;
 
 @interface TitlebarViewNS : NSView <SliderBarDelegate> {
     BOOL _playing;
@@ -25,6 +26,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     NSDictionary *_progressDict;
 
     SliderBar *_volumeBar;
+    
+    SPMediaKeyTap *_keyTap;
 }
 
 -(id)initWithMusicController:(MusicController *)mc;
