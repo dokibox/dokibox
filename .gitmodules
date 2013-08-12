@@ -33,6 +33,8 @@
 [submodule "deps/rebel"]
 	path = deps/rebel
 	url = git@github.com:github/Rebel.git
+	ignore = dirty
 [submodule "deps/SPMediaKeyTap"]
 	path = deps/SPMediaKeyTap
 	url = https://github.com/nevyn/SPMediaKeyTap.git
+	ignore = dirty
