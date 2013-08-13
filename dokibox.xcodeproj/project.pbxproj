@@ -22,7 +22,6 @@
 		2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */; };
 		2B5086F51787ED430066B014 /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
 		2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
-		2B53558715D07A2B0054E61F /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53558515D0797D0054E61F /* Button.m */; };
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
@@ -268,8 +267,6 @@
 		2B5086DA1787CFD20066B014 /* PlaylistTrackCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackCellView.h; sourceTree = "<group>"; };
 		2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackCellView.m; sourceTree = "<group>"; };
 		2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rebel.xcodeproj; path = deps/rebel/Rebel.xcodeproj; sourceTree = "<group>"; };
-		2B53558415D0797D0054E61F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
-		2B53558515D0797D0054E61F /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
 		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		2B5B33FA17763C140093C292 /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = deps/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
 		2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MASPreferencesWindow.xib; path = deps/MASPreferences/MASPreferencesWindow.xib; sourceTree = SOURCE_ROOT; };
@@ -590,8 +587,6 @@
 		2B82B24F177C032C00E1EA0B /* titlebar */ = {
 			isa = PBXGroup;
 			children = (
-				2B53558415D0797D0054E61F /* Button.h */,
-				2B53558515D0797D0054E61F /* Button.m */,
 				2B5DA981162758320057D0D5 /* SliderBar.h */,
 				2B5DA982162758320057D0D5 /* SliderBar.m */,
 				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
@@ -995,7 +990,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B53558715D07A2B0054E61F /* Button.m in Sources */,
 				2B15BF75146127A100DC46CD /* main.m in Sources */,
 				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,
 				2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */,
