@@ -1,0 +1,9 @@
+language: objective-c
+before_install:
+  - git submodule update --init --recursive
+  - brew update
+  - brew install cmake
+  - ./build-toolchain.sh
+  - ./build-patchdeps.sh
+  - ./build-deps.sh
+script: ~/travis-utils/osx-cibuild.sh dokibox
