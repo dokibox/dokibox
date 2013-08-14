@@ -28,13 +28,13 @@
 	ignore = dirty
 [submodule "deps/MASPreferences"]
 	path = deps/MASPreferences
-	url = git@github.com:shpakovski/MASPreferences.git
+	url = git://github.com/shpakovski/MASPreferences.git
 	ignore = dirty
 [submodule "deps/rebel"]
 	path = deps/rebel
-	url = git@github.com:github/Rebel.git
+	url = git://github.com/github/Rebel.git
 	ignore = dirty
 [submodule "deps/SPMediaKeyTap"]
 	path = deps/SPMediaKeyTap
-	url = https://github.com/nevyn/SPMediaKeyTap.git
+	url = git://github.com/nevyn/SPMediaKeyTap.git
 	ignore = dirty
