@@ -35,7 +35,7 @@
         [libraryFirstColumn setWidth:[libraryScrollView contentSize].width];
 
         [libraryScrollView setDocumentView:_tableView];
-        //[libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+        [libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [self addSubview:libraryScrollView];
 
         _celldata = [[NSMutableArray alloc] init];
@@ -58,13 +58,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
 	}
 	return self;
-}
-
--(void)drawRect:(NSRect)dirtyRect
-{
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSetRGBFillColor(ctx, .87, .17, .87, 1);
-    CGContextFillRect(ctx, [self bounds]);
 }
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
