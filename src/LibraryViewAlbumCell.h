@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TUIKit.h"
 #import "LibraryAlbum.h"
 
-@interface LibraryViewAlbumCell : TUITableViewCell {
-    TUITextRenderer *_textRenderer;
+@interface LibraryViewAlbumCell : NSView {
     LibraryAlbum *_album;
 }
 

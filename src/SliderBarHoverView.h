@@ -6,7 +6,6 @@
 //
 //
 
-#import "TUIKit.h"
 #import <Cocoa/Cocoa.h>
 
 @interface SliderBarHoverView : NSView {

@@ -132,12 +132,12 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // Draw bar
-    TUIColor *gradientStartColor, *gradientEndColor;
-    gradientStartColor = [TUIColor colorWithWhite:0.77 alpha:1.0];
-    gradientEndColor = [TUIColor colorWithWhite:0.82 alpha:1.0];
+    NSColor *gradientStartColor, *gradientEndColor;
+    gradientStartColor = [NSColor colorWithDeviceWhite:0.77 alpha:1.0];
+    gradientEndColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
 
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                        (id)[gradientEndColor CGColor], nil];
@@ -164,7 +164,7 @@
     CGContextAddRect(ctx, b);
     CGContextClip(ctx);
 
-    TUIColor *shadowcolor = [TUIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7];
+    NSColor *shadowcolor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7];
     CGContextSetShadowWithColor(ctx, CGSizeMake(0, -1), 5, [shadowcolor CGColor]);
     CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
     CGContextAddPath(ctx, shadowpath);

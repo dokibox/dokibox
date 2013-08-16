@@ -12,22 +12,31 @@
 #import "LibraryViewTrackCell.h"
 #import "LibraryCoreDataManager.h"
 #import "LibraryArtist.h"
+#import "RBLScrollView.h"
 
 @implementation LibraryView
 
 - (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
-		self.backgroundColor = [TUIColor colorWithWhite:1.0 alpha:1.0];
-
-        _tableView = [[TUITableView alloc] initWithFrame:self.bounds];
-        [_tableView setAutoresizingMask:TUIViewAutoresizingFlexibleSize];
+        RBLScrollView *libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
+        [libraryScrollView setHasVerticalScroller:YES];        
+        
+        _tableView = [[RBLTableView alloc] initWithFrame:[[libraryScrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
-        [_tableView setMaintainContentOffsetAfterReload:TRUE];
-        [_tableView setClipsToBounds:TRUE];
-        [_tableView setPasteboardReceiveDraggingEnabled:TRUE];
-        [self addSubview:_tableView];
+        [_tableView setHeaderView:nil];
+        [_tableView setAction:@selector(clickRecieved:)];
+        [_tableView setDoubleAction:@selector(doubleClickReceived:)];
+        [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
+        
+        NSTableColumn *libraryFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
+        [_tableView addTableColumn:libraryFirstColumn];
+        [libraryFirstColumn setWidth:[libraryScrollView contentSize].width];
+
+        [libraryScrollView setDocumentView:_tableView];
+        //[libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+        [self addSubview:libraryScrollView];
 
         _celldata = [[NSMutableArray alloc] init];
         _objectContext = [LibraryCoreDataManager newContext];
@@ -44,10 +53,18 @@
         [_celldata addObjectsFromArray:results];
         NSDate *d2 = [NSDate date];
         NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
+        [_tableView reloadData];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
 	}
 	return self;
+}
+
+-(void)drawRect:(NSRect)dirtyRect
+{
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextSetRGBFillColor(ctx, .87, .17, .87, 1);
+    CGContextFillRect(ctx, [self bounds]);
 }
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
@@ -156,9 +173,9 @@
     });
 }
 
-- (CGFloat)tableView:(TUITableView *)tableView heightForRowAtIndexPath:(TUIFastIndexPath *)indexPath
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
+    NSObject *obj = [_celldata objectAtIndex:row];
     if([obj isKindOfClass:[LibraryArtist class]]) {
         return 25.0;
     }
@@ -169,18 +186,21 @@
         return 20.0;
     }
     else {
-        return 1.0;
+        DDLogError(@"Unknown table cell type in LibraryView");
+        return 0.0;
     }
 }
 
-- (NSInteger)tableView:(TUITableView *)table numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [_celldata count];
+
 }
 
-- (TUITableViewCell *)tableView:(TUITableView *)tableView cellForRowAtIndexPath:(TUIFastIndexPath *)indexPath
-{
-    TUITableViewCell *cell;
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row {
+    NSView *view;
     /*if([indexPath row] == 0)
         cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
 	else if([indexPath row] == 1)
@@ -188,23 +208,42 @@
     else
         cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);*/
 
-    NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
+    NSObject *obj = [_celldata objectAtIndex:row];
     if([obj isKindOfClass:[LibraryArtist class]]) {
-        cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
-        [((LibraryViewArtistCell *)cell) setArtist:(LibraryArtist *)[_celldata objectAtIndex:[indexPath row]]];
+        view = [tableView makeViewWithIdentifier:@"libraryViewArtistCell" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            view = [[LibraryViewArtistCell alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewArtistCell";
+        }
+
+        [((LibraryViewArtistCell *)view) setArtist:(LibraryArtist *)[_celldata objectAtIndex:row]];
     }
     else if([obj isKindOfClass:[LibraryAlbum class]]) {
-        cell = reusableTableCellOfClass(tableView, LibraryViewAlbumCell);
-        [((LibraryViewAlbumCell *)cell) setAlbum:(LibraryAlbum *)[_celldata objectAtIndex:[indexPath row]]];
+        view = [tableView makeViewWithIdentifier:@"libraryViewAlbumCell" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            view = [[LibraryViewAlbumCell alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewAlbumCell";
+        }
+        
+        [((LibraryViewAlbumCell *)view) setAlbum:(LibraryAlbum *)[_celldata objectAtIndex:row]];
     }
     else if([obj isKindOfClass:[LibraryTrack class]]) {
-        cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);
-        [((LibraryViewTrackCell *)cell) setTrack:(LibraryTrack *)[_celldata objectAtIndex:[indexPath row]]];
+        view = [tableView makeViewWithIdentifier:@"libraryViewTrackCell" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            view = [[LibraryViewTrackCell alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewTrackCell";
+        }
+        
+        [((LibraryViewTrackCell *)view) setTrack:(LibraryTrack *)[_celldata objectAtIndex:row]];
     }
 
-
-
-	return cell;
+	return view;
 }
 
 -(BOOL)isRowExpanded:(NSUInteger)row
@@ -230,45 +269,50 @@
         return NO;
 }
 
-- (void)tableView:(TUITableView *)tableView didClickRowAtIndexPath:(TUIFastIndexPath *)indexPath withEvent:(NSEvent *)event {
-    if([event clickCount] == 2) { //double click
-        NSLog(@"double click");
+- (void)doubleClickReceived:(id)sender
+{
+    NSTableView *tv = (NSTableView *)sender;
+    NSUInteger row = [tv clickedRow];
 
-        [self expandRow:[indexPath row] recursive:YES];
-
-        NSObject *obj = [_celldata objectAtIndex:[indexPath row]];
-        NSMutableArray *tracks = [[NSMutableArray alloc] init];
-        if([obj isKindOfClass:[LibraryTrack class]]) { // if its a track, only one
-            [tracks addObject:[((LibraryTrack *)obj) filename]];
-        }
-        else {
-            for(NSUInteger i = [indexPath row] + 1; i<[_celldata count]; i++) {
-                NSObject *obj2 = [_celldata objectAtIndex:i];
-                if([obj isKindOfClass:[LibraryAlbum class]] && ([obj2 isKindOfClass:[LibraryAlbum class]] || [obj2 isKindOfClass:[LibraryAlbum class]]))
-                    break;
-                if([obj isKindOfClass:[LibraryArtist class]] && [obj2 isKindOfClass:[LibraryArtist class]])
-                    break;
-
-                if([obj2 isKindOfClass:[LibraryTrack class]])
-                    [tracks addObject:[((LibraryTrack *)obj2) filename]];
-            }
-        }
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
-
-        [tableView reloadData];
-        return;
-    }
-
-    if([self isRowExpanded:[indexPath row]]) {
-        [self collapseRow:[indexPath row]];
+    [self expandRow:row recursive:YES];
+    
+    NSObject *obj = [_celldata objectAtIndex:row];
+    NSMutableArray *tracks = [[NSMutableArray alloc] init];
+    if([obj isKindOfClass:[LibraryTrack class]]) { // if its a track, only one
+        [tracks addObject:[((LibraryTrack *)obj) filename]];
     }
     else {
-        [self expandRow:[indexPath row]];
+        for(NSUInteger i = row + 1; i<[_celldata count]; i++) {
+            NSObject *obj2 = [_celldata objectAtIndex:i];
+            if([obj isKindOfClass:[LibraryAlbum class]] && ([obj2 isKindOfClass:[LibraryAlbum class]] || [obj2 isKindOfClass:[LibraryAlbum class]]))
+                break;
+            if([obj isKindOfClass:[LibraryArtist class]] && [obj2 isKindOfClass:[LibraryArtist class]])
+                break;
+            
+            if([obj2 isKindOfClass:[LibraryTrack class]])
+                [tracks addObject:[((LibraryTrack *)obj2) filename]];
+        }
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
+    
+    [tv reloadData];
+}
 
 
-    [tableView reloadData];
+- (void)clickRecieved:(id)sender
+{
+    NSTableView *tv = (NSTableView *)sender;
+    NSUInteger row = [tv clickedRow];
+    
+    if([self isRowExpanded:row]) {
+        [self collapseRow:row];
+    }
+    else {
+        [self expandRow:row];
+    }
+    
+    [tv reloadData];
 }
 
 -(void)collapseRow:(NSUInteger)row

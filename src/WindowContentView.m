@@ -7,7 +7,6 @@
 //
 
 #import "WindowContentView.h"
-#import <TUIKit.h>
 #import "LibraryView.h"
 #import "PlaylistView.h"
 #import "TitlebarButtonNS.h"
@@ -24,9 +23,8 @@
     if (self) {
         width_divider = 0.60;
 
-        _twuiNSViewLibrary = [[TUINSView alloc] initWithFrame:[self libraryViewFrame]];
-        _twuiNSViewLibrary.rootView = [[LibraryView alloc] initWithFrame:CGRectZero];
-        [self addSubview:_twuiNSViewLibrary];
+        _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame]];
+        [self addSubview:_libraryView];
 
         _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
         [self addSubview:_playlistView];
@@ -73,7 +71,7 @@
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {
-    [_twuiNSViewLibrary setFrame:[self libraryViewFrame]];
+    [_libraryView setFrame:[self libraryViewFrame]];
     [_playlistView setFrame:[self playlistViewFrame]];
 }
 
@@ -85,7 +83,7 @@
 -(NSViewDrawRect)newPlaylistButtonDrawRect
 {
     return ^(NSView *v, CGRect rect) {
-        CGContextRef ctx = TUIGraphicsGetCurrentContext();
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
         CGContextSaveGState(ctx);
@@ -98,8 +96,8 @@
             CGRectMake(middle.x - height/2.0, middle.y - width/2.0, height, width)
         };
         CGContextClipToRects(ctx, rects, 2);
-        TUIColor *gradientEndColor = [TUIColor colorWithWhite:0.15 alpha:1.0];
-        TUIColor *gradientStartColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
+        NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+        NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
 
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];
@@ -120,7 +118,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     
     // Line divider for playlist/library
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
@@ -132,14 +130,14 @@
         
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
-    TUIColor *gradientStartColor, *gradientEndColor;
+    NSColor *gradientStartColor, *gradientEndColor;
     if(isActive) {
-        gradientStartColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.90 alpha:1.0];
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.90 alpha:1.0];
     }
     else {
-        gradientStartColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
     }
 
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],

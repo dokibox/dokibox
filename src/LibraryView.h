@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TUIKit.h"
+#import "RBLTableView.h"
 
-
-@interface LibraryView : TUIView <TUITableViewDelegate, TUITableViewDataSource> {
-    TUITableView *_tableView;
+@interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
+    RBLTableView *_tableView;
     NSMutableArray *_celldata;
     NSManagedObjectContext *_objectContext;
 }

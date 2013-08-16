@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
 		2B15BF79146127A100DC46CD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF77146127A100DC46CD /* Credits.rtf */; };
 		2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF7B146127A100DC46CD /* AppDelegate.m */; };
 		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
-		2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6215D9C9BB003C4435 /* Window.m */; };
 		2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
@@ -22,7 +20,6 @@
 		2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */; };
 		2B5086F51787ED430066B014 /* Rebel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
 		2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B5086EF1787ECEC0066B014 /* Rebel.framework */; };
-		2B53558715D07A2B0054E61F /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B53558515D0797D0054E61F /* Button.m */; };
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
@@ -89,34 +86,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5B264C13BE6DA200579B1E;
-			remoteInfo = TwUI;
-		};
-		2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5E321813BE7098004B7899;
-			remoteInfo = "Dynamic Library";
-		};
-		2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5EE983B713BE7809005F430D;
-			remoteInfo = "Static Library";
-		};
-		2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
-			remoteInfo = Tests;
-		};
 		2B5086EE1787ECEC0066B014 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
@@ -230,7 +199,6 @@
 				2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */,
 				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
 				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */,
-				2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,7 +209,6 @@
 		2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = prefix/lib/libFLAC.8.dylib; sourceTree = "<group>"; };
 		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
-		2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwUI.xcodeproj; path = deps/twui/TwUI.xcodeproj; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B15BF64146127A100DC46CD /* dokibox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dokibox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -268,8 +235,6 @@
 		2B5086DA1787CFD20066B014 /* PlaylistTrackCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackCellView.h; sourceTree = "<group>"; };
 		2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackCellView.m; sourceTree = "<group>"; };
 		2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rebel.xcodeproj; path = deps/rebel/Rebel.xcodeproj; sourceTree = "<group>"; };
-		2B53558415D0797D0054E61F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
-		2B53558515D0797D0054E61F /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
 		2B53558C15D1CEA30054E61F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		2B5B33FA17763C140093C292 /* MASPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASPreferencesViewController.h; path = deps/MASPreferences/MASPreferencesViewController.h; sourceTree = SOURCE_ROOT; };
 		2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MASPreferencesWindow.xib; path = deps/MASPreferences/MASPreferencesWindow.xib; sourceTree = SOURCE_ROOT; };
@@ -380,7 +345,6 @@
 				2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */,
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
-				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
 				2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
@@ -419,17 +383,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B05E176159E3AAD001FBE70 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B05E180159E3AAE001FBE70 /* TwUI.framework */,
-				2B05E182159E3AAE001FBE70 /* libtwui.dylib */,
-				2B05E184159E3AAE001FBE70 /* libtwui.a */,
-				2B05E186159E3AAE001FBE70 /* Tests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2B15BF59146127A100DC46CD = {
 			isa = PBXGroup;
 			children = (
@@ -456,7 +409,6 @@
 			children = (
 				2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */,
 				2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */,
-				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
 				2BB25CB01692327700243B27 /* libmpg123.0.dylib */,
 				2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */,
@@ -590,8 +542,6 @@
 		2B82B24F177C032C00E1EA0B /* titlebar */ = {
 			isa = PBXGroup;
 			children = (
-				2B53558415D0797D0054E61F /* Button.h */,
-				2B53558515D0797D0054E61F /* Button.m */,
 				2B5DA981162758320057D0D5 /* SliderBar.h */,
 				2B5DA982162758320057D0D5 /* SliderBar.m */,
 				2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */,
@@ -878,10 +828,6 @@
 					ProductGroup = 2B5086E81787ECEC0066B014 /* Products */;
 					ProjectRef = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
 				},
-				{
-					ProductGroup = 2B05E176159E3AAD001FBE70 /* Products */;
-					ProjectRef = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -894,34 +840,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		2B05E180159E3AAE001FBE70 /* TwUI.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TwUI.framework;
-			remoteRef = 2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E182159E3AAE001FBE70 /* libtwui.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libtwui.dylib;
-			remoteRef = 2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E184159E3AAE001FBE70 /* libtwui.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libtwui.a;
-			remoteRef = 2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E186159E3AAE001FBE70 /* Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.octest;
-			remoteRef = 2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2B5086EF1787ECEC0066B014 /* Rebel.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -995,7 +913,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B53558715D07A2B0054E61F /* Button.m in Sources */,
 				2B15BF75146127A100DC46CD /* main.m in Sources */,
 				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,
 				2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */,

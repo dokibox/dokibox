@@ -6,7 +6,6 @@
 //
 //
 
-#import "TUIKit.h"
 #import <Cocoa/Cocoa.h>
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
