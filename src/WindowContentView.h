@@ -9,12 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import "PlaylistView.h"
 
+@class LibraryView;
+
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
 @interface WindowContentView : NSView {
     CGFloat width_divider;
     PlaylistView *_playlistView;
-    TUINSView *_twuiNSViewLibrary;
+    LibraryView *_libraryView;
 }
 
 -(NSRect)playlistViewFrame;

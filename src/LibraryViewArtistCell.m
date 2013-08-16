@@ -14,15 +14,6 @@
 
 @synthesize artist = _artist;
 
-- (id)initWithStyle:(TUITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-	if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		_textRenderer = [[TUITextRenderer alloc] init];
-	}
-	return self;
-}
-
-
 - (void)drawRect:(CGRect)rect
 {
 	CGRect b = self.bounds;
@@ -52,38 +43,29 @@
 		CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
 		CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));*/
 	}
-
+    
+    CGContextSetShouldSmoothFonts(ctx, YES);
     {   // Draw text for name
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:[[self artist] name]];
-        [astr setFont:[TUIFont fontWithName:@"Lucida Grande" size:13]];
-        [astr setColor:[TUIColor blackColor]];
+        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
+        [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
+        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:[[self artist] name] attributes:attr];
 
         CGRect textRect = CGRectOffset(b, 10, -4);
-        [_textRenderer setAttributedString:astr];
-        [_textRenderer setFrame: textRect]; //CGRectOffset(textRect, offset, 0)];
-        [_textRenderer draw];
+        [astr drawInRect:textRect];
     }
 
     { // Draw alt text
         NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", [[[self artist] albums] count],[[[self artist] tracks] count]];
-        TUIAttributedString *astr = [TUIAttributedString stringWithString:str];
-        [astr setFont:[TUIFont fontWithName:@"Helvetica-Oblique" size:10]];
-        [astr setColor:[TUIColor colorWithWhite:0.35 alpha:1.0]];
+        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
+        [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
+        [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
+        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
+        
         NSSize textSize = [astr size];
-
         CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -6);
         //textRect.size.width -= textRect.origin.x - b.origin.x;
-        [_textRenderer setAttributedString:astr];
-        [_textRenderer setFrame: textRect]; //CGRectOffset(textRect, offset, 0)];
-        [_textRenderer draw];
+        [astr drawInRect:textRect];
     }
-}
-
-
--(void)prepareForReuse
-{
-    [super prepareForReuse];
-    [[[self artist] managedObjectContext] refreshObject:[self artist] mergeChanges:NO];
 }
 
 @end

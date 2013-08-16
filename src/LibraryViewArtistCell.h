@@ -10,7 +10,7 @@
 #import "TUIKit.h"
 #import "LibraryArtist.h"
 
-@interface LibraryViewArtistCell : TUITableViewCell {
+@interface LibraryViewArtistCell : NSView {
     TUITextRenderer *_textRenderer;
     LibraryArtist *_artist;
 }

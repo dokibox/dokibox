@@ -10,7 +10,7 @@
 #import "TUIKit.h"
 #import "LibraryTrack.h"
 
-@interface LibraryViewTrackCell : TUITableViewCell {
+@interface LibraryViewTrackCell : NSView {
     TUITextRenderer *_textRenderer;
     LibraryTrack *_track;
 

@@ -24,9 +24,8 @@
     if (self) {
         width_divider = 0.60;
 
-        _twuiNSViewLibrary = [[TUINSView alloc] initWithFrame:[self libraryViewFrame]];
-        _twuiNSViewLibrary.rootView = [[LibraryView alloc] initWithFrame:CGRectZero];
-        [self addSubview:_twuiNSViewLibrary];
+        _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame]];
+        [self addSubview:_libraryView];
 
         _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
         [self addSubview:_playlistView];
@@ -73,7 +72,7 @@
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {
-    [_twuiNSViewLibrary setFrame:[self libraryViewFrame]];
+    [_libraryView setFrame:[self libraryViewFrame]];
     [_playlistView setFrame:[self playlistViewFrame]];
 }
 
