@@ -25,7 +25,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     CGContextSaveGState(ctx);
     // We are using horiztonally-centered coordinates
@@ -76,9 +76,9 @@
     //float greytop = 0.35;
     //CGContextSetRGBFillColor(ctx, greytop, greytop, greytop, alpha);
 
-    TUIColor *gradientStartColor, *gradientEndColor;
-    gradientStartColor = [TUIColor colorWithWhite:0.15 alpha:alpha];
-    gradientEndColor = [TUIColor colorWithWhite:0.28 alpha:alpha];
+    NSColor *gradientStartColor, *gradientEndColor;
+    gradientStartColor = [NSColor colorWithDeviceWhite:0.15 alpha:alpha];
+    gradientEndColor = [NSColor colorWithDeviceWhite:0.28 alpha:alpha];
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                        (id)[gradientEndColor CGColor], nil];
     CGFloat locations[] = { 0.0, 1.0 };

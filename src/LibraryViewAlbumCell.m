@@ -16,7 +16,7 @@
 - (void)drawRect:(CGRect)rect
 {
 	CGRect b = self.bounds;
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     if(false) {
         //if(self.selected) {
@@ -40,7 +40,7 @@
     }
 
     { // Draw alt text
-        NSImage *nimage = [[NSImage alloc] initWithContentsOfFile:[@"~/Desktop/IMAG0102.jpg" stringByExpandingTildeInPath]];
+        /*NSImage *nimage = [[NSImage alloc] initWithContentsOfFile:[@"~/Desktop/IMAG0102.jpg" stringByExpandingTildeInPath]];
         TUIImage *timage = [TUIImage imageWithNSImage:nimage];
         //[timage drawAtPoint:b.origin];
         CGContextSaveGState(ctx);
@@ -55,7 +55,7 @@
             [timage drawInRect:CGRectMake(b.origin.x - 0.5*excess, b.origin.y, imagesize+ excess, imagesize)];
         }
 
-        CGContextRestoreGState(ctx);
+        CGContextRestoreGState(ctx);*/
 
         NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", [[[self album] tracks] count]];
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];

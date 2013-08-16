@@ -133,7 +133,7 @@
 - (void)drawRect:(NSRect)rect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // Draw titlebar itself
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
@@ -149,14 +149,14 @@
     CGContextSaveGState(ctx);
     CGContextClip(ctx);
 
-    TUIColor *gradientStartColor, *gradientEndColor;
+    NSColor *gradientStartColor, *gradientEndColor;
     if(isActive) {
-        gradientStartColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.90 alpha:1.0];
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.90 alpha:1.0];
     }
     else {
-        gradientStartColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.80 alpha:1.0];
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
     }
 
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
@@ -245,7 +245,7 @@
 -(NSViewDrawRect)playButtonDrawBlock
 {
     return ^(NSView *v, CGRect rect) {
-        CGContextRef ctx = TUIGraphicsGetCurrentContext();
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
         CGContextSaveGState(ctx);
@@ -278,8 +278,8 @@
             gradient_height = size*sqrt(3)*0.5;
             CGContextClip(ctx);
         }
-        TUIColor *gradientEndColor = [TUIColor colorWithWhite:0.15 alpha:1.0];
-        TUIColor *gradientStartColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
+        NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+        NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
 
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];
@@ -308,7 +308,7 @@
         trans2 = CGAffineTransformMakeTranslation(10,0);
     }
     return ^(NSView *v, CGRect rect) {
-        CGContextRef ctx = TUIGraphicsGetCurrentContext();
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect c = v.bounds;
         CGPoint middle = CGPointMake(CGRectGetMidX(c), CGRectGetMidY(c));
         CGContextSaveGState(ctx);
@@ -343,8 +343,8 @@
 
         CGContextClip(ctx);
 
-        TUIColor *gradientEndColor = [TUIColor colorWithWhite:0.15 alpha:1.0];
-        TUIColor *gradientStartColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
+        NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+        NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
 
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];

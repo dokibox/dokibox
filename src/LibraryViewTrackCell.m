@@ -16,7 +16,7 @@
 {
     NSAssert([self track], @"track for cell nil");
 	CGRect b = self.bounds;
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // draw left background
     CGContextSetRGBFillColor(ctx, .87, .90, .94, 1);

@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TUIKit.h"
 #import "LibraryTrack.h"
 
 @interface LibraryViewTrackCell : NSView {
-    TUITextRenderer *_textRenderer;
     LibraryTrack *_track;
 
 }

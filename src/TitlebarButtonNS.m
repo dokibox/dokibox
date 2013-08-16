@@ -61,7 +61,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
 
-    CGContextRef ctx = TUIGraphicsGetCurrentContext();
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     CGRect b = self.bounds;
 
     BOOL key = [[self window] isKeyWindow];
@@ -71,16 +71,16 @@
     }
     if(_hover) {
 
-        TUIColor *gradientStartColor, *gradientEndColor, *borderColor;
+        NSColor *gradientStartColor, *gradientEndColor, *borderColor;
 
         if(_held) {
-            gradientStartColor = [TUIColor colorWithWhite:0.62 alpha:1.0];
-            gradientEndColor = [TUIColor colorWithWhite:0.72 alpha:1.0];
-            borderColor = [TUIColor colorWithWhite:0.45 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
+            gradientEndColor = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
+            borderColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
         } else {
-            gradientStartColor = [TUIColor colorWithWhite:0.82 alpha:1.0];
-            gradientEndColor = [TUIColor colorWithWhite:0.92 alpha:1.0];
-            borderColor = [TUIColor colorWithWhite:0.65 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
+            gradientEndColor = [NSColor colorWithDeviceWhite:0.92 alpha:1.0];
+            borderColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
         }
 
 

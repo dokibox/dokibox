@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
 		2B15BF79146127A100DC46CD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF77146127A100DC46CD /* Credits.rtf */; };
 		2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF7B146127A100DC46CD /* AppDelegate.m */; };
 		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
-		2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B05E180159E3AAE001FBE70 /* TwUI.framework */; };
 		2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6215D9C9BB003C4435 /* Window.m */; };
 		2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
@@ -88,34 +86,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5B264C13BE6DA200579B1E;
-			remoteInfo = TwUI;
-		};
-		2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5E321813BE7098004B7899;
-			remoteInfo = "Dynamic Library";
-		};
-		2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5EE983B713BE7809005F430D;
-			remoteInfo = "Static Library";
-		};
-		2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CB5B266113BE6DA300579B1E;
-			remoteInfo = Tests;
-		};
 		2B5086EE1787ECEC0066B014 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
@@ -229,7 +199,6 @@
 				2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */,
 				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
 				2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */,
-				2B18CEBE15B4C10700265F61 /* TwUI.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,7 +209,6 @@
 		2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = prefix/lib/libFLAC.8.dylib; sourceTree = "<group>"; };
 		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
-		2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TwUI.xcodeproj; path = deps/twui/TwUI.xcodeproj; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B15BF64146127A100DC46CD /* dokibox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dokibox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -377,7 +345,6 @@
 				2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */,
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
-				2B05E197159E3B22001FBE70 /* TwUI.framework in Frameworks */,
 				2B72D79D16F163BC00324194 /* Lumberjack.framework in Frameworks */,
 				2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */,
 				2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */,
@@ -416,17 +383,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B05E176159E3AAD001FBE70 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B05E180159E3AAE001FBE70 /* TwUI.framework */,
-				2B05E182159E3AAE001FBE70 /* libtwui.dylib */,
-				2B05E184159E3AAE001FBE70 /* libtwui.a */,
-				2B05E186159E3AAE001FBE70 /* Tests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2B15BF59146127A100DC46CD = {
 			isa = PBXGroup;
 			children = (
@@ -453,7 +409,6 @@
 			children = (
 				2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */,
 				2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */,
-				2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */,
 				2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */,
 				2BB25CB01692327700243B27 /* libmpg123.0.dylib */,
 				2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */,
@@ -873,10 +828,6 @@
 					ProductGroup = 2B5086E81787ECEC0066B014 /* Products */;
 					ProjectRef = 2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */;
 				},
-				{
-					ProductGroup = 2B05E176159E3AAD001FBE70 /* Products */;
-					ProjectRef = 2B05E175159E3AAD001FBE70 /* TwUI.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -889,34 +840,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		2B05E180159E3AAE001FBE70 /* TwUI.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TwUI.framework;
-			remoteRef = 2B05E17F159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E182159E3AAE001FBE70 /* libtwui.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libtwui.dylib;
-			remoteRef = 2B05E181159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E184159E3AAE001FBE70 /* libtwui.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libtwui.a;
-			remoteRef = 2B05E183159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B05E186159E3AAE001FBE70 /* Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.octest;
-			remoteRef = 2B05E185159E3AAE001FBE70 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2B5086EF1787ECEC0066B014 /* Rebel.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

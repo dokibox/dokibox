@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TUIKit.h"
 #import "LibraryArtist.h"
 
 @interface LibraryViewArtistCell : NSView {
-    TUITextRenderer *_textRenderer;
     LibraryArtist *_artist;
 }
 

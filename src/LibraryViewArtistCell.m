@@ -17,7 +17,7 @@
 - (void)drawRect:(CGRect)rect
 {
 	CGRect b = self.bounds;
-	CGContextRef ctx = TUIGraphicsGetCurrentContext();
+	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     if(false) {
 	//if(self.selected) {
@@ -25,9 +25,9 @@
 		CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
 		CGContextFillRect(ctx, b);
 	} else {
-        TUIColor *gradientStartColor, *gradientEndColor;
-        gradientStartColor = [TUIColor colorWithWhite:0.82 alpha:1.0];
-        gradientEndColor = [TUIColor colorWithWhite:0.98 alpha:1.0];
+        NSColor *gradientStartColor, *gradientEndColor;
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.98 alpha:1.0];
 
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];
