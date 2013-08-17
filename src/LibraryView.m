@@ -266,6 +266,7 @@
 {
     NSTableView *tv = (NSTableView *)sender;
     NSUInteger row = [tv clickedRow];
+    if(row == -1) return;
 
     [self expandRow:row recursive:YES];
     
@@ -297,6 +298,7 @@
 {
     NSTableView *tv = (NSTableView *)sender;
     NSUInteger row = [tv clickedRow];
+    if(row == -1) return;
     
     if([self isRowExpanded:row]) {
         [self collapseRow:row];
