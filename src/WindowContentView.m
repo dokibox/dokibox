@@ -29,17 +29,34 @@
         _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
         [self addSubview:_playlistView];
 
-        CGRect buttonFrame = self.bounds;
-        buttonFrame.origin.x += buttonFrame.size.width - 20 - 10;
-        buttonFrame.size = NSMakeSize(20, 20);
-        buttonFrame.origin.y += 5;
-        TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
-        [button setAutoresizingMask:NSViewMinXMargin];
-        [button setButtonType:NSMomentaryLightButton];
-        [button setTarget:self];
-        [button setAction:@selector(newPlaylistButtonPressed:)];
-        [button setDrawIcon: [self newPlaylistButtonDrawRect]];
-        [self addSubview:button];
+        // new playlist button
+        {
+            CGRect buttonFrame = self.bounds;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 10;
+            buttonFrame.size = NSMakeSize(20, 20);
+            buttonFrame.origin.y += 5;
+            TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+            [button setAutoresizingMask:NSViewMinXMargin];
+            [button setButtonType:NSMomentaryLightButton];
+            [button setTarget:self];
+            [button setAction:@selector(newPlaylistButtonPressed:)];
+            [button setDrawIcon: [self newPlaylistButtonDrawRect]];
+            [self addSubview:button];
+        }
+        
+        {
+            CGRect buttonFrame = self.bounds;
+            buttonFrame.origin.x += 10;
+            buttonFrame.size = NSMakeSize(20, 20);
+            buttonFrame.origin.y += 5;
+            _searchButton = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+            [_searchButton setAutoresizingMask:NSViewMaxXMargin];
+            [_searchButton setButtonType:NSMomentaryLightButton];
+            [_searchButton setTarget:self];
+            [_searchButton setAction:@selector(searchButtonPressed:)];
+            [_searchButton setDrawIcon: [self searchButtonDrawRect]];
+            [self addSubview:_searchButton];
+        }
 
         // triggers changing of gradients in bottom toolbar upon active/inactive window
         // also triggers on all NSWindow (not just its window) changes, but doesn't seem too ineffecient
@@ -88,7 +105,7 @@
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
         CGContextSaveGState(ctx);
 
-        CGFloat width = 3.0;
+        CGFloat width = 2.0;
         CGFloat height = 10.0;
 
         CGRect rects[] = {
@@ -106,6 +123,72 @@
 
         CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + height/2.0), CGPointMake(middle.x, middle.y - height/2.0), 0);
         CGGradientRelease(gradient);
+        CGContextRestoreGState(ctx);
+    };
+}
+
+-(void)searchButtonPressed:(id)sender
+{
+}
+
+-(NSViewDrawRect)searchButtonDrawRect
+{
+    return ^(NSView *v, CGRect rect) {
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+        CGRect b = v.bounds;
+        CGContextSaveGState(ctx);
+        
+        CGFloat outer_r = 4.5;
+        CGFloat inner_r = 3.0;
+        CGFloat height = 20.0;
+        CGFloat widthofhandle = 1.5;
+        CGFloat heightofhandle = 6;
+        CGFloat angle = 0.7;
+        
+        CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
+        middle.x += 2.5;
+        middle.y += 2.5;
+        CGContextAddArc(ctx, middle.x, middle.y, outer_r, 0, 2*pi, 0);
+        CGContextAddArc(ctx, middle.x, middle.y, inner_r, 2*pi, 0, 1);
+        
+        middle.x -= outer_r*sin(angle);
+        middle.y -= outer_r*cos(angle);
+        CGContextMoveToPoint(ctx, middle.x + cos(angle)*widthofhandle/2.0, middle.y - sin(angle)*widthofhandle/2.0);
+        CGContextAddLineToPoint(ctx, middle.x + cos(angle)*widthofhandle/2.0 - sin(angle)*heightofhandle, middle.y - sin(angle)*widthofhandle/2.0 - cos(angle)*heightofhandle);
+        CGContextAddLineToPoint(ctx, middle.x - cos(angle)*widthofhandle/2.0 - sin(angle)*heightofhandle, middle.y + sin(angle)*widthofhandle/2.0 - cos(angle)*heightofhandle);
+        CGContextAddLineToPoint(ctx, middle.x - cos(angle)*widthofhandle/2.0, middle.y + sin(angle)*widthofhandle/2.0);
+        CGContextClosePath(ctx);
+
+        
+        CGContextClip(ctx);
+        
+        NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+        NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
+        
+        NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                           (id)[gradientEndColor CGColor], nil];
+        CGFloat locations[] = { 0.0, 1.0 };
+        CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+        
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + height/2.0), CGPointMake(middle.x, middle.y - height/2.0), 0);
+        CGGradientRelease(gradient);
+        CGContextRestoreGState(ctx);
+        
+        
+        CGContextSaveGState(ctx);
+        middle.x += outer_r*sin(angle);
+        middle.y += outer_r*cos(angle);
+        CGContextAddArc(ctx, middle.x, middle.y, inner_r, 0, 2*pi, 0);
+        CGContextClip(ctx);
+        NSColor *innerGradientEndColor = [NSColor colorWithDeviceWhite:0.8 alpha:0.75];
+        NSColor *innerGradientStartColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.75];
+        
+        NSArray *innerColors = [NSArray arrayWithObjects: (id)[innerGradientStartColor CGColor],
+                           (id)[innerGradientEndColor CGColor], nil];
+        CGGradientRef innerGradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)innerColors, locations);
+        
+        CGContextDrawLinearGradient(ctx, innerGradient, CGPointMake(middle.x - inner_r*sin(angle), middle.y + inner_r*cos(angle)), CGPointMake(middle.x + inner_r*sin(angle), middle.y - inner_r*cos(angle)), 0);
+        CGGradientRelease(innerGradient);
         CGContextRestoreGState(ctx);
     };
 }
