@@ -15,6 +15,7 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     BOOL _held;
 }
 
+@property (assign) int state;
 @property (nonatomic, copy) NSViewDrawRect drawIcon;
 
 @end

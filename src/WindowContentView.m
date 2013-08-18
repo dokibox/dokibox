@@ -13,6 +13,11 @@
 
 #define bottomToolbarHeight 30.0
 
+enum SearchButtonState {
+    SearchButtonStateInactive,
+    SearchButtonStateActive
+};
+
 @implementation WindowContentView
 
 @synthesize playlistView = _playlistView;
@@ -129,6 +134,10 @@
 
 -(void)searchButtonPressed:(id)sender
 {
+    if([_searchButton state] == SearchButtonStateInactive)
+        [_searchButton setState:SearchButtonStateActive];
+    else
+        [_searchButton setState:SearchButtonStateInactive];
 }
 
 -(NSViewDrawRect)searchButtonDrawRect
@@ -162,8 +171,15 @@
         
         CGContextClip(ctx);
         
-        NSColor *gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
-        NSColor *gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
+        TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        NSColor *gradientEndColor, *gradientStartColor;
+        if([button state] == SearchButtonStateActive) {
+            gradientEndColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.75 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.85 alpha:1.0];
+        } else {
+            gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
+        }
         
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];
