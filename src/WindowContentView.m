@@ -134,10 +134,14 @@ enum SearchButtonState {
 
 -(void)searchButtonPressed:(id)sender
 {
-    if([_searchButton state] == SearchButtonStateInactive)
+    if([_searchButton state] == SearchButtonStateInactive) {
         [_searchButton setState:SearchButtonStateActive];
-    else
+        [_libraryView showSearch];
+    }
+    else {
         [_searchButton setState:SearchButtonStateInactive];
+        [_libraryView hideSearch];
+    }
 }
 
 -(NSViewDrawRect)searchButtonDrawRect

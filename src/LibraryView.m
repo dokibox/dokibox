@@ -13,16 +13,17 @@
 #import "LibraryCoreDataManager.h"
 #import "LibraryArtist.h"
 #import "RBLScrollView.h"
+#import "LibraryViewSearchView.h"
 
 @implementation LibraryView
 
 - (id)initWithFrame:(CGRect)frame
 {
 	if((self = [super initWithFrame:frame])) {
-        RBLScrollView *libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
-        [libraryScrollView setHasVerticalScroller:YES];        
+        _libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
+        [_libraryScrollView setHasVerticalScroller:YES];        
         
-        _tableView = [[RBLTableView alloc] initWithFrame:[[libraryScrollView contentView] bounds]];
+        _tableView = [[RBLTableView alloc] initWithFrame:[[_libraryScrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
         [_tableView setHeaderView:nil];
@@ -32,11 +33,11 @@
         
         NSTableColumn *libraryFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_tableView addTableColumn:libraryFirstColumn];
-        [libraryFirstColumn setWidth:[libraryScrollView contentSize].width];
+        [libraryFirstColumn setWidth:[_libraryScrollView contentSize].width];
 
-        [libraryScrollView setDocumentView:_tableView];
-        [libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [self addSubview:libraryScrollView];
+        [_libraryScrollView setDocumentView:_tableView];
+        [_libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [self addSubview:_libraryScrollView];
 
         _celldata = [[NSMutableArray alloc] init];
         _objectContext = [LibraryCoreDataManager newContext];
@@ -378,5 +379,53 @@
         }
     }
 }
+
+-(void)showSearch
+{
+    if(_librarySearchView) {
+        DDLogVerbose(@"Library search view already shown");
+        return;
+    }
+    
+    CGFloat height = 25;
+
+    NSRect searchframe = [self bounds];
+    searchframe.size.height = height;
+    searchframe.origin.y -= height;
+    _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
+    [self addSubview:_librarySearchView];
+    
+    searchframe.origin.y += height;
+    NSRect libraryframe = [self bounds];
+    libraryframe.origin.y += height;
+    libraryframe.size.height -= height;
+    
+    [NSAnimationContext beginGrouping];
+    [[_librarySearchView animator] setFrame:searchframe];
+    [[_libraryScrollView animator] setFrame:libraryframe];
+    [NSAnimationContext endGrouping];
+}
+
+-(void)hideSearch
+{
+    if(_librarySearchView == nil) {
+        DDLogVerbose(@"Library search view already hidden");
+        return;
+    }
+    
+    NSRect libraryframe = [self bounds];
+    NSRect searchframe = [_librarySearchView frame];
+    searchframe.origin.y -= searchframe.size.height;
+    
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setCompletionHandler:^{
+        [_librarySearchView removeFromSuperview];
+        _librarySearchView = nil;
+    }];
+    [[_libraryScrollView animator] setFrame:libraryframe];
+    [[_librarySearchView animator] setFrame:searchframe];
+    [NSAnimationContext endGrouping];
+}
+
 
 @end

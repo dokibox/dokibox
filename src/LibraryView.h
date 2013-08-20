@@ -9,11 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "RBLTableView.h"
 
+@class RBLScrollView;
+@class LibraryViewSearchView;
+
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
     RBLTableView *_tableView;
+    RBLScrollView *_libraryScrollView;
+    LibraryViewSearchView *_librarySearchView;
+    
     NSMutableArray *_celldata;
     NSManagedObjectContext *_objectContext;
 }
+
+-(void)showSearch;
+-(void)hideSearch;
 
 -(BOOL)isRowExpanded:(NSUInteger)row;
 -(void)collapseRow:(NSUInteger)row;
