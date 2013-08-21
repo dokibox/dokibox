@@ -387,7 +387,7 @@
         return;
     }
     
-    CGFloat height = 25;
+    CGFloat height = 26;
 
     NSRect searchframe = [self bounds];
     searchframe.size.height = height;

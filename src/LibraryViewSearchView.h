@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LibraryViewSearchView : NSView
+@interface LibraryViewSearchView : NSView {
+    NSSearchField *_searchField;
+}
 
 @end
