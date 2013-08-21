@@ -12,4 +12,6 @@
     NSSearchField *_searchField;
 }
 
+- (void)redisplay;
+
 @end
