@@ -37,7 +37,7 @@ enum SearchButtonState {
         // new playlist button
         {
             CGRect buttonFrame = self.bounds;
-            buttonFrame.origin.x += buttonFrame.size.width - 20 - 10;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5;
             buttonFrame.size = NSMakeSize(20, 20);
             buttonFrame.origin.y += 5;
             TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
@@ -51,7 +51,7 @@ enum SearchButtonState {
         
         {
             CGRect buttonFrame = self.bounds;
-            buttonFrame.origin.x += 10;
+            buttonFrame.origin.x += 5;
             buttonFrame.size = NSMakeSize(20, 20);
             buttonFrame.origin.y += 5;
             _searchButton = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
