@@ -97,6 +97,14 @@ enum SearchButtonState {
     [_playlistView setFrame:[self playlistViewFrame]];
 }
 
+-(void)performFindPanelAction:(id)sender
+{
+    if([_searchButton state] == SearchButtonStateInactive) {
+       [_searchButton setState:SearchButtonStateActive];
+    }
+    [_libraryView showSearch];
+}
+
 -(void)newPlaylistButtonPressed:(id)sender
 {
     [_playlistView newPlaylist];

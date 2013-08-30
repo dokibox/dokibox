@@ -70,6 +70,12 @@
     [_preferencesWindowController showWindow:nil];
 }
 
+-(IBAction)performFindPanelAction:(id)sender
+{
+    WindowContentView *wcv = (WindowContentView*)[_window contentView];
+    [wcv performFindPanelAction:sender];
+}
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     if([[NSUserDefaults standardUserDefaults] synchronize] == NO) {

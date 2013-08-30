@@ -32,6 +32,7 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
 -(NSViewDrawRect)searchButtonDrawRect;
 -(void)searchButtonPressed:(id)sender;
+-(void)performFindPanelAction:(id)sender;
 
 @property(readonly) PlaylistView *playlistView;
 

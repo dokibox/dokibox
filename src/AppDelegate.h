@@ -21,5 +21,6 @@
 }
 
 -(IBAction)openPreferences:(id)sender;
+-(IBAction)performFindPanelAction:(id)sender;
 
 @end
