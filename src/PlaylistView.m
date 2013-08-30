@@ -303,8 +303,10 @@
 
 - (void)doubleClickReceived:(id)sender
 {
-    if(sender == _trackTableView)
-        [_currentPlaylist playTrackAtIndex:[_trackTableView clickedRow]];
+    if(sender == _trackTableView) {
+        if([_trackTableView clickedRow] != -1)
+            [_currentPlaylist playTrackAtIndex:[_trackTableView clickedRow]];
+    }
     else if (sender == _playlistTableView) {
 
     }
