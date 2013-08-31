@@ -423,28 +423,54 @@
     [_celldata removeAllObjects];
     NSError *error;
     
+    NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                initWithKey:@"name"
+                                ascending:YES
+                                selector:@selector(localizedCaseInsensitiveCompare:)];
+    
     if([text isEqualToString:@""]) { // empty search string
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                    initWithKey:@"name"
-                                    ascending:YES
-                                    selector:@selector(localizedCaseInsensitiveCompare:)];
         [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+
         NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
         [_celldata addObjectsFromArray:results];
     }
     else { // search to do
-        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
-        [fr setPredicate:predicate];
+        /*NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+         [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+         
+         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name contains[cd] %@) OR (ANY albums.name contains[cd] %@) OR (SUBQUERY(albums, $a, SUBQUERY($a.tracks, $t, $t.name contains[cd] %@).@count !=0).@count != 0)", text, text, text];
+         [fr setPredicate:predicate];
+         
+         NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+         [_celldata addObjectsFromArray:results];*/
+        // Left in for refernece
+        // The above method is only faster for single letter queries etc. (please see commit comment for tests)
         
-        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                    initWithKey:@"name"
-                                    ascending:YES
-                                    selector:@selector(localizedCaseInsensitiveCompare:)];
-        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
-        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
-        [_celldata addObjectsFromArray:results];
+        NSFetchRequest *fetchReqArtist = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+        NSFetchRequest *fetchReqAlbum = [NSFetchRequest fetchRequestWithEntityName:@"album"];
+        NSFetchRequest *fetchReqTrack = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
+        [fetchReqArtist setPredicate:predicate];
+        [fetchReqAlbum setPredicate:predicate];
+        [fetchReqTrack setPredicate:predicate];
+        
+        NSMutableSet *fetchedArtists = [[NSMutableSet alloc] init];
+        
+        [fetchReqAlbum setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"artist", nil]];
+        [fetchReqTrack setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"album", @"album.artist", nil]];
+        
+        NSArray *resultsArtist = [_objectContext executeFetchRequest:fetchReqArtist error:&error];
+        NSArray *resultsAlbum = [_objectContext executeFetchRequest:fetchReqAlbum error:&error];
+        NSArray *resultsTrack = [_objectContext executeFetchRequest:fetchReqTrack error:&error];
+        
+        [fetchedArtists addObjectsFromArray:resultsArtist];
+        for (LibraryAlbum *a in resultsAlbum)
+            [fetchedArtists addObject:[a artist]];
+        for (LibraryTrack *t in resultsTrack)
+            [fetchedArtists addObject:[[t album] artist]];
+        
+        [_celldata addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
     }
     
     NSDate *d2 = [NSDate date];
