@@ -7,8 +7,11 @@
 //
 
 #import "LibraryViewSearchView.h"
+#import "LibraryView.h"
 
 @implementation LibraryViewSearchView
+
+@synthesize libraryView = _libraryView;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -21,6 +24,7 @@
         _searchField = [[NSSearchField alloc] initWithFrame:b];
         [[_searchField cell] setControlSize:NSSmallControlSize];
         [_searchField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
+        [_searchField setDelegate:self];
         [self addSubview:_searchField];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:nil];
@@ -34,6 +38,11 @@
 - (void)setFocusInSearchField
 {
     [_searchField becomeFirstResponder];
+}
+
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+    [[self libraryView] runSearch:[_searchField stringValue]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

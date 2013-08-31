@@ -39,22 +39,10 @@
         [_libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [self addSubview:_libraryScrollView];
 
-        _celldata = [[NSMutableArray alloc] init];
         _objectContext = [LibraryCoreDataManager newContext];
-
-        NSError *error;
-        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                     initWithKey:@"name"
-                                     ascending:YES
-                                     selector:@selector(localizedCaseInsensitiveCompare:)];
-        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
-        NSDate *d1 = [NSDate date];
-        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
-        [_celldata addObjectsFromArray:results];
-        NSDate *d2 = [NSDate date];
-        NSLog(@"Fetching %lu artists took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
-        [_tableView reloadData];
+        
+        _celldata = [[NSMutableArray alloc] init];
+        [self runSearch:@""];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
 	}
@@ -393,6 +381,7 @@
     searchframe.size.height = height;
     searchframe.origin.y -= height;
     _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
+    [_librarySearchView setLibraryView:self];
     [self addSubview:_librarySearchView];
     [_librarySearchView setFocusInSearchField];
     
@@ -426,6 +415,41 @@
     [[_libraryScrollView animator] setFrame:libraryframe];
     [[_librarySearchView animator] setFrame:searchframe];
     [NSAnimationContext endGrouping];
+}
+
+-(void)runSearch:(NSString *)text
+{
+    NSDate *d1 = [NSDate date];
+    [_celldata removeAllObjects];
+    NSError *error;
+    
+    if([text isEqualToString:@""]) { // empty search string
+        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                    initWithKey:@"name"
+                                    ascending:YES
+                                    selector:@selector(localizedCaseInsensitiveCompare:)];
+        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+        [_celldata addObjectsFromArray:results];
+    }
+    else { // search to do
+        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
+        [fr setPredicate:predicate];
+        
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                    initWithKey:@"name"
+                                    ascending:YES
+                                    selector:@selector(localizedCaseInsensitiveCompare:)];
+        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+        [_celldata addObjectsFromArray:results];
+    }
+    
+    NSDate *d2 = [NSDate date];
+    DDLogVerbose(@"Fetching %lu cells took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
+    [_tableView reloadData];
 }
 
 

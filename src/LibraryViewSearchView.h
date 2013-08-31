@@ -8,9 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LibraryViewSearchView : NSView {
+@class LibraryView;
+
+@interface LibraryViewSearchView : NSView < NSTextFieldDelegate > {
     NSSearchField *_searchField;
 }
+
+@property(weak) LibraryView *libraryView;
 
 - (void)setFocusInSearchField;
 - (void)redisplay;

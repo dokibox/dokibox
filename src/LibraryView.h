@@ -23,6 +23,7 @@
 
 -(void)showSearch;
 -(void)hideSearch;
+-(void)runSearch:(NSString *)text;
 
 -(BOOL)isRowExpanded:(NSUInteger)row;
 -(void)collapseRow:(NSUInteger)row;
