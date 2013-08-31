@@ -12,6 +12,7 @@
     NSSearchField *_searchField;
 }
 
+- (void)setFocusInSearchField;
 - (void)redisplay;
 
 @end

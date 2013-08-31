@@ -383,7 +383,7 @@
 -(void)showSearch
 {
     if(_librarySearchView) {
-        DDLogVerbose(@"Library search view already shown");
+        [_librarySearchView setFocusInSearchField];
         return;
     }
     
@@ -394,6 +394,7 @@
     searchframe.origin.y -= height;
     _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
     [self addSubview:_librarySearchView];
+    [_librarySearchView setFocusInSearchField];
     
     searchframe.origin.y += height;
     NSRect libraryframe = [self bounds];

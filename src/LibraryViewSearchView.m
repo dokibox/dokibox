@@ -31,6 +31,11 @@
     return self;
 }
 
+- (void)setFocusInSearchField
+{
+    [_searchField becomeFirstResponder];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
