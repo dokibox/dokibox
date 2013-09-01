@@ -337,7 +337,15 @@
                                         initWithKey:@"name"
                                         ascending:YES
                                         selector:@selector(localizedCaseInsensitiveCompare:)];
-            for(LibraryAlbum *album in [[artist albums] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
+            NSSet *albums;
+            if([_searchMatchedObjects count] == 0) { // not doing search atm
+                albums = [artist albums];
+            }
+            else {
+                albums = [artist albumsFromSet:_searchMatchedObjects];
+            }
+            
+            for(LibraryAlbum *album in [albums sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
                 [_celldata insertObject:album atIndex:i];
                 i++;
             }
@@ -363,8 +371,16 @@
                                    initWithKey:@"trackNumber"
                                    ascending:YES
                                    selector:@selector(compare:)];
+        
+        NSSet *tracks;
+        if([_searchMatchedObjects count] == 0) { // not doing search atm
+            tracks = [album tracks];
+        }
+        else {
+            tracks = [album tracksFromSet:_searchMatchedObjects];
+        }
 
-        for(LibraryTrack *track in [[album tracks] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
+        for(LibraryTrack *track in [tracks sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
             [_celldata insertObject:track atIndex:i];
             i++;
         }
