@@ -23,6 +23,36 @@
     return set;
 }
 
+-(NSSet*)tracksFromSet:(NSSet *)set
+{
+    if([set member:self]) // when itself is the match, return all
+        return [self tracks];
+    else {
+        NSMutableSet *retval = [[NSMutableSet alloc] init];
+        for(LibraryAlbum *album in [self albums]) {
+            [retval addObjectsFromArray:[[album tracksFromSet:set] allObjects]];
+        }
+        return retval;
+    }
+}
+
+
+-(NSSet*)albumsFromSet:(NSSet *)set
+{
+    if([set member:self]) // when itself is the match, return all
+        return [self albums];
+    else {
+        NSMutableSet *retval = [[NSMutableSet alloc] init];
+        for(LibraryAlbum *album in [self albums]) {
+            if([[album tracksFromSet:set] count] != 0) {
+                [retval addObject:album];
+            }
+        }
+        return retval;
+    }
+}
+
+
 -(void)pruneDueToAlbumBeingDeleted:(LibraryAlbum *)album
 {
     if([[self albums] count] == 1) {

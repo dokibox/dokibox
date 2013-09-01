@@ -13,6 +13,7 @@
 @implementation LibraryViewArtistCell
 
 @synthesize artist = _artist;
+@synthesize searchMatchedObjects = _searchMatchedObjects;
 
 - (void)drawRect:(CGRect)rect
 {
@@ -55,7 +56,17 @@
     }
 
     { // Draw alt text
-        NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", [[[self artist] albums] count],[[[self artist] tracks] count]];
+        NSUInteger albumCount, trackCount;
+        if([_searchMatchedObjects count] == 0) { // no search being done
+            albumCount = [[[self artist] albums] count];
+            trackCount = [[[self artist] tracks] count];
+        }
+        else {
+            albumCount = [[[self artist] albumsFromSet:[self searchMatchedObjects]] count];
+            trackCount = [[[self artist] tracksFromSet:[self searchMatchedObjects]] count];
+        }
+        
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", albumCount, trackCount];
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
         [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
         [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];

@@ -19,6 +19,7 @@
     
     NSMutableArray *_celldata;
     NSManagedObjectContext *_objectContext;
+    NSMutableSet *_searchMatchedObjects;
 }
 
 -(void)showSearch;

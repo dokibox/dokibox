@@ -14,5 +14,6 @@
 }
 
 @property() LibraryAlbum* album;
+@property(weak) NSSet* searchMatchedObjects;
 
 @end

@@ -42,6 +42,7 @@
         _objectContext = [LibraryCoreDataManager newContext];
         
         _celldata = [[NSMutableArray alloc] init];
+        _searchMatchedObjects = [[NSMutableSet alloc] init];
         [self runSearch:@""];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
@@ -201,6 +202,7 @@
         }
 
         [((LibraryViewArtistCell *)view) setArtist:(LibraryArtist *)[_celldata objectAtIndex:row]];
+        [((LibraryViewArtistCell *)view) setSearchMatchedObjects:_searchMatchedObjects];
     }
     else if([obj isKindOfClass:[LibraryAlbum class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewAlbumCell" owner:self];
@@ -212,6 +214,7 @@
         }
         
         [((LibraryViewAlbumCell *)view) setAlbum:(LibraryAlbum *)[_celldata objectAtIndex:row]];
+        [((LibraryViewAlbumCell *)view) setSearchMatchedObjects:_searchMatchedObjects];
     }
     else if([obj isKindOfClass:[LibraryTrack class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewTrackCell" owner:self];
@@ -421,6 +424,7 @@
 {
     NSDate *d1 = [NSDate date];
     [_celldata removeAllObjects];
+    [_searchMatchedObjects removeAllObjects];
     NSError *error;
     
     NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
@@ -463,6 +467,10 @@
         NSArray *resultsArtist = [_objectContext executeFetchRequest:fetchReqArtist error:&error];
         NSArray *resultsAlbum = [_objectContext executeFetchRequest:fetchReqAlbum error:&error];
         NSArray *resultsTrack = [_objectContext executeFetchRequest:fetchReqTrack error:&error];
+        
+        [_searchMatchedObjects addObjectsFromArray:resultsArtist];
+        [_searchMatchedObjects addObjectsFromArray:resultsAlbum];
+        [_searchMatchedObjects addObjectsFromArray:resultsTrack];
         
         [fetchedArtists addObjectsFromArray:resultsArtist];
         for (LibraryAlbum *a in resultsAlbum)

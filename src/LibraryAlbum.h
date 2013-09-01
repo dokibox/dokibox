@@ -11,6 +11,8 @@
 
 @interface LibraryAlbum : NSManagedObject
 
+-(NSSet*)tracksFromSet:(NSSet *)set;
+
 -(void)setArtistByName:(NSString *)artistName;
 -(void)pruneDueToTrackBeingDeleted:(LibraryTrack *)track;
 

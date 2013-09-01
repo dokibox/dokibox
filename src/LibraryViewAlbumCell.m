@@ -12,6 +12,7 @@
 @implementation LibraryViewAlbumCell
 
 @synthesize album = _album;
+@synthesize searchMatchedObjects = _searchMatchedObjects;
 
 - (void)drawRect:(CGRect)rect
 {
@@ -56,8 +57,16 @@
         }
 
         CGContextRestoreGState(ctx);*/
+        
+        NSUInteger trackCount;
+        if([_searchMatchedObjects count] == 0) { // no search being done
+            trackCount = [[[self album] tracks] count];
+        }
+        else {
+            trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
+        }
 
-        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", [[[self album] tracks] count]];
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
         [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
         [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];

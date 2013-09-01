@@ -14,5 +14,6 @@
 }
 
 @property() LibraryArtist* artist;
+@property(weak) NSSet* searchMatchedObjects;
 
 @end

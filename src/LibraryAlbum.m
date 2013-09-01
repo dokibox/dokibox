@@ -16,6 +16,17 @@
 @dynamic artist;
 @dynamic tracks;
 
+-(NSSet*)tracksFromSet:(NSSet *)set
+{
+    if([set member:self] || [set member:[self artist]]) // when itself or parent artist is the match, return all
+        return [self tracks];
+    else {
+        NSMutableSet *retval = [[NSMutableSet alloc] initWithSet:[self tracks]];
+        [retval intersectSet:set];
+        return retval;
+    }
+}
+
 -(void)setArtistByName:(NSString *)artistName
 {
     NSError *error;
