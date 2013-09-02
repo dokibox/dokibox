@@ -495,6 +495,18 @@
             [fetchedArtists addObject:[[t album] artist]];
         
         [_celldata addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
+        
+        NSUInteger i;
+        for(i=0; i<[_celldata count]; i++) {
+            if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
+            
+            [self expandRow:i];
+            
+            for(;i < [_celldata count]; i++) {
+                if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
+                [self expandRow:i];
+            }
+        }
     }
     
     NSDate *d2 = [NSDate date];
