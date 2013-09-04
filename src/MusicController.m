@@ -25,17 +25,22 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
 
     [[mc fifoBuffer] read:(void *)[[mc auBuffer] bytes] size:&size];
 
-    [mc setElapsedFrames:[mc elapsedFrames] + size/[mc inFormat].mBytesPerFrame];
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [mc setElapsedFrames:[mc elapsedFrames] + size/[mc inFormat].mBytesPerFrame];
+    });
 
     outOutputData->mNumberBuffers = 1;
     outOutputData->mBuffers[0].mDataByteSize = size;
     outOutputData->mBuffers[0].mData = (void *)[[mc auBuffer] bytes];
 
     if(size == 0) {
-        [mc trackEnded];
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [mc trackEnded];
+        });
     }
 
     dispatch_async([mc decoding_queue], ^{
+        // This is ok to run after the decoder has reached EOF because of MusicControllerDecodedSong status
         [mc fillBuffer];
     });
 
