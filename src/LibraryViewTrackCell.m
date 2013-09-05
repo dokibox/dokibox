@@ -11,6 +11,7 @@
 
 @implementation LibraryViewTrackCell
 @synthesize track = _track;
+@synthesize isEvenRow = _isEvenRow;
 
 - (void)drawRect:(CGRect)rect
 {
@@ -27,7 +28,10 @@
     b = CGRectIntersection(b, CGRectOffset(b, indent, 0));
 
     // draw normal background
-    CGContextSetRGBFillColor(ctx, .92, .94, .99, 1);
+    if([self isEvenRow] == true)
+        CGContextSetRGBFillColor(ctx, .92, .94, .99, 1);
+    else
+        CGContextSetRGBFillColor(ctx, .98, .99, 1.0, 1);
     CGContextFillRect(ctx, b);
     
     CGContextSetShouldSmoothFonts(ctx, YES);

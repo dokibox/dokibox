@@ -226,6 +226,13 @@
         }
         
         [((LibraryViewTrackCell *)view) setTrack:(LibraryTrack *)[_celldata objectAtIndex:row]];
+        
+        NSInteger albumPosition;
+        for(albumPosition=row; albumPosition >= 0; albumPosition--) {
+            if([[_celldata objectAtIndex:albumPosition] isKindOfClass:[LibraryAlbum class]])
+                break;
+        }
+        [((LibraryViewTrackCell *)view) setIsEvenRow:((row-albumPosition)%2 == 0)];
     }
 
 	return view;

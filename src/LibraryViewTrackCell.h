@@ -15,5 +15,6 @@
 }
 
 @property() LibraryTrack *track;
+@property(assign) BOOL isEvenRow;
 
 @end
