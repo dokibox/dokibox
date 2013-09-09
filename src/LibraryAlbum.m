@@ -70,4 +70,10 @@
     [[self artist] pruneDueToAlbumBeingDeleted:self];
 }
 
+-(NSImage*)cover
+{
+    NSImage *r = [[NSImage alloc] initWithContentsOfFile:@"/Users/mileswu/Music/alan/Voice of EARTH/cover.jpg"];
+    return r;
+}
+
 @end

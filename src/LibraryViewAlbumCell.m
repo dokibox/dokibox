@@ -41,22 +41,19 @@
     }
 
     { // Draw alt text
-        /*NSImage *nimage = [[NSImage alloc] initWithContentsOfFile:[@"~/Desktop/IMAG0102.jpg" stringByExpandingTildeInPath]];
-        TUIImage *timage = [TUIImage imageWithNSImage:nimage];
-        //[timage drawAtPoint:b.origin];
+        NSImage *nimage = [_album cover];
         CGContextSaveGState(ctx);
         CGContextAddRect(ctx, CGRectMake(b.origin.x, b.origin.y, imagesize, imagesize));
         CGContextClip(ctx);
-        if([timage size].width < [timage size].height) { //height larger
-            CGFloat excess = imagesize / [timage size].width * [timage size].height - imagesize;
-            [timage drawInRect:CGRectMake(b.origin.x, b.origin.y - 0.5*excess, imagesize, imagesize + excess)];
+        if([nimage size].width < [nimage size].height) { //height larger
+            CGFloat excess = imagesize / [nimage size].width * [nimage size].height - imagesize;
+            [nimage drawInRect:CGRectMake(b.origin.x, b.origin.y - 0.5*excess, imagesize, imagesize + excess) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
         }
         else { //width larger
-            CGFloat excess = imagesize / [timage size].height * [timage size].width - imagesize;
-            [timage drawInRect:CGRectMake(b.origin.x - 0.5*excess, b.origin.y, imagesize+ excess, imagesize)];
+            CGFloat excess = imagesize / [nimage size].height * [nimage size].width - imagesize;
+            [nimage drawInRect:CGRectMake(b.origin.x - 0.5*excess, b.origin.y, imagesize+ excess, imagesize) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
         }
-
-        CGContextRestoreGState(ctx);*/
+        CGContextRestoreGState(ctx);
         
         NSUInteger trackCount;
         if([_searchMatchedObjects count] == 0) { // no search being done
