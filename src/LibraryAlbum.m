@@ -71,28 +71,29 @@
 }
 
 -(NSImage*)cover
-{    
-    NSMutableSet *trackDirs = [[NSMutableSet alloc] init];
-    for(LibraryTrack *t in [self tracks]) {
-        NSString *s = [[t filename] substringToIndex:[[t filename] length] - [[[t filename] lastPathComponent] length]];
-        [trackDirs addObject:s];
-    }
-    if([trackDirs count] == 1) { // all tracks belong in one folder
-        NSError *error;
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSString *dir = [[trackDirs allObjects] objectAtIndex:0];
-        
-        NSArray *files = [fm contentsOfDirectoryAtPath:dir error:&error];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF LIKE[c] %@ OR SELF LIKE[c] %@", @"cover.jpg", @"folder.jpg"];
-        NSArray *possible = [files filteredArrayUsingPredicate:pred];
-        if([possible count] >= 1) {
-            NSString *coverlocation = [NSString stringWithFormat:@"%@/%@", dir, [possible objectAtIndex:0]];
-            NSImage *r = [[NSImage alloc] initWithContentsOfFile:coverlocation];
-            return r;
+{
+    if(_isCoverFetched == NO) {
+        NSMutableSet *trackDirs = [[NSMutableSet alloc] init];
+        for(LibraryTrack *t in [self tracks]) {
+            NSString *s = [[t filename] substringToIndex:[[t filename] length] - [[[t filename] lastPathComponent] length]];
+            [trackDirs addObject:s];
         }
+        if([trackDirs count] == 1) { // all tracks belong in one folder
+            NSError *error;
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSString *dir = [[trackDirs allObjects] objectAtIndex:0];
+            
+            NSArray *files = [fm contentsOfDirectoryAtPath:dir error:&error];
+            NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF LIKE[c] %@ OR SELF LIKE[c] %@", @"cover.jpg", @"folder.jpg"];
+            NSArray *possible = [files filteredArrayUsingPredicate:pred];
+            if([possible count] >= 1) {
+                NSString *coverlocation = [NSString stringWithFormat:@"%@/%@", dir, [possible objectAtIndex:0]];
+                _cover = [[NSImage alloc] initWithContentsOfFile:coverlocation];
+            }
+        }
+        _isCoverFetched = YES;
     }
-    
-    return nil;
+    return _cover;
 }
 
 @end

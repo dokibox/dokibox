@@ -9,7 +9,10 @@
 #import <CoreData/CoreData.h>
 #import "common.h"
 
-@interface LibraryAlbum : NSManagedObject
+@interface LibraryAlbum : NSManagedObject {
+    BOOL _isCoverFetched;
+    NSImage *_cover;
+}
 
 -(NSSet*)tracksFromSet:(NSSet *)set;
 -(NSImage*)cover;
