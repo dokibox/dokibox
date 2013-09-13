@@ -80,8 +80,14 @@
 
 +(NSImage*)placeholderImage
 {
-    NSImage *r = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
-    return r;
+    static dispatch_once_t pred;
+    static NSImage *image = nil;
+    
+    dispatch_once(&pred, ^{
+        image = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
+    });
+
+    return image;
 }
 
 @end
