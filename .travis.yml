@@ -1,9 +1,20 @@
-language: objective-c
-before_install:
-  - git submodule update --init --recursive
-  - brew update
-  - brew install cmake
-  - ./build-toolchain.sh
-  - ./build-patchdeps.sh
-  - ./build-deps.sh
 script: ~/travis-utils/osx-cibuild.sh dokibox
+language: objective-c
+before_install: 
+- git submodule update --init --recursive
+- brew update
+- brew install cmake
+- ./build-toolchain.sh
+- ./build-patchdeps.sh
+- ./build-deps.sh
+before_script:
+- gem install travis-artifacts
+after_success: 
+- tar czvf $TRAVIS_BRANCH-$TRAVIS_COMMIT.tar.gz -C build/Release dokibox.app
+- travis-artifacts upload --path $TRAVIS_BRANCH-$TRAVIS_COMMIT.tar.gz
+env: 
+  global: 
+    - "ARTIFACTS_AWS_REGION=us-east-1"
+    - "ARTIFACTS_S3_BUCKET=dokibox-builds"
+    - secure: "NZJask/YbbU8pELBJIU9dUeHkhB4/ukihI469qiuZws1yi/v05cbmNth49k+5w+uoCcH0ridcGiMHXXDal21EpNPVeuD+soEX8LraE9mJ8PZgaq6fNszT2a/g0Vm0aWWy7NT+AIPCBIiLyCDBT40kf9h2eIxl9Qx927irmzV524="
+    - secure: "bZCPDFj6dxNrftTR1uhn6Ge3wVq0ZahXzz73k2rEN1bFaE89qJcpVnVHXW8PyspbXR7ANHd0vFShaMQcXzLR0B2pjfPhrNz3oDqxJ3dkhiGx4f3lKXiw8fqXPUJ4SBpYVvRKRSrbjZaddZWijBrQEUMlhcPzG7nsEKSEi26qio4="
