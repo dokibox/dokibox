@@ -42,6 +42,8 @@
 
     { // Draw alt text
         NSImage *nimage = [_album cover];
+        if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
+        
         CGContextSaveGState(ctx);
         CGContextAddRect(ctx, CGRectMake(b.origin.x, b.origin.y, imagesize, imagesize));
         CGContextClip(ctx);
@@ -74,6 +76,12 @@
         //textRect.size.width -= textRect.origin.x - b.origin.x;
         [astr drawInRect:textRect];
     }
+}
+
++(NSImage*)placeholderImage
+{
+    NSImage *r = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
+    return r;
 }
 
 @end

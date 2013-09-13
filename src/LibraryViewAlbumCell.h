@@ -13,6 +13,8 @@
     LibraryAlbum *_album;
 }
 
++(NSImage*)placeholderImage;
+
 @property() LibraryAlbum* album;
 @property(weak) NSSet* searchMatchedObjects;
 
