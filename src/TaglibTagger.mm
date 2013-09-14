@@ -8,6 +8,10 @@
 
 #import "TaglibTagger.h"
 
+#include <taglib/mpegfile.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/attachedpictureframe.h>
+
 @implementation TaglibTagger
 
 -(id)initWithFilename:(NSString *)filename
@@ -53,7 +57,21 @@
 
 -(NSImage *)cover
 {
-    return [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Guitar.tif"];
+    TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(_fileref->file());
+    if(file) {
+        TagLib::ID3v2::Tag *tag = file->ID3v2Tag();
+        if(tag) {
+            TagLib::ID3v2::FrameList l = tag->frameListMap()["APIC"];
+            if(!l.isEmpty()) {
+                TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(l.front());
+                TagLib::ByteVector picture = frame->picture();
+                NSData *data = [NSData dataWithBytes:(void *)(picture.data()) length:picture.size()];
+                return [[NSImage alloc] initWithData:data];
+            }
+        }
+    }
+    
+    return nil;
 }
 
 
