@@ -54,6 +54,8 @@
 		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
 		2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */; };
 		2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
+		2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */; };
+		2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */; };
 		2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */; };
 		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
 		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
@@ -292,6 +294,9 @@
 		2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TaglibTagger.mm; sourceTree = "<group>"; };
 		2BAEE22D17E505EE007D610B /* AppDelegate+PreferenceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+PreferenceWindow.h"; sourceTree = "<group>"; };
 		2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+PreferenceWindow.m"; sourceTree = "<group>"; };
+		2BAEE24117E515DA007D610B /* PluginPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginPreferenceViewController.h; sourceTree = "<group>"; };
+		2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginPreferenceViewController.m; sourceTree = "<group>"; };
+		2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PluginPreferenceViewController.xib; sourceTree = "<group>"; };
 		2BB25CA41692040900243B27 /* libmpg123.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.dylib; path = prefix/lib/libmpg123.dylib; sourceTree = "<group>"; };
 		2BB25CB01692327700243B27 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
 		2BB25CB516972F7F00243B27 /* DecoderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DecoderProtocol.h; path = src/decoders/DecoderProtocol.h; sourceTree = "<group>"; };
@@ -499,6 +504,9 @@
 				2B5B340217763C9A0093C292 /* LibraryPreferenceViewController.h */,
 				2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */,
 				2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */,
+				2BAEE24117E515DA007D610B /* PluginPreferenceViewController.h */,
+				2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */,
+				2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */,
 			);
 			name = preferences;
 			sourceTree = "<group>";
@@ -892,6 +900,7 @@
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
+				2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,6 +970,7 @@
 				2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */,
 				2B7611C617C30617008A717D /* LibraryViewSearchView.m in Sources */,
 				2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */,
+				2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

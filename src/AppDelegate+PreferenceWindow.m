@@ -8,6 +8,7 @@
 
 #import "AppDelegate+PreferenceWindow.h"
 #import "LibraryPreferenceViewController.h"
+#import "PluginPreferenceViewController.h"
 
 
 @implementation AppDelegate (PreferenceWindow)
@@ -21,8 +22,9 @@
     // to pass back here maybe to set _preferencesWindowController to nil?)
     if(_preferencesWindowController == nil) {
         NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] initWithLibrary:_library];
+        NSViewController *pluginPreferenceViewController = [[PluginPreferenceViewController alloc] init];
 
-        NSArray *controllers = [[NSArray alloc] initWithObjects:libraryPreferenceViewController, nil];
+        NSArray *controllers = [[NSArray alloc] initWithObjects:libraryPreferenceViewController, pluginPreferenceViewController, nil];
         _preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:controllers title:@"Preferences"];
     }
     

@@ -16,4 +16,9 @@
     return self;
 }
 
+-(NSString*)name
+{
+    return @"MP3 Decoder";
+}
+
 @end

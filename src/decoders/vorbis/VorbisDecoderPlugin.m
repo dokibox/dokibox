@@ -16,4 +16,9 @@
     return self;
 }
 
+-(NSString*)name
+{
+    return @"Ogg/Vorbis Decoder";
+}
+
 @end

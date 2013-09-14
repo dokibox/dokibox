@@ -16,4 +16,9 @@
     return self;
 }
 
+-(NSString*)name
+{
+    return @"FLAC Decoder";
+}
+
 @end

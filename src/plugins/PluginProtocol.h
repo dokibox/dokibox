@@ -14,4 +14,6 @@
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager;
 
+@property(readonly) NSString* name;
+
 @end
