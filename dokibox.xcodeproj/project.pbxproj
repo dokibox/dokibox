@@ -24,7 +24,6 @@
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
 		2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */; };
-		2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
 		2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340717768E830093C292 /* defaultPrefs.plist */; };
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
@@ -53,6 +52,8 @@
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
 		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
+		2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */; };
+		2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
 		2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */; };
 		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
 		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
@@ -289,6 +290,8 @@
 		2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaggerProtocol.h; sourceTree = "<group>"; };
 		2BAC978C15BC571400FBE907 /* TaglibTagger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaglibTagger.h; sourceTree = "<group>"; };
 		2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TaglibTagger.mm; sourceTree = "<group>"; };
+		2BAEE22D17E505EE007D610B /* AppDelegate+PreferenceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+PreferenceWindow.h"; sourceTree = "<group>"; };
+		2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+PreferenceWindow.m"; sourceTree = "<group>"; };
 		2BB25CA41692040900243B27 /* libmpg123.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.dylib; path = prefix/lib/libmpg123.dylib; sourceTree = "<group>"; };
 		2BB25CB01692327700243B27 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
 		2BB25CB516972F7F00243B27 /* DecoderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DecoderProtocol.h; path = src/decoders/DecoderProtocol.h; sourceTree = "<group>"; };
@@ -487,6 +490,8 @@
 		2B5B33F317763BC10093C292 /* preferences */ = {
 			isa = PBXGroup;
 			children = (
+				2BAEE22D17E505EE007D610B /* AppDelegate+PreferenceWindow.h */,
+				2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */,
 				2B5B33FA17763C140093C292 /* MASPreferencesViewController.h */,
 				2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */,
 				2B5B33FC17763C140093C292 /* MASPreferencesWindowController.h */,
@@ -885,8 +890,8 @@
 				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
 				2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */,
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
-				2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */,
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
+				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,6 +960,7 @@
 				2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */,
 				2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */,
 				2B7611C617C30617008A717D /* LibraryViewSearchView.m in Sources */,
+				2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,11 +16,10 @@
 {
     Window    * _window;
     MusicController *_musicController;
-    NSWindowController *_preferencesWindowController;
     Library *_library;
+    NSWindowController *_preferencesWindowController;
 }
 
--(IBAction)openPreferences:(id)sender;
 -(IBAction)performFindPanelAction:(id)sender;
 
 @end

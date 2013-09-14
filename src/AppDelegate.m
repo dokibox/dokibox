@@ -13,7 +13,6 @@
 #import "DDTTYLogger.h"
 #import "WindowContentView.h"
 
-#import "LibraryPreferenceViewController.h"
 
 @implementation AppDelegate
 
@@ -53,21 +52,6 @@
 
     [_window makeKeyAndOrderFront:nil];
     [_window relayout];
-}
-
--(IBAction)openPreferences:(id)sender
-{
-    // Note: Perhaps we should release the preferenceWindowController when the preference window has closed
-    // to save memory, but I can't imagine the memory saving is very great. In any case this doesn't leak.
-    // Not sure how to do this (windowWillClose in category of LibraryPreferenceViewController
-    // to pass back here maybe to set _preferencesWindowController to nil?)
-    if(_preferencesWindowController == nil) {
-        NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] initWithLibrary:_library];
-        NSArray *controllers = [[NSArray alloc] initWithObjects:libraryPreferenceViewController, nil];
-        _preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:controllers title:@"Preferences"];
-    }
-
-    [_preferencesWindowController showWindow:nil];
 }
 
 -(IBAction)performFindPanelAction:(id)sender
