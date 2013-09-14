@@ -51,6 +51,11 @@
     return retval;
 }
 
+-(NSImage *)cover
+{
+    return [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Guitar.tif"];
+}
+
 
 -(void)dealloc {
     delete _fileref;

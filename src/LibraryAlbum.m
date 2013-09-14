@@ -73,6 +73,7 @@
 -(NSImage*)cover
 {
     if(_isCoverFetched == NO) {
+        // Look for directory first
         NSMutableSet *trackDirs = [[NSMutableSet alloc] init];
         for(LibraryTrack *t in [self tracks]) {
             NSString *s = [[t filename] substringToIndex:[[t filename] length] - [[[t filename] lastPathComponent] length]];
@@ -89,9 +90,22 @@
             if([possible count] >= 1) {
                 NSString *coverlocation = [NSString stringWithFormat:@"%@/%@", dir, [possible objectAtIndex:0]];
                 _cover = [[NSImage alloc] initWithContentsOfFile:coverlocation];
+                _isCoverFetched = YES;
+                return _cover;
             }
         }
-        _isCoverFetched = YES;
+        
+        // Now try the track tags
+        if([[self tracks] count] > 0) {
+            LibraryTrack *t = [[[self tracks] allObjects] objectAtIndex:0];
+            NSImage *cover = [t cover];
+            if(cover) {
+                _cover = cover;
+                _isCoverFetched = YES;
+                return _cover;
+            }
+        }
+
     }
     return _cover;
 }

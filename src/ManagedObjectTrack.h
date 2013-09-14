@@ -17,5 +17,6 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSMutableDictionary *primitiveAttributes;
 @property (readonly, nonatomic) NSMutableDictionary *attributes;
+@property (readonly) NSImage* cover;
 
 @end

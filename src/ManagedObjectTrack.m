@@ -32,6 +32,12 @@
     return dict;
 }
 
+-(NSImage*)cover
+{
+    id<TaggerProtocol> tagger = [[TaglibTagger alloc] initWithFilename:[self filename]];
+    return [tagger cover];
+}
+
 
 -(void)resetAttributeCache
 {

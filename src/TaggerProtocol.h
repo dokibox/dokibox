@@ -13,6 +13,6 @@
 -(id)initWithFilename:(NSString *)filename;
 -(NSMutableDictionary *)tag;
 //-(NSMutableDictionary *)properties;
-
+-(NSImage *)cover;
 
 @end
