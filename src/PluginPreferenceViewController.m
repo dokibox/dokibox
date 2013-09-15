@@ -45,6 +45,20 @@
     return [[[_pluginManager plugins] objectAtIndex:row] name];
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+    if(_currentPluginPreferencePaneView)
+        [_currentPluginPreferencePaneView removeFromSuperview];
+    
+    if([_tableView selectedRow] == -1) return;
+    
+    id<PluginProtocol> plugin = [[_pluginManager plugins] objectAtIndex:[_tableView selectedRow]];
+    if([plugin respondsToSelector:@selector(preferencePaneView)] && [plugin preferencePaneView]) {
+        _currentPluginPreferencePaneView = [plugin preferencePaneView];
+        [_currentPluginPreferencePaneView setFrame:NSMakeRect(245, 20, 230, 370)];
+        [[self view] addSubview:_currentPluginPreferencePaneView];
+    }
+}
 
 
 

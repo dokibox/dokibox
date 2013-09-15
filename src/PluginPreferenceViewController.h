@@ -12,6 +12,9 @@
 
 @interface PluginPreferenceViewController : NSViewController {
     PluginManager *_pluginManager;
+    NSTableView IBOutlet *_tableView;
+    
+    NSView *_currentPluginPreferencePaneView;
 }
 
 @end

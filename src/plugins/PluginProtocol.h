@@ -15,5 +15,6 @@
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager;
 
 @property(readonly) NSString* name;
+@property(readonly) NSView* preferencePaneView;
 
 @end

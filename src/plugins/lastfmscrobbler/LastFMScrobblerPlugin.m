@@ -21,4 +21,10 @@
     return @"last.fm Scrobbler";
 }
 
+-(NSView*)preferencePaneView
+{
+    LastFMScrobblerPluginPreferenceViewController *preferenceViewController = [[LastFMScrobblerPluginPreferenceViewController alloc] init];
+    return [preferenceViewController view];
+}
+
 @end
