@@ -56,6 +56,11 @@
 		2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
 		2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */; };
 		2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */; };
+		2BAEE25C17E56445007D610B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
+		2BAEE26217E56445007D610B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE26017E56445007D610B /* InfoPlist.strings */; };
+		2BAEE26717E5647B007D610B /* dokibox-lastfmscrobbler.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */; };
+		2BAEE26817E565A4007D610B /* LastFMScrobblerPlugin.h in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE25517E55AA5007D610B /* LastFMScrobblerPlugin.h */; };
+		2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */; };
 		2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */; };
 		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
 		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
@@ -155,6 +160,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				2BAEE26717E5647B007D610B /* dokibox-lastfmscrobbler.bundle in CopyFiles */,
 				2BB25D0C1697440100243B27 /* dokibox-decoder-vorbis.bundle in CopyFiles */,
 				2BB25CE216973E1700243B27 /* dokibox-decoder-flac.bundle in CopyFiles */,
 				2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */,
@@ -297,6 +303,12 @@
 		2BAEE24117E515DA007D610B /* PluginPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginPreferenceViewController.h; sourceTree = "<group>"; };
 		2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginPreferenceViewController.m; sourceTree = "<group>"; };
 		2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PluginPreferenceViewController.xib; sourceTree = "<group>"; };
+		2BAEE25517E55AA5007D610B /* LastFMScrobblerPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LastFMScrobblerPlugin.h; path = plugins/lastfmscrobbler/LastFMScrobblerPlugin.h; sourceTree = "<group>"; };
+		2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LastFMScrobblerPlugin.m; path = plugins/lastfmscrobbler/LastFMScrobblerPlugin.m; sourceTree = "<group>"; };
+		2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-lastfmscrobbler.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BAEE25F17E56445007D610B /* dokibox-lastfmscrobbler-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "dokibox-lastfmscrobbler-Info.plist"; sourceTree = "<group>"; };
+		2BAEE26117E56445007D610B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2BAEE26317E56445007D610B /* dokibox-lastfmscrobbler-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dokibox-lastfmscrobbler-Prefix.pch"; sourceTree = "<group>"; };
 		2BB25CA41692040900243B27 /* libmpg123.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.dylib; path = prefix/lib/libmpg123.dylib; sourceTree = "<group>"; };
 		2BB25CB01692327700243B27 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
 		2BB25CB516972F7F00243B27 /* DecoderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DecoderProtocol.h; path = src/decoders/DecoderProtocol.h; sourceTree = "<group>"; };
@@ -373,6 +385,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BAEE25817E56445007D610B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BAEE25C17E56445007D610B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BB25CCB16973CCD00243B27 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -411,6 +431,7 @@
 				2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */,
 				2BB25CD416973CCD00243B27 /* dokibox-decoder-flac.bundle */,
 				2BB25CF91697432300243B27 /* dokibox-decoder-vorbis.bundle */,
+				2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -686,9 +707,31 @@
 			name = tagging;
 			sourceTree = "<group>";
 		};
+		2BAEE24E17E55928007D610B /* lastfmscrobbler */ = {
+			isa = PBXGroup;
+			children = (
+				2BAEE25517E55AA5007D610B /* LastFMScrobblerPlugin.h */,
+				2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */,
+				2BAEE25E17E56445007D610B /* Supporting Files */,
+			);
+			name = lastfmscrobbler;
+			sourceTree = "<group>";
+		};
+		2BAEE25E17E56445007D610B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2BAEE25F17E56445007D610B /* dokibox-lastfmscrobbler-Info.plist */,
+				2BAEE26017E56445007D610B /* InfoPlist.strings */,
+				2BAEE26317E56445007D610B /* dokibox-lastfmscrobbler-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = "../dokibox-lastfmscrobbler";
+			sourceTree = "<group>";
+		};
 		2BB25CC11697304600243B27 /* plugins */ = {
 			isa = PBXGroup;
 			children = (
+				2BAEE24E17E55928007D610B /* lastfmscrobbler */,
 				2BB25CBE1697302F00243B27 /* PluginManager.h */,
 				2BB25CBF1697302F00243B27 /* PluginManager.m */,
 				2BB25CC21697308300243B27 /* PluginProtocol.h */,
@@ -783,6 +826,23 @@
 			productReference = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		2BAEE25A17E56445007D610B /* dokibox-lastfmscrobbler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BAEE26417E56445007D610B /* Build configuration list for PBXNativeTarget "dokibox-lastfmscrobbler" */;
+			buildPhases = (
+				2BAEE25717E56445007D610B /* Sources */,
+				2BAEE25817E56445007D610B /* Frameworks */,
+				2BAEE25917E56445007D610B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "dokibox-lastfmscrobbler";
+			productName = "dokibox-lastfmscrobbler";
+			productReference = 2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		2BB25CC716973CCD00243B27 /* dokibox-decoder-flac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2BB25CD116973CCD00243B27 /* Build configuration list for PBXNativeTarget "dokibox-decoder-flac" */;
@@ -853,6 +913,7 @@
 				2B80D43E16920167000F3392 /* dokibox-decoder-mp3 */,
 				2BB25CC716973CCD00243B27 /* dokibox-decoder-flac */,
 				2BB25CEB1697432300243B27 /* dokibox-decoder-vorbis */,
+				2BAEE25A17E56445007D610B /* dokibox-lastfmscrobbler */,
 			);
 		};
 /* End PBXProject section */
@@ -908,6 +969,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BAEE25917E56445007D610B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BAEE26217E56445007D610B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -983,6 +1052,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2BAEE25717E56445007D610B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BAEE26817E565A4007D610B /* LastFMScrobblerPlugin.h in Sources */,
+				2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BB25CC816973CCD00243B27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1049,6 +1127,14 @@
 				2B15BF7E146127A100DC46CD /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		2BAEE26017E56445007D610B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BAEE26117E56445007D610B /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		2BB25CBA16972FA900243B27 /* InfoPlist.strings */ = {
@@ -1211,6 +1297,52 @@
 			};
 			name = Release;
 		};
+		2BAEE26517E56445007D610B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "dokibox-lastfmscrobbler/dokibox-lastfmscrobbler-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "dokibox-lastfmscrobbler/dokibox-lastfmscrobbler-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		2BAEE26617E56445007D610B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "dokibox-lastfmscrobbler/dokibox-lastfmscrobbler-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "dokibox-lastfmscrobbler/dokibox-lastfmscrobbler-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		2BB25CD216973CCD00243B27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1328,6 +1460,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		2BAEE26417E56445007D610B /* Build configuration list for PBXNativeTarget "dokibox-lastfmscrobbler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BAEE26517E56445007D610B /* Debug */,
+				2BAEE26617E56445007D610B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		2BB25CD116973CCD00243B27 /* Build configuration list for PBXNativeTarget "dokibox-decoder-flac" */ = {
 			isa = XCConfigurationList;

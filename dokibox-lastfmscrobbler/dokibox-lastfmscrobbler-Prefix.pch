@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'dokibox-lastfmscrobbler' target in the 'dokibox-lastfmscrobbler' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
