@@ -7,6 +7,7 @@
 //
 
 #import "LastFMScrobblerPluginPreferenceViewController.h"
+#import "LastFMScrobblerPluginAPICall.h"
 #import "LastFMScrobblerPlugin.h"
 
 @interface LastFMScrobblerPluginPreferenceViewController ()
@@ -28,7 +29,9 @@
 
 -(IBAction)loginButtonPressed:(id)sender
 {
-
+    LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
+    [apiCall setParameter:@"method" value:@"auth.getToken"];
+    NSXMLDocument *doc = [apiCall performRequest];
     
 }
 

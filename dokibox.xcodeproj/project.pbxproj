@@ -63,6 +63,7 @@
 		2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */; };
 		2BAEE26F17E64FF0007D610B /* LastFMScrobblerPluginPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE26B17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.m */; };
 		2BAEE27017E64FF5007D610B /* LastFMScrobblerPluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE26C17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.xib */; };
+		2BAEE27317E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE27217E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m */; };
 		2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */; };
 		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
 		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
@@ -314,6 +315,8 @@
 		2BAEE26A17E64F15007D610B /* LastFMScrobblerPluginPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LastFMScrobblerPluginPreferenceViewController.h; path = plugins/lastfmscrobbler/LastFMScrobblerPluginPreferenceViewController.h; sourceTree = "<group>"; };
 		2BAEE26B17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LastFMScrobblerPluginPreferenceViewController.m; path = plugins/lastfmscrobbler/LastFMScrobblerPluginPreferenceViewController.m; sourceTree = "<group>"; };
 		2BAEE26C17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LastFMScrobblerPluginPreferenceViewController.xib; path = plugins/lastfmscrobbler/LastFMScrobblerPluginPreferenceViewController.xib; sourceTree = "<group>"; };
+		2BAEE27117E7AE1D007D610B /* LastFMScrobblerPluginAPICall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LastFMScrobblerPluginAPICall.h; path = plugins/lastfmscrobbler/LastFMScrobblerPluginAPICall.h; sourceTree = "<group>"; };
+		2BAEE27217E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LastFMScrobblerPluginAPICall.m; path = plugins/lastfmscrobbler/LastFMScrobblerPluginAPICall.m; sourceTree = "<group>"; };
 		2BB25CA41692040900243B27 /* libmpg123.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.dylib; path = prefix/lib/libmpg123.dylib; sourceTree = "<group>"; };
 		2BB25CB01692327700243B27 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
 		2BB25CB516972F7F00243B27 /* DecoderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DecoderProtocol.h; path = src/decoders/DecoderProtocol.h; sourceTree = "<group>"; };
@@ -717,6 +720,8 @@
 			children = (
 				2BAEE25517E55AA5007D610B /* LastFMScrobblerPlugin.h */,
 				2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */,
+				2BAEE27117E7AE1D007D610B /* LastFMScrobblerPluginAPICall.h */,
+				2BAEE27217E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m */,
 				2BAEE26A17E64F15007D610B /* LastFMScrobblerPluginPreferenceViewController.h */,
 				2BAEE26B17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.m */,
 				2BAEE26C17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.xib */,
@@ -1068,6 +1073,7 @@
 				2BAEE26817E565A4007D610B /* LastFMScrobblerPlugin.h in Sources */,
 				2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */,
 				2BAEE26F17E64FF0007D610B /* LastFMScrobblerPluginPreferenceViewController.m in Sources */,
+				2BAEE27317E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,6 +29,4 @@
     return [_viewController view];
 }
 
-}
-
 @end
