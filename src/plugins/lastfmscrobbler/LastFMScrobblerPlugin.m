@@ -8,6 +8,7 @@
 
 #import "LastFMScrobblerPlugin.h"
 #import "PluginManager.h"
+#import "LastFMScrobblerPluginPreferenceViewController.h"
 
 @implementation LastFMScrobblerPlugin
 
@@ -23,8 +24,11 @@
 
 -(NSView*)preferencePaneView
 {
-    LastFMScrobblerPluginPreferenceViewController *preferenceViewController = [[LastFMScrobblerPluginPreferenceViewController alloc] init];
-    return [preferenceViewController view];
+    if(_viewController == nil)
+        _viewController = [[LastFMScrobblerPluginPreferenceViewController alloc] initWithLastFMScrobblerPlugin:self];
+    return [_viewController view];
+}
+
 }
 
 @end

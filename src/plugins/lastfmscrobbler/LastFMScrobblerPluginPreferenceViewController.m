@@ -7,6 +7,7 @@
 //
 
 #import "LastFMScrobblerPluginPreferenceViewController.h"
+#import "LastFMScrobblerPlugin.h"
 
 @interface LastFMScrobblerPluginPreferenceViewController ()
 
@@ -14,14 +15,21 @@
 
 @implementation LastFMScrobblerPluginPreferenceViewController
 
-- (id)init
+- (id)initWithLastFMScrobblerPlugin:(LastFMScrobblerPlugin*)lastFMScrobblerPlugin;
 {
     self = [super initWithNibName:@"LastFMScrobblerPluginPreferenceViewController" bundle:[NSBundle bundleForClass:[self class]]];
     
     if (self) {
+        _lastFMScrobblerPlugin = lastFMScrobblerPlugin;
     }
     
     return self;
+}
+
+-(IBAction)loginButtonPressed:(id)sender
+{
+
+    
 }
 
 @end

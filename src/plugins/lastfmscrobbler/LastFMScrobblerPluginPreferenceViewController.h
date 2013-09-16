@@ -8,6 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LastFMScrobblerPluginPreferenceViewController : NSViewController
+@class LastFMScrobblerPlugin;
+
+@interface LastFMScrobblerPluginPreferenceViewController : NSViewController {
+    LastFMScrobblerPlugin *_lastFMScrobblerPlugin;
+    
+    NSButton* IBOutlet _loginButton;
+}
+
+- (id)initWithLastFMScrobblerPlugin:(LastFMScrobblerPlugin*)lastFMScrobblerPlugin;
+-(IBAction)loginButtonPressed:(id)sender;
 
 @end

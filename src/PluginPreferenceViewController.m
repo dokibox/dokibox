@@ -53,7 +53,7 @@
     if([_tableView selectedRow] == -1) return;
     
     id<PluginProtocol> plugin = [[_pluginManager plugins] objectAtIndex:[_tableView selectedRow]];
-    if([plugin respondsToSelector:@selector(preferencePaneView)] && [plugin preferencePaneView]) {
+    if([plugin respondsToSelector:@selector(preferencePaneView)]) {
         _currentPluginPreferencePaneView = [plugin preferencePaneView];
         [_currentPluginPreferencePaneView setFrame:NSMakeRect(245, 20, 230, 370)];
         [[self view] addSubview:_currentPluginPreferencePaneView];

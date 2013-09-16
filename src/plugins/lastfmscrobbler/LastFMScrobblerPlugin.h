@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "PluginProtocol.h"
 
-@interface LastFMScrobblerPlugin : NSObject<PluginProtocol>
+@class LastFMScrobblerPluginPreferenceViewController;
+
+@interface LastFMScrobblerPlugin : NSObject<PluginProtocol> {
+    LastFMScrobblerPluginPreferenceViewController *_viewController;
+}
+
 
 @end
