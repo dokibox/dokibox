@@ -15,5 +15,8 @@
     LastFMScrobblerPluginPreferenceViewController *_viewController;
 }
 
+@property() NSString *lastfmUserName;
+@property() NSString *lastfmUserKey;
+
 
 @end

@@ -12,8 +12,18 @@
 
 @implementation LastFMScrobblerPlugin
 
+@synthesize lastfmUserName = _lastfmUserName;
+@synthesize lastfmUserKey = _lastfmUserKey;
+
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager
 {
+    self = [super init];
+    
+    if(self) {
+        _lastfmUserName = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserName"];
+        _lastfmUserKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserKey"];
+    }
+    
     return self;
 }
 
@@ -28,5 +38,28 @@
         _viewController = [[LastFMScrobblerPluginPreferenceViewController alloc] initWithLastFMScrobblerPlugin:self];
     return [_viewController view];
 }
+
+-(NSString *)lastfmUserName
+{
+    return _lastfmUserName;
+}
+
+-(void)setLastfmUserName:(NSString *)lastfmUserName
+{
+    _lastfmUserName = lastfmUserName;
+    [[NSUserDefaults standardUserDefaults] setObject:_lastfmUserName forKey:@"LastFMScrobblerPluginUserName"];
+}
+
+-(NSString *)lastfmUserKey
+{
+    return _lastfmUserKey;
+}
+
+-(void)setLastfmUserKey:(NSString *)lastfmUserKey
+{
+    _lastfmUserKey = lastfmUserKey;
+    [[NSUserDefaults standardUserDefaults] setObject:_lastfmUserKey forKey:@"LastFMScrobblerPluginUserKey"];
+}
+
 
 @end

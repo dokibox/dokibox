@@ -74,4 +74,9 @@
     return doc;
 }
 
++(NSString *)apiKey
+{
+    return API_KEY;
+}
+
 @end

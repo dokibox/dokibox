@@ -11,6 +11,7 @@
 @interface LastFMScrobblerPluginAPICall : NSObject {
     NSMutableDictionary *_parameters;
 }
++(NSString *)apiKey;
 
 -(void)setParameter:(NSString*)name value:(NSString*)value;
 -(NSXMLDocument*)performRequest;
