@@ -13,7 +13,7 @@
 #import <AudioUnit/AudioUnit.h>
 
 static OSStatus playProc(AudioConverterRef inAudioConverter,
-						 UInt32 *ioNumberDataPackets,
+                         UInt32 *ioNumberDataPackets,
                          AudioBufferList *outOutputData,
                          AudioStreamPacketDescription **outDataPacketDescription,
                          void* inClientData) {
@@ -84,6 +84,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         return YES;
     }
     else if([ext compare:@"ogg"] == NSOrderedSame) {
+        return YES;
+    }
+    else if([ext compare:@"m4a"] == NSOrderedSame) {
         return YES;
     }
     else {
@@ -198,11 +201,11 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     
     // Node descriptions
     AudioComponentDescription mixerDesc;
-	mixerDesc.componentType = kAudioUnitType_Mixer;
+    mixerDesc.componentType = kAudioUnitType_Mixer;
     mixerDesc.componentSubType = kAudioUnitSubType_MultiChannelMixer;
-	mixerDesc.componentFlags = 0;
-	mixerDesc.componentFlagsMask = 0;
-	mixerDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
+    mixerDesc.componentFlags = 0;
+    mixerDesc.componentFlagsMask = 0;
+    mixerDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
     AudioComponentDescription outputDesc;
     outputDesc.componentType = kAudioUnitType_Output;
@@ -283,7 +286,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     AudioStreamBasicDescription outFormat;
     UInt32 size = sizeof(outFormat);
     
-	err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size);
+    err = AudioUnitGetProperty(_mixerUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outFormat, &size);
     if(err) {
 		NSLog(@"AudioUnitGetProperty(kAudioUnitProperty_StreamFormat:mixerUnit input) failed");
 	}
@@ -314,9 +317,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _inFormat.mFormatFlags |= kLinearPCMFormatFlagIsSignedInteger;
     int bps = decoderMetadata.bitsPerSample;
     _inFormat.mBitsPerChannel = bps;
-	_inFormat.mBytesPerPacket = bps/8*_inFormat.mChannelsPerFrame;
-	_inFormat.mFramesPerPacket = 1;
-	_inFormat.mBytesPerFrame = bps/8*_inFormat.mChannelsPerFrame;
+    _inFormat.mBytesPerPacket = bps/8*_inFormat.mChannelsPerFrame;
+    _inFormat.mFramesPerPacket = 1;
+    _inFormat.mBytesPerFrame = bps/8*_inFormat.mChannelsPerFrame;
     
     if(converter) {
         err = AudioConverterDispose(converter);

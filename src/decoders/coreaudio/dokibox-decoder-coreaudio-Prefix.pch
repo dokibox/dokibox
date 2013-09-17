@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'dokibox-decoder-coreaudio' target in the 'dokibox-decoder-coreaudio' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

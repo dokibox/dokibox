@@ -170,7 +170,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         return;
     }
 
-    if(!([[file pathExtension] isEqualToString:@"flac"] || [[file pathExtension] isEqualToString:@"mp3"]))
+    if(!([[file pathExtension] isEqualToString:@"flac"] || [[file pathExtension] isEqualToString:@"mp3"] || [[file pathExtension] isEqualToString:@"ogg"] || [[file pathExtension] isEqualToString:@"m4a"]))
         return;
 
     NSError *error;
