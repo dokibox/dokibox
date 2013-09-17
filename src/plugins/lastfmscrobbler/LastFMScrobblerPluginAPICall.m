@@ -55,8 +55,22 @@
         [urlString appendFormat:@"%02x", digest[i]];
    
     NSError *err;
-    NSURL *u = [NSURL URLWithString:urlString];
-    NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:u options:0 error:&err];
+    NSURLRequest *urlReq = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    NSURLResponse *response;
+    NSData *data = [NSURLConnection sendSynchronousRequest:urlReq returningResponse:&response error:&err];
+    if(err) {
+        NSLog(@"HTTP error");
+        NSLog(@"%@", [err localizedDescription]);
+        return nil;
+    }
+    
+    NSXMLDocument *doc = [[NSXMLDocument alloc] initWithData:data options:0 error:&err];
+    if(err) {
+        NSLog(@"XML parsing error");
+        NSLog(@"%@", [err localizedDescription]);
+        return nil;
+    }
+    
     return doc;
 }
 
