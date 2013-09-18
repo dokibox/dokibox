@@ -48,7 +48,7 @@ enum SearchButtonState {
             [button setDrawIcon: [self newPlaylistButtonDrawRect]];
             [self addSubview:button];
         }
-        
+
         {
             CGRect buttonFrame = self.bounds;
             buttonFrame.origin.x += 5;
@@ -159,20 +159,20 @@ enum SearchButtonState {
         CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
         CGContextSaveGState(ctx);
-        
+
         CGFloat outer_r = 4.5;
         CGFloat inner_r = 3.0;
         CGFloat height = 20.0;
         CGFloat widthofhandle = 1.5;
         CGFloat heightofhandle = 6;
         CGFloat angle = 0.7;
-        
+
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
         middle.x += 2.5;
         middle.y += 2.5;
         CGContextAddArc(ctx, middle.x, middle.y, outer_r, 0, 2*pi, 0);
         CGContextAddArc(ctx, middle.x, middle.y, inner_r, 2*pi, 0, 1);
-        
+
         middle.x -= outer_r*sin(angle);
         middle.y -= outer_r*cos(angle);
         CGContextMoveToPoint(ctx, middle.x + cos(angle)*widthofhandle/2.0, middle.y - sin(angle)*widthofhandle/2.0);
@@ -181,9 +181,9 @@ enum SearchButtonState {
         CGContextAddLineToPoint(ctx, middle.x - cos(angle)*widthofhandle/2.0, middle.y + sin(angle)*widthofhandle/2.0);
         CGContextClosePath(ctx);
 
-        
+
         CGContextClip(ctx);
-        
+
         TitlebarButtonNS *button = (TitlebarButtonNS*)v;
         NSColor *gradientEndColor, *gradientStartColor;
         if([button state] == SearchButtonStateActive) {
@@ -193,17 +193,17 @@ enum SearchButtonState {
             gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
             gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
         }
-        
+
         NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
                            (id)[gradientEndColor CGColor], nil];
         CGFloat locations[] = { 0.0, 1.0 };
         CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
-        
+
         CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + height/2.0), CGPointMake(middle.x, middle.y - height/2.0), 0);
         CGGradientRelease(gradient);
         CGContextRestoreGState(ctx);
-        
-        
+
+
         CGContextSaveGState(ctx);
         middle.x += outer_r*sin(angle);
         middle.y += outer_r*cos(angle);
@@ -211,11 +211,11 @@ enum SearchButtonState {
         CGContextClip(ctx);
         NSColor *innerGradientEndColor = [NSColor colorWithDeviceWhite:0.8 alpha:0.75];
         NSColor *innerGradientStartColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.75];
-        
+
         NSArray *innerColors = [NSArray arrayWithObjects: (id)[innerGradientStartColor CGColor],
                            (id)[innerGradientEndColor CGColor], nil];
         CGGradientRef innerGradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)innerColors, locations);
-        
+
         CGContextDrawLinearGradient(ctx, innerGradient, CGPointMake(middle.x - inner_r*sin(angle), middle.y + inner_r*cos(angle)), CGPointMake(middle.x + inner_r*sin(angle), middle.y - inner_r*cos(angle)), 0);
         CGGradientRelease(innerGradient);
         CGContextRestoreGState(ctx);
@@ -230,8 +230,8 @@ enum SearchButtonState {
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+
     // Line divider for playlist/library
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
     CGContextSetLineWidth(ctx, 1.0);
@@ -239,7 +239,7 @@ enum SearchButtonState {
     CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
     CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height);
     CGContextStrokePath(ctx);
-        
+
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     NSColor *gradientStartColor, *gradientEndColor;
@@ -259,7 +259,7 @@ enum SearchButtonState {
 
     CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+bottomToolbarHeight), 0);
     CGGradientRelease(gradient);
-    
+
     // Line divider for bottom
     if(isActive)
         CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.7 alpha:1.0] CGColor]);

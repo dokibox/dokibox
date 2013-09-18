@@ -132,7 +132,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // Draw bar
     NSColor *gradientStartColor, *gradientEndColor;

@@ -25,7 +25,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     CGContextSaveGState(ctx);
     // We are using horiztonally-centered coordinates

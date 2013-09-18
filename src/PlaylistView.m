@@ -24,7 +24,7 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
-	if((self = [super initWithFrame:frame])) {
+    if((self = [super initWithFrame:frame])) {
 
         // Fetch stuff
         _objectContext = [PlaylistCoreDataManager newContext];
@@ -86,8 +86,8 @@
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];*/
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
@@ -100,13 +100,13 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    
+
     CGRect barRect = [self bounds];
     barRect.origin.y += playlistHeight - 15.0;
     barRect.size.height = 15.0;
-    
+
     [self CGContextVerticalGradient:barRect context:ctx bottomColor:[NSColor colorWithDeviceWhite:0.8 alpha:1.0] topColor:[NSColor colorWithDeviceWhite:0.92 alpha:1.0]];
-    
+
     // Line top/bottom
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
     CGContextSetLineWidth(ctx, 1.0);
@@ -118,7 +118,7 @@
     CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + 0.5);
     CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + 0.5);
     CGContextStrokePath(ctx);
-    
+
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
     [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Playlist Collection" attributes:attr];

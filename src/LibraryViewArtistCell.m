@@ -17,15 +17,15 @@
 
 - (void)drawRect:(CGRect)rect
 {
-	CGRect b = self.bounds;
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGRect b = self.bounds;
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     if(false) {
-	//if(self.selected) {
-		// selected background
-		CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-		CGContextFillRect(ctx, b);
-	} else {
+    //if(self.selected) {
+        // selected background
+        CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
+        CGContextFillRect(ctx, b);
+    } else {
         NSColor *gradientStartColor, *gradientEndColor;
         gradientStartColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
         gradientEndColor = [NSColor colorWithDeviceWhite:0.98 alpha:1.0];
@@ -38,13 +38,13 @@
         CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
         CGGradientRelease(gradient);
 
-		// emboss
-		/*CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
-		CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
-		CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
-		CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));*/
-	}
-    
+        // emboss
+        /*CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
+        CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
+        CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
+        CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));*/
+    }
+
     CGContextSetShouldSmoothFonts(ctx, YES);
     {   // Draw text for name
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
@@ -65,13 +65,13 @@
             albumCount = [[[self artist] albumsFromSet:[self searchMatchedObjects]] count];
             trackCount = [[[self artist] tracksFromSet:[self searchMatchedObjects]] count];
         }
-        
+
         NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", albumCount, trackCount];
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
         [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
         [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
         NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
-        
+
         NSSize textSize = [astr size];
         CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -6);
         //textRect.size.width -= textRect.origin.x - b.origin.x;

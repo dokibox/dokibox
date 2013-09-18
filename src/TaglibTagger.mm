@@ -16,7 +16,7 @@
 
 -(id)initWithFilename:(NSString *)filename
 {
-	if((self = [super init])) {
+    if((self = [super init])) {
         _fileref = new TagLib::FileRef([filename UTF8String]);
 
         if(_fileref->isNull()) {
@@ -28,7 +28,7 @@
         _tag = _fileref->tag();
         _audioproperties = _fileref->audioProperties();
     }
-	return self;
+    return self;
 }
 
 -(NSMutableDictionary *)tag
@@ -47,7 +47,7 @@
             [retval setValue:value forKey:key];
         }
     }
-    
+
     if(_audioproperties) {
         [retval setValue:[NSNumber numberWithInt:_audioproperties->length()] forKey:@"length"];
     }
@@ -70,7 +70,7 @@
             }
         }
     }
-    
+
     return nil;
 }
 
