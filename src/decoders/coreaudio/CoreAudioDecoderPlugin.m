@@ -8,4 +8,9 @@
     return self;
 }
 
+-(NSString*)name
+{
+    return @"CoreAudio Decoder";
+}
+
 @end
