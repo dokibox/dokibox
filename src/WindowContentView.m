@@ -93,6 +93,7 @@ enum SearchButtonState {
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {
+    [super resizeSubviewsWithOldSize:oldBoundsSize];
     [_libraryView setFrame:[self libraryViewFrame]];
     [_playlistView setFrame:[self playlistViewFrame]];
 }
