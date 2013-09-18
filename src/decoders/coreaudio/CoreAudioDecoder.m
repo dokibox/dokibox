@@ -75,8 +75,14 @@ static SInt64 streamGetSizeRequest(void* mc) {
 
 -(DecoderMetadata)decodeMetadata {
     _metadata.sampleRate = _inFormat.mSampleRate;
-    _metadata.bitsPerSample = _inFormat.mBitsPerChannel;
-    _metadata.totalSamples = [musicController inputLength]/_inFormat.mBytesPerFrame; // idk about the math here.
+    _metadata.bitsPerSample = 16;
+    SInt64 length;
+    UInt32 lengthSize;
+    OSStatus retval = ExtAudioFileGetProperty(_inFileRef, kExtAudioFileProperty_FileLengthFrames, &lengthSize, &length);
+    if (retval != noErr) {
+        // cry like a baby
+    }
+    _metadata.totalSamples = (int)length;
     _metadata.numberOfChannels = _inFormat.mChannelsPerFrame;
     _metadata.format = DecoderFormatSigned;
     return _metadata;
