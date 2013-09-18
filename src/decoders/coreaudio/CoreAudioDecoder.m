@@ -3,8 +3,7 @@
 
 static OSStatus streamReadRequest(void* mc, SInt64 position, UInt32 requestCount, void* buffer, UInt32* actualCount) {
     MusicController *musicController = (__bridge MusicController*) mc;
-    NSLog(@"Trying to read %u bytes.", requestCount);
-    
+    [musicController seekInput:position];
     NSData *data = [musicController readInput:requestCount];
     int size = (int)[data length];
     *actualCount = size;
@@ -14,14 +13,12 @@ static OSStatus streamReadRequest(void* mc, SInt64 position, UInt32 requestCount
     }
     
     memcpy(buffer, [data bytes], size);
-    NSLog(@"Actually read %u bytes", *actualCount);
     return noErr;
 }
 
 static SInt64 streamGetSizeRequest(void* mc) {
     MusicController *musicController = (__bridge MusicController*) mc;
     SInt64 streamSize = [musicController inputLength];
-    NSLog(@"Stream is %lld bytes", streamSize);
     return streamSize;
 }
 
@@ -58,13 +55,15 @@ static SInt64 streamGetSizeRequest(void* mc) {
     NSLog(@"ALAC: %@", _inFormat.mFormatID == kAudioFormatAppleLossless ? @"YES" : @"NO");
     
     // output format ASBD (should respect bitdepth and sampling rate and probably other stuff from the input too)
-    _clientFormat.mFormatID          = kAudioFormatLinearPCM;
-    _clientFormat.mFramesPerPacket   = _inFormat.mFramesPerPacket;
-    _clientFormat.mChannelsPerFrame  = _inFormat.mChannelsPerFrame;
-    _clientFormat.mBitsPerChannel    = _inFormat.mBitsPerChannel;
-    _clientFormat.mBytesPerPacket    = _clientFormat.mBytesPerFrame = 4 * _clientFormat.mChannelsPerFrame;
-    _clientFormat.mFormatFlags       = 0;
-    _clientFormat.mSampleRate        = _inFormat.mSampleRate;
+
+    _clientFormat.mFormatID = kAudioFormatLinearPCM;
+    _clientFormat.mSampleRate = _inFormat.mSampleRate;
+    _clientFormat.mChannelsPerFrame = _inFormat.mChannelsPerFrame;
+    _clientFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked | kLinearPCMFormatFlagIsSignedInteger;
+    _clientFormat.mBitsPerChannel = 16;
+    _clientFormat.mBytesPerPacket = 2*_clientFormat.mChannelsPerFrame;
+    _clientFormat.mFramesPerPacket = 1;
+    _clientFormat.mBytesPerFrame = 2*_clientFormat.mChannelsPerFrame;
     
     retval = ExtAudioFileSetProperty(_inFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(_clientFormat), &_clientFormat);
     if(retval != noErr) {
@@ -107,7 +106,7 @@ static SInt64 streamGetSizeRequest(void* mc) {
         return DecoderEOF;
     }
     
-    [[musicController fifoBuffer] write:&outBufList.mBuffers[0].mData size:outBufList.mBuffers[0].mDataByteSize];
+    [[musicController fifoBuffer] write:outBufList.mBuffers[0].mData size:outBufList.mBuffers[0].mDataByteSize];
     
     return DecoderSuccess;
 }
