@@ -10,25 +10,54 @@
 #import "LastFMScrobblerPluginAPICall.h"
 #import "LastFMScrobblerPlugin.h"
 
-@interface LastFMScrobblerPluginPreferenceViewController ()
-
-@end
-
 @implementation LastFMScrobblerPluginPreferenceViewController
+
+@synthesize statusString;
+@synthesize loginButtonString;
 
 - (id)initWithLastFMScrobblerPlugin:(LastFMScrobblerPlugin*)lastFMScrobblerPlugin;
 {
     self = [super initWithNibName:@"LastFMScrobblerPluginPreferenceViewController" bundle:[NSBundle bundleForClass:[self class]]];
     
-    if (self) {
+    if (self) {        
         _lastFMScrobblerPlugin = lastFMScrobblerPlugin;
+        [_lastFMScrobblerPlugin addObserver:self forKeyPath:@"lastfmUserName" options:0 context:nil];
+        [_lastFMScrobblerPlugin addObserver:self forKeyPath:@"lastfmUserKey" options:0 context:nil];
+        [self updateAccountStatus];
     }
     
     return self;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"lastfmUserName"] || [keyPath isEqualToString:@"lastfmUserKey"]) {
+        [self updateAccountStatus];
+    }
+}
+
+-(void)updateAccountStatus
+{
+    if([_lastFMScrobblerPlugin lastfmUserKey] && [_lastFMScrobblerPlugin lastfmUserName]) {
+        [self setStatusString:[NSString stringWithFormat:@"Logged in as %@", [_lastFMScrobblerPlugin lastfmUserName]]];
+        [self setLoginButtonString:@"Logout"];
+    }
+    else {
+        [self setStatusString:@"No last.fm account is associated."];
+        [self setLoginButtonString:@"Login"];
+    }
+}
+
 -(IBAction)loginButtonPressed:(id)sender
 {
+    if([[sender title] isEqualToString:@"Logout"]) { //logout
+        [_lastFMScrobblerPlugin setLastfmUserName:nil];
+        [_lastFMScrobblerPlugin setLastfmUserKey:nil];
+        return;
+    }
+    
+    
+    // login
     LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
     [apiCall setParameter:@"method" value:@"auth.getToken"];
     NSXMLDocument *doc = [apiCall performRequest];

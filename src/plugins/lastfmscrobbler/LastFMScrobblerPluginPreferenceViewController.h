@@ -17,6 +17,11 @@
 }
 
 - (id)initWithLastFMScrobblerPlugin:(LastFMScrobblerPlugin*)lastFMScrobblerPlugin;
+
+-(void)updateAccountStatus;
 -(IBAction)loginButtonPressed:(id)sender;
+
+@property() NSString* statusString;
+@property() NSString* loginButtonString;
 
 @end
