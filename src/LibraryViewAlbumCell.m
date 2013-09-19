@@ -16,18 +16,18 @@
 
 - (void)drawRect:(CGRect)rect
 {
-	CGRect b = self.bounds;
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGRect b = self.bounds;
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     if(false) {
         //if(self.selected) {
-		// selected background
-		CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-		CGContextFillRect(ctx, b);
-	} else {
+        // selected background
+        CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
+        CGContextFillRect(ctx, b);
+    } else {
         CGContextSetRGBFillColor(ctx, .87, .90, .94, 1);
-		CGContextFillRect(ctx, b);
-	}
+        CGContextFillRect(ctx, b);
+    }
 
     CGContextSetShouldSmoothFonts(ctx, YES);
     CGFloat imagesize = 50;
@@ -43,7 +43,7 @@
     { // Draw alt text
         NSImage *nimage = [_album cover];
         if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
-        
+
         CGContextSaveGState(ctx);
         CGContextAddRect(ctx, CGRectMake(b.origin.x, b.origin.y, imagesize, imagesize));
         CGContextClip(ctx);
@@ -56,7 +56,7 @@
             [nimage drawInRect:CGRectMake(b.origin.x - 0.5*excess, b.origin.y, imagesize+ excess, imagesize) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
         }
         CGContextRestoreGState(ctx);
-        
+
         NSUInteger trackCount;
         if([_searchMatchedObjects count] == 0) { // no search being done
             trackCount = [[[self album] tracks] count];
@@ -82,7 +82,7 @@
 {
     static dispatch_once_t pred;
     static NSImage *image = nil;
-    
+
     dispatch_once(&pred, ^{
         image = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
     });

@@ -19,10 +19,10 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-	if((self = [super initWithFrame:frame])) {
+    if((self = [super initWithFrame:frame])) {
         _libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
-        [_libraryScrollView setHasVerticalScroller:YES];        
-        
+        [_libraryScrollView setHasVerticalScroller:YES];
+
         _tableView = [[RBLTableView alloc] initWithFrame:[[_libraryScrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
@@ -30,7 +30,7 @@
         [_tableView setAction:@selector(clickRecieved:)];
         [_tableView setDoubleAction:@selector(doubleClickReceived:)];
         [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
-        
+
         NSTableColumn *libraryFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_tableView addTableColumn:libraryFirstColumn];
         [libraryFirstColumn setWidth:[_libraryScrollView contentSize].width];
@@ -40,14 +40,14 @@
         [self addSubview:_libraryScrollView];
 
         _objectContext = [LibraryCoreDataManager newContext];
-        
+
         _celldata = [[NSMutableArray alloc] init];
         _searchMatchedObjects = [[NSMutableSet alloc] init];
         [self runSearch:@""];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
-	}
-	return self;
+    }
+    return self;
 }
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
@@ -186,7 +186,7 @@
     NSView *view;
     /*if([indexPath row] == 0)
         cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
-	else if([indexPath row] == 1)
+    else if([indexPath row] == 1)
         cell = reusableTableCellOfClass(tableView, LibraryViewAlbumCell);
     else
         cell = reusableTableCellOfClass(tableView, LibraryViewTrackCell);*/
@@ -194,7 +194,7 @@
     NSObject *obj = [_celldata objectAtIndex:row];
     if([obj isKindOfClass:[LibraryArtist class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewArtistCell" owner:self];
-        
+
         if(view == nil) {
             NSRect frame = NSMakeRect(0, 0, 200, 25);
             view = [[LibraryViewArtistCell alloc] initWithFrame:frame];
@@ -206,27 +206,27 @@
     }
     else if([obj isKindOfClass:[LibraryAlbum class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewAlbumCell" owner:self];
-        
+
         if(view == nil) {
             NSRect frame = NSMakeRect(0, 0, 200, 25);
             view = [[LibraryViewAlbumCell alloc] initWithFrame:frame];
             view.identifier = @"libraryViewAlbumCell";
         }
-        
+
         [((LibraryViewAlbumCell *)view) setAlbum:(LibraryAlbum *)[_celldata objectAtIndex:row]];
         [((LibraryViewAlbumCell *)view) setSearchMatchedObjects:_searchMatchedObjects];
     }
     else if([obj isKindOfClass:[LibraryTrack class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewTrackCell" owner:self];
-        
+
         if(view == nil) {
             NSRect frame = NSMakeRect(0, 0, 200, 25);
             view = [[LibraryViewTrackCell alloc] initWithFrame:frame];
             view.identifier = @"libraryViewTrackCell";
         }
-        
+
         [((LibraryViewTrackCell *)view) setTrack:(LibraryTrack *)[_celldata objectAtIndex:row]];
-        
+
         NSInteger albumPosition;
         for(albumPosition=row; albumPosition >= 0; albumPosition--) {
             if([[_celldata objectAtIndex:albumPosition] isKindOfClass:[LibraryAlbum class]])
@@ -235,7 +235,7 @@
         [((LibraryViewTrackCell *)view) setIsEvenRow:((row-albumPosition)%2 == 0)];
     }
 
-	return view;
+    return view;
 }
 
 -(BOOL)isRowExpanded:(NSUInteger)row
@@ -268,7 +268,7 @@
     if(row == -1) return;
 
     [self expandRow:row recursive:YES];
-    
+
     NSObject *obj = [_celldata objectAtIndex:row];
     NSMutableArray *tracks = [[NSMutableArray alloc] init];
     if([obj isKindOfClass:[LibraryTrack class]]) { // if its a track, only one
@@ -281,14 +281,14 @@
                 break;
             if([obj isKindOfClass:[LibraryArtist class]] && [obj2 isKindOfClass:[LibraryArtist class]])
                 break;
-            
+
             if([obj2 isKindOfClass:[LibraryTrack class]])
                 [tracks addObject:[((LibraryTrack *)obj2) filename]];
         }
     }
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
-    
+
     [tv reloadData];
 }
 
@@ -298,14 +298,14 @@
     NSTableView *tv = (NSTableView *)sender;
     NSUInteger row = [tv clickedRow];
     if(row == -1) return;
-    
+
     if([self isRowExpanded:row]) {
         [self collapseRow:row];
     }
     else {
         [self expandRow:row];
     }
-    
+
     [tv reloadData];
 }
 
@@ -351,7 +351,7 @@
             else {
                 albums = [artist albumsFromSet:_searchMatchedObjects];
             }
-            
+
             for(LibraryAlbum *album in [albums sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
                 [_celldata insertObject:album atIndex:i];
                 i++;
@@ -378,7 +378,7 @@
                                    initWithKey:@"trackNumber"
                                    ascending:YES
                                    selector:@selector(compare:)];
-        
+
         NSSet *tracks;
         if([_searchMatchedObjects count] == 0) { // not doing search atm
             tracks = [album tracks];
@@ -400,7 +400,7 @@
         [_librarySearchView setFocusInSearchField];
         return;
     }
-    
+
     CGFloat height = 26;
 
     NSRect searchframe = [self bounds];
@@ -410,12 +410,12 @@
     [_librarySearchView setLibraryView:self];
     [self addSubview:_librarySearchView];
     [_librarySearchView setFocusInSearchField];
-    
+
     searchframe.origin.y += height;
     NSRect libraryframe = [self bounds];
     libraryframe.origin.y += height;
     libraryframe.size.height -= height;
-    
+
     [NSAnimationContext beginGrouping];
     [[_librarySearchView animator] setFrame:searchframe];
     [[_libraryScrollView animator] setFrame:libraryframe];
@@ -428,11 +428,11 @@
         DDLogVerbose(@"Library search view already hidden");
         return;
     }
-    
+
     NSRect libraryframe = [self bounds];
     NSRect searchframe = [_librarySearchView frame];
     searchframe.origin.y -= searchframe.size.height;
-    
+
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setCompletionHandler:^{
         [_librarySearchView removeFromSuperview];
@@ -449,12 +449,12 @@
     [_celldata removeAllObjects];
     [_searchMatchedObjects removeAllObjects];
     NSError *error;
-    
+
     NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
                                 initWithKey:@"name"
                                 ascending:YES
                                 selector:@selector(localizedCaseInsensitiveCompare:)];
-    
+
     if([text isEqualToString:@""]) { // empty search string
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
         [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
@@ -465,15 +465,15 @@
     else { // search to do
         /*NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
          [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
-         
+
          NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name contains[cd] %@) OR (ANY albums.name contains[cd] %@) OR (SUBQUERY(albums, $a, SUBQUERY($a.tracks, $t, $t.name contains[cd] %@).@count !=0).@count != 0)", text, text, text];
          [fr setPredicate:predicate];
-         
+
          NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
          [_celldata addObjectsFromArray:results];*/
         // Left in for refernece
         // The above method is only faster for single letter queries etc. (please see commit comment for tests)
-        
+
         NSFetchRequest *fetchReqArtist = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
         NSFetchRequest *fetchReqAlbum = [NSFetchRequest fetchRequestWithEntityName:@"album"];
         NSFetchRequest *fetchReqTrack = [NSFetchRequest fetchRequestWithEntityName:@"track"];
@@ -481,41 +481,41 @@
         [fetchReqArtist setPredicate:predicate];
         [fetchReqAlbum setPredicate:predicate];
         [fetchReqTrack setPredicate:predicate];
-        
+
         NSMutableSet *fetchedArtists = [[NSMutableSet alloc] init];
-        
+
         [fetchReqAlbum setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"artist", nil]];
         [fetchReqTrack setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"album", @"album.artist", nil]];
-        
+
         NSArray *resultsArtist = [_objectContext executeFetchRequest:fetchReqArtist error:&error];
         NSArray *resultsAlbum = [_objectContext executeFetchRequest:fetchReqAlbum error:&error];
         NSArray *resultsTrack = [_objectContext executeFetchRequest:fetchReqTrack error:&error];
-        
+
         [_searchMatchedObjects addObjectsFromArray:resultsArtist];
         [_searchMatchedObjects addObjectsFromArray:resultsAlbum];
         [_searchMatchedObjects addObjectsFromArray:resultsTrack];
-        
+
         [fetchedArtists addObjectsFromArray:resultsArtist];
         for (LibraryAlbum *a in resultsAlbum)
             [fetchedArtists addObject:[a artist]];
         for (LibraryTrack *t in resultsTrack)
             [fetchedArtists addObject:[[t album] artist]];
-        
+
         [_celldata addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
-        
+
         NSUInteger i;
         for(i=0; i<[_celldata count]; i++) {
             if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
-            
+
             [self expandRow:i];
-            
+
             for(;i < [_celldata count]; i++) {
                 if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
                 [self expandRow:i];
             }
         }
     }
-    
+
     NSDate *d2 = [NSDate date];
     DDLogVerbose(@"Fetching %lu cells took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
     [_tableView reloadData];

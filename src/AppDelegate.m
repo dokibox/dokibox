@@ -33,18 +33,18 @@
     _library = [[Library alloc] init];
     [_library startFSMonitor];
 
-	CGRect b = CGRectMake(0, 0, 500, 450);
+    CGRect b = CGRectMake(0, 0, 500, 450);
 
-	/** Scroll View */
-	_window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
-	[_window setReleasedWhenClosed:FALSE];
-	[_window setMinSize:NSMakeSize(300, 250)];
-	[_window center];
+    /** Scroll View */
+    _window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
+    [_window setReleasedWhenClosed:FALSE];
+    [_window setMinSize:NSMakeSize(300, 250)];
+    [_window center];
 
     TitlebarViewNS *titlebarView = [[TitlebarViewNS alloc] initWithMusicController:_musicController];
     [_window setTitlebarSize:46.0];
     [_window setTitlebarView:titlebarView];
-	[titlebarView initSubviews];
+    [titlebarView initSubviews];
 
     b.size.height = [_window contentViewHeight];
     WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b];

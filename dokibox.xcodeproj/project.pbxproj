@@ -24,6 +24,7 @@
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
 		2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */; };
+		2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
 		2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340717768E830093C292 /* defaultPrefs.plist */; };
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
@@ -95,6 +96,12 @@
 		2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
+		6F26196F17E3BC0700B316C9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
+		6F26197517E3BC0700B316C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F26197317E3BC0700B316C9 /* InfoPlist.strings */; };
+		6F26197C17E3C89300B316C9 /* CoreAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26197B17E3C89300B316C9 /* CoreAudioDecoder.m */; };
+		6F26197F17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26197E17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m */; };
+		6F2C426117E8FE7100AD5905 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; };
+		6FB190D317E8ED9A0041F007 /* dokibox-decoder-coreaudio.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +161,13 @@
 			remoteGlobalIDString = 2BB25CEB1697432300243B27;
 			remoteInfo = "dokibox-decoder-vorbis";
 		};
+		6FB190D117E69B950041F007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F26196D17E3BC0700B316C9;
+			remoteInfo = "dokibox-decoder-coreaudio";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -164,6 +178,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				2BAEE26717E5647B007D610B /* dokibox-lastfmscrobbler.bundle in CopyFiles */,
+				6FB190D317E8ED9A0041F007 /* dokibox-decoder-coreaudio.bundle in CopyFiles */,
 				2BB25D0C1697440100243B27 /* dokibox-decoder-vorbis.bundle in CopyFiles */,
 				2BB25CE216973E1700243B27 /* dokibox-decoder-flac.bundle in CopyFiles */,
 				2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */,
@@ -365,6 +380,14 @@
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		2BF18DC515A0BBD1000C906E /* PlaylistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistView.h; sourceTree = "<group>"; };
 		2BF18DC615A0BBD1000C906E /* PlaylistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistView.m; sourceTree = "<group>"; };
+		6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-coreaudio.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F26197217E3BC0700B316C9 /* dokibox-decoder-coreaudio-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "dokibox-decoder-coreaudio-Info.plist"; sourceTree = "<group>"; };
+		6F26197417E3BC0700B316C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6F26197617E3BC0700B316C9 /* dokibox-decoder-coreaudio-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dokibox-decoder-coreaudio-Prefix.pch"; sourceTree = "<group>"; };
+		6F26197A17E3C89300B316C9 /* CoreAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioDecoder.h; sourceTree = "<group>"; };
+		6F26197B17E3C89300B316C9 /* CoreAudioDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioDecoder.m; sourceTree = "<group>"; };
+		6F26197D17E3D63A00B316C9 /* CoreAudioDecoderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioDecoderPlugin.h; sourceTree = "<group>"; };
+		6F26197E17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioDecoderPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +442,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6F26196B17E3BC0700B316C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F26196F17E3BC0700B316C9 /* CoreFoundation.framework in Frameworks */,
+				6F2C426117E8FE7100AD5905 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -440,6 +472,7 @@
 				2BB25CD416973CCD00243B27 /* dokibox-decoder-flac.bundle */,
 				2BB25CF91697432300243B27 /* dokibox-decoder-vorbis.bundle */,
 				2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */,
+				6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -575,6 +608,7 @@
 		2B80D45016920361000F3392 /* decoders */ = {
 			isa = PBXGroup;
 			children = (
+				6F26196617E3B86A00B316C9 /* coreaudio */,
 				2BB25CEA169742E400243B27 /* vorbis */,
 				2BB25CD616973D5600243B27 /* flac */,
 				2BB25CB516972F7F00243B27 /* DecoderProtocol.h */,
@@ -755,10 +789,10 @@
 		2BB25CD616973D5600243B27 /* flac */ = {
 			isa = PBXGroup;
 			children = (
-				2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */,
-				2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */,
 				2BB25CD716973D6000243B27 /* FLACDecoder.h */,
 				2BB25CD816973D6000243B27 /* FLACDecoder.m */,
+				2BB25CDF16973DA300243B27 /* FLACDecoderPlugin.h */,
+				2BB25CE016973DA300243B27 /* FLACDecoderPlugin.m */,
 				2BB25CD916973D6500243B27 /* Supporting Files */,
 			);
 			name = flac;
@@ -795,6 +829,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6F26196617E3B86A00B316C9 /* coreaudio */ = {
+			isa = PBXGroup;
+			children = (
+				6F26197A17E3C89300B316C9 /* CoreAudioDecoder.h */,
+				6F26197B17E3C89300B316C9 /* CoreAudioDecoder.m */,
+				6F26197D17E3D63A00B316C9 /* CoreAudioDecoderPlugin.h */,
+				6F26197E17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m */,
+				6F26197117E3BC0700B316C9 /* Supporting Files */,
+			);
+			name = coreaudio;
+			path = src/decoders/coreaudio;
+			sourceTree = SOURCE_ROOT;
+		};
+		6F26197117E3BC0700B316C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F26197217E3BC0700B316C9 /* dokibox-decoder-coreaudio-Info.plist */,
+				6F26197317E3BC0700B316C9 /* InfoPlist.strings */,
+				6F26197617E3BC0700B316C9 /* dokibox-decoder-coreaudio-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -815,6 +872,7 @@
 				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
 				2BB25CE416973E4F00243B27 /* PBXTargetDependency */,
+				6FB190D217E69B950041F007 /* PBXTargetDependency */,
 			);
 			name = dokibox;
 			productName = dokibox;
@@ -892,6 +950,23 @@
 			productReference = 2BB25CF91697432300243B27 /* dokibox-decoder-vorbis.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		6F26196D17E3BC0700B316C9 /* dokibox-decoder-coreaudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F26197717E3BC0700B316C9 /* Build configuration list for PBXNativeTarget "dokibox-decoder-coreaudio" */;
+			buildPhases = (
+				6F26196A17E3BC0700B316C9 /* Sources */,
+				6F26196B17E3BC0700B316C9 /* Frameworks */,
+				6F26196C17E3BC0700B316C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "dokibox-decoder-coreaudio";
+			productName = "dokibox-decoder-coreaudio";
+			productReference = 6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -927,6 +1002,7 @@
 				2BB25CC716973CCD00243B27 /* dokibox-decoder-flac */,
 				2BB25CEB1697432300243B27 /* dokibox-decoder-vorbis */,
 				2BAEE25A17E56445007D610B /* dokibox-lastfmscrobbler */,
+				6F26196D17E3BC0700B316C9 /* dokibox-decoder-coreaudio */,
 			);
 		};
 /* End PBXProject section */
@@ -1005,6 +1081,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F26196C17E3BC0700B316C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F26197517E3BC0700B316C9 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1095,6 +1179,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6F26196A17E3BC0700B316C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F26197C17E3C89300B316C9 /* CoreAudioDecoder.m in Sources */,
+				6F26197F17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1117,6 +1210,11 @@
 			isa = PBXTargetDependency;
 			target = 2BB25CEB1697432300243B27 /* dokibox-decoder-vorbis */;
 			targetProxy = 2BB25D0A169743F300243B27 /* PBXContainerItemProxy */;
+		};
+		6FB190D217E69B950041F007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F26196D17E3BC0700B316C9 /* dokibox-decoder-coreaudio */;
+			targetProxy = 6FB190D117E69B950041F007 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1165,6 +1263,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				2BB25D08169743B700243B27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6F26197317E3BC0700B316C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F26197417E3BC0700B316C9 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1447,6 +1553,52 @@
 			};
 			name = Release;
 		};
+		6F26197817E3BC0700B316C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "src/decoders/coreaudio/dokibox-decoder-coreaudio-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "src/decoders/coreaudio/dokibox-decoder-coreaudio-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		6F26197917E3BC0700B316C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "src/decoders/coreaudio/dokibox-decoder-coreaudio-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "src/decoders/coreaudio/dokibox-decoder-coreaudio-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1499,6 +1651,15 @@
 			buildConfigurations = (
 				2BB25CF71697432300243B27 /* Debug */,
 				2BB25CF81697432300243B27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F26197717E3BC0700B316C9 /* Build configuration list for PBXNativeTarget "dokibox-decoder-coreaudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F26197817E3BC0700B316C9 /* Debug */,
+				6F26197917E3BC0700B316C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

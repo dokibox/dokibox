@@ -16,8 +16,8 @@
 - (void)drawRect:(CGRect)rect
 {
     NSAssert([self track], @"track for cell nil");
-	CGRect b = self.bounds;
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGRect b = self.bounds;
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // draw left background
     CGContextSetRGBFillColor(ctx, .87, .90, .94, 1);
@@ -33,7 +33,7 @@
     else
         CGContextSetRGBFillColor(ctx, .98, .99, 1.0, 1);
     CGContextFillRect(ctx, b);
-    
+
     CGContextSetShouldSmoothFonts(ctx, YES);
     {   // Draw text for name
         NSMutableString *str = [[NSMutableString alloc] init];
@@ -41,11 +41,11 @@
             [str appendFormat:@"%d. ", [[[self track] trackNumber] intValue]];
         }
         [str appendString:[[self track] name]];
-        
+
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
         [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:10] forKey:NSFontAttributeName];
         NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
-        
+
         CGRect textRect = CGRectOffset(b, 10, -4);
         [astr drawInRect:textRect];
     }
@@ -54,13 +54,13 @@
         if([[self track] length]) {
             int length = [[[self track] length] intValue];
             NSString *str = [NSString stringWithFormat:@"%d:%.2d", length/60, length%60];
-            
+
             NSMutableDictionary *attr = [NSMutableDictionary dictionary];
             [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
             [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
             NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
 
-            NSSize textSize = [astr size];            
+            NSSize textSize = [astr size];
             CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -4);
             //textRect.size.width -= textRect.origin.x - b.origin.x;
             [astr drawInRect:textRect];

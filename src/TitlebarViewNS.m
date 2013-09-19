@@ -34,7 +34,7 @@
 
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaybackProgressNotification:) name:@"playbackProgress" object:nil];
-        
+
         // Media keys initialization
         [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
             [SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey,
@@ -133,7 +133,7 @@
 - (void)drawRect:(NSRect)rect
 {
     CGRect b = [self bounds];
-	CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // Draw titlebar itself
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
@@ -217,7 +217,7 @@
     timeTotalStringPoint.y -= 2;
     timeTotalStringPoint.x += [_progressBar frame].size.width + 5;
     [timeTotalAttrString drawAtPoint:timeTotalStringPoint];
-    
+
     // Line
     if(isActive)
         CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.6 alpha:1.0] CGColor]);
@@ -440,30 +440,30 @@
 {
     NSAssert([event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys, @"Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:");
 
-	int keyCode = (([event data1] & 0xFFFF0000) >> 16);
-	int keyFlags = ([event data1] & 0x0000FFFF);
-	BOOL keyIsPressed = (((keyFlags & 0xFF00) >> 8)) == 0xA;
-	int keyRepeat = (keyFlags & 0x1);
-	
-	if (keyIsPressed && !keyRepeat) {
-		switch (keyCode) {
-			case NX_KEYTYPE_PLAY:
+    int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+    int keyFlags = ([event data1] & 0x0000FFFF);
+    BOOL keyIsPressed = (((keyFlags & 0xFF00) >> 8)) == 0xA;
+    int keyRepeat = (keyFlags & 0x1);
+
+    if (keyIsPressed && !keyRepeat) {
+        switch (keyCode) {
+            case NX_KEYTYPE_PLAY:
                 [self playButtonPressed:keyTap];
-				break;
-				
-			case NX_KEYTYPE_FAST:
+                break;
+
+            case NX_KEYTYPE_FAST:
                 [self nextButtonPressed:keyTap];
-				break;
-				
-			case NX_KEYTYPE_REWIND:
+                break;
+
+            case NX_KEYTYPE_REWIND:
                 [self prevButtonPressed:keyTap];
-				break;
-                
-			default:
+                break;
+
+            default:
                 DDLogError(@"Unknown media key (keycode %d", keyCode);
-				break;
-		}
-	}
+                break;
+        }
+    }
 }
 
 
