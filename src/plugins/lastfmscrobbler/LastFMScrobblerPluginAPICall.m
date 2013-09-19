@@ -38,7 +38,7 @@
     for(NSString *name in sortedParameterNames) {
         [urlString appendString:name];
         [urlString appendString:@"="];
-        [urlString appendString:[_parameters objectForKey:name]];
+        [urlString appendString:[[_parameters objectForKey:name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [urlString appendString:@"&"];
         
         [signatureString appendString:name];
