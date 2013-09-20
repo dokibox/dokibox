@@ -29,7 +29,17 @@
     [_parameters setValue:value forKey:name];
 }
 
--(NSXMLDocument*)performRequest
+-(NSXMLDocument*)performGET
+{
+    return [self performRequest:NO];
+}
+
+-(NSXMLDocument*)performPOST
+{
+    return [self performRequest:YES];
+}
+
+-(NSXMLDocument*)performRequest:(BOOL)isPost;
 {
     NSMutableString *urlString = [[NSMutableString alloc] initWithString:@"https://ws.audioscrobbler.com/2.0/?"];
     
@@ -47,15 +57,18 @@
     [signatureString appendString:API_SECRET];
     
     [urlString appendString:@"api_sig="];
-
+    
     const char *sigstring = [signatureString UTF8String];
     unsigned char digest[16];
     CC_MD5(sigstring, (CC_LONG)strlen(sigstring), digest);
     for(unsigned int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
         [urlString appendFormat:@"%02x", digest[i]];
-   
+        
+    NSMutableURLRequest *urlReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     NSError *err;
-    NSURLRequest *urlReq = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    if(isPost) {
+        [urlReq setHTTPMethod:@"POST"];
+    }
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:urlReq returningResponse:&response error:&err];
     if(err) {
@@ -63,7 +76,7 @@
         NSLog(@"%@", [err localizedDescription]);
         return nil;
     }
-    
+        
     NSXMLDocument *doc = [[NSXMLDocument alloc] initWithData:data options:0 error:&err];
     if(err) {
         NSLog(@"XML parsing error");

@@ -14,6 +14,8 @@
 +(NSString *)apiKey;
 
 -(void)setParameter:(NSString*)name value:(NSString*)value;
--(NSXMLDocument*)performRequest;
+-(NSXMLDocument*)performGET;
+-(NSXMLDocument*)performPOST;
+-(NSXMLDocument*)performRequest:(BOOL)isPost;
 
 @end

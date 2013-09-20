@@ -60,7 +60,7 @@
     // login
     LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
     [apiCall setParameter:@"method" value:@"auth.getToken"];
-    NSXMLDocument *doc = [apiCall performRequest];
+    NSXMLDocument *doc = [apiCall performGET];
     
     NSXMLNode *n = [doc rootElement];
     NSString *token = nil;
@@ -86,7 +86,7 @@
         [apiCall setParameter:@"method" value:@"auth.getSession"];
         [apiCall setParameter:@"token" value:token];
 
-        doc = [apiCall performRequest];
+        doc = [apiCall performGET];
         n = [doc rootElement];
         BOOL wait = NO;
         
