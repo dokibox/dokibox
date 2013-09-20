@@ -9,6 +9,7 @@
 #import "LastFMScrobblerPlugin.h"
 #import "PluginManager.h"
 #import "LastFMScrobblerPluginPreferenceViewController.h"
+#import "LastFMScrobblerPluginAPICall.h"
 
 @implementation LastFMScrobblerPlugin
 
@@ -22,7 +23,10 @@
     if(self) {
         _lastfmUserName = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserName"];
         _lastfmUserKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserKey"];
+   
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNewTrackPlayingNotification:) name:@"pluginNewTrackPlaying" object:nil];
     }
+
     
     return self;
 }
@@ -60,6 +64,26 @@
     _lastfmUserKey = lastfmUserKey;
     [[NSUserDefaults standardUserDefaults] setObject:_lastfmUserKey forKey:@"LastFMScrobblerPluginUserKey"];
 }
+
+-(void)receiveNewTrackPlayingNotification:(NSNotification*)notification
+{
+    NSDictionary *attributes = [notification object];
+    
+    // login
+    LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
+    [apiCall setParameter:@"method" value:@"track.updateNowPlaying"];
+    [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
+    
+    if([attributes objectForKey:@"TITLE"])
+        [apiCall setParameter:@"track" value:[attributes objectForKey:@"TITLE"]];
+    if([attributes objectForKey:@"ARTIST"])
+        [apiCall setParameter:@"artist" value:[attributes objectForKey:@"ARTIST"]];
+    if([attributes objectForKey:@"ALBUM"])
+        [apiCall setParameter:@"album" value:[attributes objectForKey:@"ALBUM"]];
+    
+    NSXMLDocument *doc = [apiCall performPOST];
+}
+
 
 
 @end

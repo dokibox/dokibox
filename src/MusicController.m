@@ -398,6 +398,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
     AUGraphStart(_outputGraph);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startedPlayback" object:_currentTrack];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pluginNewTrackPlaying" object:[_currentTrack attributes]];
     CAShow(_outputGraph);
 
 };

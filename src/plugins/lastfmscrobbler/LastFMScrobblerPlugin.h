@@ -15,6 +15,8 @@
     LastFMScrobblerPluginPreferenceViewController *_viewController;
 }
 
+-(void)receiveNewTrackPlayingNotification:(NSNotification*)notification;
+
 @property() NSString *lastfmUserName;
 @property() NSString *lastfmUserKey;
 
