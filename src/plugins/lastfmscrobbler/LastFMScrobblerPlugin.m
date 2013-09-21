@@ -76,6 +76,9 @@
     NSDictionary *attributes = [notification object];
     _trackAttributes = attributes;
    
+    if([self lastfmUserKey] == nil) // if no user setup, dont do API call
+        return;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // no blocking of UI
         LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
@@ -104,6 +107,10 @@
     
     if(_scrobbled == NO && total > 30 && (_secondsOfPlayback > 4*60 || _secondsOfPlayback > total/2.0)) {
         // scrobble time
+        
+        if([self lastfmUserKey] == nil) // if no user setup, dont do API call
+            return;
+        
         _scrobbled = YES;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
