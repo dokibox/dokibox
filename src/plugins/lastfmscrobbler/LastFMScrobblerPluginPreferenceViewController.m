@@ -64,6 +64,19 @@
     [self setStatusString:@"Waiting for authorization..."];
     [_loginButton setEnabled:NO];
     
+    void (^errorBlock)(void);
+    errorBlock = ^{
+        NSAlert *alert = [NSAlert
+                          alertWithMessageText:@"There was an error accessing the Last.fm API"
+                          defaultButton:@"OK"
+                          alternateButton:nil
+                          otherButton:nil
+                          informativeTextWithFormat:@"Please try again later."];
+        [alert runModal];
+        [_lastFMScrobblerPlugin setLastfmUserName:nil];
+        [_lastFMScrobblerPlugin setLastfmUserKey:nil];
+    };
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
         [apiCall setParameter:@"method" value:@"auth.getToken"];
@@ -79,6 +92,7 @@
         
         if(token == nil) {
             NSLog(@"Error. No token found");
+            dispatch_async(dispatch_get_main_queue(), errorBlock);
             return;
         }
         
@@ -123,6 +137,7 @@
         
         if(name == nil || key == nil) {
             NSLog(@"Error obtaining session key");
+            dispatch_async(dispatch_get_main_queue(), errorBlock);
             return;
         }
         
