@@ -69,19 +69,21 @@
 {
     NSDictionary *attributes = [notification object];
     
-    // login
-    LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
-    [apiCall setParameter:@"method" value:@"track.updateNowPlaying"];
-    [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
-    
-    if([attributes objectForKey:@"TITLE"])
-        [apiCall setParameter:@"track" value:[attributes objectForKey:@"TITLE"]];
-    if([attributes objectForKey:@"ARTIST"])
-        [apiCall setParameter:@"artist" value:[attributes objectForKey:@"ARTIST"]];
-    if([attributes objectForKey:@"ALBUM"])
-        [apiCall setParameter:@"album" value:[attributes objectForKey:@"ALBUM"]];
-    
-    NSXMLDocument *doc = [apiCall performPOST];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // no blocking of UI
+        LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
+        [apiCall setParameter:@"method" value:@"track.updateNowPlaying"];
+        [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
+        
+        if([attributes objectForKey:@"TITLE"])
+            [apiCall setParameter:@"track" value:[attributes objectForKey:@"TITLE"]];
+        if([attributes objectForKey:@"ARTIST"])
+            [apiCall setParameter:@"artist" value:[attributes objectForKey:@"ARTIST"]];
+        if([attributes objectForKey:@"ALBUM"])
+            [apiCall setParameter:@"album" value:[attributes objectForKey:@"ALBUM"]];
+        
+        [apiCall performPOST]; // we don't really care about the result
+    });
 }
 
 
