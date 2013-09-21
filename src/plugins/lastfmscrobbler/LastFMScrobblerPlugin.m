@@ -19,6 +19,7 @@
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager
 {
     self = [super init];
+    __pluginManager = pluginManager;
     
     if(self) {
         _lastfmUserName = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserName"];

@@ -12,6 +12,7 @@
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager
 {
+    __pluginManager = pluginManager;
     [pluginManager registerDecoderClass:[MP3Decoder class] forExtension:@"mp3"];
     return self;
 }

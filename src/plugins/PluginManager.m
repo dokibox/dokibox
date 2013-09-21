@@ -80,6 +80,25 @@
     return (Class)[_decoderPlugins objectForKey:extension];
 }
 
-
+-(void)logFromPlugin:(id)plugin level:(int)level withFormat:(NSString*)format, ...
+{
+    NSString *pluginName = [[NSBundle bundleForClass:[plugin class]] bundleIdentifier];
+    
+    va_list argList;
+    va_start(argList, format);
+    NSString *string = [[NSString alloc] initWithFormat:format arguments:argList];
+    if(level == PLUGINLOGERROR)
+        DDLogError(@"%@: %@", pluginName, string);
+    else if(level == PLUGINLOGINFO)
+        DDLogInfo(@"%@: %@", pluginName, string);
+    else if(level == PLUGINLOGVERBOSE)
+        DDLogVerbose(@"%@: %@", pluginName, string);
+    else if(level == PLUGINLOGWARN)
+        DDLogWarn(@"%@: %@", pluginName, string);
+    else
+        DDLogError(@"%@ [invalid log level]: %@", pluginName, string);
+    
+    va_end(argList);
+}
 
 @end

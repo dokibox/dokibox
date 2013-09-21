@@ -12,6 +12,7 @@
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager
 {
+    __pluginManager = pluginManager;
     [pluginManager registerDecoderClass:[VorbisDecoder class] forExtension:@"ogg"];
     return self;
 }

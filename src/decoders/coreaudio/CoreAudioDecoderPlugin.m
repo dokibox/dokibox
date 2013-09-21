@@ -4,6 +4,7 @@
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager
 {
+    __pluginManager = pluginManager;
     [pluginManager registerDecoderClass:[CoreAudioDecoder class] forExtension:@"m4a"];
     return self;
 }

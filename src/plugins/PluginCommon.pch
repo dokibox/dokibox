@@ -1,0 +1,15 @@
+//
+//  PluginCommon.pch
+//  dokibox
+//
+//  Created by Miles Wu on 21/09/2013.
+//
+//
+
+#import "PluginManager.h"
+PluginManager *__pluginManager;
+
+#define DDLogError(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGERROR withFormat:frmt, __VA_ARGS__]
+#define DDLogInfo(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGINFO withFormat:frmt, __VA_ARGS__]
+#define DDLogVerbose(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGVERBOSE withFormat:frmt, __VA_ARGS__]
+#define DDLogWarn(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGWARN withFormat:frmt, __VA_ARGS__]
