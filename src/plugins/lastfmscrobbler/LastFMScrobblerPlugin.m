@@ -85,6 +85,9 @@
         [apiCall setParameter:@"method" value:@"track.updateNowPlaying"];
         [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
         
+        if([attributes objectForKey:@"TITLE"] == nil && [attributes objectForKey:@"ARTIST"] == nil)
+            return; //not enough tags
+        
         if([attributes objectForKey:@"TITLE"])
             [apiCall setParameter:@"track" value:[attributes objectForKey:@"TITLE"]];
         if([attributes objectForKey:@"ARTIST"])
@@ -118,6 +121,9 @@
             LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
             [apiCall setParameter:@"method" value:@"track.scrobble"];
             [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
+            
+            if([_trackAttributes objectForKey:@"TITLE"] == nil && [_trackAttributes objectForKey:@"ARTIST"] == nil)
+                return; //not enough tags
             
             if([_trackAttributes objectForKey:@"TITLE"])
                 [apiCall setParameter:@"track" value:[_trackAttributes objectForKey:@"TITLE"]];
