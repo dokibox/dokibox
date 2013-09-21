@@ -41,34 +41,43 @@
 
 -(NSXMLDocument*)performRequest:(BOOL)isPost;
 {
-    NSMutableString *urlString = [[NSMutableString alloc] initWithString:@"https://ws.audioscrobbler.com/2.0/?"];
-    
+    NSMutableString *urlString = [[NSMutableString alloc] initWithString:@"https://ws.audioscrobbler.com/2.0/"];
+
+    NSMutableString *parameterString = [[NSMutableString alloc] init];
     NSMutableString *signatureString = [[NSMutableString alloc] init];
     NSArray *sortedParameterNames = [[_parameters allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     for(NSString *name in sortedParameterNames) {
-        [urlString appendString:name];
-        [urlString appendString:@"="];
-        [urlString appendString:[[_parameters objectForKey:name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        [urlString appendString:@"&"];
+        [parameterString appendString:name];
+        [parameterString appendString:@"="];
+        [parameterString appendString:[[_parameters objectForKey:name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [parameterString appendString:@"&"];
         
         [signatureString appendString:name];
         [signatureString appendString:[_parameters objectForKey:name]];
     }
     [signatureString appendString:API_SECRET];
     
-    [urlString appendString:@"api_sig="];
+    [parameterString appendString:@"api_sig="];
     
     const char *sigstring = [signatureString UTF8String];
     unsigned char digest[16];
     CC_MD5(sigstring, (CC_LONG)strlen(sigstring), digest);
     for(unsigned int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [urlString appendFormat:@"%02x", digest[i]];
+        [parameterString appendFormat:@"%02x", digest[i]];
         
-    NSMutableURLRequest *urlReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
-    NSError *err;
+    NSMutableURLRequest *urlReq;
     if(isPost) {
+        urlReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
         [urlReq setHTTPMethod:@"POST"];
+        [urlReq setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    else {
+        [urlString appendString:@"?"];
+        [urlString appendString:parameterString];
+        urlReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    }
+
+    NSError *err;
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:urlReq returningResponse:&response error:&err];
     if(err) {
