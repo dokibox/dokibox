@@ -25,6 +25,7 @@
         _lastfmUserKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastFMScrobblerPluginUserKey"];
    
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNewTrackPlayingNotification:) name:@"pluginNewTrackPlaying" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivePlaybackProgressNotification:) name:@"pluginPlaybackProgress" object:nil];
     }
 
     
@@ -67,8 +68,14 @@
 
 -(void)receiveNewTrackPlayingNotification:(NSNotification*)notification
 {
-    NSDictionary *attributes = [notification object];
+    _secondsOfPlayback = 0.0;
+    _currentPlaybackPosition = 0.0;
+    _startOfPlaybackDate = [NSDate date];
+    _scrobbled = NO;
     
+    NSDictionary *attributes = [notification object];
+    _trackAttributes = attributes;
+   
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // no blocking of UI
         LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
@@ -86,6 +93,38 @@
     });
 }
 
+-(void)receivePlaybackProgressNotification:(NSNotification*)notification
+{
+    NSDictionary *dict = [notification object];
+    float total = [[dict objectForKey:@"timeTotal"] floatValue];
+    float cur = [[dict objectForKey:@"timeElapsed"] floatValue];
+    
+    _secondsOfPlayback += cur - _currentPlaybackPosition;
+    _currentPlaybackPosition = cur;
+    
+    if(_scrobbled == NO && total > 30 && (_secondsOfPlayback > 4*60 || _secondsOfPlayback > total/2.0)) {
+        // scrobble time
+        _scrobbled = YES;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            // no blocking of UI
+            LastFMScrobblerPluginAPICall *apiCall = [[LastFMScrobblerPluginAPICall alloc] init];
+            [apiCall setParameter:@"method" value:@"track.scrobble"];
+            [apiCall setParameter:@"sk" value:[self lastfmUserKey]];
+            
+            if([_trackAttributes objectForKey:@"TITLE"])
+                [apiCall setParameter:@"track" value:[_trackAttributes objectForKey:@"TITLE"]];
+            if([_trackAttributes objectForKey:@"ARTIST"])
+                [apiCall setParameter:@"artist" value:[_trackAttributes objectForKey:@"ARTIST"]];
+            if([_trackAttributes objectForKey:@"ALBUM"])
+                [apiCall setParameter:@"album" value:[_trackAttributes objectForKey:@"ALBUM"]];
+            
+            [apiCall setParameter:@"timestamp" value:[NSString stringWithFormat:@"%d", (int)[_startOfPlaybackDate timeIntervalSince1970]]];
+            
+            [apiCall performPOST]; // we might want to retry later if there's a problem
+        });
+    }
+}
 
 
 @end

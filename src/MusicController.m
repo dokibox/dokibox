@@ -498,6 +498,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         [dict setObject:timeTotal forKey:@"timeTotal"];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackProgress" object:dict];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pluginPlaybackProgress" object:dict];
     }
 }
 
