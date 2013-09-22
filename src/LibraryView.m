@@ -41,6 +41,9 @@
 
         _objectContext = [LibraryCoreDataManager newContext];
 
+        _searchQueue = dispatch_queue_create("com.uguu.dokibox.LibraryView.search", NULL);
+        _searchQueueDepth = 0;
+        
         _celldata = [[NSMutableArray alloc] init];
         _searchMatchedObjects = [[NSMutableSet alloc] init];
         [self runSearch:@""];
@@ -445,80 +448,114 @@
 
 -(void)runSearch:(NSString *)text
 {
-    NSDate *d1 = [NSDate date];
-    [_celldata removeAllObjects];
-    [_searchMatchedObjects removeAllObjects];
-    NSError *error;
-
-    NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                initWithKey:@"name"
-                                ascending:YES
-                                selector:@selector(localizedCaseInsensitiveCompare:)];
-
-    if([text isEqualToString:@""]) { // empty search string
-        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
-
-        NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
-        [_celldata addObjectsFromArray:results];
-    }
-    else { // search to do
-        /*NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-         [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
-
-         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name contains[cd] %@) OR (ANY albums.name contains[cd] %@) OR (SUBQUERY(albums, $a, SUBQUERY($a.tracks, $t, $t.name contains[cd] %@).@count !=0).@count != 0)", text, text, text];
-         [fr setPredicate:predicate];
-
-         NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
-         [_celldata addObjectsFromArray:results];*/
-        // Left in for refernece
-        // The above method is only faster for single letter queries etc. (please see commit comment for tests)
-
-        NSFetchRequest *fetchReqArtist = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
-        NSFetchRequest *fetchReqAlbum = [NSFetchRequest fetchRequestWithEntityName:@"album"];
-        NSFetchRequest *fetchReqTrack = [NSFetchRequest fetchRequestWithEntityName:@"track"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
-        [fetchReqArtist setPredicate:predicate];
-        [fetchReqAlbum setPredicate:predicate];
-        [fetchReqTrack setPredicate:predicate];
-
-        NSMutableSet *fetchedArtists = [[NSMutableSet alloc] init];
-
-        [fetchReqAlbum setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"artist", nil]];
-        [fetchReqTrack setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"album", @"album.artist", nil]];
-
-        NSArray *resultsArtist = [_objectContext executeFetchRequest:fetchReqArtist error:&error];
-        NSArray *resultsAlbum = [_objectContext executeFetchRequest:fetchReqAlbum error:&error];
-        NSArray *resultsTrack = [_objectContext executeFetchRequest:fetchReqTrack error:&error];
-
-        [_searchMatchedObjects addObjectsFromArray:resultsArtist];
-        [_searchMatchedObjects addObjectsFromArray:resultsAlbum];
-        [_searchMatchedObjects addObjectsFromArray:resultsTrack];
-
-        [fetchedArtists addObjectsFromArray:resultsArtist];
-        for (LibraryAlbum *a in resultsAlbum)
-            [fetchedArtists addObject:[a artist]];
-        for (LibraryTrack *t in resultsTrack)
-            [fetchedArtists addObject:[[t album] artist]];
-
-        [_celldata addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
-
-        NSUInteger i;
-        for(i=0; i<[_celldata count]; i++) {
-            if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
-
-            [self expandRow:i];
-
-            for(;i < [_celldata count]; i++) {
-                if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
-                [self expandRow:i];
-            }
+    // Run search in background thread so not to lock up UI
+    _searchQueueDepth++;
+    dispatch_async(_searchQueue, ^{
+        if (_searchQueueDepth > 1) { // This indicates it's not the latest required search so we skip it.
+            _searchQueueDepth--;
+            return;
         }
-    }
+        
+        NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
+        NSMutableArray *newCellData = [[NSMutableArray alloc] init];
+        NSMutableArray *newSearchMatchedObjects = [[NSMutableArray alloc] init];
+        
+        NSDate *d1 = [NSDate date];
+        NSError *error;
+        
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                    initWithKey:@"name"
+                                    ascending:YES
+                                    selector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        if([text isEqualToString:@""]) { // empty search string
+            NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+            [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+            
+            NSArray *results = [context executeFetchRequest:fr error:&error];
+            [newCellData addObjectsFromArray:results];
+        }
+        else { // search to do
+            /*NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+             [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
+             
+             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name contains[cd] %@) OR (ANY albums.name contains[cd] %@) OR (SUBQUERY(albums, $a, SUBQUERY($a.tracks, $t, $t.name contains[cd] %@).@count !=0).@count != 0)", text, text, text];
+             [fr setPredicate:predicate];
+             
+             NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+             [_celldata addObjectsFromArray:results];*/
+            // Left in for refernece
+            // The above method is only faster for single letter queries etc. (please see commit comment for tests)
+            
+            NSFetchRequest *fetchReqArtist = [NSFetchRequest fetchRequestWithEntityName:@"artist"];
+            NSFetchRequest *fetchReqAlbum = [NSFetchRequest fetchRequestWithEntityName:@"album"];
+            NSFetchRequest *fetchReqTrack = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
+            [fetchReqArtist setPredicate:predicate];
+            [fetchReqAlbum setPredicate:predicate];
+            [fetchReqTrack setPredicate:predicate];
+            
+            NSMutableSet *fetchedArtists = [[NSMutableSet alloc] init];
+            
+            [fetchReqAlbum setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"artist", nil]];
+            [fetchReqTrack setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"album", @"album.artist", nil]];
+            
+            NSArray *resultsArtist = [context executeFetchRequest:fetchReqArtist error:&error];
+            NSArray *resultsAlbum = [context executeFetchRequest:fetchReqAlbum error:&error];
+            NSArray *resultsTrack = [context executeFetchRequest:fetchReqTrack error:&error];
+            
+            [newSearchMatchedObjects addObjectsFromArray:resultsArtist];
+            [newSearchMatchedObjects addObjectsFromArray:resultsAlbum];
+            [newSearchMatchedObjects addObjectsFromArray:resultsTrack];
+            
+            [fetchedArtists addObjectsFromArray:resultsArtist];
+            for (LibraryAlbum *a in resultsAlbum)
+                [fetchedArtists addObject:[a artist]];
+            for (LibraryTrack *t in resultsTrack)
+                [fetchedArtists addObject:[[t album] artist]];
 
-    NSDate *d2 = [NSDate date];
-    DDLogVerbose(@"Fetching %lu cells took %f sec", [_celldata count], [d2 timeIntervalSinceDate:d1]);
-    [_tableView reloadData];
+            [newCellData addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
+            
+            /*NSUInteger i;
+            for(i=0; i<[_celldata count]; i++) {
+                if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
+                
+                [self expandRow:i];
+                
+                for(;i < [_celldata count]; i++) {
+                    if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
+                    [self expandRow:i];
+                }
+            }*/
+        }
+                
+        NSDate *d2 = [NSDate date];
+        DDLogVerbose(@"Runining search for %@", text);
+        DDLogVerbose(@"Fetching %lu cells took %f sec", [newCellData count], [d2 timeIntervalSinceDate:d1]);
+        
+        NSMutableArray *newCellDataIDs = [[NSMutableArray alloc] init];
+        NSMutableArray *newSearchMatchedObjectIDs = [[NSMutableArray alloc] init];
+        for(NSManagedObject *i in newCellData)
+            [newCellDataIDs addObject:[i objectID]];
+        for(NSManagedObject *i in newSearchMatchedObjects)
+            [newSearchMatchedObjectIDs addObject:[i objectID]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDate *d3 = [NSDate date];
+            [_celldata removeAllObjects];
+            [_searchMatchedObjects removeAllObjects];
+
+            for(NSManagedObjectID *i in newCellDataIDs)
+                [_celldata addObject:[_objectContext objectWithID:i]];
+            for(NSManagedObjectID *i in newSearchMatchedObjectIDs)
+                [_searchMatchedObjects addObject:[_objectContext objectWithID:i]];
+            
+            [_tableView reloadData];
+            DDLogVerbose(@"Back on main thread took %f sec", -[d3 timeIntervalSinceNow]);
+        });
+        
+        _searchQueueDepth--;
+    });
 }
 
 

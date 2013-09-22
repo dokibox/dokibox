@@ -20,6 +20,9 @@
     NSMutableArray *_celldata;
     NSManagedObjectContext *_objectContext;
     NSMutableSet *_searchMatchedObjects;
+    
+    dispatch_queue_t _searchQueue;
+    int _searchQueueDepth;
 }
 
 -(void)showSearch;
