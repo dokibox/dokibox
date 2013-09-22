@@ -8,6 +8,8 @@
 
 #import "VorbisDecoderPlugin.h"
 
+PluginManager *__pluginManager;
+
 @implementation VorbisDecoderPlugin
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager

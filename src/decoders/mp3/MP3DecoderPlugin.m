@@ -8,6 +8,8 @@
 
 #import "MP3DecoderPlugin.h"
 
+PluginManager *__pluginManager;
+
 @implementation MP3DecoderPlugin
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager

@@ -8,6 +8,8 @@
 
 #import "FLACDecoderPlugin.h"
 
+PluginManager *__pluginManager;
+
 @implementation FLACDecoderPlugin
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager

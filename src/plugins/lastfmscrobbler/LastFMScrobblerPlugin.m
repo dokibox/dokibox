@@ -11,6 +11,8 @@
 #import "LastFMScrobblerPluginPreferenceViewController.h"
 #import "LastFMScrobblerPluginAPICall.h"
 
+PluginManager *__pluginManager;
+
 @implementation LastFMScrobblerPlugin
 
 @synthesize lastfmUserName = _lastfmUserName;

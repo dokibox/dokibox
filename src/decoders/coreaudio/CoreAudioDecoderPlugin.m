@@ -1,5 +1,7 @@
 #import "CoreAudioDecoderPlugin.h"
 
+PluginManager *__pluginManager;
+
 @implementation CoreAudioDecoderPlugin
 
 -(id<PluginProtocol>)initWithPluginManager:(PluginManager *)pluginManager

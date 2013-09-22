@@ -7,7 +7,7 @@
 //
 
 #import "PluginManager.h"
-PluginManager *__pluginManager;
+extern PluginManager *__pluginManager;
 
 #define DDLogError(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGERROR withFormat:frmt, __VA_ARGS__]
 #define DDLogInfo(frmt, ...)   [__pluginManager logFromPlugin:self level:PLUGINLOGINFO withFormat:frmt, __VA_ARGS__]
