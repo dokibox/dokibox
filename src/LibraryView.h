@@ -30,8 +30,10 @@
 -(void)runSearch:(NSString *)text;
 
 -(BOOL)isRowExpanded:(NSUInteger)row;
+-(BOOL)isRowExpanded:(NSUInteger)row inCellData:(NSMutableArray*)celldata;
 -(void)collapseRow:(NSUInteger)row;
 -(void)expandRow:(NSUInteger)row;
+-(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive onCellData:(NSMutableArray*)celldata andMatchedObjects:(NSMutableSet*)matchedObjects;
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
 
 @end

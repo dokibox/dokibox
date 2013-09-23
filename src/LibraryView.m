@@ -243,11 +243,16 @@
 
 -(BOOL)isRowExpanded:(NSUInteger)row
 {
-    if(row == [_celldata count] - 1) //last item, so can't be expanded
-        return NO;
+    return [self isRowExpanded:row inCellData:_celldata];
+}
 
-    NSObject *c1 = [_celldata objectAtIndex:row];
-    NSObject *c2 = [_celldata objectAtIndex:row+1];
+-(BOOL)isRowExpanded:(NSUInteger)row inCellData:(NSMutableArray*)celldata
+{
+    if(row == [celldata count] - 1) //last item, so can't be expanded
+        return NO;
+    
+    NSObject *c1 = [celldata objectAtIndex:row];
+    NSObject *c2 = [celldata objectAtIndex:row+1];
     if([c1 isKindOfClass:[LibraryArtist class]]) {
         if([c2 isKindOfClass:[LibraryAlbum class]])
             return YES;
@@ -333,45 +338,49 @@
 {
     [self expandRow:row recursive:NO];
 }
-
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
 {
-    NSObject *obj = [_celldata objectAtIndex:row];
+    [self expandRow:row recursive:recursive onCellData:_celldata andMatchedObjects:_searchMatchedObjects];
+}
+
+-(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive onCellData:(NSMutableArray*)celldata andMatchedObjects:(NSMutableSet*)matchedObjects
+{
+    NSObject *obj = [celldata objectAtIndex:row];
 
     if([obj isKindOfClass:[LibraryArtist class]]) {
         LibraryArtist *artist = (LibraryArtist *)obj;
         NSUInteger i = row + 1;
 
-        if(![self isRowExpanded:row]) {
+        if(![self isRowExpanded:row inCellData:celldata]) {
             NSSortDescriptor *sortd = [[NSSortDescriptor alloc]
                                         initWithKey:@"name"
                                         ascending:YES
                                         selector:@selector(localizedCaseInsensitiveCompare:)];
             NSSet *albums;
-            if([_searchMatchedObjects count] == 0) { // not doing search atm
+            if([matchedObjects count] == 0) { // not doing search atm
                 albums = [artist albums];
             }
             else {
-                albums = [artist albumsFromSet:_searchMatchedObjects];
+                albums = [artist albumsFromSet:matchedObjects];
             }
 
             for(LibraryAlbum *album in [albums sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
-                [_celldata insertObject:album atIndex:i];
+                [celldata insertObject:album atIndex:i];
                 i++;
             }
         }
         if(recursive) {
-            for(i = row + 1; i<[_celldata count]; i++) {
-                NSObject *obj2 = [_celldata objectAtIndex:i];
+            for(i = row + 1; i<[celldata count]; i++) {
+                NSObject *obj2 = [celldata objectAtIndex:i];
                 if([obj2 isKindOfClass:[LibraryArtist class]])
                     break;
                 else if([obj2 isKindOfClass:[LibraryAlbum class]])
-                    [self expandRow:i];
+                    [self expandRow:i recursive:NO onCellData:celldata andMatchedObjects:matchedObjects];
             }
         }
     }
     else if([obj isKindOfClass:[LibraryAlbum class]]) {
-        if([self isRowExpanded:row]) return;
+        if([self isRowExpanded:row inCellData:celldata]) return;
 
         LibraryAlbum *album = (LibraryAlbum *)obj;
         NSUInteger i = row + 1;
@@ -383,15 +392,15 @@
                                    selector:@selector(compare:)];
 
         NSSet *tracks;
-        if([_searchMatchedObjects count] == 0) { // not doing search atm
+        if([matchedObjects count] == 0) { // not doing search atm
             tracks = [album tracks];
         }
         else {
-            tracks = [album tracksFromSet:_searchMatchedObjects];
+            tracks = [album tracksFromSet:matchedObjects];
         }
 
         for(LibraryTrack *track in [tracks sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sortd, nil]]) {
-            [_celldata insertObject:track atIndex:i];
+            [celldata insertObject:track atIndex:i];
             i++;
         }
     }
@@ -458,7 +467,7 @@
         
         NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
         NSMutableArray *newCellData = [[NSMutableArray alloc] init];
-        NSMutableArray *newSearchMatchedObjects = [[NSMutableArray alloc] init];
+        NSMutableSet *newSearchMatchedObjects = [[NSMutableSet alloc] init];
         
         NSDate *d1 = [NSDate date];
         NSError *error;
@@ -516,17 +525,17 @@
 
             [newCellData addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
             
-            /*NSUInteger i;
-            for(i=0; i<[_celldata count]; i++) {
-                if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
+            NSUInteger i;
+            for(i=0; i<[newCellData count]; i++) {
+                if([newSearchMatchedObjects member:[newCellData objectAtIndex:i]]) continue;
                 
-                [self expandRow:i];
+                [self expandRow:i recursive:NO onCellData:newCellData andMatchedObjects:newSearchMatchedObjects];
                 
-                for(;i < [_celldata count]; i++) {
-                    if([_searchMatchedObjects member:[_celldata objectAtIndex:i]]) continue;
-                    [self expandRow:i];
+                for(;i < [newCellData count]; i++) {
+                    if([newSearchMatchedObjects member:[newCellData objectAtIndex:i]]) continue;
+                    [self expandRow:i recursive:NO onCellData:newCellData andMatchedObjects:newSearchMatchedObjects];
                 }
-            }*/
+            }
         }
                 
         NSDate *d2 = [NSDate date];
