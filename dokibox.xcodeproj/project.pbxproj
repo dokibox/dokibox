@@ -24,7 +24,6 @@
 		2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B33FB17763C140093C292 /* MASPreferencesWindow.xib */; };
 		2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B33FD17763C140093C292 /* MASPreferencesWindowController.m */; };
 		2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B340317763C9A0093C292 /* LibraryPreferenceViewController.m */; };
-		2B5B340617763C9A0093C292 /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
 		2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340717768E830093C292 /* defaultPrefs.plist */; };
 		2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA9711620DDD10057D0D5 /* TitlebarSeekButtonNS.m */; };
 		2B5DA983162758320057D0D5 /* SliderBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DA982162758320057D0D5 /* SliderBar.m */; };
@@ -65,7 +64,6 @@
 		2BAEE26F17E64FF0007D610B /* LastFMScrobblerPluginPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE26B17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.m */; };
 		2BAEE27017E64FF5007D610B /* LastFMScrobblerPluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE26C17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.xib */; };
 		2BAEE27317E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE27217E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m */; };
-		2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */; };
 		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
 		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
 		2BB25CBD16972FC600243B27 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CB716972F9400243B27 /* MP3Decoder.m */; };
@@ -140,13 +138,6 @@
 			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
 			remoteInfo = Lumberjack;
 		};
-		2BB25CE316973E4F00243B27 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2B80D43E16920167000F3392;
-			remoteInfo = "dokibox-decoder-mp3";
-		};
 		2BB25CE516973E5100243B27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
@@ -181,7 +172,6 @@
 				6FB190D317E8ED9A0041F007 /* dokibox-decoder-coreaudio.bundle in CopyFiles */,
 				2BB25D0C1697440100243B27 /* dokibox-decoder-vorbis.bundle in CopyFiles */,
 				2BB25CE216973E1700243B27 /* dokibox-decoder-flac.bundle in CopyFiles */,
-				2BB25CA91692042A00243B27 /* dokibox-decoder-mp3.bundle in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,7 +863,6 @@
 				2B72D79C16F163B400324194 /* PBXTargetDependency */,
 				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
-				2BB25CE416973E4F00243B27 /* PBXTargetDependency */,
 				6FB190D217E69B950041F007 /* PBXTargetDependency */,
 			);
 			name = dokibox;
@@ -1197,11 +1186,6 @@
 			isa = PBXTargetDependency;
 			name = Lumberjack;
 			targetProxy = 2B72D79B16F163B400324194 /* PBXContainerItemProxy */;
-		};
-		2BB25CE416973E4F00243B27 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2B80D43E16920167000F3392 /* dokibox-decoder-mp3 */;
-			targetProxy = 2BB25CE316973E4F00243B27 /* PBXContainerItemProxy */;
 		};
 		2BB25CE616973E5100243B27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1610,6 +1594,7 @@
 				2BAEE26617E56445007D610B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2BB25CD116973CCD00243B27 /* Build configuration list for PBXNativeTarget "dokibox-decoder-flac" */ = {
 			isa = XCConfigurationList;
