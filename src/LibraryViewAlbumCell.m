@@ -14,6 +14,23 @@
 @synthesize album = _album;
 @synthesize searchMatchedObjects = _searchMatchedObjects;
 
+- (LibraryAlbum *)album
+{
+    return _album;
+}
+
+- (void)setAlbum:(LibraryAlbum *)album
+{
+    _album = album;
+    
+    // Load cover
+    if([_album isCoverFetched] == false) {
+        [_album fetchCoverAsync:^() {
+            [self setNeedsDisplay:YES];
+        }];
+    }
+}
+
 - (void)drawRect:(CGRect)rect
 {
     CGRect b = self.bounds;
@@ -41,16 +58,13 @@
     }
 
     { // Draw alt text
-        NSImage *nimage;
+        NSImage *nimage = nil;
         if([_album isCoverFetched]) {
             nimage = [_album cover];
             if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
         }
         else {
             nimage = [LibraryViewAlbumCell placeholderImage];
-            [_album fetchCoverAsync:^() {
-                [self setNeedsDisplay:YES];
-            }];
         }
 
         CGContextSaveGState(ctx);
