@@ -76,6 +76,12 @@ enum SearchButtonState {
     return self;
 }
 
+- (BOOL)isOpaque
+{
+    return YES;
+}
+
+
 - (void)updateDividerTrackingArea
 {
     if(_dividerTrackingArea) {
@@ -103,6 +109,50 @@ enum SearchButtonState {
         [super cursorUpdate:event];
     }
 }
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+    if ([self mouse:aPoint inRect:[_dividerTrackingArea rect]]) {
+        return self; // Capture mouse clicks even though they are on top of other views
+    }
+    else {
+        return [super hitTest:aPoint];
+    }
+}
+
+-(void)mouseDown:(NSEvent *)event
+{
+    NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+
+    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
+        _dividerBeingDragged = YES;
+    }
+    else {
+        [super mouseDown:event];
+    }
+}
+
+-(void)mouseUp:(NSEvent *)event
+{
+    if (_dividerBeingDragged) {
+        _dividerBeingDragged = NO;
+    }
+    else {
+        [super mouseUp:event];
+    }
+}
+
+
+-(void)mouseDragged:(NSEvent *)event
+{
+    if(_dividerBeingDragged == YES) {
+        NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+        width_divider = point.x/[self bounds].size.width;
+        [self resizeSubviewsWithOldSize:[self bounds].size];
+    }
+}
+
+
 
 -(NSRect)libraryViewFrame
 {

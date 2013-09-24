@@ -22,6 +22,7 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     TitlebarButtonNS *_searchButton;
     
     NSTrackingArea *_dividerTrackingArea;
+    BOOL _dividerBeingDragged;
 }
 
 -(NSRect)playlistViewFrame;
