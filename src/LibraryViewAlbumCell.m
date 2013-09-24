@@ -25,7 +25,29 @@
     
     // Load cover
     if([_album isCoverFetched] == false) {
+        if(_progressIndicator == nil) {
+            _progressIndicator = [[NSProgressIndicator alloc] init];
+            [_progressIndicator sizeToFit]; // this sets the frame height only
+            CGFloat imagesize = 50;
+            CGRect imrect = CGRectMake([self bounds].origin.x, [self bounds].origin.y, imagesize, imagesize);
+            [_progressIndicator setFrame:NSInsetRect(imrect, (imrect.size.width - [_progressIndicator frame].size.height)/2.0, (imrect.size.height - [_progressIndicator frame].size.height)/2.0)];
+            [_progressIndicator setStyle: NSProgressIndicatorSpinningStyle];
+            [_progressIndicator setUsesThreadedAnimation:YES];
+            
+            [_progressIndicator startAnimation:self];
+            // NB: This causes weird flashing: in particular if you add new spinning progress indicators for other albums
+            // (say during expansion) it causes all of them to flash white sometimes.
+            
+            [self addSubview:_progressIndicator];
+        }
+        
         [_album fetchCoverAsync:^() {
+            if(_progressIndicator) {
+                [_progressIndicator stopAnimation:self];
+                [_progressIndicator removeFromSuperview];
+                _progressIndicator = nil;
+            }
+            
             [self setNeedsDisplay:YES];
         }];
     }

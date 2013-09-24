@@ -11,6 +11,7 @@
 
 @interface LibraryViewAlbumCell : NSView {
     LibraryAlbum *_album;
+    NSProgressIndicator *_progressIndicator;
 }
 
 +(NSImage*)placeholderImage;
