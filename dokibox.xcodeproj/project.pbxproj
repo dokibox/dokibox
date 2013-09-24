@@ -1337,18 +1337,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/dokibox-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
-					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
 					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
 					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "src/dokibox-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = dokibox;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1360,18 +1355,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/dokibox-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/deps/twui/lib/UIKit/\"",
-					"\"$(SRCROOT)/deps/twui/lib/Support/\"",
 					"\"$(SRCROOT)/deps/cocoalumberjack/Lumberjack/\"",
 					"$(inherited)",
 					"\"$(SRCROOT)/deps/rebel/Rebel/\"",
 				);
 				INFOPLIST_FILE = "src/dokibox-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = dokibox;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1389,10 +1379,7 @@
 				INFOPLIST_FILE = "src/decoders/mp3/dokibox-decoder-mp3-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-mp3";
 				WRAPPER_EXTENSION = bundle;
@@ -1411,10 +1398,7 @@
 				INFOPLIST_FILE = "src/decoders/mp3/dokibox-decoder-mp3-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-mp3";
 				WRAPPER_EXTENSION = bundle;
@@ -1479,10 +1463,7 @@
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-flac";
 				WRAPPER_EXTENSION = bundle;
@@ -1501,10 +1482,7 @@
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-flac";
 				WRAPPER_EXTENSION = bundle;
@@ -1523,10 +1501,7 @@
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-vorbis";
 				WRAPPER_EXTENSION = bundle;
@@ -1545,10 +1520,7 @@
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/prefix/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "dokibox-decoder-vorbis";
 				WRAPPER_EXTENSION = bundle;
