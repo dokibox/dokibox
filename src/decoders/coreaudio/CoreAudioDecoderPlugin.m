@@ -8,6 +8,7 @@ PluginManager *__pluginManager;
 {
     __pluginManager = pluginManager;
     [pluginManager registerDecoderClass:[CoreAudioDecoder class] forExtension:@"m4a"];
+    [pluginManager registerDecoderClass:[CoreAudioDecoder class] forExtension:@"mp3"];
     return self;
 }
 
