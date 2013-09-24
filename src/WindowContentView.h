@@ -20,6 +20,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     LibraryView *_libraryView;
     
     TitlebarButtonNS *_searchButton;
+    
+    NSTrackingArea *_dividerTrackingArea;
 }
 
 -(NSRect)playlistViewFrame;

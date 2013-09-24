@@ -67,9 +67,41 @@ enum SearchButtonState {
         // also triggers on all NSWindow (not just its window) changes, but doesn't seem too ineffecient
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidBecomeKeyNotification object:nil];
+        
+        // mouse tracking for resizing handles
+        [self updateDividerTrackingArea];
+        
     }
 
     return self;
+}
+
+- (void)updateDividerTrackingArea
+{
+    if(_dividerTrackingArea) {
+        [self removeTrackingArea:_dividerTrackingArea];
+    }
+    
+    NSRect trackingRect = [self libraryViewFrame];
+    trackingRect.origin.x += [self libraryViewFrame].size.width;
+    trackingRect.size.width = [self playlistViewFrame].origin.x - trackingRect.origin.x;
+    trackingRect.size.width += 6.0;
+    trackingRect.origin.x -= 3.0;
+    
+    _dividerTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:NSTrackingCursorUpdate|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+    [self addTrackingArea:_dividerTrackingArea];
+
+}
+
+-(void)cursorUpdate:(NSEvent *)event
+{
+    NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+    
+    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
+        [[NSCursor resizeLeftRightCursor] set];
+    } else {
+        [super cursorUpdate:event];
+    }
 }
 
 -(NSRect)libraryViewFrame
@@ -96,6 +128,7 @@ enum SearchButtonState {
     [super resizeSubviewsWithOldSize:oldBoundsSize];
     [_libraryView setFrame:[self libraryViewFrame]];
     [_playlistView setFrame:[self playlistViewFrame]];
+    [self updateDividerTrackingArea];
 }
 
 -(void)performFindPanelAction:(id)sender
