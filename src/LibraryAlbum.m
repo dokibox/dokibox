@@ -9,12 +9,14 @@
 #import "LibraryAlbum.h"
 #import "LibraryArtist.h"
 #import "LibraryTrack.h"
-#import "CoreDataManager.h"
+#import "LibraryCoreDataManager.h"
 
 @implementation LibraryAlbum
 @dynamic name;
 @dynamic artist;
 @dynamic tracks;
+
+@synthesize isCoverFetched = _isCoverFetched;
 
 -(NSSet*)tracksFromSet:(NSSet *)set
 {
@@ -108,6 +110,30 @@
 
     }
     return _cover;
+}
+
+-(void)fetchCoverAsync:(void (^) ())blockWhenFinished
+{
+    if(_isCoverFetched) {
+        blockWhenFinished();
+        return;
+    }
+    dispatch_queue_t calling_q = dispatch_get_current_queue();
+
+    
+    NSManagedObjectID *self_id = [self objectID];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
+        LibraryAlbum *album = (LibraryAlbum*)[context objectWithID:self_id];
+        NSImage *cover = [album cover];
+        
+        dispatch_async(calling_q, ^{ // call block on original queue
+            _isCoverFetched = YES;
+            _cover = cover;
+            blockWhenFinished();
+        });
+    });
 }
 
 @end

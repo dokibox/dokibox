@@ -10,12 +10,12 @@
 #import "common.h"
 
 @interface LibraryAlbum : NSManagedObject {
-    BOOL _isCoverFetched;
     NSImage *_cover;
 }
 
 -(NSSet*)tracksFromSet:(NSSet *)set;
 -(NSImage*)cover;
+-(void)fetchCoverAsync:(void (^) ())blockWhenFinished;
 
 -(void)setArtistByName:(NSString *)artistName;
 -(void)pruneDueToTrackBeingDeleted:(LibraryTrack *)track;
@@ -23,6 +23,8 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) LibraryArtist *artist;
 @property (nonatomic) NSSet* tracks;
+
+@property (readonly) BOOL isCoverFetched;
 
 
 @end

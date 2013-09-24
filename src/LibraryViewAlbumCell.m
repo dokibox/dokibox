@@ -41,8 +41,17 @@
     }
 
     { // Draw alt text
-        NSImage *nimage = [_album cover];
-        if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
+        NSImage *nimage;
+        if([_album isCoverFetched]) {
+            nimage = [_album cover];
+            if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
+        }
+        else {
+            nimage = [LibraryViewAlbumCell placeholderImage];
+            [_album fetchCoverAsync:^() {
+                [self setNeedsDisplay:YES];
+            }];
+        }
 
         CGContextSaveGState(ctx);
         CGContextAddRect(ctx, CGRectMake(b.origin.x, b.origin.y, imagesize, imagesize));
