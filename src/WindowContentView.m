@@ -103,7 +103,7 @@ enum SearchButtonState {
 {
     NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
     
-    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
+    if (_dividerBeingDragged == YES || [self mouse:point inRect:[_dividerTrackingArea rect]]) {
         [[NSCursor resizeLeftRightCursor] set];
     } else {
         [super cursorUpdate:event];
