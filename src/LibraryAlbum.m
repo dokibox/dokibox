@@ -118,12 +118,22 @@
         blockWhenFinished();
         return;
     }
+    
     dispatch_queue_t calling_q = dispatch_get_current_queue();
-
+    if(_coverFetchQueue == nil)
+        //serial queue so we never try to fetch a cover multiple times simultanousely
+        _coverFetchQueue = dispatch_queue_create(NULL, NULL);
     
     NSManagedObjectID *self_id = [self objectID];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    dispatch_async(_coverFetchQueue, ^{
+        if(_isCoverFetched == YES) { // could have been queued before we had a cover, but now we have it: so no need to fetch
+            dispatch_async(calling_q, ^{ // call block on original queue
+                blockWhenFinished();
+            });
+            return;
+        }        
+        
         NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
         LibraryAlbum *album = (LibraryAlbum*)[context objectWithID:self_id];
         NSImage *cover = [album cover];

@@ -11,6 +11,7 @@
 
 @interface LibraryAlbum : NSManagedObject {
     NSImage *_cover;
+    dispatch_queue_t _coverFetchQueue;
 }
 
 -(NSSet*)tracksFromSet:(NSSet *)set;
