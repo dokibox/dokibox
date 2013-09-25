@@ -11,13 +11,15 @@
 
 @class RBLScrollView;
 @class LibraryViewSearchView;
+@class TableViewRowData;
 
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
     RBLTableView *_tableView;
     RBLScrollView *_libraryScrollView;
     LibraryViewSearchView *_librarySearchView;
     
-    NSMutableArray *_celldata;
+    TableViewRowData *_rowData;
+    
     NSManagedObjectContext *_objectContext;
     NSMutableSet *_searchMatchedObjects;
     

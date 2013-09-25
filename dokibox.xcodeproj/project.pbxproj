@@ -91,6 +91,7 @@
 		2BBEC89816C36AC100160279 /* LibraryViewAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */; };
 		2BBEC89B16C44C0900160279 /* LibraryViewTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */; };
 		2BBEC89E16C60A7F00160279 /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEC89D16C60A7F00160279 /* Library.m */; };
+		2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */; };
 		2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
@@ -364,6 +365,8 @@
 		2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewTrackCell.m; sourceTree = "<group>"; };
 		2BBEC89C16C60A7E00160279 /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Library.h; sourceTree = "<group>"; };
 		2BBEC89D16C60A7F00160279 /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Library.m; sourceTree = "<group>"; };
+		2BCAE0E317F3824C00764BC0 /* TableViewRowData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewRowData.h; sourceTree = "<group>"; };
+		2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewRowData.m; sourceTree = "<group>"; };
 		2BDC0CD4179B2682006EBB05 /* NSView+CGDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+CGDrawing.h"; sourceTree = "<group>"; };
 		2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+CGDrawing.m"; sourceTree = "<group>"; };
 		2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBarHoverView.h; sourceTree = "<group>"; };
@@ -674,6 +677,8 @@
 				2B82B271178114C400E1EA0B /* ManagedObjectTrack.m */,
 				2BDC0CD4179B2682006EBB05 /* NSView+CGDrawing.h */,
 				2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */,
+				2BCAE0E317F3824C00764BC0 /* TableViewRowData.h */,
+				2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */,
 			);
 			name = app;
 			sourceTree = "<group>";
@@ -1129,6 +1134,7 @@
 				2B7611C617C30617008A717D /* LibraryViewSearchView.m in Sources */,
 				2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */,
 				2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */,
+				2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
