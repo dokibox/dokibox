@@ -147,6 +147,14 @@ enum SearchButtonState {
 {
     if(_dividerBeingDragged == YES) {
         NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+        
+        // minimum size for libraryFrame
+        if(point.x < 250)
+            point.x = 250;
+        // minimum size for playlistFrame
+        else if(([self bounds].size.width - point.x) < 150)
+            point.x = [self bounds].size.width - 150;
+                
         width_divider = point.x/[self bounds].size.width;
         [self resizeSubviewsWithOldSize:[self bounds].size];
     }
