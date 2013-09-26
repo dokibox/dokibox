@@ -34,36 +34,48 @@
 -(void)insertObject:(id)anObject atIndex:(NSUInteger)index
 {
     [_data insertObject:anObject atIndex:index];
-    if(_tableViewDelegate)
         [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:NULL];
+    if(_tableViewDelegate && _inBulkUpdateMode == NO)
 }
 
 -(void)removeObjectAtIndex:(NSUInteger)index
 {
     [_data removeObjectAtIndex:index];
-    if(_tableViewDelegate)
+    if(_tableViewDelegate && _inBulkUpdateMode == NO)
         [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:NULL];
 }
 
 -(void)addObject:(id)anObject
 {
     [_data addObject:anObject];
-    if(_tableViewDelegate)
+    if(_tableViewDelegate && _inBulkUpdateMode == NO)
         [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:([self count] -1)] withAnimation:NULL];
 }
 
 -(void)removeLastObject
 {
     [_data removeLastObject];
-    if(_tableViewDelegate)
+    if(_tableViewDelegate && _inBulkUpdateMode == NO)
         [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:[self count]] withAnimation:NULL];
 }
 
 -(void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject
 {
     [self replaceObjectAtIndex:index withObject:anObject];
-    if(_tableViewDelegate)
+    if(_tableViewDelegate && _inBulkUpdateMode == NO)
         [_tableViewDelegate reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index] columnIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_tableViewDelegate numberOfColumns])]];
+}
+
+-(void)startBulkUpdate
+{
+    _inBulkUpdateMode = YES;
+}
+
+-(void)endBulkUpdate
+{
+    _inBulkUpdateMode = NO;
+    if(_tableViewDelegate)
+        [_tableViewDelegate reloadData];
 }
 
 @end

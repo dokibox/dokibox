@@ -542,6 +542,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDate *d3 = [NSDate date];
+            [_rowData startBulkUpdate];
             [_rowData removeAllObjects];
             [_searchMatchedObjects removeAllObjects];
 
@@ -549,6 +550,7 @@
                 [_rowData addObject:[_objectContext objectWithID:i]];
             for(NSManagedObjectID *i in newSearchMatchedObjectIDs)
                 [_searchMatchedObjects addObject:[_objectContext objectWithID:i]];
+            [_rowData endBulkUpdate];
             
             DDLogVerbose(@"Back on main thread took %f sec", -[d3 timeIntervalSinceNow]);
         });

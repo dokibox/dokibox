@@ -10,7 +10,11 @@
 
 @interface TableViewRowData : NSMutableArray {
     NSMutableArray *_data;
+    BOOL _inBulkUpdateMode;
 }
+
+-(void)startBulkUpdate;
+-(void)endBulkUpdate;
 
 @property(weak) NSTableView* tableViewDelegate;
 
