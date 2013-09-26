@@ -17,5 +17,7 @@
 -(void)endBulkUpdate;
 
 @property(weak) NSTableView* tableViewDelegate;
+@property(assign) NSTableViewAnimationOptions insertAnimation;
+@property(assign) NSTableViewAnimationOptions removeAnimation;
 
 @end

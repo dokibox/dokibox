@@ -11,6 +11,8 @@
 @implementation TableViewRowData
 
 @synthesize tableViewDelegate = _tableViewDelegate;
+@synthesize insertAnimation = _insertAnimation;
+@synthesize removeAnimation = _removeAnimation;
 
 -(id)init
 {
@@ -34,29 +36,29 @@
 -(void)insertObject:(id)anObject atIndex:(NSUInteger)index
 {
     [_data insertObject:anObject atIndex:index];
-        [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:NULL];
     if(_tableViewDelegate && _inBulkUpdateMode == NO)
+        [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:_insertAnimation];
 }
 
 -(void)removeObjectAtIndex:(NSUInteger)index
 {
     [_data removeObjectAtIndex:index];
     if(_tableViewDelegate && _inBulkUpdateMode == NO)
-        [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:NULL];
+        [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index] withAnimation:_removeAnimation];
 }
 
 -(void)addObject:(id)anObject
 {
     [_data addObject:anObject];
     if(_tableViewDelegate && _inBulkUpdateMode == NO)
-        [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:([self count] -1)] withAnimation:NULL];
+        [_tableViewDelegate insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:([self count] -1)] withAnimation:_insertAnimation];
 }
 
 -(void)removeLastObject
 {
     [_data removeLastObject];
     if(_tableViewDelegate && _inBulkUpdateMode == NO)
-        [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:[self count]] withAnimation:NULL];
+        [_tableViewDelegate removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:[self count]] withAnimation:_removeAnimation];
 }
 
 -(void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject

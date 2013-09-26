@@ -34,6 +34,8 @@
         
         _rowData = [[TableViewRowData alloc] init];
         [_rowData setTableViewDelegate:_tableView];
+        [_rowData setInsertAnimation:NSTableViewAnimationSlideDown];
+        [_rowData setRemoveAnimation:NSTableViewAnimationSlideUp];
 
         NSTableColumn *libraryFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_tableView addTableColumn:libraryFirstColumn];
@@ -305,12 +307,14 @@
     NSUInteger row = [tv clickedRow];
     if(row == -1) return;
 
+    [_tableView beginUpdates];
     if([self isRowExpanded:row]) {
         [self collapseRow:row];
     }
     else {
         [self expandRow:row];
     }
+    [_tableView endUpdates];
 }
 
 -(void)collapseRow:(NSUInteger)row
