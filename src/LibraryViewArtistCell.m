@@ -28,14 +28,15 @@
         
         CGRect nameTextRect = textRect;
         nameTextRect.size.width -= altTextMargin + altTextWidth;
-        _nameTextField = [[NSTextField alloc] initWithFrame:textRect];
+        _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
         [_nameTextField setDelegate:self];
         [_nameTextField setEditable:NO];
         [_nameTextField setBordered:NO];
         [_nameTextField setBezeled:NO];
         [_nameTextField setDrawsBackground:NO];
         [_nameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:12]];
-        [_nameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [[_nameTextField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+        [_nameTextField setAutoresizingMask:NSViewWidthSizable];
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"artist.name" options:nil];
         [self addSubview:_nameTextField];
         
