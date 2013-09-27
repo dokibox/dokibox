@@ -15,47 +15,55 @@
 @synthesize artist = _artist;
 @synthesize searchMatchedObjects = _searchMatchedObjects;
 
-- (void)drawRect:(CGRect)rect
+- (id)initWithFrame:(NSRect)frame
 {
-    CGRect b = self.bounds;
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    self = [super initWithFrame:frame];
+    if (self) {
+        CGFloat altTextWidth = 140;
+        CGFloat altTextMargin = 10;
 
-    if(false) {
-    //if(self.selected) {
-        // selected background
-        CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-        CGContextFillRect(ctx, b);
-    } else {
-        NSColor *gradientStartColor, *gradientEndColor;
-        gradientStartColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
-        gradientEndColor = [NSColor colorWithDeviceWhite:0.98 alpha:1.0];
+        CGRect textRect = NSInsetRect([self bounds], 10, 4);
+        //textRect.size.height -= 4;
+        //CGRect textRect = CGRectOffset(b, 10, -4);
+        
+        CGRect nameTextRect = textRect;
+        nameTextRect.size.width -= altTextMargin + altTextWidth;
+        _nameTextField = [[NSTextField alloc] initWithFrame:textRect];
+        [_nameTextField setDelegate:self];
+        [_nameTextField setEditable:NO];
+        [_nameTextField setBordered:NO];
+        [_nameTextField setBezeled:NO];
+        [_nameTextField setDrawsBackground:NO];
+        [_nameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:12]];
+        [_nameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [_nameTextField bind:@"value" toObject:self withKeyPath:@"artist.name" options:nil];
+        [self addSubview:_nameTextField];
+        
+        CGRect altTextRect = textRect;
+        altTextRect.size.height -= 2;
+        altTextRect.size.width = altTextWidth;
+        altTextRect.origin.x += textRect.size.width - altTextWidth;
+        _altTextField = [[NSTextField alloc] initWithFrame:altTextRect];
+        [_altTextField setDelegate:self];
+        [_altTextField setEditable:NO];
+        [_altTextField setBordered:NO];
+        [_altTextField setBezeled:NO];
+        [_altTextField setDrawsBackground:NO];
+        [_altTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:10]];
+        [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
+        [_altTextField setAlignment:NSRightTextAlignment];
+        [_altTextField setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:_altTextField];
 
-        NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
-                           (id)[gradientEndColor CGColor], nil];
-        CGFloat locations[] = { 0.0, 1.0 };
-        CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
-
-        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
-        CGGradientRelease(gradient);
-
-        // emboss
-        /*CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
-        CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
-        CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
-        CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));*/
+        [self addObserver:self forKeyPath:@"artist" options:NULL context:nil];
     }
+    
+    return self;
+}
 
-    CGContextSetShouldSmoothFonts(ctx, YES);
-    {   // Draw text for name
-        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-        [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
-        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:[[self artist] name] attributes:attr];
-
-        CGRect textRect = CGRectOffset(b, 10, -4);
-        [astr drawInRect:textRect];
-    }
-
-    { // Draw alt text
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"artist"]) {
         NSUInteger albumCount, trackCount;
         if([_searchMatchedObjects count] == 0) { // no search being done
             albumCount = [[[self artist] albums] count];
@@ -65,18 +73,14 @@
             albumCount = [[[self artist] albumsFromSet:[self searchMatchedObjects]] count];
             trackCount = [[[self artist] tracksFromSet:[self searchMatchedObjects]] count];
         }
-
         NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", albumCount, trackCount];
-        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-        [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
-        [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
-        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
-
-        NSSize textSize = [astr size];
-        CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -6);
-        //textRect.size.width -= textRect.origin.x - b.origin.x;
-        [astr drawInRect:textRect];
+        [_altTextField setStringValue:str];
     }
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    // Need a drawRect function for subpixel font rendering to work in NSTextField
 }
 
 @end

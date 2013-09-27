@@ -11,6 +11,9 @@
 
 @interface LibraryViewArtistCell : NSView {
     LibraryArtist *_artist;
+    
+    NSTextField *_nameTextField;
+    NSTextField *_altTextField;
 }
 
 @property() LibraryArtist* artist;

@@ -15,6 +15,7 @@
 #import "RBLScrollView.h"
 #import "LibraryViewSearchView.h"
 #import "TableViewRowData.h"
+#import "LibraryViewArtistRowView.h"
 
 @implementation LibraryView
 
@@ -240,6 +241,19 @@
         [((LibraryViewTrackCell *)view) setIsEvenRow:((row-albumPosition)%2 == 0)];
     }
 
+    return view;
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+    LibraryViewArtistRowView *view = [tableView makeViewWithIdentifier:@"libraryViewArtistRowView" owner:self];
+    
+    if(view == nil) {
+        NSRect frame = NSMakeRect(0, 0, 0, 0);
+        view = [[LibraryViewArtistRowView alloc] initWithFrame:frame];
+        view.identifier = @"libraryViewArtistRowView";
+    }
+    
     return view;
 }
 
