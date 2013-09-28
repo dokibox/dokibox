@@ -96,6 +96,7 @@
 		2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
+		2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4674717F5271500FC93C3 /* LibraryViewAlbumRowView.m */; };
 		2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4675B17F740D700FC93C3 /* ProportionalImageView.m */; };
 		6F26196F17E3BC0700B316C9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		6F26197517E3BC0700B316C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F26197317E3BC0700B316C9 /* InfoPlist.strings */; };
@@ -378,6 +379,8 @@
 		2BEC84B8147C602B008102F8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		2BF18DC515A0BBD1000C906E /* PlaylistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistView.h; sourceTree = "<group>"; };
 		2BF18DC615A0BBD1000C906E /* PlaylistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistView.m; sourceTree = "<group>"; };
+		2BF4674617F5271500FC93C3 /* LibraryViewAlbumRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewAlbumRowView.h; sourceTree = "<group>"; };
+		2BF4674717F5271500FC93C3 /* LibraryViewAlbumRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewAlbumRowView.m; sourceTree = "<group>"; };
 		2BF4675A17F740D700FC93C3 /* ProportionalImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProportionalImageView.h; sourceTree = "<group>"; };
 		2BF4675B17F740D700FC93C3 /* ProportionalImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProportionalImageView.m; sourceTree = "<group>"; };
 		6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-coreaudio.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -665,6 +668,8 @@
 				2BCAE0F517F5080500764BC0 /* LibraryViewArtistRowView.m */,
 				2BBEC89616C36AC100160279 /* LibraryViewAlbumCell.h */,
 				2BBEC89716C36AC100160279 /* LibraryViewAlbumCell.m */,
+				2BF4674617F5271500FC93C3 /* LibraryViewAlbumRowView.h */,
+				2BF4674717F5271500FC93C3 /* LibraryViewAlbumRowView.m */,
 				2BBEC89916C44C0800160279 /* LibraryViewTrackCell.h */,
 				2BBEC89A16C44C0900160279 /* LibraryViewTrackCell.m */,
 				2B7611C417C30617008A717D /* LibraryViewSearchView.h */,
@@ -1146,6 +1151,7 @@
 				2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */,
 				2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */,
 				2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */,
+				2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */,
 				2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

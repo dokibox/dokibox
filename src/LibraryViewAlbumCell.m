@@ -8,11 +8,60 @@
 
 #import "LibraryViewAlbumCell.h"
 #import "CoreDataManager.h"
+#import "ProportionalImageView.h"
 
 @implementation LibraryViewAlbumCell
 
 @synthesize album = _album;
 @synthesize searchMatchedObjects = _searchMatchedObjects;
+
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        CGFloat altTextWidth = 70;
+        CGFloat altTextMargin = 10;
+        CGFloat imageSize = 50;
+        
+        CGRect textRect = NSInsetRect([self bounds], 10, 4);
+        
+        CGRect nameTextRect = NSInsetRect(textRect, 0, 12);
+        nameTextRect.origin.x += imageSize + 5;
+        nameTextRect.size.width -= altTextMargin + altTextWidth + imageSize + 5;
+        _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
+        [_nameTextField setDelegate:self];
+        [_nameTextField setEditable:NO];
+        [_nameTextField setBordered:NO];
+        [_nameTextField setBezeled:NO];
+        [_nameTextField setDrawsBackground:NO];
+        [_nameTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:13]];
+        [[_nameTextField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+        [_nameTextField setAutoresizingMask:NSViewWidthSizable];
+        [_nameTextField bind:@"value" toObject:self withKeyPath:@"album.name" options:nil];
+        [self addSubview:_nameTextField];
+        
+        CGRect altTextRect = NSInsetRect(textRect, 0, 15);
+        altTextRect.size.width = altTextWidth;
+        altTextRect.origin.x += textRect.size.width - altTextWidth;
+        _altTextField = [[NSTextField alloc] initWithFrame:altTextRect];
+        [_altTextField setDelegate:self];
+        [_altTextField setEditable:NO];
+        [_altTextField setBordered:NO];
+        [_altTextField setBezeled:NO];
+        [_altTextField setDrawsBackground:NO];
+        [_altTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:10]];
+        [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
+        [_altTextField setAlignment:NSRightTextAlignment];
+        [_altTextField setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:_altTextField];
+        
+        _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect(0, 0, imageSize, imageSize)];
+        [self addSubview:_coverImageView];
+        
+    }
+    
+    return self;
+}
 
 - (LibraryAlbum *)album
 {
@@ -23,8 +72,21 @@
 {
     _album = album;
     
+    // Set alt text
+    NSUInteger trackCount;
+    if([_searchMatchedObjects count] == 0) { // no search being done
+        trackCount = [[[self album] tracks] count];
+    }
+    else {
+        trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
+    }
+    
+    NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
+    [_altTextField setStringValue:str];
+    
     // Load cover
     if([_album isCoverFetched] == false) {
+        [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
         if(_progressIndicator == nil) {
             _progressIndicator = [[NSProgressIndicator alloc] init];
             [_progressIndicator sizeToFit]; // this sets the frame height only
@@ -48,79 +110,21 @@
                 _progressIndicator = nil;
             }
             
-            [self setNeedsDisplay:YES];
+            if([_album cover])
+                [_coverImageView setImage:[_album cover]];
         }];
+    }
+    else {
+        if([_album cover])
+            [_coverImageView setImage:[_album cover]];
+        else
+            [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
     }
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    CGRect b = self.bounds;
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-
-    if(false) {
-        //if(self.selected) {
-        // selected background
-        CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-        CGContextFillRect(ctx, b);
-    } else {
-        CGContextSetRGBFillColor(ctx, .87, .90, .94, 1);
-        CGContextFillRect(ctx, b);
-    }
-
-    CGContextSetShouldSmoothFonts(ctx, YES);
-    CGFloat imagesize = 50;
-    {   // Draw text for name
-        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-        [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:13] forKey:NSFontAttributeName];
-        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:[[self album] name] attributes:attr];
-
-        CGRect textRect = CGRectOffset(b, 10+imagesize, -17);
-        [astr drawInRect:textRect];
-    }
-
-    { // Draw alt text
-        NSImage *nimage = nil;
-        if([_album isCoverFetched]) {
-            nimage = [_album cover];
-            if(nimage == nil) nimage = [LibraryViewAlbumCell placeholderImage];
-        }
-        else {
-            nimage = [LibraryViewAlbumCell placeholderImage];
-        }
-
-        CGContextSaveGState(ctx);
-        CGContextAddRect(ctx, CGRectMake(b.origin.x, b.origin.y, imagesize, imagesize));
-        CGContextClip(ctx);
-        if([nimage size].width < [nimage size].height) { //height larger
-            CGFloat excess = imagesize / [nimage size].width * [nimage size].height - imagesize;
-            [nimage drawInRect:CGRectMake(b.origin.x, b.origin.y - 0.5*excess, imagesize, imagesize + excess) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-        }
-        else { //width larger
-            CGFloat excess = imagesize / [nimage size].height * [nimage size].width - imagesize;
-            [nimage drawInRect:CGRectMake(b.origin.x - 0.5*excess, b.origin.y, imagesize+ excess, imagesize) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-        }
-        CGContextRestoreGState(ctx);
-
-        NSUInteger trackCount;
-        if([_searchMatchedObjects count] == 0) { // no search being done
-            trackCount = [[[self album] tracks] count];
-        }
-        else {
-            trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
-        }
-
-        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
-        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-        [attr setObject:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
-        [attr setObject:[NSColor colorWithDeviceWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
-        NSAttributedString *astr = [[NSAttributedString alloc] initWithString:str attributes:attr];
-
-        NSSize textSize = [astr size];
-        CGRect textRect = CGRectOffset(b, b.size.width - textSize.width - 10, -17);
-        //textRect.size.width -= textRect.origin.x - b.origin.x;
-        [astr drawInRect:textRect];
-    }
+    // Need a drawRect function for subpixel font rendering to work in NSTextField
 }
 
 +(NSImage*)placeholderImage

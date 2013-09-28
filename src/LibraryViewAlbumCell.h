@@ -9,9 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "LibraryAlbum.h"
 
+@class ProportionalImageView;
+
 @interface LibraryViewAlbumCell : NSView {
     LibraryAlbum *_album;
+    
     NSProgressIndicator *_progressIndicator;
+    NSTextField *_nameTextField;
+    NSTextField *_altTextField;
+    ProportionalImageView *_coverImageView;
 }
 
 +(NSImage*)placeholderImage;

@@ -16,6 +16,7 @@
 #import "LibraryViewSearchView.h"
 #import "TableViewRowData.h"
 #import "LibraryViewArtistRowView.h"
+#import "LibraryViewAlbumRowView.h"
 
 @implementation LibraryView
 
@@ -246,15 +247,30 @@
 
 - (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
 {
-    LibraryViewArtistRowView *view = [tableView makeViewWithIdentifier:@"libraryViewArtistRowView" owner:self];
-    
-    if(view == nil) {
-        NSRect frame = NSMakeRect(0, 0, 0, 0);
-        view = [[LibraryViewArtistRowView alloc] initWithFrame:frame];
-        view.identifier = @"libraryViewArtistRowView";
+    NSObject *obj = [_rowData objectAtIndex:row];
+    if([obj isKindOfClass:[LibraryArtist class]]) {
+        LibraryViewArtistRowView *view = [tableView makeViewWithIdentifier:@"libraryViewArtistRowView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, [self tableView:tableView heightOfRow:row]);
+            view = [[LibraryViewArtistRowView alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewArtistRowView";
+        }
+        return view;
     }
-    
-    return view;
+    else if([obj isKindOfClass:[LibraryAlbum class]]) {
+        LibraryViewAlbumRowView *view = [tableView makeViewWithIdentifier:@"libraryViewAlbumRowView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, [self tableView:tableView heightOfRow:row]);
+            view = [[LibraryViewAlbumRowView alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewAlbumRowView";
+        }
+        return view;
+    }
+    else {
+        return nil;
+    }
 }
 
 -(BOOL)isRowExpanded:(NSUInteger)row
