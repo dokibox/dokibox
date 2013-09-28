@@ -202,7 +202,7 @@
         view = [tableView makeViewWithIdentifier:@"libraryViewArtistCell" owner:self];
 
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            NSRect frame = NSMakeRect(0, 0, 200, [self tableView:tableView heightOfRow:row]);
             view = [[LibraryViewArtistCell alloc] initWithFrame:frame];
             view.identifier = @"libraryViewArtistCell";
         }
@@ -214,7 +214,7 @@
         view = [tableView makeViewWithIdentifier:@"libraryViewAlbumCell" owner:self];
 
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            NSRect frame = NSMakeRect(0, 0, 200, [self tableView:tableView heightOfRow:row]);
             view = [[LibraryViewAlbumCell alloc] initWithFrame:frame];
             view.identifier = @"libraryViewAlbumCell";
         }
@@ -226,7 +226,7 @@
         view = [tableView makeViewWithIdentifier:@"libraryViewTrackCell" owner:self];
 
         if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
+            NSRect frame = NSMakeRect(0, 0, 200, [self tableView:tableView heightOfRow:row]);
             view = [[LibraryViewTrackCell alloc] initWithFrame:frame];
             view.identifier = @"libraryViewTrackCell";
         }
