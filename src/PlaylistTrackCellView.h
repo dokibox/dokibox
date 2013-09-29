@@ -11,6 +11,7 @@
 
 @interface PlaylistTrackCellView : NSView {
     PlaylistTrack *_track;
+    NSTextField *_textField;
 }
 
 @property PlaylistTrack* track;

@@ -16,52 +16,47 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+        NSRect textRect = NSInsetRect([self bounds], 7, 1);
+        _textField = [[NSTextField alloc] initWithFrame:textRect];
+        [_textField setEditable:YES];
+        [_textField setBordered:NO];
+        [_textField setBezeled:NO];
+        [_textField setDrawsBackground:NO];
+        [_textField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
+        [_textField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [self addSubview:_textField];
+        
+        [self addObserver:self forKeyPath:@"track" options:NULL context:nil];
     }
 
     return self;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"track"]) {
+        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
+        [attr setObject:[NSFont fontWithName:@"HelveticaNeue" size:12] forKey:NSFontAttributeName];
+        NSAttributedString *trackName = [[NSAttributedString alloc] initWithString:[_track name]];
+        
+        NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
+        [boldattr setObject:[NSFont fontWithName:@"HelveticaNeue-Bold" size:12] forKey:NSFontAttributeName];
+        NSAttributedString *artistName = [[NSAttributedString alloc] initWithString:[_track artistName] attributes:boldattr];
+        
+        NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" " attributes:attr];
+        
+        NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
+        [text appendAttributedString:artistName];
+        [text appendAttributedString:spacing];
+        [text appendAttributedString:trackName];
+        
+        [_textField setAttributedStringValue:text];
+    }
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
-    CGRect b = self.bounds;
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-
-    /*if(false) {
-     // selected background
-     CGContextSetRGBFillColor(ctx, .87, .87, .87, 1);
-     CGContextFillRect(ctx, b);
-    } else {
-     // light gray background
-     CGContextSetRGBFillColor(ctx, .97, .97, .97, 1);
-     CGContextFillRect(ctx, b);
-
-     // emboss
-     CGContextSetRGBFillColor(ctx, 1, 1, 1, 0.9); // light at the top
-     CGContextFillRect(ctx, CGRectMake(0, b.size.height-1, b.size.width, 1));
-     CGContextSetRGBFillColor(ctx, 0, 0, 0, 0.08); // dark at the bottom
-     CGContextFillRect(ctx, CGRectMake(0, 0, b.size.width, 1));
-    }*/
-
-    NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"HelveticaNeue" size:12] forKey:NSFontAttributeName];
-    NSAttributedString *trackName = [[NSAttributedString alloc] initWithString:[_track name]];
-
-    NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
-    [boldattr setObject:[NSFont fontWithName:@"HelveticaNeue-Bold" size:12] forKey:NSFontAttributeName];
-    NSAttributedString *artistName = [[NSAttributedString alloc] initWithString:[_track artistName] attributes:boldattr];
-
-    NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" " attributes:attr];
-
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
-    [text appendAttributedString:artistName];
-    [text appendAttributedString:spacing];
-    [text appendAttributedString:trackName];
-
-    //CGContextSetShouldSmoothFonts(ctx, true);
-    NSSize textSize = [text size];
-    NSPoint textPoint = NSMakePoint(b.origin.x + 10.0, b.origin.y + b.size.height/2.0 - textSize.height/2.0);
-    [text drawAtPoint:textPoint];
+    
 }
 
 @end
