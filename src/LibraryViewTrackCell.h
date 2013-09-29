@@ -12,9 +12,10 @@
 @interface LibraryViewTrackCell : NSView {
     LibraryTrack *_track;
 
+    NSTextField *_nameTextField;
+    NSTextField *_altTextField;
 }
 
 @property() LibraryTrack *track;
-@property(assign) BOOL isEvenRow;
 
 @end

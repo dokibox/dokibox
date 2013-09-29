@@ -17,6 +17,7 @@
 #import "TableViewRowData.h"
 #import "LibraryViewArtistRowView.h"
 #import "LibraryViewAlbumRowView.h"
+#import "LibraryViewTrackRowView.h"
 
 @implementation LibraryView
 
@@ -233,13 +234,6 @@
         }
 
         [((LibraryViewTrackCell *)view) setTrack:(LibraryTrack *)[_rowData objectAtIndex:row]];
-
-        NSInteger albumPosition;
-        for(albumPosition=row; albumPosition >= 0; albumPosition--) {
-            if([[_rowData objectAtIndex:albumPosition] isKindOfClass:[LibraryAlbum class]])
-                break;
-        }
-        [((LibraryViewTrackCell *)view) setIsEvenRow:((row-albumPosition)%2 == 0)];
     }
 
     return view;
@@ -266,6 +260,25 @@
             view = [[LibraryViewAlbumRowView alloc] initWithFrame:frame];
             view.identifier = @"libraryViewAlbumRowView";
         }
+        return view;
+    }
+    else if([obj isKindOfClass:[LibraryTrack class]]) {
+        LibraryViewTrackRowView *view = [tableView makeViewWithIdentifier:@"libraryViewTrackRowView" owner:self];
+        
+        if(view == nil) {
+            NSRect frame = NSMakeRect(0, 0, 0, [self tableView:tableView heightOfRow:row]);
+            view = [[LibraryViewTrackRowView alloc] initWithFrame:frame];
+            view.identifier = @"libraryViewTrackRowView";
+        }
+        
+        // Setting alternating colors
+        NSInteger albumPosition;
+        for(albumPosition=row; albumPosition >= 0; albumPosition--) {
+            if([[_rowData objectAtIndex:albumPosition] isKindOfClass:[LibraryAlbum class]])
+                break;
+        }
+        [((LibraryViewTrackRowView *)view) setIsEvenRow:((row-albumPosition)%2 == 0)];
+        
         return view;
     }
     else {
