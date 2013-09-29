@@ -16,7 +16,7 @@
 
 -(NSSet*)tracksFromSet:(NSSet *)set;
 -(NSImage*)cover;
--(void)fetchCoverAsync:(void (^) ())blockWhenFinished;
+-(void)fetchCoverAsync:(void (^) (LibraryAlbum *album))blockWhenFinished;
 
 -(void)setArtistByName:(NSString *)artistName;
 -(void)pruneDueToTrackBeingDeleted:(LibraryTrack *)track;

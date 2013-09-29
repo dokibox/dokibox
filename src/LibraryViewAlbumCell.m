@@ -101,7 +101,14 @@
             [self addSubview:_progressIndicator];
         }
         
-        [_album fetchCoverAsync:^() {
+        [_album fetchCoverAsync:^(LibraryAlbum *album) {
+            if(album != _album) {
+                // If the album cell view is reused and assigned to another Album while this fetch is running,
+                // _album will have changed by the time the callback block runs. The new _album might not have a
+                // cover loaded as the callback is telling us the old _album now has a cover, so we ignore this callback
+                return;
+            }
+            
             if(_progressIndicator) {
                 [_progressIndicator stopAnimation:self];
                 [_progressIndicator removeFromSuperview];

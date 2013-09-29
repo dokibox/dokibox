@@ -112,10 +112,10 @@
     return _cover;
 }
 
--(void)fetchCoverAsync:(void (^) ())blockWhenFinished
+-(void)fetchCoverAsync:(void (^) (LibraryAlbum *album))blockWhenFinished
 {
     if(_isCoverFetched) {
-        blockWhenFinished();
+        blockWhenFinished(self);
         return;
     }
     
@@ -129,7 +129,7 @@
     dispatch_async(_coverFetchQueue, ^{
         if(_isCoverFetched == YES) { // could have been queued before we had a cover, but now we have it: so no need to fetch
             dispatch_async(calling_q, ^{ // call block on original queue
-                blockWhenFinished();
+                blockWhenFinished(self);
             });
             return;
         }        
@@ -137,11 +137,12 @@
         NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
         LibraryAlbum *album = (LibraryAlbum*)[context objectWithID:self_id];
         NSImage *cover = [album cover];
+
+        _isCoverFetched = YES;
+        _cover = cover;
         
-        dispatch_async(calling_q, ^{ // call block on original queue
-            _isCoverFetched = YES;
-            _cover = cover;
-            blockWhenFinished();
+        dispatch_sync(calling_q, ^{ // call block on original queue
+            blockWhenFinished(self);
         });
     });
 }
