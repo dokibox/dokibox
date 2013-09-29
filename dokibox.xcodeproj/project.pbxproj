@@ -99,6 +99,7 @@
 		2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4674717F5271500FC93C3 /* LibraryViewAlbumRowView.m */; };
 		2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4675B17F740D700FC93C3 /* ProportionalImageView.m */; };
 		2BF4675F17F7A61800FC93C3 /* LibraryViewTrackRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4675E17F7A61800FC93C3 /* LibraryViewTrackRowView.m */; };
+		2BF4676A17F7B7DD00FC93C3 /* LibraryViewAddButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF4676917F7B7DD00FC93C3 /* LibraryViewAddButton.m */; };
 		6F26196F17E3BC0700B316C9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		6F26197517E3BC0700B316C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F26197317E3BC0700B316C9 /* InfoPlist.strings */; };
 		6F26197C17E3C89300B316C9 /* CoreAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F26197B17E3C89300B316C9 /* CoreAudioDecoder.m */; };
@@ -386,6 +387,8 @@
 		2BF4675B17F740D700FC93C3 /* ProportionalImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProportionalImageView.m; sourceTree = "<group>"; };
 		2BF4675D17F7A61800FC93C3 /* LibraryViewTrackRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewTrackRowView.h; sourceTree = "<group>"; };
 		2BF4675E17F7A61800FC93C3 /* LibraryViewTrackRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewTrackRowView.m; sourceTree = "<group>"; };
+		2BF4676817F7B7DC00FC93C3 /* LibraryViewAddButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewAddButton.h; sourceTree = "<group>"; };
+		2BF4676917F7B7DD00FC93C3 /* LibraryViewAddButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewAddButton.m; sourceTree = "<group>"; };
 		6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-coreaudio.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F26197217E3BC0700B316C9 /* dokibox-decoder-coreaudio-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "dokibox-decoder-coreaudio-Info.plist"; sourceTree = "<group>"; };
 		6F26197417E3BC0700B316C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -679,6 +682,8 @@
 				2BF4675E17F7A61800FC93C3 /* LibraryViewTrackRowView.m */,
 				2B7611C417C30617008A717D /* LibraryViewSearchView.h */,
 				2B7611C517C30617008A717D /* LibraryViewSearchView.m */,
+				2BF4676817F7B7DC00FC93C3 /* LibraryViewAddButton.h */,
+				2BF4676917F7B7DD00FC93C3 /* LibraryViewAddButton.m */,
 			);
 			name = "library view";
 			sourceTree = "<group>";
@@ -1159,6 +1164,7 @@
 				2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */,
 				2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */,
 				2BF4675F17F7A61800FC93C3 /* LibraryViewTrackRowView.m in Sources */,
+				2BF4676A17F7B7DD00FC93C3 /* LibraryViewAddButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

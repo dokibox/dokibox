@@ -9,6 +9,7 @@
 #import "LibraryViewArtistCell.h"
 #import "LibraryAlbum.h"
 #import "CoreDataManager.h"
+#import "LibraryViewAddButton.h"
 
 @implementation LibraryViewArtistCell
 
@@ -21,10 +22,9 @@
     if (self) {
         CGFloat altTextWidth = 140;
         CGFloat altTextMargin = 10;
-
+        
         CGRect textRect = NSInsetRect([self bounds], 10, 4);
-        //textRect.size.height -= 4;
-        //CGRect textRect = CGRectOffset(b, 10, -4);
+        textRect.size.width -= 12; // for button
         
         CGRect nameTextRect = textRect;
         nameTextRect.size.width -= altTextMargin + altTextWidth;
@@ -53,6 +53,11 @@
         [_altTextField setAlignment:NSRightTextAlignment];
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_altTextField];
+        
+        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
+        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:addButton];
 
         [self addObserver:self forKeyPath:@"artist" options:NULL context:nil];
     }

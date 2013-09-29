@@ -8,6 +8,7 @@
 
 #import "LibraryViewTrackCell.h"
 #import "CoreDataManager.h"
+#import "LibraryViewAddButton.h"
 
 @implementation LibraryViewTrackCell
 @synthesize track = _track;
@@ -21,6 +22,7 @@
         CGFloat imageSize = 50;
         
         CGRect textRect = NSInsetRect([self bounds], 10, 4);
+        textRect.size.width -= 12; // for button
         
         CGRect nameTextRect = NSInsetRect(textRect, 0, 0);
         nameTextRect.origin.x += imageSize + 5;
@@ -48,6 +50,11 @@
         [_altTextField setAlignment:NSRightTextAlignment];
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_altTextField];
+        
+        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
+        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:addButton];
         
         [self addObserver:self forKeyPath:@"track" options:NULL context:nil];
     }

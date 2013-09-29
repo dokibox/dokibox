@@ -9,6 +9,7 @@
 #import "LibraryViewAlbumCell.h"
 #import "CoreDataManager.h"
 #import "ProportionalImageView.h"
+#import "LibraryViewAddButton.h"
 
 @implementation LibraryViewAlbumCell
 
@@ -24,6 +25,7 @@
         CGFloat imageSize = 50;
         
         CGRect textRect = NSInsetRect([self bounds], 10, 4);
+        textRect.size.width -= 12; // for button
         
         CGRect nameTextRect = NSInsetRect(textRect, 0, 12);
         nameTextRect.origin.x += imageSize + 5;
@@ -53,9 +55,13 @@
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_altTextField];
         
+        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
+        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:addButton];
+        
         _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect(0, 0, imageSize, imageSize)];
         [self addSubview:_coverImageView];
-        
     }
     
     return self;
