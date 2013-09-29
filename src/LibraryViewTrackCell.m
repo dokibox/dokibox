@@ -26,7 +26,6 @@
         nameTextRect.origin.x += imageSize + 5;
         nameTextRect.size.width -= altTextMargin + altTextWidth + imageSize + 5;
         _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
-        [_nameTextField setDelegate:self];
         [_nameTextField setEditable:NO];
         [_nameTextField setBordered:NO];
         [_nameTextField setBezeled:NO];
@@ -40,7 +39,6 @@
         altTextRect.size.width = altTextWidth;
         altTextRect.origin.x += textRect.size.width - altTextWidth;
         _altTextField = [[NSTextField alloc] initWithFrame:altTextRect];
-        [_altTextField setDelegate:self];
         [_altTextField setEditable:NO];
         [_altTextField setBordered:NO];
         [_altTextField setBezeled:NO];
