@@ -7,16 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LibraryArtist.h"
+#import "LibraryViewCell.h"
 
-@interface LibraryViewArtistCell : NSView {
-    LibraryArtist *_artist;
-    
-    NSTextField *_nameTextField;
-    NSTextField *_altTextField;
+@class LibraryArtist;
+
+@interface LibraryViewArtistCell : LibraryViewCell {
 }
 
 @property() LibraryArtist* artist;
-@property(weak) NSSet* searchMatchedObjects;
 
 @end

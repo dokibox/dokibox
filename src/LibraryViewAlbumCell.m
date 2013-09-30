@@ -7,57 +7,34 @@
 //
 
 #import "LibraryViewAlbumCell.h"
-#import "CoreDataManager.h"
 #import "ProportionalImageView.h"
-#import "LibraryViewAddButton.h"
+#import "LibraryAlbum.h"
 
 @implementation LibraryViewAlbumCell
 
 @synthesize album = _album;
-@synthesize searchMatchedObjects = _searchMatchedObjects;
 
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat imageSize = 50;
-        
-        CGRect textRect = NSInsetRect([self bounds], 5, 4);
-        textRect.origin.x += 17; // for button
-        textRect.size.width -= 17; // for button
-        
-        CGRect nameTextRect = NSInsetRect(textRect, 0, 12);
+
+        CGRect nameTextRect = NSInsetRect(_textRect, 0, 12);
         nameTextRect.origin.x += 10;
         nameTextRect.origin.y += 5;
         nameTextRect.size.width -= imageSize - 10;
-        _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
-        [_nameTextField setEditable:NO];
-        [_nameTextField setBordered:NO];
-        [_nameTextField setBezeled:NO];
-        [_nameTextField setDrawsBackground:NO];
+        [_nameTextField setFrame:nameTextRect];
         [_nameTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:13]];
-        [[_nameTextField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
-        [_nameTextField setAutoresizingMask:NSViewWidthSizable];
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"album.name" options:nil];
-        [self addSubview:_nameTextField];
         
         CGRect altTextRect = nameTextRect;
         altTextRect.origin.y -= 16;
-        _altTextField = [[NSTextField alloc] initWithFrame:altTextRect];
-        [_altTextField setEditable:NO];
-        [_altTextField setBordered:NO];
-        [_altTextField setBezeled:NO];
-        [_altTextField setDrawsBackground:NO];
-        [_altTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:10]];
-        [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
+        [_altTextField setFrame: altTextRect];
         [_altTextField setAutoresizingMask:NSViewWidthSizable];
+        [_altTextField setAlignment:NSLeftTextAlignment];
         [self addSubview:_altTextField];
-        
-        CGRect buttonFrame = NSMakeRect(2, NSMidY([self bounds])-10, 20, 20);
-        LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
-        [addButton setAutoresizingMask:NSViewMaxXMargin];
-        [self addSubview:addButton];
-        
+                
         _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect([self bounds].size.width - imageSize, 0, imageSize, imageSize)];
         [_coverImageView setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_coverImageView];
@@ -77,7 +54,7 @@
     
     // Set alt text
     NSUInteger trackCount;
-    if([_searchMatchedObjects count] == 0) { // no search being done
+    if([[self searchMatchedObjects] count] == 0) { // no search being done
         trackCount = [[[self album] tracks] count];
     }
     else {
@@ -130,11 +107,6 @@
         else
             [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
     }
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    // Need a drawRect function for subpixel font rendering to work in NSTextField
 }
 
 +(NSImage*)placeholderImage

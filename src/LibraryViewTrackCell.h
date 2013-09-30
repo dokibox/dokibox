@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LibraryTrack.h"
+#import "LibraryViewCell.h"
 
-@interface LibraryViewTrackCell : NSView {
-    LibraryTrack *_track;
+@class LibraryTrack;
 
-    NSTextField *_nameTextField;
-    NSTextField *_altTextField;
+@interface LibraryViewTrackCell : LibraryViewCell {
 }
 
 @property() LibraryTrack *track;

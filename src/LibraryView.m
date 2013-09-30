@@ -7,6 +7,9 @@
 //
 
 #import "LibraryView.h"
+#import "LibraryArtist.h"
+#import "LibraryAlbum.h"
+#import "LibraryTrack.h"
 #import "LibraryViewArtistCell.h"
 #import "LibraryViewAlbumCell.h"
 #import "LibraryViewTrackCell.h"

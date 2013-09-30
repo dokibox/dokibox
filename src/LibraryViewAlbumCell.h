@@ -7,22 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LibraryAlbum.h"
 
+#import "LibraryViewCell.h"
+
+@class LibraryAlbum;
 @class ProportionalImageView;
 
-@interface LibraryViewAlbumCell : NSView {
+@interface LibraryViewAlbumCell : LibraryViewCell {
     LibraryAlbum *_album;
     
     NSProgressIndicator *_progressIndicator;
-    NSTextField *_nameTextField;
-    NSTextField *_altTextField;
     ProportionalImageView *_coverImageView;
 }
 
 +(NSImage*)placeholderImage;
 
 @property() LibraryAlbum* album;
-@property(weak) NSSet* searchMatchedObjects;
 
 @end
