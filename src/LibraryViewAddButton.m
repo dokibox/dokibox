@@ -11,6 +11,9 @@
 
 @implementation LibraryViewAddButton
 
+@synthesize action = _action;
+@synthesize target = _target;
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = self.bounds;
@@ -41,6 +44,13 @@
     gradientStartColor = [NSColor colorWithDeviceWhite:0.5 alpha:1.0];
     [self CGContextVerticalGradient:b context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
     CGContextRestoreGState(ctx);
+}
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+    if(_target && _action) {
+        [NSApp sendAction:_action to:_target from:self];
+    }
 }
 
 @end

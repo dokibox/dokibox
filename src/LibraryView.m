@@ -10,6 +10,7 @@
 #import "LibraryArtist.h"
 #import "LibraryAlbum.h"
 #import "LibraryTrack.h"
+#import "LibraryViewCell.h"
 #import "LibraryViewArtistCell.h"
 #import "LibraryViewAlbumCell.h"
 #import "LibraryViewTrackCell.h"
@@ -35,7 +36,6 @@
         [_tableView setDataSource:self];
         [_tableView setHeaderView:nil];
         [_tableView setAction:@selector(clickRecieved:)];
-        [_tableView setDoubleAction:@selector(doubleClickReceived:)];
         [_tableView setIntercellSpacing:NSMakeSize(0, 0)];
         
         _rowData = [[TableViewRowData alloc] init];
@@ -194,7 +194,7 @@
 - (NSView *)tableView:(NSTableView *)tableView
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row {
-    NSView *view;
+    LibraryViewCell *view;
     /*if([indexPath row] == 0)
         cell = reusableTableCellOfClass(tableView, LibraryViewArtistCell);
     else if([indexPath row] == 1)
@@ -213,7 +213,6 @@
         }
 
         [((LibraryViewArtistCell *)view) setArtist:(LibraryArtist *)[_rowData objectAtIndex:row]];
-        [((LibraryViewArtistCell *)view) setSearchMatchedObjects:_searchMatchedObjects];
     }
     else if([obj isKindOfClass:[LibraryAlbum class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewAlbumCell" owner:self];
@@ -225,7 +224,6 @@
         }
 
         [((LibraryViewAlbumCell *)view) setAlbum:(LibraryAlbum *)[_rowData objectAtIndex:row]];
-        [((LibraryViewAlbumCell *)view) setSearchMatchedObjects:_searchMatchedObjects];
     }
     else if([obj isKindOfClass:[LibraryTrack class]]) {
         view = [tableView makeViewWithIdentifier:@"libraryViewTrackCell" owner:self];
@@ -238,6 +236,9 @@
 
         [((LibraryViewTrackCell *)view) setTrack:(LibraryTrack *)[_rowData objectAtIndex:row]];
     }
+    
+    [view setSearchMatchedObjects:_searchMatchedObjects];
+    [view setLibraryView:self];
 
     return view;
 }
@@ -317,33 +318,38 @@
         return NO;
 }
 
-- (void)doubleClickReceived:(id)sender
+- (void)addButtonPressed:(id)sender
 {
-    NSTableView *tv = (NSTableView *)sender;
-    NSUInteger row = [tv clickedRow];
-    if(row == -1) return;
-
-    [self expandRow:row recursive:YES];
-
-    NSObject *obj = [_rowData objectAtIndex:row];
-    NSMutableArray *tracks = [[NSMutableArray alloc] init];
-    if([obj isKindOfClass:[LibraryTrack class]]) { // if its a track, only one
-        [tracks addObject:[((LibraryTrack *)obj) filename]];
+    NSMutableArray *clickedObjects = [[NSMutableArray alloc] init];
+    
+    if([sender isKindOfClass:[LibraryViewArtistCell class]]) {
+        LibraryArtist *a = [((LibraryViewArtistCell *)sender) artist];
+        [clickedObjects addObject:a];
+    }
+    else if([sender isKindOfClass:[LibraryViewAlbumCell class]]) {
+        LibraryAlbum *a = [((LibraryViewAlbumCell *)sender) album];
+        [clickedObjects addObject:a];
+    }
+    else if([sender isKindOfClass:[LibraryViewTrackCell class]]) {
+        LibraryTrack *t = [((LibraryViewTrackCell *)sender) track];
+        [clickedObjects addObject:t];
     }
     else {
-        for(NSUInteger i = row + 1; i<[_rowData count]; i++) {
-            NSObject *obj2 = [_rowData objectAtIndex:i];
-            if([obj isKindOfClass:[LibraryAlbum class]] && ([obj2 isKindOfClass:[LibraryAlbum class]] || [obj2 isKindOfClass:[LibraryAlbum class]]))
-                break;
-            if([obj isKindOfClass:[LibraryArtist class]] && [obj2 isKindOfClass:[LibraryArtist class]])
-                break;
+        DDLogError(@"Unrecognized sender in addButtonPressed of LibraryView");
+        return;
+    }
 
-            if([obj2 isKindOfClass:[LibraryTrack class]])
-                [tracks addObject:[((LibraryTrack *)obj2) filename]];
+    [self expandRow:0 recursive:YES onCellData:clickedObjects andMatchedObjects:_searchMatchedObjects];
+        
+    NSMutableArray *trackFilenames = [[NSMutableArray alloc] init];
+    for(id i in clickedObjects) {
+        if([i isKindOfClass:[LibraryTrack class]]) {
+            LibraryTrack *t = (LibraryTrack*)i;
+            [trackFilenames addObject:[t filename]];
         }
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:trackFilenames];
 }
 
 

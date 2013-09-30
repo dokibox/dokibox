@@ -10,4 +10,7 @@
 
 @interface LibraryViewAddButton : NSView
 
+@property(weak) id target;
+@property(assign) SEL action;
+
 @end

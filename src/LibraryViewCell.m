@@ -8,10 +8,12 @@
 
 #import "LibraryViewCell.h"
 #import "LibraryViewAddButton.h"
+#import "LibraryView.h"
 
 @implementation LibraryViewCell
 
 @synthesize searchMatchedObjects = _searchMatchedObjects;
+@synthesize libraryView = _libraryView;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -47,10 +49,22 @@
         CGRect buttonFrame = NSMakeRect(2, NSMidY([self bounds])-10, 20, 20);
         LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
         [addButton setAutoresizingMask:NSViewMaxXMargin];
+        [addButton setTarget:self];
+        [addButton setAction:@selector(addButtonPressed:)];
         [self addSubview:addButton];
     }
     
     return self;
+}
+
+- (void)addButtonPressed:(id)sender
+{
+    if(_libraryView == nil) {
+        DDLogError(@"_libraryView is not set in LibraryViewCell");
+        return;
+    }
+    
+    [_libraryView addButtonPressed:self];
 }
 
 - (void)drawRect:(CGRect)rect

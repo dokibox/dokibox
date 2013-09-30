@@ -31,6 +31,8 @@
 -(void)hideSearch;
 -(void)runSearch:(NSString *)text;
 
+- (void)addButtonPressed:(id)sender;
+
 -(BOOL)isRowExpanded:(NSUInteger)row;
 -(BOOL)isRowExpanded:(NSUInteger)row inCellData:(NSMutableArray*)celldata;
 -(void)collapseRow:(NSUInteger)row;
