@@ -21,8 +21,8 @@
     CGContextSetRGBFillColor(ctx, .87, .90, .94, 1);
     CGContextFillRect(ctx, b);
     
-    // indent everything by the image size
-    CGFloat indent = 50;
+    // indent everything
+    CGFloat indent = 24;
     b = CGRectIntersection(b, CGRectOffset(b, indent, 0));
     
     // draw normal background

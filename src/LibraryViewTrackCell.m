@@ -19,14 +19,14 @@
     if (self) {
         CGFloat altTextWidth = 40;
         CGFloat altTextMargin = 10;
-        CGFloat imageSize = 50;
         
-        CGRect textRect = NSInsetRect([self bounds], 10, 4);
-        textRect.size.width -= 12; // for button
+        CGRect textRect = NSInsetRect([self bounds], 5, 4);
+        textRect.origin.x += 17; // for button
+        textRect.size.width -= 17; // for button
         
         CGRect nameTextRect = NSInsetRect(textRect, 0, 0);
-        nameTextRect.origin.x += imageSize + 5;
-        nameTextRect.size.width -= altTextMargin + altTextWidth + imageSize + 5;
+        nameTextRect.origin.x += 4 + 5;
+        nameTextRect.size.width -= altTextMargin + altTextWidth + 4 + 5;
         _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
         [_nameTextField setEditable:NO];
         [_nameTextField setBordered:NO];
@@ -51,9 +51,9 @@
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_altTextField];
         
-        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        CGRect buttonFrame = NSMakeRect(2, NSMidY([self bounds])-10, 20, 20);
         LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
-        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [addButton setAutoresizingMask:NSViewMaxXMargin];
         [self addSubview:addButton];
         
         [self addObserver:self forKeyPath:@"track" options:NULL context:nil];

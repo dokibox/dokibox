@@ -23,8 +23,9 @@
         CGFloat altTextWidth = 140;
         CGFloat altTextMargin = 10;
         
-        CGRect textRect = NSInsetRect([self bounds], 10, 4);
-        textRect.size.width -= 12; // for button
+        CGRect textRect = NSInsetRect([self bounds], 5, 4);
+        textRect.origin.x += 17; // for button
+        textRect.size.width -= 17; // for button
         
         CGRect nameTextRect = textRect;
         nameTextRect.size.width -= altTextMargin + altTextWidth;
@@ -54,9 +55,9 @@
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_altTextField];
         
-        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        CGRect buttonFrame = NSMakeRect(2, NSMidY([self bounds])-10, 20, 20);
         LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
-        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [addButton setAutoresizingMask:NSViewMaxXMargin];
         [self addSubview:addButton];
 
         [self addObserver:self forKeyPath:@"artist" options:NULL context:nil];

@@ -20,16 +20,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        CGFloat altTextWidth = 70;
-        CGFloat altTextMargin = 10;
         CGFloat imageSize = 50;
         
-        CGRect textRect = NSInsetRect([self bounds], 10, 4);
-        textRect.size.width -= 12; // for button
+        CGRect textRect = NSInsetRect([self bounds], 5, 4);
+        textRect.origin.x += 17; // for button
+        textRect.size.width -= 17; // for button
         
         CGRect nameTextRect = NSInsetRect(textRect, 0, 12);
-        nameTextRect.origin.x += imageSize + 5;
-        nameTextRect.size.width -= altTextMargin + altTextWidth + imageSize + 5;
+        nameTextRect.origin.x += 10;
+        nameTextRect.origin.y += 5;
+        nameTextRect.size.width -= imageSize - 10;
         _nameTextField = [[NSTextField alloc] initWithFrame:nameTextRect];
         [_nameTextField setEditable:NO];
         [_nameTextField setBordered:NO];
@@ -41,9 +41,8 @@
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"album.name" options:nil];
         [self addSubview:_nameTextField];
         
-        CGRect altTextRect = NSInsetRect(textRect, 0, 15);
-        altTextRect.size.width = altTextWidth;
-        altTextRect.origin.x += textRect.size.width - altTextWidth;
+        CGRect altTextRect = nameTextRect;
+        altTextRect.origin.y -= 16;
         _altTextField = [[NSTextField alloc] initWithFrame:altTextRect];
         [_altTextField setEditable:NO];
         [_altTextField setBordered:NO];
@@ -51,16 +50,16 @@
         [_altTextField setDrawsBackground:NO];
         [_altTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:10]];
         [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
-        [_altTextField setAlignment:NSRightTextAlignment];
-        [_altTextField setAutoresizingMask:NSViewMinXMargin];
+        [_altTextField setAutoresizingMask:NSViewWidthSizable];
         [self addSubview:_altTextField];
         
-        CGRect buttonFrame = NSMakeRect([self bounds].size.width-22, NSMidY([self bounds])-10, 20, 20);
+        CGRect buttonFrame = NSMakeRect(2, NSMidY([self bounds])-10, 20, 20);
         LibraryViewAddButton *addButton = [[LibraryViewAddButton alloc] initWithFrame:buttonFrame];
-        [addButton setAutoresizingMask:NSViewMinXMargin];
+        [addButton setAutoresizingMask:NSViewMaxXMargin];
         [self addSubview:addButton];
         
-        _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect(0, 0, imageSize, imageSize)];
+        _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect([self bounds].size.width - imageSize, 0, imageSize, imageSize)];
+        [_coverImageView setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_coverImageView];
     }
     
