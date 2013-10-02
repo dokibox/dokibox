@@ -12,7 +12,7 @@
 
 - (id)initWithLibrary:(Library *)library
 {
-    self = [super init];
+    self = [self initWithNibName:@"LibraryPreferenceViewController" bundle:nil];
     if (self) {
         _library = library;
     }
