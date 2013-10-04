@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# this fucks up hilariously when untracked files are present in gh-pages-src.
+if [ `git symbolic-ref --short HEAD` == "gh-pages-src" ]
+then
+	git branch -D gh-pages
+	git checkout --orphan gh-pages
+	`which coffee` -bc *.coffee
+	`which stylus` -c *.styl
+	git rm -f *.coffee *.styl post-commit
+	git add *.html *.css *.js
+	git commit -m "Update compiled gh-pages."
+	git checkout gh-pages-src
+fi
