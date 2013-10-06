@@ -3,6 +3,7 @@
 # this fucks up hilariously when untracked files are present in gh-pages-src.
 if [ `git symbolic-ref --short HEAD` == "gh-pages-src" ]
 then
+	rm *.js *.css
 	git branch -D gh-pages
 	git checkout --orphan gh-pages
 	`which coffee` -bc *.coffee
