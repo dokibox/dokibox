@@ -16,6 +16,8 @@
     Playlist *_currentPlaylist;
     NSArray *_playlists;
     NSManagedObjectContext *_objectContext;
+    
+    dispatch_queue_t _addingQueue;
 }
 
 - (void)fetchPlaylists;

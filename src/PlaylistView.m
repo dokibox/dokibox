@@ -84,6 +84,8 @@
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
         [_tableView setPasteboardReceiveDraggingEnabled:TRUE];*/
+        
+        _addingQueue = dispatch_queue_create(NULL, NULL);
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
     }
@@ -151,14 +153,29 @@
 
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
 {
+    Playlist *currentPlaylistMainThread = _currentPlaylist;
     NSArray *tracks = [notification object];
-    for (NSString *s in tracks) {
-        if([MusicController isSupportedAudioFile:s]) {
-            PlaylistTrack *t = [PlaylistTrack trackWithFilename:s andPlaylist:_currentPlaylist inContext:_objectContext];
-            [_currentPlaylist addTrack:t];
+    NSManagedObjectID *currentPlaylistID = [_currentPlaylist objectID];
+    
+    dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
+        NSManagedObjectContext *context = [PlaylistCoreDataManager newContext];
+        Playlist *currentPlaylist = (Playlist*)[context objectWithID:currentPlaylistID];
+        
+        for (NSString *s in tracks) {
+            if([MusicController isSupportedAudioFile:s]) {
+                PlaylistTrack *t = [PlaylistTrack trackWithFilename:s andPlaylist:currentPlaylist inContext:context];
+                [currentPlaylist addTrack:t];
+                
+                // Update UI
+                dispatch_async(dispatch_get_main_queue(), ^() {
+                    [_objectContext refreshObject:currentPlaylistMainThread mergeChanges:YES];
+                    if(currentPlaylistMainThread == _currentPlaylist) // selection could have changed, so no point updating if it has
+                        [_trackTableView reloadData];
+                });
+            }
         }
-    }
-    [_trackTableView reloadData];
+    });
+
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
