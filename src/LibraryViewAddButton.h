@@ -8,7 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LibraryViewAddButton : NSView
+@interface LibraryViewAddButton : NSView {
+    BOOL _hover;
+    BOOL _held;
+}
 
 @property(weak) id target;
 @property(assign) SEL action;

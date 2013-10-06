@@ -14,6 +14,45 @@
 @synthesize action = _action;
 @synthesize target = _target;
 
+- (id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if(self) {
+        NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options: NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways | NSTrackingEnabledDuringMouseDrag owner:self userInfo:nil];
+        [self addTrackingArea:trackingArea];
+    }
+    return self;
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+    _held = YES;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+    if(CGRectContainsPoint([self bounds], [self convertPoint:[event locationInWindow] fromView:nil])) {
+        if(_target && _action) {
+            [NSApp sendAction:_action to:_target from:self];
+        }
+    }
+    _held = NO;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseEntered:(NSEvent *)event
+{
+    _hover = YES;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+    _hover = NO;
+    [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = self.bounds;
@@ -25,8 +64,18 @@
     CGContextClip(ctx);
     
     NSColor *gradientStartColor, *gradientEndColor;
-    gradientStartColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
-    gradientEndColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
+    if(_held) {
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.4 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+    }
+    else if(_hover) {
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.6 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    }
+    else {
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
+    }
     [self CGContextVerticalGradient:b context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
     
     CGContextRestoreGState(ctx);
@@ -44,13 +93,6 @@
     gradientStartColor = [NSColor colorWithDeviceWhite:0.5 alpha:1.0];
     [self CGContextVerticalGradient:b context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
     CGContextRestoreGState(ctx);
-}
-
--(void)mouseDown:(NSEvent *)theEvent
-{
-    if(_target && _action) {
-        [NSApp sendAction:_action to:_target from:self];
-    }
 }
 
 @end
