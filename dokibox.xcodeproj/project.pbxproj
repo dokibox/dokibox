@@ -51,6 +51,7 @@
 		2B9DA5001791FE910065DC44 /* PlaylistRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */; };
 		2BA3129D14A3D78C0062E234 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BA3129F14A3D7A20062E234 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129E14A3D7A20062E234 /* AudioUnit.framework */; };
+		2BA73B1F18021051005A340F /* NSObject+SPInvocationGrabbing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA73B1E18021051005A340F /* NSObject+SPInvocationGrabbing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2BAC979015BC595F00FBE907 /* TaglibTagger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */; };
 		2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE22E17E505EF007D610B /* AppDelegate+PreferenceWindow.m */; };
 		2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B5B340417763C9A0093C292 /* LibraryPreferenceViewController.xib */; };
@@ -312,6 +313,8 @@
 		2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistRowView.m; sourceTree = "<group>"; };
 		2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2BA3129E14A3D7A20062E234 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		2BA73B1D18021051005A340F /* NSObject+SPInvocationGrabbing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SPInvocationGrabbing.h"; path = "deps/SPMediaKeyTap/SPInvocationGrabbing/NSObject+SPInvocationGrabbing.h"; sourceTree = SOURCE_ROOT; };
+		2BA73B1E18021051005A340F /* NSObject+SPInvocationGrabbing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SPInvocationGrabbing.m"; path = "deps/SPMediaKeyTap/SPInvocationGrabbing/NSObject+SPInvocationGrabbing.m"; sourceTree = SOURCE_ROOT; };
 		2BAC978B15BC56EA00FBE907 /* TaggerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaggerProtocol.h; sourceTree = "<group>"; };
 		2BAC978C15BC571400FBE907 /* TaglibTagger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaglibTagger.h; sourceTree = "<group>"; };
 		2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TaglibTagger.mm; sourceTree = "<group>"; };
@@ -640,6 +643,8 @@
 				2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */,
 				2B9B27DD17B84E1E005434F2 /* SPMediaKeyTap.h */,
 				2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */,
+				2BA73B1D18021051005A340F /* NSObject+SPInvocationGrabbing.h */,
+				2BA73B1E18021051005A340F /* NSObject+SPInvocationGrabbing.m */,
 				2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */,
 				2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */,
 				2B5DA9701620DDD10057D0D5 /* TitlebarSeekButtonNS.h */,
@@ -1165,6 +1170,7 @@
 				2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */,
 				2B7611C617C30617008A717D /* LibraryViewSearchView.m in Sources */,
 				2BAEE22F17E505EF007D610B /* AppDelegate+PreferenceWindow.m in Sources */,
+				2BA73B1F18021051005A340F /* NSObject+SPInvocationGrabbing.m in Sources */,
 				2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */,
 				2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */,
 				2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */,
