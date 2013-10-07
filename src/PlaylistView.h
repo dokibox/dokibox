@@ -20,6 +20,8 @@
     dispatch_queue_t _addingQueue;
 }
 
+- (void)addTracksToCurrentPlaylist:(NSArray*)filenames;
+- (void)addTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSUInteger)index;
 - (void)fetchPlaylists;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 - (void)doubleClickReceived:(id)sender;

@@ -66,6 +66,7 @@
         _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
+        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObject:@"trackFilenames"]];
         [_trackTableView setHeaderView:nil];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
@@ -151,10 +152,14 @@
     [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:_currentPlaylist]] byExtendingSelection:NO];
 }
 
-- (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
+- (void)addTracksToCurrentPlaylist:(NSArray*)tracks
+{
+    [self addTracksToCurrentPlaylist:tracks atIndex:[[_currentPlaylist tracks] count]];
+}
+
+-(void)addTracksToCurrentPlaylist:(NSArray*)tracks atIndex:(NSUInteger)index
 {
     Playlist *currentPlaylistMainThread = _currentPlaylist;
-    NSArray *tracks = [notification object];
     NSManagedObjectID *currentPlaylistID = [_currentPlaylist objectID];
     
     dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
@@ -175,7 +180,12 @@
             }
         }
     });
+}
 
+- (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
+{
+    NSArray *tracks = [notification object];
+    [self addTracksToCurrentPlaylist:tracks];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
@@ -342,6 +352,27 @@
         DDLogError(@"Unknown table view");
         return 0;
     }
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+{
+    if(tableView == _trackTableView) {
+        NSPasteboard *pboard = [info draggingPasteboard];
+        if([[pboard types] containsObject:@"trackFilenames"]) {
+            return NSDragOperationCopy;
+        }
+    }
+    
+    return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
+{
+    NSPasteboard *pboard = [info draggingPasteboard];
+    NSMutableArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
+    [self addTracksToCurrentPlaylist:arr];
+    
+    return YES;
 }
 
 /*
