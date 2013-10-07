@@ -146,7 +146,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSError *error;
 
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename LIKE %@", file];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename == %@", file];
     [fr setPredicate:predicate];
 
     NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
