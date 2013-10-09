@@ -37,6 +37,12 @@ SHAREDINSTANCE
             [filenameAttribute setAttributeType:NSStringAttributeType];
             [filenameAttribute setOptional:NO];
             [playlistTrackProperties addObject:filenameAttribute];
+            
+            NSAttributeDescription *indexAttribute = [[NSAttributeDescription alloc] init];
+            [indexAttribute setName:@"index"];
+            [indexAttribute setAttributeType:NSInteger32AttributeType];
+            [indexAttribute setOptional:NO];
+            [playlistTrackProperties addObject:indexAttribute];
 
             NSAttributeDescription *nameAttribute = [[NSAttributeDescription alloc] init];
             [nameAttribute setName:@"name"];
@@ -67,7 +73,6 @@ SHAREDINSTANCE
             [playlistRelation setDestinationEntity:playlistEntity];
             [playlistRelation setMaxCount:1];
             [playlistRelation setMinCount:1];
-            //[albumRelation setOptional:NO];
             [playlistTrackProperties addObject:playlistRelation];
 
         }
@@ -90,7 +95,6 @@ SHAREDINSTANCE
             [tracksRelation setName:@"tracks"];
             [tracksRelation setDestinationEntity:playlistTrackEntity];
             [tracksRelation setMinCount:0];
-            [tracksRelation setOrdered:YES];
             [playlistProperties addObject:tracksRelation];
         }
         [playlistEntity setProperties:playlistProperties];

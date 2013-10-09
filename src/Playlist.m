@@ -18,27 +18,65 @@
     return [[self tracks] count];
 }
 
+-(NSArray*)sortedTracks { // maybe cache this for performance?
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sorted = [[self tracks] sortedArrayUsingDescriptors:sortDescriptors];
+    return sorted;
+}
+
 -(NSUInteger)getTrackIndex:(PlaylistTrack *)track {
-    return [[self tracks] indexOfObject:track];
+    return [[self sortedTracks] indexOfObject:track];
 }
 
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index {
-    return [[self tracks] objectAtIndex:index];
+    return [[self sortedTracks] objectAtIndex:index];
 }
 
--(void)removeTrackAtIndex:(NSUInteger)index {
-    [[self tracks] removeObjectAtIndex:index];
-    [self save];
+-(void)removeTrack:(PlaylistTrack *)track
+{
+    [[self managedObjectContext] deleteObject:track];
 }
 
--(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index {
-    [[self tracks] insertObject:track atIndex:index];
-    [self save];
+-(void)removeTrackAtIndex:(NSUInteger)index
+{
+    PlaylistTrack *t = [self trackAtIndex:index];
+    [[self managedObjectContext] deleteObject:t];
 }
 
--(void)addTrack:(PlaylistTrack *)track {
-    [[self tracks] addObject:track];
-    [self save];
+-(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index
+{
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    [self insertTrack:t atIndex:index];
+}
+
+-(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
+{
+    NSAssert(index <= [[self tracks] count], @"Index for Playlist insertTrack:atIndex: out of bound");
+    
+    NSArray *sortedTracks = [self sortedTracks];
+    for(NSUInteger i=0; i<[sortedTracks count]; i++) {
+        PlaylistTrack *t = [sortedTracks objectAtIndex:i];
+        if(i < index)
+            [t setIndex:[NSNumber numberWithInteger:i]];
+        else
+            [t setIndex:[NSNumber numberWithInteger:i+1]]; // +1 to leave a gap
+    }
+    
+    [track setPlaylist:self];
+    [track setIndex:[NSNumber numberWithInteger:index]];
+}
+
+-(void)addTrackWithFilename:(NSString *)filename
+{
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    [self addTrack:t];
+}
+
+-(void)addTrack:(PlaylistTrack *)track
+{
+    [track setPlaylist:self];
+    [track setIndex:[NSNumber numberWithInteger:[[self tracks] count]]];
 }
 
 -(void)save
@@ -65,7 +103,7 @@
 
     if([notification object] != nil) {
         PlaylistTrack *trackJustEnded = [notification object];
-        NSUInteger index = [[self tracks] indexOfObject:trackJustEnded];
+        NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
         if(index != NSNotFound && index != [self numberOfTracks]-1) {
             index += 1;
             [self playTrackAtIndex:index];

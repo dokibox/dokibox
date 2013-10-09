@@ -89,6 +89,8 @@
         _addingQueue = dispatch_queue_create(NULL, NULL);
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaylistSavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     }
     return self;
 }
@@ -154,26 +156,32 @@
 
 - (void)addTracksToCurrentPlaylist:(NSArray*)tracks
 {
-    [self addTracksToCurrentPlaylist:tracks atIndex:[[_currentPlaylist tracks] count]];
+    [self insertTracksToCurrentPlaylist:tracks atIndex:-1];
 }
 
--(void)addTracksToCurrentPlaylist:(NSArray*)tracks atIndex:(NSUInteger)index
+-(void)insertTracksToCurrentPlaylist:(NSArray*)tracks atIndex:(NSInteger)index
 {
     Playlist *currentPlaylistMainThread = _currentPlaylist;
     NSManagedObjectID *currentPlaylistID = [_currentPlaylist objectID];
     
     dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
+        NSInteger block_index = index;
         NSManagedObjectContext *context = [PlaylistCoreDataManager newContext];
         Playlist *currentPlaylist = (Playlist*)[context objectWithID:currentPlaylistID];
         
         for (NSString *s in tracks) {
             if([MusicController isSupportedAudioFile:s]) {
-                PlaylistTrack *t = [PlaylistTrack trackWithFilename:s andPlaylist:currentPlaylist inContext:context];
-                [currentPlaylist addTrack:t];
+                if(block_index < 0) {
+                    [currentPlaylist addTrackWithFilename:s];
+                }
+                else {
+                    [currentPlaylist insertTrackWithFilename:s atIndex:block_index];
+                    block_index = block_index + 1;
+                }
+                [currentPlaylist save];
                 
                 // Update UI
-                dispatch_async(dispatch_get_main_queue(), ^() {
-                    [_objectContext refreshObject:currentPlaylistMainThread mergeChanges:YES];
+                dispatch_sync(dispatch_get_main_queue(), ^() {
                     if(currentPlaylistMainThread == _currentPlaylist) // selection could have changed, so no point updating if it has
                         [_trackTableView reloadData];
                 });
@@ -181,6 +189,17 @@
         }
     });
 }
+
+-(void)receivedPlaylistSavedNotification:(NSNotification *)notification
+{
+    if([PlaylistCoreDataManager contextBelongs:[notification object]] == false) return;
+    if([notification object] == _objectContext) return;
+    
+    dispatch_sync(dispatch_get_main_queue(), ^() {
+        [_objectContext mergeChangesFromContextDidSaveNotification:notification];
+    });
+}
+
 
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
 {
@@ -297,7 +316,7 @@
     id selectedTableView = [[self window] firstResponder];
     if(selectedTableView == _playlistTableView) {
         for(PlaylistTrack *t in [_currentPlaylist tracks])
-            [_objectContext deleteObject:t];
+            [_currentPlaylist removeTrack:t];
         [_objectContext deleteObject:_currentPlaylist];
         [_currentPlaylist save];
         [self fetchPlaylists];
@@ -318,7 +337,7 @@
             index = [indexSet indexGreaterThanIndex:index];
         }
         for (PlaylistTrack *t in arr) {
-            [_objectContext deleteObject:t];
+            [_currentPlaylist removeTrack:t];
         }
         [_currentPlaylist save];
         [_trackTableView reloadData];
@@ -370,7 +389,7 @@
 {
     NSPasteboard *pboard = [info draggingPasteboard];
     NSMutableArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
-    [self addTracksToCurrentPlaylist:arr];
+    [self insertTracksToCurrentPlaylist:arr atIndex:row];
     
     return YES;
 }
