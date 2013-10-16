@@ -66,7 +66,7 @@
         _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
-        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObject:@"trackFilenames"]];
+        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, nil]];
         [_trackTableView setHeaderView:nil];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
@@ -380,6 +380,9 @@
         if([[pboard types] containsObject:@"trackFilenames"]) {
             return NSDragOperationCopy;
         }
+        else if([[pboard types] containsObject:NSFilenamesPboardType]) {
+            return NSDragOperationCopy;
+        }
     }
     
     return NSDragOperationNone;
@@ -388,7 +391,18 @@
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    NSMutableArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
+    NSArray *arr;
+    if([[pboard types] containsObject:@"trackFilenames"]) {
+        arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
+    }
+    else if([[pboard types] containsObject:NSFilenamesPboardType]) {
+        arr = [pboard propertyListForType:NSFilenamesPboardType];
+    }
+    else {
+        DDLogError(@"Unrecognized pasteboard type");
+        return NO;
+    }
+
     [self insertTracksToCurrentPlaylist:arr atIndex:row];
     
     return YES;
