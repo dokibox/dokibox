@@ -384,7 +384,10 @@
             return NSDragOperationCopy;
         }
         else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
-            return NSDragOperationMove;
+            if([[[NSApplication sharedApplication] currentEvent] modifierFlags] & NSAlternateKeyMask)
+                return NSDragOperationCopy;
+            else
+                return NSDragOperationMove;
         }
     }
     
@@ -408,6 +411,7 @@
     
     else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
         arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"playlistTrackIDs"]];
+        NSMutableArray *tracks = [[NSMutableArray alloc] init];
 
         for(NSURL *url in arr) {
             NSManagedObjectID *objectID = [[_objectContext persistentStoreCoordinator] managedObjectIDForURIRepresentation:url];
@@ -416,15 +420,31 @@
             }
             
             PlaylistTrack *t = (PlaylistTrack*)[_objectContext objectWithID:objectID];
-            [_currentPlaylist insertTrack:t atIndex:row];
-            row++;
+            [tracks addObject:t];
         }
         
-        [_currentPlaylist save];
-        [_trackTableView reloadData];
+        if([info draggingSourceOperationMask] & NSDragOperationMove) {
+            for(PlaylistTrack *t in tracks) {
+                [_currentPlaylist insertTrack:t atIndex:row];
+                row++;
+            }
+            
+            [_currentPlaylist save];
+            [_trackTableView reloadData];
+            return YES;
+        }
         
-        
-        return YES;
+        if([info draggingSourceOperationMask] & NSDragOperationCopy) {
+            NSMutableArray *filenames = [[NSMutableArray alloc] init];
+            for(PlaylistTrack *t in tracks) {
+                [filenames addObject:[t filename]];
+            }
+            
+            [self insertTracksToCurrentPlaylist:filenames atIndex:row];
+            return YES;
+        }
+
+        return NO;
     }
     
     
