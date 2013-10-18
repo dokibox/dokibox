@@ -55,12 +55,20 @@
     NSAssert(index <= [[self tracks] count], @"Index for Playlist insertTrack:atIndex: out of bound");
     
     NSArray *sortedTracks = [self sortedTracks];
+    BOOL seenTrackToBeInserted = false;
     for(NSUInteger i=0; i<[sortedTracks count]; i++) {
         PlaylistTrack *t = [sortedTracks objectAtIndex:i];
+        if([t isEqual:track]) {
+            // this allows tracks to be swapped using the insertTrack:atIndex: function
+            // where we don't count the actual track as it will be assigned a new index in the gap
+            seenTrackToBeInserted = true;
+            continue;
+        }
+        
         if(i < index)
-            [t setIndex:[NSNumber numberWithInteger:i]];
+            [t setIndex:[NSNumber numberWithInteger: (seenTrackToBeInserted == false ? i : i-1)]];
         else
-            [t setIndex:[NSNumber numberWithInteger:i+1]]; // +1 to leave a gap
+            [t setIndex:[NSNumber numberWithInteger: (seenTrackToBeInserted == false ? i+1 : i)]]; // +1 to leave a gap
     }
     
     [track setPlaylist:self];

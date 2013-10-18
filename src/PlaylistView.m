@@ -66,7 +66,7 @@
         _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
-        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, nil]];
+        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
         [_trackTableView setHeaderView:nil];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
@@ -383,6 +383,9 @@
         else if([[pboard types] containsObject:NSFilenamesPboardType]) {
             return NSDragOperationCopy;
         }
+        else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
+            return NSDragOperationMove;
+        }
     }
     
     return NSDragOperationNone;
@@ -394,19 +397,62 @@
     NSArray *arr;
     if([[pboard types] containsObject:@"trackFilenames"]) {
         arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
+        [self insertTracksToCurrentPlaylist:arr atIndex:row];
+        return YES;
     }
     else if([[pboard types] containsObject:NSFilenamesPboardType]) {
         arr = [pboard propertyListForType:NSFilenamesPboardType];
+        [self insertTracksToCurrentPlaylist:arr atIndex:row];
+        return YES;
     }
+    
+    else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
+        arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"playlistTrackIDs"]];
+
+        for(NSURL *url in arr) {
+            NSManagedObjectID *objectID = [[_objectContext persistentStoreCoordinator] managedObjectIDForURIRepresentation:url];
+            if(objectID == nil) {
+                continue;
+            }
+            
+            PlaylistTrack *t = (PlaylistTrack*)[_objectContext objectWithID:objectID];
+            [_currentPlaylist insertTrack:t atIndex:row];
+            row++;
+        }
+        
+        [_currentPlaylist save];
+        [_trackTableView reloadData];
+        
+        
+        return YES;
+    }
+    
+    
     else {
         DDLogError(@"Unrecognized pasteboard type");
         return NO;
     }
-
-    [self insertTracksToCurrentPlaylist:arr atIndex:row];
-    
-    return YES;
 }
+
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
+    if(tableView == _trackTableView) {
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        NSUInteger i = [rowIndexes firstIndex];
+        while(i != NSNotFound) {
+            [arr addObject:[[[_currentPlaylist trackAtIndex:i] objectID] URIRepresentation]];
+            i = [rowIndexes indexGreaterThanIndex: i];
+        }
+        
+        NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:arr];
+        [pboard declareTypes:[NSArray arrayWithObject:@"playlistTrackIDs"] owner:self];
+        [pboard setData:archivedData forType:@"playlistTrackIDs"];
+        return YES;
+    }
+    
+    return NO;
+}
+
 
 /*
 -(BOOL)tableView:(TUITableView *)tableView canMoveRowAtIndexPath:(TUIFastIndexPath *)indexPath {
