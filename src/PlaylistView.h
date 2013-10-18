@@ -21,7 +21,10 @@
 }
 
 - (void)addTracksToCurrentPlaylist:(NSArray*)filenames;
+- (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p;
 - (void)insertTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSInteger)index;
+- (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+
 - (void)fetchPlaylists;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 - (void)doubleClickReceived:(id)sender;

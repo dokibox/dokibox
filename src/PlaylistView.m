@@ -38,6 +38,7 @@
         _playlistTableView = [[RBLTableView alloc] initWithFrame: [[playlistScrollView contentView] bounds]];
         [_playlistTableView setDelegate:self];
         [_playlistTableView setDataSource:self];
+        [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
         [_playlistTableView setHeaderView:nil];
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_playlistTableView setAllowsEmptySelection:NO];
@@ -154,35 +155,45 @@
     [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:_currentPlaylist]] byExtendingSelection:NO];
 }
 
-- (void)addTracksToCurrentPlaylist:(NSArray*)tracks
+- (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p
 {
-    [self insertTracksToCurrentPlaylist:tracks atIndex:-1];
+    [self insertTracksToCurrentPlaylist:filenames atIndex:-1];
 }
 
--(void)insertTracksToCurrentPlaylist:(NSArray*)tracks atIndex:(NSInteger)index
+- (void)addTracksToCurrentPlaylist:(NSArray*)filenames
 {
-    Playlist *currentPlaylistMainThread = _currentPlaylist;
-    NSManagedObjectID *currentPlaylistID = [_currentPlaylist objectID];
+    [self addTracks:filenames toPlaylist:_currentPlaylist];
+}
+
+- (void)insertTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSInteger)index
+{
+    [self insertTracks:filenames toPlaylist:_currentPlaylist atIndex:index];
+}
+
+- (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+{
+    Playlist *playlistMainThread = p;
+    NSManagedObjectID *playlistID = [playlistMainThread objectID];
     
     dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
         NSInteger block_index = index;
         NSManagedObjectContext *context = [PlaylistCoreDataManager newContext];
-        Playlist *currentPlaylist = (Playlist*)[context objectWithID:currentPlaylistID];
+        Playlist *playlist = (Playlist*)[context objectWithID:playlistID];
         
-        for (NSString *s in tracks) {
+        for (NSString *s in filenames) {
             if([MusicController isSupportedAudioFile:s]) {
                 if(block_index < 0) {
-                    [currentPlaylist addTrackWithFilename:s];
+                    [playlist addTrackWithFilename:s];
                 }
                 else {
-                    [currentPlaylist insertTrackWithFilename:s atIndex:block_index];
+                    [playlist insertTrackWithFilename:s atIndex:block_index];
                     block_index = block_index + 1;
                 }
-                [currentPlaylist save];
+                [playlist save];
                 
                 // Update UI
                 dispatch_sync(dispatch_get_main_queue(), ^() {
-                    if(currentPlaylistMainThread == _currentPlaylist) // selection could have changed, so no point updating if it has
+                    if(playlistMainThread == _currentPlaylist) // selection could have changed, so no point updating if it has
                         [_trackTableView reloadData];
                 });
             }
@@ -375,7 +386,18 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
-    if(tableView == _trackTableView) {
+    if(tableView == _trackTableView || tableView == _playlistTableView) {
+        if(tableView == _trackTableView) {
+            [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
+        }
+        if(tableView == _playlistTableView) {
+            NSPoint dragPosition = [tableView convertPoint:[info draggingLocation] fromView:nil];
+            row = [tableView rowAtPoint:dragPosition];
+            if(row == -1)
+                return NSDragOperationNone;
+            [tableView setDropRow:row dropOperation:NSTableViewDropOn];
+        }
+        
         NSPasteboard *pboard = [info draggingPasteboard];
         if([[pboard types] containsObject:@"trackFilenames"]) {
             return NSDragOperationCopy;
@@ -398,14 +420,28 @@
 {
     NSPasteboard *pboard = [info draggingPasteboard];
     NSArray *arr;
+    
+    Playlist *p;
+    if(tableView == _playlistTableView) {
+        p = [_playlists objectAtIndex:row];
+        row = [[p tracks] count];
+    }
+    else if(tableView == _trackTableView) {
+        p = _currentPlaylist;
+    }
+    else {
+        DDLogError(@"Unrecognized tableView in acceptDrop:");
+        return NO;
+    }
+    
     if([[pboard types] containsObject:@"trackFilenames"]) {
         arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
-        [self insertTracksToCurrentPlaylist:arr atIndex:row];
+        [self insertTracks:arr toPlaylist:p atIndex:row];
         return YES;
     }
     else if([[pboard types] containsObject:NSFilenamesPboardType]) {
         arr = [pboard propertyListForType:NSFilenamesPboardType];
-        [self insertTracksToCurrentPlaylist:arr atIndex:row];
+        [self insertTracks:arr toPlaylist:p atIndex:row];
         return YES;
     }
     
@@ -425,11 +461,11 @@
         
         if([info draggingSourceOperationMask] & NSDragOperationMove) {
             for(PlaylistTrack *t in tracks) {
-                [_currentPlaylist insertTrack:t atIndex:row];
+                [p insertTrack:t atIndex:row];
                 row++;
             }
             
-            [_currentPlaylist save];
+            [p save];
             [_trackTableView reloadData];
             return YES;
         }
@@ -439,8 +475,8 @@
             for(PlaylistTrack *t in tracks) {
                 [filenames addObject:[t filename]];
             }
-            
-            [self insertTracksToCurrentPlaylist:filenames atIndex:row];
+
+            [self insertTracks:filenames toPlaylist:p atIndex:row];
             return YES;
         }
 
