@@ -11,6 +11,7 @@
 
 @class LibraryView;
 @class TitlebarButtonNS;
+@class Library;
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
@@ -24,6 +25,8 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
     NSTrackingArea *_dividerTrackingArea;
     BOOL _dividerBeingDragged;
 }
+
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
 
 -(NSRect)playlistViewFrame;
 -(NSRect)libraryViewFrame;

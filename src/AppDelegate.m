@@ -47,7 +47,7 @@
     [titlebarView initSubviews];
 
     b.size.height = [_window contentViewHeight];
-    WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b];
+    WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b andLibrary:_library];
     [_window setContentView:wcv];
 
     [_window makeKeyAndOrderFront:nil];

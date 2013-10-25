@@ -9,12 +9,15 @@
 #import "Playlist.h"
 #import "RBLTableView.h"
 
+@class PlaylistCoreDataManager;
+
 @interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
     RBLTableView *_trackTableView;
     RBLTableView *_playlistTableView;
     Playlist *_currentPlaylist;
     NSArray *_playlists;
+    PlaylistCoreDataManager *_playlistCoreDataManger;
     NSManagedObjectContext *_objectContext;
     
     dispatch_queue_t _addingQueue;

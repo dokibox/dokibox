@@ -10,6 +10,4 @@
 
 @interface PlaylistCoreDataManager : CoreDataManager
 
--(NSManagedObjectModel*)model;
-
 @end

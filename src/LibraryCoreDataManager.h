@@ -10,6 +10,4 @@
 
 @interface LibraryCoreDataManager : CoreDataManager
 
--(NSManagedObjectModel*)model;
-
 @end

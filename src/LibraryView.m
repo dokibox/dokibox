@@ -22,10 +22,12 @@
 #import "LibraryViewArtistRowView.h"
 #import "LibraryViewAlbumRowView.h"
 #import "LibraryViewTrackRowView.h"
+#import "NSManagedObjectContext+Helpers.h"
+#import "Library.h"
 
 @implementation LibraryView
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library
 {
     if((self = [super initWithFrame:frame])) {
         _libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
@@ -51,7 +53,8 @@
         [_libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [self addSubview:_libraryScrollView];
 
-        _objectContext = [LibraryCoreDataManager newContext];
+        _library = library;
+        _objectContext = [[_library coreDataManager] newContext];
 
         _searchQueue = dispatch_queue_create("com.uguu.dokibox.LibraryView.search", NULL);
         _searchQueueDepth = 0;
@@ -146,7 +149,7 @@
 
 -(void)receivedLibrarySavedNotification:(NSNotification *)notification
 {
-    if([LibraryCoreDataManager contextBelongs:[notification object]] == false) return;
+    if([_objectContext belongsToSameStoreAs:[notification object]] == false) return;
 
     NSMutableDictionary *changes = [NSMutableDictionary dictionary];
     NSArray *keys = [[notification userInfo] allKeys];
@@ -517,7 +520,7 @@
             return;
         }
         
-        NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
+        NSManagedObjectContext *context = [[_library coreDataManager] newContext];
         NSMutableArray *newCellData = [[NSMutableArray alloc] init];
         NSMutableSet *newSearchMatchedObjects = [[NSMutableSet alloc] init];
         

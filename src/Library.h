@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "common.h"
 
+@class LibraryCoreDataManager;
+
 @interface Library : NSObject {
     dispatch_queue_t _dispatchQueue;
     NSManagedObjectContext *_objectContext;
@@ -28,6 +30,6 @@
 -(void)removeAll:(NSString *)entityName;
 
 @property(readonly) NSUserDefaults* userDefaults;
-
+@property(readonly) LibraryCoreDataManager* coreDataManager;
 
 @end

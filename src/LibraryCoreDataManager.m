@@ -11,11 +11,9 @@
 
 @implementation LibraryCoreDataManager
 
-SHAREDINSTANCE
-
 -(id)init
 {
-    if(self = [super initWithFilename:@"library.sql" andModel:[self model]]) {
+    if(self = [super initWithFilename:@"library.sql"]) {
     }
     return self;
 }

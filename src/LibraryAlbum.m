@@ -10,6 +10,7 @@
 #import "LibraryArtist.h"
 #import "LibraryTrack.h"
 #import "LibraryCoreDataManager.h"
+#import "NSManagedObjectContext+Helpers.h"
 
 @implementation LibraryAlbum
 @dynamic name;
@@ -134,7 +135,7 @@
             return;
         }        
         
-        NSManagedObjectContext *context = [LibraryCoreDataManager newContext];
+        NSManagedObjectContext *context = [[self managedObjectContext] newContext];
         LibraryAlbum *album = (LibraryAlbum*)[context objectWithID:self_id];
         NSImage *cover = [album cover];
 

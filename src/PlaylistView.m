@@ -16,6 +16,7 @@
 #import "PlaylistCellView.h"
 #import "PlaylistRowView.h"
 #import "NSView+CGDrawing.h"
+#import "NSManagedObjectContext+Helpers.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -27,7 +28,8 @@
     if((self = [super initWithFrame:frame])) {
 
         // Fetch stuff
-        _objectContext = [PlaylistCoreDataManager newContext];
+        _playlistCoreDataManger = [[PlaylistCoreDataManager alloc] init];
+        _objectContext = [_playlistCoreDataManger newContext];
         [self fetchPlaylists];
 
         // Playlist table view
@@ -177,7 +179,7 @@
     
     dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
         NSInteger block_index = index;
-        NSManagedObjectContext *context = [PlaylistCoreDataManager newContext];
+        NSManagedObjectContext *context = [_playlistCoreDataManger newContext];
         Playlist *playlist = (Playlist*)[context objectWithID:playlistID];
         
         for (NSString *s in filenames) {
@@ -203,8 +205,8 @@
 
 -(void)receivedPlaylistSavedNotification:(NSNotification *)notification
 {
-    if([PlaylistCoreDataManager contextBelongs:[notification object]] == false) return;
-    if([notification object] == _objectContext) return;
+    if([_objectContext belongsToSameStoreAs:[notification object]] == false) return; // only do it for playlists
+    if([notification object] == _objectContext) return; // protect from self-loop
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         [_objectContext mergeChangesFromContextDidSaveNotification:notification];

@@ -12,6 +12,7 @@
 @class RBLScrollView;
 @class LibraryViewSearchView;
 @class TableViewRowData;
+@class Library;
 
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
     RBLTableView *_tableView;
@@ -20,12 +21,15 @@
     
     TableViewRowData *_rowData;
     
+    Library *_library;
     NSManagedObjectContext *_objectContext;
     NSMutableSet *_searchMatchedObjects;
     
     dispatch_queue_t _searchQueue;
     int _searchQueueDepth;
 }
+
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
 
 -(void)showSearch;
 -(void)hideSearch;

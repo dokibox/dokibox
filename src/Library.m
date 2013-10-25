@@ -85,6 +85,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 @implementation Library
 
 @synthesize userDefaults = _userDefaults;
+@synthesize coreDataManager = _coreDataManager;
 
 -(id)init
 {
@@ -92,9 +93,11 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         _dispatchQueue = dispatch_queue_create("fb2k.library", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t lowPriorityQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
         dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
+        
+        _coreDataManager = [[LibraryCoreDataManager alloc] init];
 
         dispatch_async(_dispatchQueue, ^{
-            _objectContext = [LibraryCoreDataManager newContext];
+            _objectContext = [_coreDataManager newContext];
         });
 
         _userDefaults = [NSUserDefaults standardUserDefaults];

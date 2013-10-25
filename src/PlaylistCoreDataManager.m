@@ -10,11 +10,9 @@
 
 @implementation PlaylistCoreDataManager
 
-SHAREDINSTANCE
-
 -(id)init
 {
-    if(self = [super initWithFilename:@"playlists.sql" andModel:[self model]]) {
+    if(self = [super initWithFilename:@"playlists.sql"]) {
     }
     return self;
 }

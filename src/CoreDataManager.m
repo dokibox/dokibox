@@ -12,26 +12,12 @@
 
 @synthesize persistanceCoordinator = _persistanceCoordinator;
 
-+(CoreDataManager *)sharedInstance
-{
-    DDLogError(@"Singleton creation method should only be run from subclasses");
-    return nil;
-}
-
-+(NSManagedObjectContext *)newContext
-{
-    CoreDataManager *cdm = [[self class] sharedInstance];
-    NSManagedObjectContext *context;
-    context = [[NSManagedObjectContext alloc] init];
-    [context setPersistentStoreCoordinator:[cdm persistanceCoordinator]];
-    return context;
-}
-
--(id)initWithFilename:(NSString *)filename andModel:(NSManagedObjectModel *)model
+-(id)initWithFilename:(NSString *)filename
 {
     if(self = [super init]) {
         NSError *error;
 
+        NSManagedObjectModel *model = [self model];
         _persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
 
         /* Create directory if it doesn't exist */
@@ -45,15 +31,25 @@
             DDLogError(@"Error creating Application Support folder at: %@", path);
         };
 
-        NSPersistentStore *persistanceStore __unused = [_persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:filename]] options:nil error:&error];
+        NSPersistentStore *persistanceStore = [_persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:filename]] options:nil error:&error];
+        if(persistanceStore == nil) {
+            DDLogError(@"Error loading persistance store at %@", [path stringByAppendingPathComponent:filename]);
+        }
     }
     return self;
 }
 
-+(BOOL)contextBelongs:(NSManagedObjectContext*)context
+-(NSManagedObjectModel*)model
 {
-    CoreDataManager *cdm = [[self class] sharedInstance];
-    return ([context persistentStoreCoordinator] == [cdm persistanceCoordinator]);
+    DDLogError(@"CoreDataManager model should be overidden and never called");
+    return nil;
+}
+
+-(NSManagedObjectContext*)newContext
+{
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
+    [context setPersistentStoreCoordinator:[self persistanceCoordinator]];
+    return context;
 }
 
 @end
