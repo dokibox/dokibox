@@ -35,6 +35,8 @@
 		2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B72D79816F1638E00324194 /* Lumberjack.framework */; };
 		2B7611C617C30617008A717D /* LibraryViewSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7611C517C30617008A717D /* LibraryViewSearchView.m */; };
 		2B7C00A7181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00A6181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m */; };
+		2B7C00AE18202F7100E2AC90 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */; };
+		2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
@@ -290,6 +292,9 @@
 		2B7611C517C30617008A717D /* LibraryViewSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewSearchView.m; sourceTree = "<group>"; };
 		2B7C00A5181A18B000E2AC90 /* NSManagedObjectContext+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Helpers.h"; sourceTree = "<group>"; };
 		2B7C00A6181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Helpers.m"; sourceTree = "<group>"; };
+		2B7C00AB18202F7100E2AC90 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
@@ -707,6 +712,9 @@
 			children = (
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2B7C00AB18202F7100E2AC90 /* ProfileViewController.h */,
+				2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */,
+				2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */,
 				2B65ED1916C7447500DD327D /* CoreDataManager.h */,
 				2B65ED1A16C7447500DD327D /* CoreDataManager.m */,
 				2B15BF7D146127A100DC46CD /* MainMenu.xib */,
@@ -1080,6 +1088,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */,
 				2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */,
 				2B15BF79146127A100DC46CD /* Credits.rtf in Resources */,
 				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
@@ -1162,6 +1171,7 @@
 				2B7C00A7181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m in Sources */,
 				2B65ED2516C8906900DD327D /* LibraryArtist.m in Sources */,
 				2B65ED2816C8907200DD327D /* LibraryAlbum.m in Sources */,
+				2B7C00AE18202F7100E2AC90 /* ProfileViewController.m in Sources */,
 				2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */,
 				2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */,
 				2B82B25F1780EDB700E1EA0B /* LibraryCoreDataManager.m in Sources */,

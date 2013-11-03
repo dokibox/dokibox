@@ -12,6 +12,7 @@
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
 #import "WindowContentView.h"
+#import "ProfileViewController.h"
 
 
 @implementation AppDelegate
@@ -21,10 +22,26 @@
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     DDLogVerbose(@"DD Logger ready");
+    
+    if([NSEvent modifierFlags] & NSAlternateKeyMask) {
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,409,300) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+        [window center];
+        ProfileViewController *profileViewController = [[ProfileViewController alloc] initWithNibName:@"ProfileViewController" bundle:[NSBundle mainBundle]];
+        [window setContentView:[profileViewController view]];
+        NSInteger retval = [[NSApplication sharedApplication] runModalForWindow:window];
+        [window setReleasedWhenClosed:NO]; // let ARC handle
+        [window close];
+        
+        NSLog(@"%d", retval);
+    }
+    
+    [self launch];
+}
 
+-(void)launch {
     PluginManager *pluginManager = [PluginManager sharedInstance];
     [pluginManager loadAll];
-
+    
     NSString *defaultPrefsFile = [[NSBundle mainBundle] pathForResource:@"defaultPrefs" ofType:@"plist"];
     NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:defaultPrefsFile];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];

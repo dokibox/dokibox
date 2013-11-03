@@ -20,6 +20,7 @@
     NSWindowController *_preferencesWindowController;
 }
 
+-(void)launch;
 -(IBAction)performFindPanelAction:(id)sender;
 
 @end
