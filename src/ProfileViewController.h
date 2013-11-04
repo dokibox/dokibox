@@ -8,8 +8,23 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ProfileViewController : NSViewController
+@class ProfileController;
 
--(IBAction)openButtonPushed:(id)sender;
+@interface ProfileViewController : NSViewController {
+    ProfileController *_profileController;
+    IBOutlet NSTableView *_tableView;
+    
+    
+    IBOutlet NSView *_addSheetView;
+    NSPanel *_addSheet;
+}
+
+- (id)initWithProfileController:(ProfileController *)pc;
+
+-(IBAction)openButtonPressed:(id)sender;
+-(IBAction)addOrRemoveButtonPressed:(id)sender;
+-(IBAction)addSheetButtonPressed:(id)sender;
+
+@property() NSString *addName;
 
 @end

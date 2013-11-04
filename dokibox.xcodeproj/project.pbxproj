@@ -37,6 +37,7 @@
 		2B7C00A7181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00A6181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m */; };
 		2B7C00AE18202F7100E2AC90 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */; };
 		2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */; };
+		2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00B1182731C200E2AC90 /* ProfileController.m */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
@@ -295,6 +296,8 @@
 		2B7C00AB18202F7100E2AC90 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		2B7C00B0182731C200E2AC90 /* ProfileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileController.h; sourceTree = "<group>"; };
+		2B7C00B1182731C200E2AC90 /* ProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileController.m; sourceTree = "<group>"; };
 		2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
@@ -712,6 +715,8 @@
 			children = (
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2B7C00B0182731C200E2AC90 /* ProfileController.h */,
+				2B7C00B1182731C200E2AC90 /* ProfileController.m */,
 				2B7C00AB18202F7100E2AC90 /* ProfileViewController.h */,
 				2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */,
 				2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */,
@@ -1157,6 +1162,7 @@
 				2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */,
 				2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */,
 				2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */,
+				2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */,
 				2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */,
 				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
 				2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */,
