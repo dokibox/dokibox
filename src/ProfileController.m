@@ -44,9 +44,21 @@
     
     NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:_profiles];
     [arr addObject:dict];
-    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"libraryProfiles"];
-    _profiles = [[NSUserDefaults standardUserDefaults] arrayForKey:@"libraryProfiles"];
+    _profiles = [[NSArray alloc] initWithArray:arr];
+    [self synchronize];
+}
 
+-(void)removeProfileAtIndex:(NSUInteger)index
+{
+    NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:_profiles];
+    [arr removeObjectAtIndex:index];
+    _profiles = [[NSArray alloc] initWithArray:arr];
+    [self synchronize];
+}
+
+-(void)synchronize
+{
+    [[NSUserDefaults standardUserDefaults] setObject:_profiles forKey:@"libraryProfiles"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

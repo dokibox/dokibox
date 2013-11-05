@@ -36,6 +36,10 @@
         [NSApp beginSheet:_addSheet modalForWindow:w modalDelegate:nil didEndSelector:nil contextInfo:nil];
     }
     else if([sender selectedSegment] == 1) { //remove
+        if([_tableView selectedRow] != -1) {
+            [_profileController removeProfileAtIndex:[_tableView selectedRow]];
+            [_tableView reloadData];
+        }
     }
     
     [sender setSelectedSegment:-1]; // deselect the segmented control

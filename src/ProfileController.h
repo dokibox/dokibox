@@ -16,5 +16,7 @@
 -(NSDictionary*)profileAtIndex:(NSUInteger)index;
 
 -(void)addProfile:(NSString *)name;
+-(void)removeProfileAtIndex:(NSUInteger)index;
+-(void)synchronize;
 
 @end
