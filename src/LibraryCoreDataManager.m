@@ -26,6 +26,7 @@
     NSEntityDescription *trackEntity = [[NSEntityDescription alloc] init];
     NSEntityDescription *albumEntity = [[NSEntityDescription alloc] init];
     NSEntityDescription *artistEntity = [[NSEntityDescription alloc] init];
+    NSEntityDescription *folderEntity = [[NSEntityDescription alloc] init];
 
     { // Track
         [trackEntity setName:@"track"];
@@ -125,6 +126,28 @@
         }
         [artistEntity setProperties:artistProperties];
         [entities addObject:artistEntity];
+    }
+    
+    { // Folder
+        [folderEntity setName:@"folder"];
+        [folderEntity setManagedObjectClassName:@"LibraryFolder"];
+        NSMutableArray *folderProperties = [[NSMutableArray alloc] init];
+        { // folderEntity properties
+            NSAttributeDescription *pathAttribute = [[NSAttributeDescription alloc] init];
+            [pathAttribute setName:@"path"];
+            [pathAttribute setAttributeType:NSStringAttributeType];
+            [pathAttribute setOptional:NO];
+            [folderProperties addObject:pathAttribute];
+            
+            NSAttributeDescription *lastEventIDAttribute = [[NSAttributeDescription alloc] init];
+            [lastEventIDAttribute setName:@"lastEventID"];
+            [lastEventIDAttribute setAttributeType:NSInteger64AttributeType];
+            [lastEventIDAttribute setOptional:NO];
+            [folderProperties addObject:lastEventIDAttribute];
+        }
+        
+        [folderEntity setProperties:folderProperties];
+        [entities addObject:folderEntity];
     }
 
     [[[artistEntity relationshipsByName] objectForKey:@"albums"] setInverseRelationship:[[albumEntity relationshipsByName] objectForKey:@"artist"]];

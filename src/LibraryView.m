@@ -10,6 +10,7 @@
 #import "LibraryArtist.h"
 #import "LibraryAlbum.h"
 #import "LibraryTrack.h"
+#import "LibraryFolder.h"
 #import "LibraryViewCell.h"
 #import "LibraryViewArtistCell.h"
 #import "LibraryViewAlbumCell.h"
@@ -81,6 +82,10 @@
 
     for(NSMutableDictionary *dict in [changes objectForKey:NSInsertedObjectsKey]) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
+        
+        if([m isKindOfClass:[LibraryFolder class]])
+            continue;
+        
         NSString *name = [m valueForKey:@"name"];
         NSLog(@"inserting %@", name);
 
@@ -165,10 +170,14 @@
         [changes setObject:arr forKey:key];
     }
 
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    void (^block)() = ^{
         [_objectContext mergeChangesFromContextDidSaveNotification:notification];
         [self receivedLibrarySavedNotificationWithChanges:changes];
-    });
+    };
+    if(dispatch_get_current_queue() == dispatch_get_main_queue())
+        block();
+    else
+        dispatch_sync(dispatch_get_main_queue(), block);
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row

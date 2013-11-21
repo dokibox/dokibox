@@ -12,10 +12,11 @@
 
 @interface LibraryPreferenceViewController : NSViewController {
     Library *_library;
+    IBOutlet NSTableView *_tableView;
 }
 
 - (id)initWithLibrary:(Library *)library;
 
-- (IBAction)locationBrowseButtonAction:(id)sender;
+- (IBAction)addRemoveButtonAction:(id)sender;
 
 @end

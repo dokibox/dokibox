@@ -38,6 +38,7 @@
 		2B7C00AE18202F7100E2AC90 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00AC18202F7100E2AC90 /* ProfileViewController.m */; };
 		2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */; };
 		2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00B1182731C200E2AC90 /* ProfileController.m */; };
+		2B7C00BB1828A93A00E2AC90 /* LibraryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00BA1828A93A00E2AC90 /* LibraryFolder.m */; };
 		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
@@ -298,6 +299,8 @@
 		2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		2B7C00B0182731C200E2AC90 /* ProfileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileController.h; sourceTree = "<group>"; };
 		2B7C00B1182731C200E2AC90 /* ProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileController.m; sourceTree = "<group>"; };
+		2B7C00B91828A93A00E2AC90 /* LibraryFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryFolder.h; sourceTree = "<group>"; };
+		2B7C00BA1828A93A00E2AC90 /* LibraryFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryFolder.m; sourceTree = "<group>"; };
 		2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
@@ -679,6 +682,8 @@
 				2B65ED1D16C8381900DD327D /* LibraryTrack.m */,
 				2B82B25D1780EDB700E1EA0B /* LibraryCoreDataManager.h */,
 				2B82B25E1780EDB700E1EA0B /* LibraryCoreDataManager.m */,
+				2B7C00B91828A93A00E2AC90 /* LibraryFolder.h */,
+				2B7C00BA1828A93A00E2AC90 /* LibraryFolder.m */,
 			);
 			name = "library backend";
 			sourceTree = "<group>";
@@ -1151,6 +1156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B7C00BB1828A93A00E2AC90 /* LibraryFolder.m in Sources */,
 				2B15BF75146127A100DC46CD /* main.m in Sources */,
 				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,
 				2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */,

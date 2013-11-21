@@ -8,6 +8,7 @@
 
 #import "Library.h"
 #import "LibraryTrack.h"
+#import "LibraryFolder.h"
 #import "LibraryCoreDataManager.h"
 #import <CoreServices/CoreServices.h>
 
@@ -95,15 +96,52 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
         
         _coreDataManager = [[LibraryCoreDataManager alloc] init];
+        _mainObjectContext = [_coreDataManager newContext];
 
         dispatch_async(_dispatchQueue, ^{
-            _objectContext = [_coreDataManager newContext];
+            _queueObjectContext = [_coreDataManager newContext];
         });
 
         _userDefaults = [NSUserDefaults standardUserDefaults];
     }
     return self;
 }
+
+#pragma mark Manipulating monitored folders list
+
+-(NSUInteger)numberOfFolders
+{
+    return [[self folders] count];
+}
+
+-(LibraryFolder *)folderAtIndex:(NSUInteger)index
+{
+    return [[self folders] objectAtIndex:index];
+}
+
+-(NSArray *)folders
+{
+    NSError *error;
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"folder"];
+    NSArray *arr = [_mainObjectContext executeFetchRequest:fr error:&error];
+    if(arr == nil) {
+        DDLogError(@"Error executing fetch request");
+        return nil;
+    }
+    
+    return arr;
+}
+
+-(void)addFolderWithPath:(NSString *)path
+{
+    NSError *err;
+    
+    LibraryFolder *folder = [NSEntityDescription insertNewObjectForEntityForName:@"folder" inManagedObjectContext:_mainObjectContext];
+    [folder setPath:path];
+    [folder setLastEventID:[NSNumber numberWithLongLong:0]];
+    [_mainObjectContext save:&err];
+}
+
 
 -(void)searchDirectory:(NSString*)dir
 {
@@ -152,7 +190,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename == %@", file];
     [fr setPredicate:predicate];
 
-    NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+    NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
     }
@@ -184,7 +222,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         DDLogVerbose(@"Adding file: %@", file);
         isNew = true;
 
-        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:_objectContext];
+        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:_queueObjectContext];
         [t setFilename:file];
     }
     else { //already exists in library
@@ -195,7 +233,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     if([t attributes] == nil) { // perhaps IO error
         DDLogWarn(@"Skipping %@... wasn't able to load tags", file);
         if(isNew == true) { //delete if new
-            [_objectContext deleteObject:t];
+            [_queueObjectContext deleteObject:t];
         }
         return;
     }
@@ -208,7 +246,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     [t setTrackNumber:[numberFormatter numberFromString:[[t attributes] objectForKey:@"TRACKNUMBER"]]];
     [t setLength:[[t attributes] objectForKey:@"length"]];
 
-    if([_objectContext save:&error] == NO) {
+    if([_queueObjectContext save:&error] == NO) {
         NSLog(@"error saving");
         NSLog(@"%@", [error localizedDescription]);
         for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
@@ -232,7 +270,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename BEGINSWITH %@", dir];
     [fr setPredicate:predicate];
 
-    NSArray *results = [_objectContext executeFetchRequest:fr error:&error];
+    NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
         return;
@@ -257,8 +295,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
     if(t) {
         DDLogVerbose(@"Deleting file: %@", file);
-        [_objectContext deleteObject:t];
-        if([_objectContext save:&error] == NO) {
+        [_queueObjectContext deleteObject:t];
+        if([_queueObjectContext save:&error] == NO) {
             NSLog(@"error saving");
             NSLog(@"%@", [error localizedDescription]);
             for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
@@ -319,17 +357,17 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         NSError *error;
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:entityName];
         [fr setIncludesPropertyValues:NO];
-        NSArray *arr = [_objectContext executeFetchRequest:fr error:&error];
+        NSArray *arr = [_queueObjectContext executeFetchRequest:fr error:&error];
         if(arr == nil) {
             DDLogError(@"Error executing fetch request");
             return;
         }
 
         for(NSManagedObject *obj in arr) {
-            [_objectContext deleteObject:obj];
+            [_queueObjectContext deleteObject:obj];
         }
 
-        if([_objectContext save:&error] == NO) {
+        if([_queueObjectContext save:&error] == NO) {
             DDLogError(@"error saving");
             DDLogError(@"%@", [error localizedDescription]);
             for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {

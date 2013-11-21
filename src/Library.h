@@ -10,13 +10,20 @@
 #import "common.h"
 
 @class LibraryCoreDataManager;
+@class LibraryFolder;
 
 @interface Library : NSObject {
     dispatch_queue_t _dispatchQueue;
-    NSManagedObjectContext *_objectContext;
+    NSManagedObjectContext *_queueObjectContext;
+    NSManagedObjectContext *_mainObjectContext;
     NSUserDefaults *_userDefaults;
     FSEventStreamRef _fsEventStream;
 }
+
+-(NSUInteger)numberOfFolders;
+-(LibraryFolder *)folderAtIndex:(NSUInteger)index;
+-(NSArray *)folders;
+-(void)addFolderWithPath:(NSString *)path;
 
 -(LibraryTrack *)trackFromFile:(NSString *)file;
 -(void)addFileOrUpdate:(NSString*)file;
