@@ -3,7 +3,8 @@
 START=`pwd`
 PREFIX=`pwd`/prefix
 DEPS=`pwd`/deps
-PATH=$PREFIX/bin:$PATH
+export PATH=$PREFIX/bin:$PATH
+export DYLD_FALLBACK_LIBRARY_PATH="$PREFIX/lib"
 
 mkdir $PREFIX
 
