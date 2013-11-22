@@ -10,10 +10,6 @@
 	path = deps/vorbis
 	url = git://git.xiph.org/mirrors/vorbis.git
 	ignore = dirty
-[submodule "deps/mpg123"]
-	path = deps/mpg123
-	url = git://github.com/mileswu/mpg123.git
-	ignore = dirty
 [submodule "deps/taglib"]
 	path = deps/taglib
 	url = git://github.com/taglib/taglib.git

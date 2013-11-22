@@ -39,7 +39,6 @@
 		2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C00AD18202F7100E2AC90 /* ProfileViewController.xib */; };
 		2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00B1182731C200E2AC90 /* ProfileController.m */; };
 		2B7C00BB1828A93A00E2AC90 /* LibraryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C00BA1828A93A00E2AC90 /* LibraryFolder.m */; };
-		2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2B80D44C16920204000F3392 /* libtag.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B80D44D16920215000F3392 /* libtag.1.11.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 2BBB23D515BC731700169E80 /* libtag.1.11.0.dylib */; };
 		2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */; };
@@ -72,11 +71,7 @@
 		2BB0E21E17F9037B00F945FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BB0E21C17F9037B00F945FE /* InfoPlist.strings */; };
 		2BB0E22117F9038400F945FE /* dokibox-lastfmscrobbler-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BB0E21F17F9038400F945FE /* dokibox-lastfmscrobbler-Info.plist */; };
 		2BB0E22517F9059200F945FE /* LibraryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB0E22317F9058A00F945FE /* LibraryViewCell.m */; };
-		2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BB25CB01692327700243B27 /* libmpg123.0.dylib */; };
-		2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB25CA41692040900243B27 /* libmpg123.dylib */; };
-		2BB25CBD16972FC600243B27 /* MP3Decoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CB716972F9400243B27 /* MP3Decoder.m */; };
 		2BB25CC01697303000243B27 /* PluginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CBF1697302F00243B27 /* PluginManager.m */; };
-		2BB25CC61697369F00243B27 /* MP3DecoderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CC4169733BB00243B27 /* MP3DecoderPlugin.m */; };
 		2BB25CCC16973CCD00243B27 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
 		2BB25CDC16973D7700243B27 /* FLACDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CD816973D6000243B27 /* FLACDecoder.m */; };
 		2BB25CDD16973D8200243B27 /* libFLAC.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */; };
@@ -189,16 +184,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2BB25CAD169231F700243B27 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				2BB25CB11692327700243B27 /* libmpg123.0.dylib in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2BB25CCF16973CCD00243B27 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,7 +286,6 @@
 		2B7C00B1182731C200E2AC90 /* ProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileController.m; sourceTree = "<group>"; };
 		2B7C00B91828A93A00E2AC90 /* LibraryFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryFolder.h; sourceTree = "<group>"; };
 		2B7C00BA1828A93A00E2AC90 /* LibraryFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryFolder.m; sourceTree = "<group>"; };
-		2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-mp3.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B80D44016920167000F3392 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2B824B4A15DAF02200B26228 /* TitlebarButtonNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButtonNS.h; sourceTree = "<group>"; };
 		2B824B4B15DAF02200B26228 /* TitlebarButtonNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarButtonNS.m; sourceTree = "<group>"; };
@@ -350,19 +334,11 @@
 		2BB0E22017F9038400F945FE /* dokibox-lastfmscrobbler-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "dokibox-lastfmscrobbler-Prefix.pch"; path = "src/plugins/lastfmscrobbler/dokibox-lastfmscrobbler-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		2BB0E22217F9058A00F945FE /* LibraryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewCell.h; sourceTree = "<group>"; };
 		2BB0E22317F9058A00F945FE /* LibraryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewCell.m; sourceTree = "<group>"; };
-		2BB25CA41692040900243B27 /* libmpg123.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.dylib; path = prefix/lib/libmpg123.dylib; sourceTree = "<group>"; };
 		2BB25CB01692327700243B27 /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = prefix/lib/libmpg123.0.dylib; sourceTree = "<group>"; };
 		2BB25CB516972F7F00243B27 /* DecoderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DecoderProtocol.h; path = src/decoders/DecoderProtocol.h; sourceTree = "<group>"; };
-		2BB25CB616972F9400243B27 /* MP3Decoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MP3Decoder.h; path = src/decoders/mp3/MP3Decoder.h; sourceTree = SOURCE_ROOT; };
-		2BB25CB716972F9400243B27 /* MP3Decoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MP3Decoder.m; path = src/decoders/mp3/MP3Decoder.m; sourceTree = SOURCE_ROOT; };
-		2BB25CB816972FA000243B27 /* dokibox-decoder-mp3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "dokibox-decoder-mp3-Info.plist"; path = "Users/Dante/git/dokibox/src/decoders/mp3/dokibox-decoder-mp3-Info.plist"; sourceTree = SDKROOT; };
-		2BB25CB916972FA000243B27 /* dokibox-decoder-mp3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "dokibox-decoder-mp3-Prefix.pch"; path = "Users/Dante/git/dokibox/src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch"; sourceTree = SDKROOT; };
-		2BB25CBB16972FA900243B27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = src/decoders/mp3/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		2BB25CBE1697302F00243B27 /* PluginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginManager.h; path = plugins/PluginManager.h; sourceTree = "<group>"; };
 		2BB25CBF1697302F00243B27 /* PluginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginManager.m; path = plugins/PluginManager.m; sourceTree = "<group>"; };
 		2BB25CC21697308300243B27 /* PluginProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProtocol.h; path = plugins/PluginProtocol.h; sourceTree = "<group>"; };
-		2BB25CC3169733BB00243B27 /* MP3DecoderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MP3DecoderPlugin.h; path = src/decoders/mp3/MP3DecoderPlugin.h; sourceTree = SOURCE_ROOT; };
-		2BB25CC4169733BB00243B27 /* MP3DecoderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MP3DecoderPlugin.m; path = src/decoders/mp3/MP3DecoderPlugin.m; sourceTree = SOURCE_ROOT; };
 		2BB25CD416973CCD00243B27 /* dokibox-decoder-flac.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dokibox-decoder-flac.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB25CD716973D6000243B27 /* FLACDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FLACDecoder.h; path = src/decoders/flac/FLACDecoder.h; sourceTree = "<group>"; };
 		2BB25CD816973D6000243B27 /* FLACDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FLACDecoder.m; path = src/decoders/flac/FLACDecoder.m; sourceTree = "<group>"; };
@@ -437,15 +413,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2B80D43C16920167000F3392 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2B80D44116920167000F3392 /* CoreFoundation.framework in Frameworks */,
-				2BB25CB21692328D00243B27 /* libmpg123.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2BAEE25817E56445007D610B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -498,7 +465,6 @@
 			isa = PBXGroup;
 			children = (
 				2B15BF64146127A100DC46CD /* dokibox.app */,
-				2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */,
 				2BB25CD416973CCD00243B27 /* dokibox-decoder-flac.bundle */,
 				2BB25CF91697432300243B27 /* dokibox-decoder-vorbis.bundle */,
 				2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */,
@@ -518,7 +484,6 @@
 				2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */,
 				2B05BBE015227FE5003DCE57 /* libFLAC.8.dylib */,
 				2B0E032815214B3900B80884 /* libogg.0.dylib */,
-				2BB25CA41692040900243B27 /* libmpg123.dylib */,
 				2B53558C15D1CEA30054E61F /* QuartzCore.framework */,
 				2B824B4D15E1BAF500B26228 /* CoreAudio.framework */,
 				2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */,
@@ -612,29 +577,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2B80D44216920167000F3392 /* mp3 */ = {
-			isa = PBXGroup;
-			children = (
-				2BB25CB616972F9400243B27 /* MP3Decoder.h */,
-				2BB25CB716972F9400243B27 /* MP3Decoder.m */,
-				2BB25CC3169733BB00243B27 /* MP3DecoderPlugin.h */,
-				2BB25CC4169733BB00243B27 /* MP3DecoderPlugin.m */,
-				2B80D44316920167000F3392 /* Supporting Files */,
-			);
-			name = mp3;
-			path = "dokibox-decoder-mp3";
-			sourceTree = "<group>";
-		};
-		2B80D44316920167000F3392 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2BB25CBA16972FA900243B27 /* InfoPlist.strings */,
-				2BB25CB816972FA000243B27 /* dokibox-decoder-mp3-Info.plist */,
-				2BB25CB916972FA000243B27 /* dokibox-decoder-mp3-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		2B80D45016920361000F3392 /* decoders */ = {
 			isa = PBXGroup;
 			children = (
@@ -642,7 +584,6 @@
 				2BB25CEA169742E400243B27 /* vorbis */,
 				2BB25CD616973D5600243B27 /* flac */,
 				2BB25CB516972F7F00243B27 /* DecoderProtocol.h */,
-				2B80D44216920167000F3392 /* mp3 */,
 			);
 			name = decoders;
 			path = ..;
@@ -934,24 +875,6 @@
 			productReference = 2B15BF64146127A100DC46CD /* dokibox.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2B80D43E16920167000F3392 /* dokibox-decoder-mp3 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2B80D44916920167000F3392 /* Build configuration list for PBXNativeTarget "dokibox-decoder-mp3" */;
-			buildPhases = (
-				2B80D43B16920167000F3392 /* Sources */,
-				2B80D43C16920167000F3392 /* Frameworks */,
-				2B80D43D16920167000F3392 /* Resources */,
-				2BB25CAD169231F700243B27 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "dokibox-decoder-mp3";
-			productName = "dokibox-decoder-mp3";
-			productReference = 2B80D43F16920167000F3392 /* dokibox-decoder-mp3.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		2BAEE25A17E56445007D610B /* dokibox-lastfmscrobbler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2BAEE26417E56445007D610B /* Build configuration list for PBXNativeTarget "dokibox-lastfmscrobbler" */;
@@ -1053,7 +976,6 @@
 			projectRoot = "";
 			targets = (
 				2B15BF63146127A100DC46CD /* dokibox */,
-				2B80D43E16920167000F3392 /* dokibox-decoder-mp3 */,
 				2BB25CC716973CCD00243B27 /* dokibox-decoder-flac */,
 				2BB25CEB1697432300243B27 /* dokibox-decoder-vorbis */,
 				2BAEE25A17E56445007D610B /* dokibox-lastfmscrobbler */,
@@ -1107,13 +1029,6 @@
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
 				2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2B80D43D16920167000F3392 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,15 +1125,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2B80D43B16920167000F3392 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2BB25CC61697369F00243B27 /* MP3DecoderPlugin.m in Sources */,
-				2BB25CBD16972FC600243B27 /* MP3Decoder.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2BAEE25717E56445007D610B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1311,14 +1217,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				2BB0E21D17F9037B00F945FE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		2BB25CBA16972FA900243B27 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2BB25CBB16972FA900243B27 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1429,44 +1327,6 @@
 			};
 			name = Release;
 		};
-		2B80D44A16920167000F3392 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "src/decoders/mp3/dokibox-decoder-mp3-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "dokibox-decoder-mp3";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		2B80D44B16920167000F3392 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "src/decoders/mp3/dokibox-decoder-mp3-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "dokibox-decoder-mp3";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		2BAEE26517E56445007D610B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1520,7 +1380,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/flac/fb2kmac-decoder-flac-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1539,7 +1399,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/flac/fb2kmac-decoder-flac-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1558,7 +1418,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/vorbis/fb2kmac-decoder-vorbis-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1577,7 +1437,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/mp3/dokibox-decoder-mp3-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/vorbis/fb2kmac-decoder-vorbis-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1652,15 +1512,6 @@
 			buildConfigurations = (
 				2B15BF97146127A100DC46CD /* Debug */,
 				2B15BF98146127A100DC46CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2B80D44916920167000F3392 /* Build configuration list for PBXNativeTarget "dokibox-decoder-mp3" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2B80D44A16920167000F3392 /* Debug */,
-				2B80D44B16920167000F3392 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

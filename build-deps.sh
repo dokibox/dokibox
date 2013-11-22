@@ -26,14 +26,6 @@ cd $PREFIX/lib/
 install_name_tool -id @rpath/libFLAC.8.dylib libFLAC.8.dylib
 install_name_tool -change $START/libogg/../prefix/lib/libogg.0.dylib @rpath/libogg.0.dylib libFLAC.8.dylib
 
-cd $DEPS/mpg123
-autoreconf -iv
-./configure --with-cpu=x86-64 --enable-modules=no --enable-static --prefix=$PREFIX
-make -j2
-make install
-cd $PREFIX/lib
-install_name_tool -id @rpath/libmpg123.0.dylib libmpg123.0.dylib
-
 cd $DEPS/vorbis
 CFLAGS="-O2 $CLFAGS" ./autogen.sh --with-ogg=$PREFIX --prefix=$PREFIX
 make -j2
