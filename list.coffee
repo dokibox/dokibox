@@ -1,4 +1,5 @@
 items = {}
+commitMap = {}
 currentBranch = "master"
 currentTime = new Date()
 builds = $("#builds")
@@ -10,9 +11,14 @@ $.get "https://s3.amazonaws.com/dokibox-builds/", (data) ->
 		content = $(contents[c])
 		if content.find("Key").text()[-7..-1] is ".tar.gz"
 			item = parseContents content
-			items[item.file.branch] = {} unless items[item.file.branch]
-			items[item.file.branch][item.file.commit] = item
-	for commit, item of items[currentBranch]
+			unless items[item.file.branch]
+				items[item.file.branch] = []
+				commitMap[item.file.branch] = {}
+			items[item.file.branch].push item
+	items[currentBranch].sort (a, b) ->
+		b.date.raw - a.date.raw
+	for item, index in items[currentBranch]
+		commitMap[currentBranch][item.file.commit] = index
 		builds.append """
 			<li class="branch-#{item.file.branch} entry">
 					<div class="size">#{item.size}</div>
