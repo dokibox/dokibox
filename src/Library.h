@@ -18,6 +18,8 @@
     NSManagedObjectContext *_mainObjectContext;
     NSUserDefaults *_userDefaults;
     FSEventStreamRef _fsEventStream;
+    
+    NSArray *_monitoredFolders;
 }
 
 -(NSUInteger)numberOfMonitoredFolders;

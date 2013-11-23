@@ -121,15 +121,21 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(NSArray *)monitoredFolders
 {
-    NSError *error;
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"monitoredfolder"];
-    NSArray *arr = [_mainObjectContext executeFetchRequest:fr error:&error];
-    if(arr == nil) {
-        DDLogError(@"Error executing fetch request");
-        return nil;
+    if(_monitoredFolders) { // Use cache if available
+        return _monitoredFolders;
     }
+    else {
+        NSError *error;
+        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"monitoredfolder"];
+        NSArray *arr = [_mainObjectContext executeFetchRequest:fr error:&error];
+        if(arr == nil) {
+            DDLogError(@"Error executing fetch request");
+            return nil;
+        }
 
-    return arr;
+        _monitoredFolders = arr;
+        return arr;
+    }
 }
 
 -(void)addMonitoredFolderWithPath:(NSString *)path
@@ -140,6 +146,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     [folder setPath:path];
     [folder setLastEventID:[NSNumber numberWithLongLong:0]];
     [_mainObjectContext save:&err];
+    _monitoredFolders = nil; // Invalidate cache
 }
 
 
