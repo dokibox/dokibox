@@ -127,6 +127,11 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     else {
         NSError *error;
         NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"monitoredfolder"];
+        NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
+                                    initWithKey:@"path"
+                                    ascending:YES
+                                    selector:@selector(localizedCaseInsensitiveCompare:)];
+        [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
         NSArray *arr = [_mainObjectContext executeFetchRequest:fr error:&error];
         if(arr == nil) {
             DDLogError(@"Error executing fetch request");
