@@ -8,7 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
-@interface LibraryFolder : NSManagedObject
+@interface LibraryMonitoredFolder : NSManagedObject
 
 @property() NSString *path;
 @property() NSNumber *lastEventID;

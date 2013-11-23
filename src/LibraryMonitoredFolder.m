@@ -6,9 +6,9 @@
 //
 //
 
-#import "LibraryFolder.h"
+#import "LibraryMonitoredFolder.h"
 
-@implementation LibraryFolder
+@implementation LibraryMonitoredFolder
 
 @dynamic path;
 @dynamic lastEventID;

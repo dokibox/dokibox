@@ -129,8 +129,8 @@
     }
     
     { // Folder
-        [folderEntity setName:@"folder"];
-        [folderEntity setManagedObjectClassName:@"LibraryFolder"];
+        [folderEntity setName:@"monitoredfolder"];
+        [folderEntity setManagedObjectClassName:@"LibraryMonitoredFolder"];
         NSMutableArray *folderProperties = [[NSMutableArray alloc] init];
         { // folderEntity properties
             NSAttributeDescription *pathAttribute = [[NSAttributeDescription alloc] init];

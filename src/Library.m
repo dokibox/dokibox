@@ -8,7 +8,7 @@
 
 #import "Library.h"
 #import "LibraryTrack.h"
-#import "LibraryFolder.h"
+#import "LibraryMonitoredFolder.h"
 #import "LibraryCoreDataManager.h"
 #import <CoreServices/CoreServices.h>
 
@@ -109,34 +109,34 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 #pragma mark Manipulating monitored folders list
 
--(NSUInteger)numberOfFolders
+-(NSUInteger)numberOfMonitoredFolders
 {
-    return [[self folders] count];
+    return [[self monitoredFolders] count];
 }
 
--(LibraryFolder *)folderAtIndex:(NSUInteger)index
+-(LibraryMonitoredFolder *)monitoredFolderAtIndex:(NSUInteger)index
 {
-    return [[self folders] objectAtIndex:index];
+    return [[self monitoredFolders] objectAtIndex:index];
 }
 
--(NSArray *)folders
+-(NSArray *)monitoredFolders
 {
     NSError *error;
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"folder"];
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"monitoredfolder"];
     NSArray *arr = [_mainObjectContext executeFetchRequest:fr error:&error];
     if(arr == nil) {
         DDLogError(@"Error executing fetch request");
         return nil;
     }
-    
+
     return arr;
 }
 
--(void)addFolderWithPath:(NSString *)path
+-(void)addMonitoredFolderWithPath:(NSString *)path
 {
     NSError *err;
     
-    LibraryFolder *folder = [NSEntityDescription insertNewObjectForEntityForName:@"folder" inManagedObjectContext:_mainObjectContext];
+    LibraryMonitoredFolder *folder = [NSEntityDescription insertNewObjectForEntityForName:@"monitoredfolder" inManagedObjectContext:_mainObjectContext];
     [folder setPath:path];
     [folder setLastEventID:[NSNumber numberWithLongLong:0]];
     [_mainObjectContext save:&err];

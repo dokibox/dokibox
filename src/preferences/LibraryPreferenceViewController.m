@@ -7,7 +7,7 @@
 //
 
 #import "LibraryPreferenceViewController.h"
-#import "LibraryFolder.h"
+#import "LibraryMonitoredFolder.h"
 
 @implementation LibraryPreferenceViewController
 
@@ -40,12 +40,12 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return [_library numberOfFolders];
+    return [_library numberOfMonitoredFolders];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    LibraryFolder *folder = [_library folderAtIndex:rowIndex];
+    LibraryMonitoredFolder *folder = [_library monitoredFolderAtIndex:rowIndex];
     return [folder path];
 }
 
@@ -58,7 +58,7 @@
         [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSInteger result) {
             if(result == NSFileHandlingPanelOKButton) {
                 NSString *path = [[openPanel directoryURL] path];
-                [_library addFolderWithPath:path];
+                [_library addMonitoredFolderWithPath:path];
                 [_tableView reloadData];
             }
         }];

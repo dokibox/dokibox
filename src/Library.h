@@ -10,7 +10,7 @@
 #import "common.h"
 
 @class LibraryCoreDataManager;
-@class LibraryFolder;
+@class LibraryMonitoredFolder;
 
 @interface Library : NSObject {
     dispatch_queue_t _dispatchQueue;
@@ -20,10 +20,10 @@
     FSEventStreamRef _fsEventStream;
 }
 
--(NSUInteger)numberOfFolders;
--(LibraryFolder *)folderAtIndex:(NSUInteger)index;
--(NSArray *)folders;
--(void)addFolderWithPath:(NSString *)path;
+-(NSUInteger)numberOfMonitoredFolders;
+-(LibraryMonitoredFolder *)monitoredFolderAtIndex:(NSUInteger)index;
+-(NSArray *)monitoredFolders;
+-(void)addMonitoredFolderWithPath:(NSString *)path;
 
 -(LibraryTrack *)trackFromFile:(NSString *)file;
 -(void)addFileOrUpdate:(NSString*)file;

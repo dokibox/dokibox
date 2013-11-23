@@ -10,7 +10,7 @@
 #import "LibraryArtist.h"
 #import "LibraryAlbum.h"
 #import "LibraryTrack.h"
-#import "LibraryFolder.h"
+#import "LibraryMonitoredFolder.h"
 #import "LibraryViewCell.h"
 #import "LibraryViewArtistCell.h"
 #import "LibraryViewAlbumCell.h"
@@ -83,7 +83,7 @@
     for(NSMutableDictionary *dict in [changes objectForKey:NSInsertedObjectsKey]) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
         
-        if([m isKindOfClass:[LibraryFolder class]])
+        if([m isKindOfClass:[LibraryMonitoredFolder class]])
             continue;
         
         NSString *name = [m valueForKey:@"name"];
