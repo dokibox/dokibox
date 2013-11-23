@@ -149,6 +149,15 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     _monitoredFolders = nil; // Invalidate cache
 }
 
+-(void)removeMonitoredFolderAtIndex:(NSUInteger)index
+{
+    LibraryMonitoredFolder *folder = [self monitoredFolderAtIndex:index];
+    [_mainObjectContext deleteObject:folder];
+    NSError *err;
+    [_mainObjectContext save:&err];
+    _monitoredFolders = nil; // Invalidate cache
+}
+
 
 -(void)searchDirectory:(NSString*)dir
 {

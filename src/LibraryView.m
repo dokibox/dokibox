@@ -72,6 +72,9 @@
 {
     for(NSMutableDictionary *dict in [changes objectForKey:NSDeletedObjectsKey]) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
+        if([m isKindOfClass:[LibraryMonitoredFolder class]])
+            continue;
+        
         NSLog(@"deleting %@", [m valueForKey:@"name"]);
         NSUInteger index = [_rowData indexOfObject:m];
         if(index != NSNotFound) {

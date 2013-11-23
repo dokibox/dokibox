@@ -65,7 +65,7 @@
     }
     else if([sender selectedSegment] == 1) { //remove
         if([_tableView selectedRow] != -1) {
-            //[_profileController removeProfileAtIndex:[_tableView selectedRow]];
+            [_library removeMonitoredFolderAtIndex:[_tableView selectedRow]];
             [_tableView reloadData];
         }
     }
