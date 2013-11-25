@@ -17,7 +17,8 @@
     NSManagedObjectContext *_queueObjectContext;
     NSManagedObjectContext *_mainObjectContext;
     NSUserDefaults *_userDefaults;
-    FSEventStreamRef _fsEventStream;
+    CFMutableArrayRef _fsEventStreams;
+    CFMutableArrayRef _fsEventCallbackInfos;
     
     NSArray *_monitoredFolders;
 }
