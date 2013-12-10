@@ -12,5 +12,6 @@
 
 @property() NSString *path;
 @property() NSNumber *lastEventID;
+@property() NSNumber *initialScanDone;
 
 @end

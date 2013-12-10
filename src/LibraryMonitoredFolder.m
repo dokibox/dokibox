@@ -12,5 +12,6 @@
 
 @dynamic path;
 @dynamic lastEventID;
+@dynamic initialScanDone;
 
 @end

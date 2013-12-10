@@ -164,11 +164,11 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     LibraryMonitoredFolder *folder = [NSEntityDescription insertNewObjectForEntityForName:@"monitoredfolder" inManagedObjectContext:_mainObjectContext];
     [folder setPath:path];
     [folder setLastEventID:[NSNumber numberWithLongLong:0]];
+    [folder setInitialScanDone:[NSNumber numberWithBool:NO]];
     
     [_mainObjectContext save:&err];
     _monitoredFolders = nil; // Invalidate cache
-    [self stopFSMonitor];
-    [self startFSMonitor];
+    [self startFSMonitorForFolder:folder];
 }
 
 -(void)removeMonitoredFolderAtIndex:(NSUInteger)index
@@ -179,8 +179,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSError *err;
     [_mainObjectContext save:&err];
     _monitoredFolders = nil; // Invalidate cache
-    [self stopFSMonitor];
-    [self startFSMonitor];
 }
 
 -(void)searchDirectory:(NSString*)dir
@@ -346,48 +344,64 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 }
 
+-(void)startFSMonitorForFolder:(LibraryMonitoredFolder *)folder
+{
+    CFStringRef cfpath = (__bridge CFStringRef)([folder path]);
+    CFArrayRef pathArray = CFArrayCreate(NULL, (const void **)&cfpath, 1, NULL);
+    
+    struct fsEventCallbackInfo *info = malloc(sizeof(struct fsEventCallbackInfo));
+    info->library = (__bridge void *)(self);
+    info->monitoredFolder = (void*)CFBridgingRetain(folder);
+    
+    FSEventStreamContext context;
+    context.retain = NULL;
+    context.release = NULL;
+    context.version = 0;
+    context.copyDescription = NULL;
+    context.info = (void *)info;
+    
+    NSInteger lastEventID = [[folder lastEventID] integerValue];
+    if(lastEventID == 0) {
+        lastEventID = FSEventsGetCurrentEventId();
+        [folder setLastEventID:[NSNumber numberWithInteger:lastEventID]];
+        NSError *err;
+        [_mainObjectContext save:&err];
+    }
+    
+    FSEventStreamEventId since = lastEventID;
+    FSEventStreamRef fsEventStream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
+    CFArrayAppendValue(_fsEventStreams, fsEventStream);
+    
+    FSEventStreamScheduleWithRunLoop(fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    FSEventStreamStart(fsEventStream);
+    NSLog(@"started FS monitor for %@", [folder path]);
+    
+    // Initial search of directory
+    if([[folder initialScanDone] boolValue] == NO) {
+        NSString *path = [folder path];
+        dispatch_async(_dispatchQueue, ^{
+            DDLogVerbose(@"Starting initial library search for %@", path);
+            [self searchDirectory:path];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"libraryMonitoringInitialDone"];
+            DDLogVerbose(@"Finished initial library search for %@", path);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [folder setInitialScanDone:[NSNumber numberWithBool:YES]];
+                NSError *err;
+                [[folder managedObjectContext] save:&err];
+            });
+     });
+    }
+}
+
+-(void)stopFSMonitorForFolder:(LibraryMonitoredFolder *)folder
+{
+    
+}
+
 -(void)startFSMonitor
 {
     for(LibraryMonitoredFolder *folder in [self monitoredFolders]) {
-        CFStringRef cfpath = (__bridge CFStringRef)([folder path]);
-        CFArrayRef pathArray = CFArrayCreate(NULL, (const void **)&cfpath, 1, NULL);
-
-        struct fsEventCallbackInfo *info = malloc(sizeof(struct fsEventCallbackInfo));
-        info->library = (__bridge void *)(self);
-        info->monitoredFolder = (void*)CFBridgingRetain(folder);
-        
-        FSEventStreamContext context;
-        context.retain = NULL;
-        context.release = NULL;
-        context.version = 0;
-        context.copyDescription = NULL;
-        context.info = (void *)info;
-
-        NSInteger lastEventID = [[folder lastEventID] integerValue];
-        if(lastEventID == 0) {
-            lastEventID = FSEventsGetCurrentEventId();
-            [folder setLastEventID:[NSNumber numberWithInteger:lastEventID]];
-            NSError *err;
-            [_mainObjectContext save:&err];
-        }
-
-        FSEventStreamEventId since = lastEventID;
-        FSEventStreamRef fsEventStream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
-        CFArrayAppendValue(_fsEventStreams, fsEventStream);
-        
-        FSEventStreamScheduleWithRunLoop(fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-        FSEventStreamStart(fsEventStream);
-        NSLog(@"started FS monitor for %@", [folder path]);
-
-        // Initial search of directory
-        /*if([_userDefaults boolForKey:@"libraryMonitoringInitialDone"] == NO) {
-            dispatch_async(_dispatchQueue, ^{
-                DDLogVerbose(@"Starting initial library search");
-                [self searchDirectory:[folder path]];
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"libraryMonitoringInitialDone"];
-                DDLogVerbose(@"Finished initial library search");
-            });
-        }*/
+        [self startFSMonitorForFolder:folder];
     }
 }
 

@@ -144,6 +144,12 @@
             [lastEventIDAttribute setAttributeType:NSInteger64AttributeType];
             [lastEventIDAttribute setOptional:NO];
             [folderProperties addObject:lastEventIDAttribute];
+            
+            NSAttributeDescription *initialScanDoneAttribute = [[NSAttributeDescription alloc] init];
+            [initialScanDoneAttribute setName:@"initialScanDone"];
+            [initialScanDoneAttribute setAttributeType:NSBooleanAttributeType];
+            [initialScanDoneAttribute setOptional:NO];
+            [folderProperties addObject:initialScanDoneAttribute];
         }
         
         [folderEntity setProperties:folderProperties];
