@@ -184,11 +184,15 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(void)removeMonitoredFolderAtIndex:(NSUInteger)index
 {
     LibraryMonitoredFolder *folder = [self monitoredFolderAtIndex:index];
+    NSString *path = [folder path];
     [_mainObjectContext deleteObject:folder];
     
     NSError *err;
     [_mainObjectContext save:&err];
     _monitoredFolders = nil; // Invalidate cache
+    
+    [self stopFSMonitorForFolder:folder];
+    [self removeFilesInDirectory:path];
 }
 
 -(void)searchDirectory:(NSString*)dir
@@ -381,6 +385,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     FSEventStreamEventId since = lastEventID;
     FSEventStreamRef fsEventStream = FSEventStreamCreate(NULL, &fsEventCallback, &context, pathArray, since, 0.0, kFSEventStreamCreateFlagFileEvents);
     CFArrayAppendValue(_fsEventStreams, fsEventStream);
+    CFArrayAppendValue(_fsEventCallbackInfos, info);
     
     FSEventStreamScheduleWithRunLoop(fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(fsEventStream);
@@ -405,7 +410,23 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)stopFSMonitorForFolder:(LibraryMonitoredFolder *)folder
 {
-    
+    CFIndex n = CFArrayGetCount(_fsEventStreams);
+    for(CFIndex i = 0; i < n; i++) {
+        FSEventStreamRef ref = (FSEventStreamRef)CFArrayGetValueAtIndex(_fsEventStreams, i);
+        struct fsEventCallbackInfo *info = (struct fsEventCallbackInfo *)CFArrayGetValueAtIndex(_fsEventCallbackInfos, i);
+        
+        if(info->monitoredFolder == (__bridge void *)(folder)) {
+            FSEventStreamStop(ref);
+            FSEventStreamInvalidate(ref);
+            FSEventStreamRelease(ref);
+            CFRelease(info->monitoredFolder);
+            free(info);
+            
+            CFArrayRemoveValueAtIndex(_fsEventStreams, i);
+            CFArrayRemoveValueAtIndex(_fsEventCallbackInfos, i);
+            break;
+        }
+    }
 }
 
 -(void)startFSMonitor
@@ -415,58 +436,5 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 }
 
--(void)stopFSMonitor
-{
-    CFIndex n = CFArrayGetCount(_fsEventStreams);
-    for(CFIndex i = 0; i < n; i++) {
-        FSEventStreamRef ref = (FSEventStreamRef)CFArrayGetValueAtIndex(_fsEventStreams, i);
-        FSEventStreamStop(ref);
-        FSEventStreamInvalidate(ref);
-        FSEventStreamRelease(ref);
-    }
-    CFArrayRemoveAllValues(_fsEventStreams);
-    
-    n = CFArrayGetCount(_fsEventCallbackInfos);
-    for(CFIndex i = 0; i < n; i++) {
-        struct fsEventCallbackInfo *info = (struct fsEventCallbackInfo *)CFArrayGetValueAtIndex(_fsEventCallbackInfos, i);
-        CFRelease(info->monitoredFolder);
-        free(info);
-    }
-    CFArrayRemoveAllValues(_fsEventCallbackInfos);
-}
-
--(void)removeAll:(NSString *)entityName
-{
-    dispatch_async(_dispatchQueue, ^{
-        NSError *error;
-        NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:entityName];
-        [fr setIncludesPropertyValues:NO];
-        NSArray *arr = [_queueObjectContext executeFetchRequest:fr error:&error];
-        if(arr == nil) {
-            DDLogError(@"Error executing fetch request");
-            return;
-        }
-
-        for(NSManagedObject *obj in arr) {
-            [_queueObjectContext deleteObject:obj];
-        }
-
-        if([_queueObjectContext save:&error] == NO) {
-            DDLogError(@"error saving");
-            DDLogError(@"%@", [error localizedDescription]);
-            for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
-                DDLogError(@"%@", [e localizedDescription]);
-            }
-        };
-    });
-}
-
--(void)reset
-{
-    [self stopFSMonitor];
-    [self removeAll:@"track"];
-    [self removeAll:@"album"];
-    [self removeAll:@"artist"];
-}
 
 @end

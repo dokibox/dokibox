@@ -39,9 +39,6 @@
 -(void)startFSMonitorForFolder:(LibraryMonitoredFolder *)folder;
 -(void)stopFSMonitorForFolder:(LibraryMonitoredFolder *)folder;
 -(void)startFSMonitor;
--(void)stopFSMonitor;
--(void)reset;
--(void)removeAll:(NSString *)entityName;
 
 @property(readonly) NSUserDefaults* userDefaults;
 @property(readonly) LibraryCoreDataManager* coreDataManager;
