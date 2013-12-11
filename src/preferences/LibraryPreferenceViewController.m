@@ -58,7 +58,11 @@
         [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSInteger result) {
             if(result == NSFileHandlingPanelOKButton) {
                 NSString *path = [[openPanel directoryURL] path];
-                [_library addMonitoredFolderWithPath:path];
+                NSString *err;
+                if((err = [_library addMonitoredFolderWithPath:path])) {
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"Error adding new monitored folder" defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", err];
+                    [alert beginSheetModalForWindow:[[self view] window] completionHandler:nil];
+                }
                 [_tableView reloadData];
             }
         }];

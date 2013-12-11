@@ -157,8 +157,16 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 }
 
--(void)addMonitoredFolderWithPath:(NSString *)path
+-(NSString *)addMonitoredFolderWithPath:(NSString *)path
 {
+    for(LibraryMonitoredFolder *monitoredFolder in [self monitoredFolders]) {
+        NSString *i = [monitoredFolder path];
+        if([i isEqualTo:path])
+            return @"This folder is already being monitored.";
+        if([i hasPrefix:path] || [path hasPrefix:i])
+            return @"You may not add a new folder that is a subfolder or superfolder of an existing monitored folder.";
+    }
+    
     NSError *err;
     
     LibraryMonitoredFolder *folder = [NSEntityDescription insertNewObjectForEntityForName:@"monitoredfolder" inManagedObjectContext:_mainObjectContext];
@@ -169,6 +177,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     [_mainObjectContext save:&err];
     _monitoredFolders = nil; // Invalidate cache
     [self startFSMonitorForFolder:folder];
+    
+    return nil;
 }
 
 -(void)removeMonitoredFolderAtIndex:(NSUInteger)index
