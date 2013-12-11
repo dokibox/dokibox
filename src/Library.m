@@ -181,9 +181,12 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     return nil;
 }
 
--(void)removeMonitoredFolderAtIndex:(NSUInteger)index
+-(NSString *)removeMonitoredFolderAtIndex:(NSUInteger)index
 {
     LibraryMonitoredFolder *folder = [self monitoredFolderAtIndex:index];
+    if([[folder initialScanDone] boolValue] == NO) {
+        return @"You cannot remove a monitored folder while the initial scan is in progress. Please try again later.";
+    }
     NSString *path = [folder path];
     [_mainObjectContext deleteObject:folder];
     
@@ -193,6 +196,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     
     [self stopFSMonitorForFolder:folder];
     [self removeFilesInDirectory:path];
+    return nil;
 }
 
 -(void)searchDirectory:(NSString*)dir

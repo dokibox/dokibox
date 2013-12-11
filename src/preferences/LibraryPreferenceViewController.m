@@ -69,7 +69,11 @@
     }
     else if([sender selectedSegment] == 1) { //remove
         if([_tableView selectedRow] != -1) {
-            [_library removeMonitoredFolderAtIndex:[_tableView selectedRow]];
+            NSString *err;
+            if((err = [_library removeMonitoredFolderAtIndex:[_tableView selectedRow]])) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Error removing monitored folder" defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", err];
+                [alert beginSheetModalForWindow:[[self view] window] completionHandler:nil];
+            }
             [_tableView reloadData];
         }
     }
