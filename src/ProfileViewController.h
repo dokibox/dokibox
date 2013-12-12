@@ -14,13 +14,13 @@
     ProfileController *_profileController;
     IBOutlet NSTableView *_tableView;
     IBOutlet NSButton *_openButton;
+    IBOutlet NSButton *_defaultCheck;
     
     IBOutlet NSView *_addSheetView;
     NSPanel *_addSheet;
 }
 
-- (id)initWithProfileController:(ProfileController *)pc;
-
+- (id)init;
 -(IBAction)openButtonPressed:(id)sender;
 -(IBAction)addOrRemoveButtonPressed:(id)sender;
 -(IBAction)addSheetButtonPressed:(id)sender;

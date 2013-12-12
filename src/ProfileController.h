@@ -10,7 +10,15 @@
 
 @interface ProfileController : NSObject {
     NSArray *_profiles;
+    NSDictionary *_currentProfile;
 }
++(ProfileController *)sharedInstance;
+
+-(void)setCurrentProfileToIndex:(NSUInteger)index;
+-(void)setDefaultProfileToIndex:(NSUInteger)index;
+-(NSDictionary *)currentProfile;
+-(NSUInteger)currentProfileIndex;
+-(NSString *)currentUUID;
 
 -(NSUInteger)numberOfProfiles;
 -(NSDictionary*)profileAtIndex:(NSUInteger)index;

@@ -8,12 +8,14 @@
 
 #import "LibraryCoreDataManager.h"
 #import "LibraryTrack.h"
+#import "ProfileController.h"
 
 @implementation LibraryCoreDataManager
 
 -(id)init
 {
-    if(self = [super initWithFilename:@"library.sql"]) {
+    NSString *filename = [[NSString alloc] initWithFormat:@"library-%@.sql", [[ProfileController sharedInstance] currentUUID]];
+    if(self = [super initWithFilename:filename]) {
     }
     return self;
 }

@@ -23,17 +23,14 @@
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     DDLogVerbose(@"DD Logger ready");
     
-    ProfileController *profileController = [[ProfileController alloc] init];
     if([NSEvent modifierFlags] & NSAlternateKeyMask) {
         NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,409,300) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
         [window center];
-        ProfileViewController *profileViewController = [[ProfileViewController alloc] initWithProfileController:profileController];
+        ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
         [window setContentView:[profileViewController view]];
-        NSInteger retval = [[NSApplication sharedApplication] runModalForWindow:window];
+        [[NSApplication sharedApplication] runModalForWindow:window];
         [window setReleasedWhenClosed:NO]; // let ARC handle
         [window close];
-        
-        NSLog(@"%d", retval);
     }
     
     [self launch];

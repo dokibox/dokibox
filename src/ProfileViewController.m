@@ -13,11 +13,11 @@
 
 @synthesize addName;
 
-- (id)initWithProfileController:(ProfileController *)pc
+- (id)init
 {
     self = [self initWithNibName:@"ProfileViewController" bundle:nil];
     if (self) {
-        _profileController = pc;
+        _profileController = [ProfileController sharedInstance];
     }
     
     return self;
@@ -25,11 +25,15 @@
 
 - (void)loadView {
     [super loadView];
+    [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_profileController currentProfileIndex]] byExtendingSelection:NO];
     [self updateOpenButtonEnabled];
 }
 
 -(IBAction)openButtonPressed:(id)sender
 {
+    [_profileController setCurrentProfileToIndex:[_tableView selectedRow]];
+    if([_defaultCheck state] == 1)
+        [_profileController setDefaultProfileToIndex:[_tableView selectedRow]];
     [[NSApplication sharedApplication] stopModalWithCode:0];
 }
 

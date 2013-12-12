@@ -7,12 +7,14 @@
 //
 
 #import "PlaylistCoreDataManager.h"
+#import "ProfileController.h"
 
 @implementation PlaylistCoreDataManager
 
 -(id)init
 {
-    if(self = [super initWithFilename:@"playlists.sql"]) {
+    NSString *filename = [[NSString alloc] initWithFormat:@"playlist-%@.sql", [[ProfileController sharedInstance] currentUUID]];
+    if(self = [super initWithFilename:filename]) {
     }
     return self;
 }
