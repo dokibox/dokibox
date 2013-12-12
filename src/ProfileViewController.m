@@ -22,6 +22,12 @@
     
     return self;
 }
+
+- (void)loadView {
+    [super loadView];
+    [self updateOpenButtonEnabled];
+}
+
 -(IBAction)openButtonPressed:(id)sender
 {
     [[NSApplication sharedApplication] stopModalWithCode:0];
@@ -39,6 +45,7 @@
         if([_tableView selectedRow] != -1) {
             [_profileController removeProfileAtIndex:[_tableView selectedRow]];
             [_tableView reloadData];
+            [self updateOpenButtonEnabled];
         }
     }
     
@@ -52,6 +59,15 @@
     [NSApp endSheet:_addSheet];
     [_addSheet orderOut:self];
     [_tableView reloadData];
+    [self updateOpenButtonEnabled];
+}
+
+-(void)updateOpenButtonEnabled
+{
+    if([_tableView numberOfRows] > 0 && [_tableView selectedRow] != -1)
+        [_openButton setEnabled:YES];
+    else
+        [_openButton setEnabled:NO];
 }
 
 
