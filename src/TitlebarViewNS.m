@@ -113,11 +113,6 @@
 
 -(void)updatePlayButtonState
 {
-    if([_musicController status] == MusicControllerPlaying)
-        _playing = true;
-    else
-        _playing = false;
-
     if([_musicController status] == MusicControllerStopped) {
         [_progressBar setMovable:NO];
         [_progressBar setHoverable:NO];
@@ -173,18 +168,24 @@
     CGFloat topmargin = 20.0;
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
     [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
-
-    NSAttributedString *title = [[NSAttributedString alloc] initWithString:_title attributes:attr];
-    NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" - " attributes:attr];
-
     NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
     [boldattr setObject:[NSFont fontWithName:@"Lucida Grande Bold" size:12] forKey:NSFontAttributeName];
-    NSAttributedString *artist = [[NSAttributedString alloc] initWithString:_artist attributes:boldattr];
-
     NSMutableAttributedString *titlebarText = [[NSMutableAttributedString alloc] init];
-    [titlebarText appendAttributedString:artist];
-    [titlebarText appendAttributedString:spacing];
-    [titlebarText appendAttributedString:title];
+
+    if([_musicController status] == MusicControllerPlaying || [_musicController status] == MusicControllerPaused) {
+        NSAttributedString *title = [[NSAttributedString alloc] initWithString:_title attributes:attr];
+        NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" - " attributes:attr];
+
+        NSAttributedString *artist = [[NSAttributedString alloc] initWithString:_artist attributes:boldattr];
+
+        [titlebarText appendAttributedString:artist];
+        [titlebarText appendAttributedString:spacing];
+        [titlebarText appendAttributedString:title];
+    }
+    else {
+        NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"dokibox" attributes:attr];
+        [titlebarText appendAttributedString:title];
+    }
 
     NSSize textSize = [titlebarText size];
 
@@ -253,7 +254,7 @@
         float size = 8.0;
         float gradient_height;
 
-        if(_playing) {
+        if([_musicController status] == MusicControllerPlaying) {
             float height = size*sqrt(3.0), width = 5, seperation = 3;
             CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
             CGRect rects[] = {
@@ -360,7 +361,7 @@
 -(void)playButtonPressed:(id)sender
 // sender can be a SPMediaKeyTap too
 {
-    if(_playing) {
+    if([_musicController status] == MusicControllerPlaying) {
         [_musicController pause];
     }
     else {

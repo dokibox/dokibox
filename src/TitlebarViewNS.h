@@ -15,7 +15,6 @@
 @class SPMediaKeyTap;
 
 @interface TitlebarViewNS : NSView <SliderBarDelegate> {
-    BOOL _playing;
     MusicController *_musicController;
 
     NSString *_title;
