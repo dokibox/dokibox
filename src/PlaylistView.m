@@ -66,11 +66,12 @@
         trackScrollViewFrame.size.height -= playlistHeight;
         RBLScrollView *trackScrollView = [[RBLScrollView alloc] initWithFrame:trackScrollViewFrame];
         [trackScrollView setHasVerticalScroller:YES];
+        [trackScrollView setHasHorizontalScroller:YES];
         _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
         [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
-        [_trackTableView setHeaderView:nil];
+        //[_trackTableView setHeaderView:nil];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
         [_trackTableView setAllowsMultipleSelection:YES];
@@ -78,9 +79,21 @@
         [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
 
-        NSTableColumn *trackFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
-        [_trackTableView addTableColumn:trackFirstColumn];
-        [trackFirstColumn setWidth:[_trackTableView bounds].size.width];
+        NSTableColumn *trackTitleColumn = [[NSTableColumn alloc] initWithIdentifier:@"title"];
+        [_trackTableView addTableColumn:trackTitleColumn];
+        [[trackTitleColumn headerCell] setStringValue:@"Track"];
+        [trackTitleColumn setWidth:150];
+        
+        NSTableColumn *trackAlbumColumn = [[NSTableColumn alloc] initWithIdentifier:@"album"];
+        [_trackTableView addTableColumn:trackAlbumColumn];
+        [[trackAlbumColumn headerCell] setStringValue:@"Album"];
+        [trackAlbumColumn setWidth:150];
+        
+        NSTableColumn *trackArtistColumn = [[NSTableColumn alloc] initWithIdentifier:@"artist"];
+        [_trackTableView addTableColumn:trackArtistColumn];
+        [[trackArtistColumn headerCell] setStringValue:@"Artist"];
+        [trackArtistColumn setWidth:150];
+
 
         [self addSubview:trackScrollView];
         [_trackTableView reloadData];
@@ -102,7 +115,7 @@
 {
     [super resizeSubviewsWithOldSize:oldBoundsSize];
     [[[_playlistTableView tableColumns] objectAtIndex:0] setWidth:[_playlistTableView bounds].size.width];
-    [[[_trackTableView tableColumns] objectAtIndex:0] setWidth:[_trackTableView bounds].size.width];
+    //[[[_trackTableView tableColumns] objectAtIndex:0] setWidth:[_trackTableView bounds].size.width];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -232,7 +245,8 @@
             view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
             view.identifier = @"playlistTrackCellView";
         }
-
+        
+        [view setColumnIdentifier:[tableColumn identifier]]; // this must be done first before setting track
         [view setTrack:[_currentPlaylist trackAtIndex:row]];
         return view;
     }

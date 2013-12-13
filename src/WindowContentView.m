@@ -26,7 +26,7 @@ enum SearchButtonState {
 {
     self = [super initWithFrame:frame];
     if (self) {
-        width_divider = 0.60;
+        width_divider = 0.37;
 
         _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame] andLibrary:library];
         [self addSubview:_libraryView];

@@ -48,7 +48,7 @@
     _library = [[Library alloc] init];
     [_library startFSMonitor];
 
-    CGRect b = CGRectMake(0, 0, 500, 450);
+    CGRect b = CGRectMake(0, 0, 800, 450);
 
     /** Scroll View */
     _window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];

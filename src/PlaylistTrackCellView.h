@@ -15,6 +15,6 @@
 }
 
 @property PlaylistTrack* track;
-
+@property NSString* columnIdentifier;
 
 @end
