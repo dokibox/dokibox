@@ -63,13 +63,11 @@
 		2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */; };
 		2BAEE25C17E56445007D610B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2BAEE26717E5647B007D610B /* dokibox-lastfmscrobbler.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BAEE25B17E56445007D610B /* dokibox-lastfmscrobbler.bundle */; };
-		2BAEE26817E565A4007D610B /* LastFMScrobblerPlugin.h in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE25517E55AA5007D610B /* LastFMScrobblerPlugin.h */; };
 		2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE25617E55AA5007D610B /* LastFMScrobblerPlugin.m */; };
 		2BAEE26F17E64FF0007D610B /* LastFMScrobblerPluginPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE26B17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.m */; };
 		2BAEE27017E64FF5007D610B /* LastFMScrobblerPluginPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BAEE26C17E64F16007D610B /* LastFMScrobblerPluginPreferenceViewController.xib */; };
 		2BAEE27317E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAEE27217E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m */; };
 		2BB0E21E17F9037B00F945FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BB0E21C17F9037B00F945FE /* InfoPlist.strings */; };
-		2BB0E22117F9038400F945FE /* dokibox-lastfmscrobbler-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BB0E21F17F9038400F945FE /* dokibox-lastfmscrobbler-Info.plist */; };
 		2BB0E22517F9059200F945FE /* LibraryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB0E22317F9058A00F945FE /* LibraryViewCell.m */; };
 		2BB25CC01697303000243B27 /* PluginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB25CBF1697302F00243B27 /* PluginManager.m */; };
 		2BB25CCC16973CCD00243B27 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80D44016920167000F3392 /* CoreFoundation.framework */; };
@@ -1038,7 +1036,6 @@
 			files = (
 				2BAEE27017E64FF5007D610B /* LastFMScrobblerPluginPreferenceViewController.xib in Resources */,
 				2BB0E21E17F9037B00F945FE /* InfoPlist.strings in Resources */,
-				2BB0E22117F9038400F945FE /* dokibox-lastfmscrobbler-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1129,7 +1126,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BAEE26817E565A4007D610B /* LastFMScrobblerPlugin.h in Sources */,
 				2BAEE26917E565A4007D610B /* LastFMScrobblerPlugin.m in Sources */,
 				2BAEE26F17E64FF0007D610B /* LastFMScrobblerPluginPreferenceViewController.m in Sources */,
 				2BAEE27317E7AE1E007D610B /* LastFMScrobblerPluginAPICall.m in Sources */,

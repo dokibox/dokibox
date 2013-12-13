@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef void(^NSViewDrawRect)(NSView *, CGRect);
 @interface TitlebarButtonNS : NSButton {
     NSViewDrawRect _drawIcon;
     BOOL _hover;

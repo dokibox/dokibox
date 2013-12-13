@@ -8,3 +8,5 @@
 
 #import "DDLog.h"
 static int ddLogLevel __unused = LOG_LEVEL_VERBOSE;
+
+typedef void(^NSViewDrawRect)(NSView *, CGRect);

@@ -384,7 +384,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     currentDecoder = [self decoderForFile:fp];
     DecoderMetadata metadata = [currentDecoder decodeMetadata];
     _totalFrames = metadata.totalSamples;
-    NSLog(@"total frames: %lu", metadata.totalSamples);
+    NSLog(@"total frames: %llu", metadata.totalSamples);
     NSLog(@"bitrate: %d", metadata.bitsPerSample);
 
     NSDate *d = [NSDate date];
@@ -483,7 +483,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _currentTrack = nil;
 }
 
-- (void)setElapsedFrames:(int)elapsedFrames {
+- (void)setElapsedFrames:(unsigned long long)elapsedFrames {
     _elapsedFrames = elapsedFrames;
 
     float sec = (float)elapsedFrames / (float)_inFormat.mSampleRate;

@@ -13,8 +13,6 @@
 @class TitlebarButtonNS;
 @class Library;
 
-typedef void(^NSViewDrawRect)(NSView *, CGRect);
-
 @interface WindowContentView : NSView {
     CGFloat width_divider;
     PlaylistView *_playlistView;
@@ -30,7 +28,6 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 
 -(NSRect)playlistViewFrame;
 -(NSRect)libraryViewFrame;
--(void)relayout;
 - (void)redisplay;
 
 -(NSViewDrawRect)newPlaylistButtonDrawRect;

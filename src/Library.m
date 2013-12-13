@@ -55,7 +55,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         /* flags are unsigned long, IDs are uint64_t */
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagHistoryDone)) continue;
 
-        printf("Change %llu in %s, flags %lu\n", eventIds[i], paths[i], eventFlags[i]);
+        printf("Change %llu in %s, flags %du\n", eventIds[i], paths[i], (unsigned int)eventFlags[i]);
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagMustScanSubDirs))
             NSLog(@"must scan subdirs");
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagEventIdsWrapped))
@@ -249,6 +249,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
+        return nil;
     }
     else if([results count] == 1) {
         return [results objectAtIndex:0];

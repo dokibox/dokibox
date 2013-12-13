@@ -10,8 +10,8 @@
 #import "MusicController.h"
 #import "PlaylistTrack.h"
 #import "SliderBar.h"
+#import "TitlebarSeekButtonNS.h"
 
-typedef void(^NSViewDrawRect)(NSView *, CGRect);
 @class SPMediaKeyTap;
 
 @interface TitlebarViewNS : NSView <SliderBarDelegate> {
@@ -32,9 +32,10 @@ typedef void(^NSViewDrawRect)(NSView *, CGRect);
 -(id)initWithMusicController:(MusicController *)mc;
 -(void)initSubviews;
 -(NSViewDrawRect)playButtonDrawBlock;
--(NSViewDrawRect)seekButtonDrawBlock;
+-(NSViewDrawRect)seekButtonDrawBlock:(SeekButtonDirection)buttonType;
 -(void)playButtonPressed:(id)sender;
--(void)seekButtonPressed:(id)sender;
+-(void)nextButtonPressed:(id)sender;
+-(void)prevButtonPressed:(id)sender;
 -(void)updatePlayButtonState:(NSNotification *)notification;
 -(void)updatePlayButtonState;
 
