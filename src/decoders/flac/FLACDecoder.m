@@ -124,7 +124,7 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 
 -(void)setMetadata:(FLAC__StreamMetadata *)metadata
 {
-    int total_samples = metadata->data.stream_info.total_samples;
+    unsigned long long total_samples = metadata->data.stream_info.total_samples;
     int sample_rate = metadata->data.stream_info.sample_rate;
     int channels = metadata->data.stream_info.channels;
     int bps = metadata->data.stream_info.bits_per_sample;

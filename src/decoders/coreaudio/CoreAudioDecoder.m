@@ -132,6 +132,6 @@ static SInt64 streamGetSizeRequest(void* mc) {
 }
 
 -(void)seekToFrame:(unsigned long long)frame {
-    OSStatus retval = ExtAudioFileSeek(_inFileRef, frame);
+    OSStatus retval __unused = ExtAudioFileSeek(_inFileRef, frame);
 }
 @end

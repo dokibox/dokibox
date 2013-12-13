@@ -384,7 +384,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     currentDecoder = [self decoderForFile:fp];
     DecoderMetadata metadata = [currentDecoder decodeMetadata];
     _totalFrames = metadata.totalSamples;
-    NSLog(@"total frames: %d", metadata.totalSamples);
+    NSLog(@"total frames: %lu", metadata.totalSamples);
     NSLog(@"bitrate: %d", metadata.bitsPerSample);
 
     NSDate *d = [NSDate date];
@@ -435,7 +435,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     }
 }
 
-- (NSData *)readInput:(int)bytes {
+- (NSData *)readInput:(unsigned long long)bytes {
     return [fileHandle readDataOfLength:(NSUInteger)bytes];
 }
 

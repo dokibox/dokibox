@@ -23,7 +23,7 @@ typedef enum {
 typedef struct  {
     int sampleRate;
     int bitsPerSample;
-    int totalSamples;
+    unsigned long long totalSamples;
     int numberOfChannels;
     DecoderFormat format;
 } DecoderMetadata;

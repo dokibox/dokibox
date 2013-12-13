@@ -40,8 +40,8 @@ typedef enum {
     MusicControllerDecoderStatus _decoderStatus;
     MusicControllerStatus _status;
     PlaylistTrack *_currentTrack;
-    int _elapsedFrames;
-    int _totalFrames;
+    unsigned long long _elapsedFrames;
+    unsigned long long _totalFrames;
     float _prevElapsedTimeSent;
 
 
@@ -58,7 +58,7 @@ typedef enum {
 @property(assign) MusicControllerDecoderStatus decoderStatus;
 @property(assign) MusicControllerStatus status;
 @property(readonly) AudioStreamBasicDescription inFormat;
-@property(assign,nonatomic) int elapsedFrames;
+@property(assign,nonatomic) unsigned long long elapsedFrames;
 @property() float volume;
 
 
@@ -70,7 +70,7 @@ typedef enum {
 - (void)configureAudioGraph:(DecoderMetadata)decoderMetadata;
 
 - (void)receivedSeekTrackNotification:(NSNotification *)notification;
-- (NSData *)readInput:(int)bytes;
+- (NSData *)readInput:(unsigned long long)bytes;
 - (void)seekInput:(unsigned long long)offset;
 - (void)seekInputToEnd;
 - (unsigned long long)inputPosition;

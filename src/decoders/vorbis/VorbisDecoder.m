@@ -13,7 +13,7 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     VorbisDecoder *vorbisDecoder = (__bridge VorbisDecoder *)datasource;
     MusicController *mc = [vorbisDecoder musicController];
 
-    NSData *data = [mc readInput:(int)size*nmemb];
+    NSData *data = [mc readInput:(unsigned long long)size*nmemb];
     int sizeread = (int)[data length];
     if(sizeread == 0) { //EOF maybe?
         return 0;
@@ -77,7 +77,7 @@ long vorbis_tellcallback(void *datasource) {
     vorbis_info *vi = ov_info(&decoder, -1);
     if(vi != NULL) {
         _metadata.numberOfChannels = vi->channels;
-        _metadata.sampleRate = vi->rate;
+        _metadata.sampleRate = (int)vi->rate;
         _metadata.totalSamples = ov_pcm_total(&decoder, -1);
         _metadata.bitsPerSample = 16;
     }
@@ -86,14 +86,14 @@ long vorbis_tellcallback(void *datasource) {
 
 -(DecodeStatus)decodeNextFrame {
     int sizetoread = 4096;
-    int sizeread;
+    long sizeread;
     int bitstreamno;
     char *audio = malloc(sizetoread);
 
     sizeread = ov_read(&decoder, audio, sizetoread, 0, 2, 1, &bitstreamno);
 
     if(sizeread > 0) {
-        [[musicController fifoBuffer] write:audio size:sizeread];
+        [[musicController fifoBuffer] write:audio size:(int)sizeread];
     }
 
     free(audio);
