@@ -101,6 +101,8 @@
 
         [self addSubview:trackScrollView];
         [_trackTableView reloadData];
+        [_trackTableView setAutosaveName:@"trackTableView"];
+        [_trackTableView setAutosaveTableColumns:YES];
 
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
