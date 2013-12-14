@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0B7E32185CD1FD00D2059D /* PlaylistTrackHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */; };
 		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
@@ -225,6 +226,8 @@
 		2B05BBE91522C04A003DCE57 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = prefix/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		2B05BBEA1522C04A003DCE57 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = prefix/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		2B05C7B217EE65B800B54A89 /* PluginCommon.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginCommon.pch; path = plugins/PluginCommon.pch; sourceTree = "<group>"; };
+		2B0B7E30185CD1FD00D2059D /* PlaylistTrackHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackHeaderCell.h; sourceTree = "<group>"; };
+		2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackHeaderCell.m; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B15BF64146127A100DC46CD /* dokibox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dokibox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -718,6 +721,8 @@
 				2B9DA4FC1791E8C60065DC44 /* PlaylistTrackRowView.m */,
 				2B9DA4FE1791FE910065DC44 /* PlaylistRowView.h */,
 				2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */,
+				2B0B7E30185CD1FD00D2059D /* PlaylistTrackHeaderCell.h */,
+				2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */,
 			);
 			name = "playlist view";
 			sourceTree = "<group>";
@@ -1096,6 +1101,7 @@
 				2B65ED2516C8906900DD327D /* LibraryArtist.m in Sources */,
 				2B65ED2816C8907200DD327D /* LibraryAlbum.m in Sources */,
 				2B7C00AE18202F7100E2AC90 /* ProfileViewController.m in Sources */,
+				2B0B7E32185CD1FD00D2059D /* PlaylistTrackHeaderCell.m in Sources */,
 				2B5B33FF17763C140093C292 /* MASPreferencesWindowController.m in Sources */,
 				2B5B340517763C9A0093C292 /* LibraryPreferenceViewController.m in Sources */,
 				2B82B25F1780EDB700E1EA0B /* LibraryCoreDataManager.m in Sources */,

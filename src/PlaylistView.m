@@ -17,6 +17,7 @@
 #import "PlaylistRowView.h"
 #import "NSView+CGDrawing.h"
 #import "NSManagedObjectContext+Helpers.h"
+#import "PlaylistTrackHeaderCell.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -81,28 +82,34 @@
 
         NSTableColumn *trackTitleColumn = [[NSTableColumn alloc] initWithIdentifier:@"title"];
         [_trackTableView addTableColumn:trackTitleColumn];
-        [[trackTitleColumn headerCell] setStringValue:@"Track"];
+        [trackTitleColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@"Track"]];
         [trackTitleColumn setWidth:150];
+        [trackTitleColumn setMinWidth:50];
         
         NSTableColumn *trackAlbumColumn = [[NSTableColumn alloc] initWithIdentifier:@"album"];
         [_trackTableView addTableColumn:trackAlbumColumn];
-        [[trackAlbumColumn headerCell] setStringValue:@"Album"];
+        [trackAlbumColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@"Album"]];
         [trackAlbumColumn setWidth:150];
+        [trackAlbumColumn setMinWidth:50];
         
         NSTableColumn *trackArtistColumn = [[NSTableColumn alloc] initWithIdentifier:@"artist"];
         [_trackTableView addTableColumn:trackArtistColumn];
-        [[trackArtistColumn headerCell] setStringValue:@"Artist"];
+        [trackArtistColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@"Artist"]];
         [trackArtistColumn setWidth:150];
+        [trackArtistColumn setMinWidth:50];
         
         NSTableColumn *trackLengthColumn = [[NSTableColumn alloc] initWithIdentifier:@"length"];
         [_trackTableView addTableColumn:trackLengthColumn];
-        [[trackLengthColumn headerCell] setStringValue:@"Length"];
+        [trackLengthColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@"Length"]];
+        [trackLengthColumn setMinWidth:50];
 
 
         [self addSubview:trackScrollView];
         [_trackTableView reloadData];
         [_trackTableView setAutosaveName:@"trackTableView"];
         [_trackTableView setAutosaveTableColumns:YES];
+        [_trackTableView setUsesAlternatingRowBackgroundColors:YES];
+        [_trackTableView setRowHeight:25.0];
 
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
