@@ -50,6 +50,11 @@
         else if([_columnIdentifier isEqualToString:@"artist"]) {
             [_textField setStringValue:[_track artistName]];
         }
+        else if([_columnIdentifier isEqualToString:@"length"]) {
+            int length = [[_track length] intValue];
+            NSString *timeString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(length/60.0), (int)length%60];
+            [_textField setStringValue:timeString];
+        }
     }
 }
 

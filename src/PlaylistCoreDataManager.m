@@ -61,6 +61,12 @@
             [artistNameAttribute setAttributeType:NSStringAttributeType];
             [artistNameAttribute setOptional:NO];
             [playlistTrackProperties addObject:artistNameAttribute];
+            
+            NSAttributeDescription *lengthAttribute = [[NSAttributeDescription alloc] init];
+            [lengthAttribute setName:@"length"];
+            [lengthAttribute setAttributeType:NSInteger32AttributeType];
+            [lengthAttribute setOptional:YES];
+            [playlistTrackProperties addObject:lengthAttribute];
 
             NSAttributeDescription *attributesAttribute = [[NSAttributeDescription alloc] init];
             [attributesAttribute setName:@"attributes"];

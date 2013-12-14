@@ -93,6 +93,10 @@
         [_trackTableView addTableColumn:trackArtistColumn];
         [[trackArtistColumn headerCell] setStringValue:@"Artist"];
         [trackArtistColumn setWidth:150];
+        
+        NSTableColumn *trackLengthColumn = [[NSTableColumn alloc] initWithIdentifier:@"length"];
+        [_trackTableView addTableColumn:trackLengthColumn];
+        [[trackLengthColumn headerCell] setStringValue:@"Length"];
 
 
         [self addSubview:trackScrollView];

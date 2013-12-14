@@ -15,6 +15,7 @@
 @dynamic albumName;
 @dynamic playlist;
 @dynamic index;
+@dynamic length;
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
 {
@@ -23,6 +24,7 @@
     [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
     [t setArtistName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"")];
     [t setAlbumName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
+    [t setLength:[[t attributes] objectForKey:@"length"]];
 
     return t;
 }

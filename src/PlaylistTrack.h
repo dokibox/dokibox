@@ -22,5 +22,7 @@
 @property (nonatomic) NSString *artistName;
 @property (nonatomic) Playlist *playlist;
 @property NSNumber *index;
+@property NSNumber *length;
+
 
 @end
