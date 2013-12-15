@@ -83,9 +83,9 @@
         NSTableColumn *trackPlayingColumn = [[NSTableColumn alloc] initWithIdentifier:@"playing"];
         [_trackTableView addTableColumn:trackPlayingColumn];
         [trackPlayingColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@""]];
-        [trackPlayingColumn setWidth:20];
-        [trackPlayingColumn setMaxWidth:20];
-        [trackPlayingColumn setMinWidth:20];
+        [trackPlayingColumn setWidth:13];
+        [trackPlayingColumn setMaxWidth:13];
+        [trackPlayingColumn setMinWidth:13];
 
         NSTableColumn *trackTitleColumn = [[NSTableColumn alloc] initWithIdentifier:@"title"];
         [_trackTableView addTableColumn:trackTitleColumn];

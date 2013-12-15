@@ -45,17 +45,54 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGRect b = self.bounds;
+    if([[self track] playbackStatus] != MusicControllerPlaying && [[self track] playbackStatus] != MusicControllerPaused) return;
     
-    if([[self track] playbackStatus] == MusicControllerPlaying) {
-        CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 1.0);
-        CGContextFillRect(ctx, b);
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGRect b = [self bounds];
+    CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
+    middle.x += 2; // left offset
+    CGContextSaveGState(ctx);
+    
+    float size = 5.5;
+    float gradient_height;
+    
+    // This is mostly copied from TitlebarViewNS.m (perhaps dedup this sometime)
+    if([[self track] playbackStatus] == MusicControllerPaused) {
+        float height = size*sqrt(3.0), width = 3, seperation = 1.5;
+        CGRect rects[] = {
+            CGRectMake(middle.x - seperation/2.0 - width, middle.y - height/2.0, width, height),
+            CGRectMake(middle.x + seperation/2.0, middle.y - height/2.0, width, height)
+        };
+        CGContextClipToRects(ctx, rects, 2);
+        gradient_height = height/2.0;
     }
-    else if([[self track] playbackStatus] == MusicControllerPaused) {
-        CGContextSetRGBFillColor(ctx, 0.0, 1.0, 0.0, 1.0);
-        CGContextFillRect(ctx, b);
+    else if([[self track] playbackStatus] == MusicControllerPlaying) {
+        CGPoint playPoints[] =
+        {
+            CGPointMake(middle.x + size, middle.y),
+            CGPointMake(middle.x - size*0.5, middle.y + size*sqrt(3.0)*0.5),
+            CGPointMake(middle.x - size*0.5, middle.y - size*sqrt(3.0)*0.5),
+            CGPointMake(middle.x + size, middle.y)
+        };
+        CGAffineTransform trans = CGAffineTransformMakeTranslation(-1,0);
+        for (int i=0; i<4; i++) {
+            playPoints[i] = CGPointApplyAffineTransform(playPoints[i],trans);
+        }
+        CGContextAddLines(ctx, playPoints, 4);
+        gradient_height = size*sqrt(3)*0.5;
+        CGContextClip(ctx);
     }
+    NSColor *gradientEndColor = [NSColor colorWithCalibratedRed:0.057 green:0.474 blue:0.865 alpha:1.000];
+    NSColor *gradientStartColor = [NSColor colorWithCalibratedRed:0.457 green:0.693 blue:0.875 alpha:1.000];
+    
+    NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                       (id)[gradientEndColor CGColor], nil];
+    CGFloat locations[] = { 0.0, 1.0 };
+    CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+    
+    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + gradient_height), CGPointMake(middle.x, middle.y - gradient_height), 0);
+    CGGradientRelease(gradient);
+    CGContextRestoreGState(ctx);
 }
 
 @end

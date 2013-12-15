@@ -17,7 +17,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        NSRect textRect = NSInsetRect([self bounds], 5, 5);
+        NSRect textRect = NSInsetRect([self bounds], 4, 5);
         _textField = [[NSTextField alloc] initWithFrame:textRect];
         [_textField setEditable:NO];
         [_textField setBordered:NO];
