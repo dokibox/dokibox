@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B0B7E32185CD1FD00D2059D /* PlaylistTrackHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */; };
+		2B0B7E38185D28C900D2059D /* PlaylistTrackPlayingCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B7E37185D28C900D2059D /* PlaylistTrackPlayingCellView.m */; };
 		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
@@ -228,6 +229,8 @@
 		2B05C7B217EE65B800B54A89 /* PluginCommon.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginCommon.pch; path = plugins/PluginCommon.pch; sourceTree = "<group>"; };
 		2B0B7E30185CD1FD00D2059D /* PlaylistTrackHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackHeaderCell.h; sourceTree = "<group>"; };
 		2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackHeaderCell.m; sourceTree = "<group>"; };
+		2B0B7E36185D28C900D2059D /* PlaylistTrackPlayingCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrackPlayingCellView.h; sourceTree = "<group>"; };
+		2B0B7E37185D28C900D2059D /* PlaylistTrackPlayingCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrackPlayingCellView.m; sourceTree = "<group>"; };
 		2B0E032815214B3900B80884 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = prefix/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		2B15BF64146127A100DC46CD /* dokibox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dokibox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B15BF68146127A100DC46CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -715,14 +718,16 @@
 				2BF18DC615A0BBD1000C906E /* PlaylistView.m */,
 				2B5086DA1787CFD20066B014 /* PlaylistTrackCellView.h */,
 				2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */,
-				2B9DA4F8178A5AF10065DC44 /* PlaylistCellView.h */,
-				2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */,
 				2B9DA4FB1791E8C60065DC44 /* PlaylistTrackRowView.h */,
 				2B9DA4FC1791E8C60065DC44 /* PlaylistTrackRowView.m */,
-				2B9DA4FE1791FE910065DC44 /* PlaylistRowView.h */,
-				2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */,
+				2B0B7E36185D28C900D2059D /* PlaylistTrackPlayingCellView.h */,
+				2B0B7E37185D28C900D2059D /* PlaylistTrackPlayingCellView.m */,
 				2B0B7E30185CD1FD00D2059D /* PlaylistTrackHeaderCell.h */,
 				2B0B7E31185CD1FD00D2059D /* PlaylistTrackHeaderCell.m */,
+				2B9DA4F8178A5AF10065DC44 /* PlaylistCellView.h */,
+				2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */,
+				2B9DA4FE1791FE910065DC44 /* PlaylistRowView.h */,
+				2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */,
 			);
 			name = "playlist view";
 			sourceTree = "<group>";
@@ -1120,6 +1125,7 @@
 				2BAEE24417E515DB007D610B /* PluginPreferenceViewController.m in Sources */,
 				2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */,
 				2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */,
+				2B0B7E38185D28C900D2059D /* PlaylistTrackPlayingCellView.m in Sources */,
 				2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */,
 				2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */,
 				2BF4675F17F7A61800FC93C3 /* LibraryViewTrackRowView.m in Sources */,

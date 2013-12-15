@@ -70,7 +70,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 @synthesize auBuffer;
 @synthesize converter;
 @synthesize decoderStatus = _decoderStatus;
-@synthesize status = _status;
 @synthesize inFormat = _inFormat;
 @synthesize elapsedFrames = _elapsedFrames;
 
@@ -366,6 +365,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 {
     if([self decoderStatus] != MusicControllerDecoderIdle) { //still playing something at the moment
         AUGraphStop(_outputGraph);
+        [self setStatus:MusicControllerStopped];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:nil];
     }
     _currentTrack = [notification object];
@@ -476,6 +476,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (void)stop {
     AUGraphStop(_outputGraph);
+    
     [self setStatus:MusicControllerStopped];
     [self setDecoderStatus:MusicControllerDecoderIdle];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
@@ -513,6 +514,19 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         if(err) {
             NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit output) failed");
         }
+    }
+}
+
+-(MusicControllerStatus)status {
+    return _status;
+}
+
+-(void)setStatus:(MusicControllerStatus)status
+{
+    _status = status;
+    if(_currentTrack) {
+        [_currentTrack setPlaybackStatus:status];
+        NSLog(@"hi for %@", [_currentTrack filename]);
     }
 }
 

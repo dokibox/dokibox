@@ -18,6 +18,7 @@
 #import "NSView+CGDrawing.h"
 #import "NSManagedObjectContext+Helpers.h"
 #import "PlaylistTrackHeaderCell.h"
+#import "PlaylistTrackPlayingCellView.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -79,6 +80,12 @@
         [trackScrollView setDocumentView:_trackTableView];
         [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
+        NSTableColumn *trackPlayingColumn = [[NSTableColumn alloc] initWithIdentifier:@"playing"];
+        [_trackTableView addTableColumn:trackPlayingColumn];
+        [trackPlayingColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@""]];
+        [trackPlayingColumn setWidth:20];
+        [trackPlayingColumn setMaxWidth:20];
+        [trackPlayingColumn setMinWidth:20];
 
         NSTableColumn *trackTitleColumn = [[NSTableColumn alloc] initWithIdentifier:@"title"];
         [_trackTableView addTableColumn:trackTitleColumn];
@@ -102,7 +109,7 @@
         [_trackTableView addTableColumn:trackLengthColumn];
         [trackLengthColumn setHeaderCell:[[PlaylistTrackHeaderCell alloc] initTextCell:@"Length"]];
         [trackLengthColumn setMinWidth:50];
-
+        
 
         [self addSubview:trackScrollView];
         [_trackTableView reloadData];
@@ -110,6 +117,10 @@
         [_trackTableView setAutosaveTableColumns:YES];
         [_trackTableView setUsesAlternatingRowBackgroundColors:YES];
         [_trackTableView setRowHeight:25.0];
+        
+        // Ensure playing column is always first
+        [_trackTableView moveColumn:[_trackTableView columnWithIdentifier:@"playing"] toColumn:0];
+        
 
         /*[_tableView setMaintainContentOffsetAfterReload:TRUE];
         [_tableView setClipsToBounds:TRUE];
@@ -251,17 +262,30 @@
                   row:(NSInteger)row {
 
     if(tableView == _trackTableView) {
-        PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
-
-        if(view == nil) {
-            NSRect frame = NSMakeRect(0, 0, 200, 25);
-            view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
-            view.identifier = @"playlistTrackCellView";
+        if([[tableColumn identifier] isEqualToString:@"playing"]) {
+            PlaylistTrackPlayingCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackPlayingCellView" owner:self];
+            
+            if(view == nil) {
+                NSRect frame = NSMakeRect(0, 0, 200, 25);
+                view = [[PlaylistTrackPlayingCellView alloc] initWithFrame:frame];
+                view.identifier = @"playlistTrackPlayingCellView";
+            }
+            [view setTrack:[_currentPlaylist trackAtIndex:row]];
+            return view;
         }
-        
-        [view setColumnIdentifier:[tableColumn identifier]]; // this must be done first before setting track
-        [view setTrack:[_currentPlaylist trackAtIndex:row]];
-        return view;
+        else {
+            PlaylistTrackCellView *view = [tableView makeViewWithIdentifier:@"playlistTrackCellView" owner:self];
+
+            if(view == nil) {
+                NSRect frame = NSMakeRect(0, 0, 200, 25);
+                view = [[PlaylistTrackCellView alloc] initWithFrame:frame];
+                view.identifier = @"playlistTrackCellView";
+            }
+            
+            [view setColumnIdentifier:[tableColumn identifier]]; // this must be done first before setting track
+            [view setTrack:[_currentPlaylist trackAtIndex:row]];
+            return view;
+        }
     }
     else if (tableView == _playlistTableView) {
         PlaylistCellView *view = [tableView makeViewWithIdentifier:@"playlistCellView" owner:self];

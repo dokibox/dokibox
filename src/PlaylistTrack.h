@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "common.h"
 #import "ManagedObjectTrack.h"
+#import "MusicController.h"
 
 @class Playlist;
 
@@ -23,6 +24,6 @@
 @property (nonatomic) Playlist *playlist;
 @property NSNumber *index;
 @property NSNumber *length;
-
+@property MusicControllerStatus playbackStatus;
 
 @end

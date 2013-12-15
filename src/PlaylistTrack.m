@@ -16,6 +16,7 @@
 @dynamic playlist;
 @dynamic index;
 @dynamic length;
+@synthesize playbackStatus = _playbackStatus;
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
 {
