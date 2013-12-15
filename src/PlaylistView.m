@@ -370,6 +370,9 @@
         else
             return NO;
     }
+    else if(action == @selector(revealTrackInFinder:)) {
+        return YES;
+    }
     else {
         return NO;
     }
@@ -593,6 +596,29 @@
             [tableView setAllowsColumnReordering:YES];
         }
     }
+}
+
+-(NSMenu *)tableView:(NSTableView*)tableView menuForTableColumnIndex:(NSInteger)columnIndex rowIndex:(NSInteger)rowIndex
+{
+    if(tableView == _trackTableView) {
+        if(rowIndex != -1 && columnIndex != -1) {
+            [tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:rowIndex] byExtendingSelection:NO];
+            NSMenu *menu = [[NSMenu alloc] initWithTitle:@"menu"];
+            NSMenuItem *revealItem = [menu insertItemWithTitle:@"Reveal in Finder" action:@selector(revealTrackInFinder:) keyEquivalent:@"" atIndex:0];
+            [revealItem setTarget:self];
+            [revealItem setRepresentedObject:[_currentPlaylist trackAtIndex:rowIndex]];
+            return menu;
+        }
+    }
+
+    return nil;
+}
+
+-(void)revealTrackInFinder:(id)sender
+{
+    PlaylistTrack *t = (PlaylistTrack *)[sender representedObject];
+    NSArray *urls = [NSArray arrayWithObject:[[NSURL alloc] initFileURLWithPath:[t filename]]];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 
 

@@ -30,30 +30,32 @@ Unless required by applicable law or agreed to in writing, software distributed 
 }
 
 - (NSMenu*)replacement_menuForEvent:(NSEvent*)event {
-    SEL selector = @selector(menuForTableColumnIndex:rowIndex:) ;
+    SEL selector = @selector(tableView:menuForTableColumnIndex:rowIndex:) ;
     
-    NSMenu* menu ;
-    
-    if ([self respondsToSelector:selector]) {
-        menu = nil ;
-        
+    if ([self delegate] && [[self delegate] respondsToSelector:selector]) {
         NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil] ;
         NSInteger iCol = [self columnAtPoint:point];
         NSInteger iRow = [self rowAtPoint:point];
         
-        if ((iCol >= 0) && (iRow >= 0)) {
-            //menu = [self menuForTableColumnIndex:iCol
-            //                            rowIndex:iRow];
-        }
+        NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[(NSObject *)[self delegate] methodSignatureForSelector:selector]];
+        [inv setSelector:selector];
+        [inv setTarget:[self delegate]];
+        [inv setArgument:(void *)&self atIndex:2];
+        [inv setArgument:&iCol atIndex:3];
+        [inv setArgument:&iRow atIndex:4];
+        [inv invoke];
+        __unsafe_unretained id retval;
+        [inv getReturnValue:&retval];
+        return retval;
     }
     else {
         // Call the original sendEvent: method, whose implementation was exchanged with our own.
         // Note:  this ISN'T a recursive call, because this method should have been called through -sendEvent:.
         NSParameterAssert(_cmd == @selector(menuForEvent:));
-        menu = [self replacement_menuForEvent:event];
+        NSMenu* menu = [self replacement_menuForEvent:event];
+        return menu;
     }
     
-    return menu ;
 }
 
 @end
