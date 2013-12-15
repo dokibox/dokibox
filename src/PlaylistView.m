@@ -562,6 +562,39 @@
     return NO;
 }
 
+- (BOOL)tableView:(NSTableView *)tableView shouldReorderColumn:(NSInteger)columnIndex toColumn:(NSInteger)newColumnIndex
+{
+    if(tableView == _trackTableView) {
+        if(newColumnIndex == 0) // Prevent something being dragged to playing column position
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    else {
+        return YES;
+    }
+}
+
+-(void)tableView:(NSTableView*)tableView mouseDownInHeaderOfTableColumn:(NSTableColumn*)tableColumn
+{
+    if(tableView == _trackTableView) {
+        if ([[tableColumn identifier] isEqualToString:@"playing"])
+        {
+            // Prevents playing column from being dragged. For some reason returning NO in
+            // tableView:shouldReorderColumn:toColumn causes it to get stuck selected
+            [tableView setAllowsColumnReordering:NO];
+        }
+        else
+        {
+            [tableView setAllowsColumnReordering:YES];
+        }
+    }
+}
+
 
 /*
 -(BOOL)tableView:(TUITableView *)tableView canMoveRowAtIndexPath:(TUIFastIndexPath *)indexPath {
