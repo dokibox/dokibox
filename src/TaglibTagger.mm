@@ -9,6 +9,8 @@
 #import "TaglibTagger.h"
 
 #include <taglib/mpegfile.h>
+#include <taglib/flacfile.h>
+#include <taglib/vorbisfile.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
 
@@ -50,7 +52,17 @@
 
     if(_audioproperties) {
         [retval setValue:[NSNumber numberWithInt:_audioproperties->length()] forKey:@"length"];
+        [retval setValue:[NSNumber numberWithInt:_audioproperties->bitrate()] forKey:@"bitrate"];
+        [retval setValue:[NSNumber numberWithInt:_audioproperties->sampleRate()] forKey:@"samplerate"];
     }
+    
+    if(dynamic_cast<TagLib::MPEG::File*>(_fileref->file()))
+        [retval setValue:@"MP3" forKey:@"format"];
+    else if(dynamic_cast<TagLib::FLAC::File*>(_fileref->file()))
+        [retval setValue:@"FLAC" forKey:@"format"];
+    else if(dynamic_cast<TagLib::Ogg::Vorbis::File*>(_fileref->file()))
+        [retval setValue:@"Ogg Vorbis" forKey:@"format"];
+
 
     return retval;
 }

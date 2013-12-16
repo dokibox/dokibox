@@ -604,9 +604,14 @@
         if(rowIndex != -1 && columnIndex != -1) {
             [tableView selectRowIndexes:[[NSIndexSet alloc] initWithIndex:rowIndex] byExtendingSelection:NO];
             NSMenu *menu = [[NSMenu alloc] initWithTitle:@"menu"];
-            NSMenuItem *revealItem = [menu insertItemWithTitle:@"Reveal in Finder" action:@selector(revealTrackInFinder:) keyEquivalent:@"" atIndex:0];
+            
+            PlaylistTrack *t = [_currentPlaylist trackAtIndex:rowIndex];
+            
+            [menu insertItemWithTitle:[NSString stringWithFormat:@"Format: %@", [t menuItemFormatString]] action:NULL keyEquivalent:@"" atIndex:0];
+            
+            NSMenuItem *revealItem = [menu insertItemWithTitle:@"Reveal in Finder" action:@selector(revealTrackInFinder:) keyEquivalent:@"" atIndex:1];
             [revealItem setTarget:self];
-            [revealItem setRepresentedObject:[_currentPlaylist trackAtIndex:rowIndex]];
+            [revealItem setRepresentedObject:t];
             return menu;
         }
     }

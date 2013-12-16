@@ -30,4 +30,11 @@
     return t;
 }
 
+-(NSString *)menuItemFormatString
+{
+    NSDictionary *dict = [self attributes];
+    NSString *str = [[NSString alloc] initWithFormat:@"%@ [%@ kbit/s]", [dict objectForKey:@"format"], [dict objectForKey:@"bitrate"]];
+    return str;
+}
+
 @end
