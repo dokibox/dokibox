@@ -23,11 +23,10 @@
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
 
-#define playlistHeight 100
-
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame])) {
+        _playlistHeight = 100;
 
         // Fetch stuff
         _playlistCoreDataManger = [[PlaylistCoreDataManager alloc] init];
@@ -35,11 +34,9 @@
         [self fetchPlaylists];
 
         // Playlist table view
-        NSRect playlistScrollViewFrame = self.bounds;
-        playlistScrollViewFrame.size.height = playlistHeight - 15.0;
-        RBLScrollView *playlistScrollView = [[RBLScrollView alloc] initWithFrame:playlistScrollViewFrame];
-        [playlistScrollView setHasVerticalScroller:YES];
-        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[playlistScrollView contentView] bounds]];
+        _playlistScrollView = [[RBLScrollView alloc] initWithFrame:[self playlistScrollViewFrame]];
+        [_playlistScrollView setHasVerticalScroller:YES];
+        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[_playlistScrollView contentView] bounds]];
         [_playlistTableView setDelegate:self];
         [_playlistTableView setDataSource:self];
         [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
@@ -47,12 +44,12 @@
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_playlistTableView setAllowsEmptySelection:NO];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
-        [playlistScrollView setDocumentView:_playlistTableView];
-        [playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+        [_playlistScrollView setDocumentView:_playlistTableView];
+        [_playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
         NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_playlistTableView addTableColumn:playlistFirstColumn];
         [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
-        [self addSubview:playlistScrollView];
+        [self addSubview:_playlistScrollView];
         [_playlistTableView reloadData];
 
         // Select first playlist
@@ -63,21 +60,18 @@
 
 
         // Track table view
-        NSRect trackScrollViewFrame = self.bounds;
-        trackScrollViewFrame.origin.y += playlistHeight;
-        trackScrollViewFrame.size.height -= playlistHeight;
-        RBLScrollView *trackScrollView = [[RBLScrollView alloc] initWithFrame:trackScrollViewFrame];
-        [trackScrollView setHasVerticalScroller:YES];
-        [trackScrollView setHasHorizontalScroller:YES];
-        _trackTableView = [[RBLTableView alloc] initWithFrame: [[trackScrollView contentView] bounds]];
+        _trackScrollView = [[RBLScrollView alloc] initWithFrame:[self trackScrollViewFrame]];
+        [_trackScrollView setHasVerticalScroller:YES];
+        [_trackScrollView setHasHorizontalScroller:YES];
+        _trackTableView = [[RBLTableView alloc] initWithFrame: [[_trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
         [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
         [_trackTableView setAllowsMultipleSelection:YES];
-        [trackScrollView setDocumentView:_trackTableView];
-        [trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [_trackScrollView setDocumentView:_trackTableView];
+        [_trackScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
         NSTableColumn *trackPlayingColumn = [[NSTableColumn alloc] initWithIdentifier:@"playing"];
         [_trackTableView addTableColumn:trackPlayingColumn];
@@ -110,7 +104,7 @@
         [trackLengthColumn setMinWidth:50];
         
 
-        [self addSubview:trackScrollView];
+        [self addSubview:_trackScrollView];
         [_trackTableView reloadData];
         [_trackTableView setAutosaveName:@"trackTableView"];
         [_trackTableView setAutosaveTableColumns:YES];
@@ -125,14 +119,113 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaylistSavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
+        
+        [self updateDividerTrackingArea];
     }
     return self;
+}
+
+- (void)updateDividerTrackingArea
+{
+    if(_dividerTrackingArea) {
+        [self removeTrackingArea:_dividerTrackingArea];
+    }
+    
+    NSRect trackingRect = [self bounds];
+    
+    trackingRect.origin.y += _playlistHeight;
+    trackingRect.size.height = 6.0;
+    trackingRect.origin.y -= 3.0;
+    
+    _dividerTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:NSTrackingCursorUpdate|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+    [self addTrackingArea:_dividerTrackingArea];
+}
+
+-(void)cursorUpdate:(NSEvent *)event
+{
+    NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+    
+    if (_dividerBeingDragged == YES || [self mouse:point inRect:[_dividerTrackingArea rect]]) {
+        [[NSCursor resizeUpDownCursor] set];
+    } else {
+        [super cursorUpdate:event];
+    }
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+    NSPoint point = [self convertPoint:aPoint fromView:[self superview]]; // convert to our coordinate system
+    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
+        return self; // Capture mouse clicks even though they are on top of other views
+    }
+    else {
+        return [super hitTest:aPoint];
+    }
+}
+
+-(void)mouseDown:(NSEvent *)event
+{
+    NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+    
+    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
+        _dividerBeingDragged = YES;
+    }
+    else {
+        [super mouseDown:event];
+    }
+}
+
+-(void)mouseUp:(NSEvent *)event
+{
+    if (_dividerBeingDragged) {
+        _dividerBeingDragged = NO;
+    }
+    else {
+        [super mouseUp:event];
+    }
+}
+
+
+-(void)mouseDragged:(NSEvent *)event
+{
+    if(_dividerBeingDragged == YES) {
+        NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+        
+        _playlistHeight = round(point.y);
+        if(_playlistHeight < 50)
+            _playlistHeight = 50;
+        else if (_playlistHeight > [self bounds].size.height - 50)
+            _playlistHeight = [self bounds].size.height - 50;
+        
+        [self resizeSubviewsWithOldSize:[self bounds].size];
+    }
+}
+
+- (NSRect)playlistScrollViewFrame
+{
+    NSRect playlistScrollViewFrame = self.bounds;
+    playlistScrollViewFrame.size.height = _playlistHeight - 15.0;
+    return playlistScrollViewFrame;
+}
+
+- (NSRect)trackScrollViewFrame
+{
+    NSRect trackScrollViewFrame = self.bounds;
+    trackScrollViewFrame.origin.y += _playlistHeight;
+    trackScrollViewFrame.size.height -= _playlistHeight;
+    return trackScrollViewFrame;
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {
     [super resizeSubviewsWithOldSize:oldBoundsSize];
     [[[_playlistTableView tableColumns] objectAtIndex:0] setWidth:[_playlistTableView bounds].size.width];
+    
+    [_playlistScrollView setFrame:[self playlistScrollViewFrame]];
+    [_trackScrollView setFrame:[self trackScrollViewFrame]];
+    
+    [self updateDividerTrackingArea];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -140,7 +233,7 @@
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     CGRect barRect = [self bounds];
-    barRect.origin.y += playlistHeight - 15.0;
+    barRect.origin.y += _playlistHeight - 15.0;
     barRect.size.height = 15.0;
 
     [self CGContextVerticalGradient:barRect context:ctx bottomColor:[NSColor colorWithDeviceWhite:0.8 alpha:1.0] topColor:[NSColor colorWithDeviceWhite:0.92 alpha:1.0]];

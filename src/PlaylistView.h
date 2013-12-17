@@ -10,9 +10,12 @@
 #import "RBLTableView.h"
 
 @class PlaylistCoreDataManager;
+@class RBLScrollView;
 
 @interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
+    RBLScrollView *_trackScrollView;
+    RBLScrollView *_playlistScrollView;
     RBLTableView *_trackTableView;
     RBLTableView *_playlistTableView;
     Playlist *_currentPlaylist;
@@ -21,7 +24,15 @@
     NSManagedObjectContext *_objectContext;
     
     dispatch_queue_t _addingQueue;
+    
+    NSTrackingArea *_dividerTrackingArea;
+    BOOL _dividerBeingDragged;
+    CGFloat _playlistHeight;
 }
+
+- (void)updateDividerTrackingArea;
+- (NSRect)playlistScrollViewFrame;
+- (NSRect)trackScrollViewFrame;
 
 - (void)addTracksToCurrentPlaylist:(NSArray*)filenames;
 - (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p;
