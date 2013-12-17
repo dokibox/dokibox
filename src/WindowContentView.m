@@ -112,7 +112,8 @@ enum SearchButtonState {
 
 - (NSView *)hitTest:(NSPoint)aPoint
 {
-    if ([self mouse:aPoint inRect:[_dividerTrackingArea rect]]) {
+    NSPoint point = [self convertPoint:aPoint fromView:[self superview]]; // convert to our coordinate system
+    if ([self mouse:point inRect:[_dividerTrackingArea rect]]) {
         return self; // Capture mouse clicks even though they are on top of other views
     }
     else {
