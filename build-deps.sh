@@ -17,18 +17,14 @@ install_name_tool -id @rpath/libogg.0.dylib libogg.0.dylib
 
 cd $DEPS/flac
 ./autogen.sh
-CFLAGS="-L$PREFIX/lib -I$PREFIX/include $CFLAGS" ./configure --disable-asm-optimizations --with-ogg=$PREFIX --prefix=$PREFIX
-CFLAGS="-L$PREFIX/lib -I$PREFIX/include $CFLAGS" make -j2
-cd src
-make install
-cd ../include
+CFLAGS="-I$PREFIX/include $CFLAGS" LDFLAGS="-L$PREFIX/lib $LDFLAGS" ./configure --prefix=$PREFIX
+make -j2
 make install
 cd $PREFIX/lib/
 install_name_tool -id @rpath/libFLAC.8.dylib libFLAC.8.dylib
-install_name_tool -change $START/libogg/../prefix/lib/libogg.0.dylib @rpath/libogg.0.dylib libFLAC.8.dylib
 
 cd $DEPS/vorbis
-CFLAGS="-O2 $CLFAGS" ./autogen.sh --with-ogg=$PREFIX --prefix=$PREFIX
+CFLAGS="-O2 $CFLAGS" ./autogen.sh --with-ogg=$PREFIX --prefix=$PREFIX
 make -j2
 make install
 cd $PREFIX/lib
