@@ -34,10 +34,25 @@ enum SearchButtonState {
         _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
         [self addSubview:_playlistView];
 
-        // new playlist button
+        // show playlist
         {
             CGRect buttonFrame = self.bounds;
             buttonFrame.origin.x += buttonFrame.size.width - 20 - 5;
+            buttonFrame.size = NSMakeSize(20, 20);
+            buttonFrame.origin.y += 5;
+            _togglePlaylistButton = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+            [_togglePlaylistButton setAutoresizingMask:NSViewMinXMargin];
+            [_togglePlaylistButton setButtonType:NSMomentaryLightButton];
+            [_togglePlaylistButton setTarget:self];
+            [_togglePlaylistButton setAction:@selector(togglePlaylistButtonPressed:)];
+            [_togglePlaylistButton setDrawIcon: [self togglePlaylistButtonDrawRect]];
+            [self addSubview:_togglePlaylistButton];
+        }
+        
+        // new playlist button
+        {
+            CGRect buttonFrame = self.bounds;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20;
             buttonFrame.size = NSMakeSize(20, 20);
             buttonFrame.origin.y += 5;
             TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
@@ -312,6 +327,36 @@ enum SearchButtonState {
         CGGradientRelease(innerGradient);
         CGContextRestoreGState(ctx);
     };
+}
+
+-(NSViewDrawRect)togglePlaylistButtonDrawRect
+{
+    return ^(NSView *v, CGRect rect) {
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+        CGRect b = v.bounds;
+
+        TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        if([button state] == SearchButtonStateActive) {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
+        }
+        else {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.2);
+        }
+
+        CGContextFillRect(ctx, b);
+    };
+}
+
+-(void)togglePlaylistButtonPressed:(id)sender
+{
+    if([_togglePlaylistButton state] == SearchButtonStateInactive) {
+        [_togglePlaylistButton setState:SearchButtonStateActive];
+        [_playlistView setPlaylistVisiblity:YES];
+    }
+    else {
+        [_togglePlaylistButton setState:SearchButtonStateInactive];
+        [_playlistView setPlaylistVisiblity:NO];
+    }
 }
 
 - (void)redisplay

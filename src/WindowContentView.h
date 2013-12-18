@@ -19,6 +19,7 @@
     LibraryView *_libraryView;
     
     TitlebarButtonNS *_searchButton;
+    TitlebarButtonNS *_togglePlaylistButton;
     
     NSTrackingArea *_dividerTrackingArea;
     BOOL _dividerBeingDragged;
@@ -29,6 +30,9 @@
 -(NSRect)playlistViewFrame;
 -(NSRect)libraryViewFrame;
 - (void)redisplay;
+
+-(NSViewDrawRect)togglePlaylistButtonDrawRect;
+-(void)togglePlaylistButtonPressed:(id)sender;
 
 -(NSViewDrawRect)newPlaylistButtonDrawRect;
 -(void)newPlaylistButtonPressed:(id)sender;

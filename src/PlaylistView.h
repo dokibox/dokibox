@@ -28,11 +28,14 @@
     NSTrackingArea *_dividerTrackingArea;
     BOOL _dividerBeingDragged;
     CGFloat _playlistHeight;
+    BOOL _playlistsVisible;
 }
 
 - (void)updateDividerTrackingArea;
 - (NSRect)playlistScrollViewFrame;
 - (NSRect)trackScrollViewFrame;
+
+- (void)setPlaylistVisiblity:(BOOL)visible;
 
 - (void)addTracksToCurrentPlaylist:(NSArray*)filenames;
 - (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p;

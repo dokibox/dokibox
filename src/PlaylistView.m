@@ -131,14 +131,16 @@
         [self removeTrackingArea:_dividerTrackingArea];
     }
     
-    NSRect trackingRect = [self bounds];
-    
-    trackingRect.origin.y += _playlistHeight;
-    trackingRect.size.height = 6.0;
-    trackingRect.origin.y -= 3.0;
-    
-    _dividerTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:NSTrackingCursorUpdate|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
-    [self addTrackingArea:_dividerTrackingArea];
+    if(_playlistsVisible == YES) { // only have tracking rect if the playlists are visible
+        NSRect trackingRect = [self bounds];
+        
+        trackingRect.origin.y += _playlistHeight;
+        trackingRect.size.height = 6.0;
+        trackingRect.origin.y -= 3.0;
+        
+        _dividerTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:NSTrackingCursorUpdate|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        [self addTrackingArea:_dividerTrackingArea];
+    }
 }
 
 -(void)cursorUpdate:(NSEvent *)event
@@ -205,14 +207,19 @@
 {
     NSRect playlistScrollViewFrame = self.bounds;
     playlistScrollViewFrame.size.height = _playlistHeight - 15.0;
+    if(_playlistsVisible == NO)
+        playlistScrollViewFrame.size.height = 0;
+    
     return playlistScrollViewFrame;
 }
 
 - (NSRect)trackScrollViewFrame
 {
     NSRect trackScrollViewFrame = self.bounds;
-    trackScrollViewFrame.origin.y += _playlistHeight;
-    trackScrollViewFrame.size.height -= _playlistHeight;
+    if(_playlistsVisible == YES) {
+        trackScrollViewFrame.origin.y += _playlistHeight;
+        trackScrollViewFrame.size.height -= _playlistHeight;
+    }
     return trackScrollViewFrame;
 }
 
@@ -228,34 +235,43 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void)setPlaylistVisiblity:(BOOL)visible
+{
+    _playlistsVisible = visible;
+    
+    [self resizeSubviewsWithOldSize:[self bounds].size];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    
+    if(_playlistsVisible == YES) {
+        CGRect barRect = [self bounds];
+        barRect.origin.y += _playlistHeight - 15.0;
+        barRect.size.height = 15.0;
 
-    CGRect barRect = [self bounds];
-    barRect.origin.y += _playlistHeight - 15.0;
-    barRect.size.height = 15.0;
+        [self CGContextVerticalGradient:barRect context:ctx bottomColor:[NSColor colorWithDeviceWhite:0.8 alpha:1.0] topColor:[NSColor colorWithDeviceWhite:0.92 alpha:1.0]];
 
-    [self CGContextVerticalGradient:barRect context:ctx bottomColor:[NSColor colorWithDeviceWhite:0.8 alpha:1.0] topColor:[NSColor colorWithDeviceWhite:0.92 alpha:1.0]];
+        // Line top/bottom
+        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
+        CGContextSetLineWidth(ctx, 1.0);
+        CGContextBeginPath(ctx);
+        CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + barRect.size.height - 0.5);
+        CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + barRect.size.height - 0.5);
+        CGContextStrokePath(ctx);
+        CGContextBeginPath(ctx);
+        CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + 0.5);
+        CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + 0.5);
+        CGContextStrokePath(ctx);
 
-    // Line top/bottom
-    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
-    CGContextSetLineWidth(ctx, 1.0);
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + barRect.size.height - 0.5);
-    CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + barRect.size.height - 0.5);
-    CGContextStrokePath(ctx);
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + 0.5);
-    CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + 0.5);
-    CGContextStrokePath(ctx);
-
-    NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Playlist Collection" attributes:attr];
-    CGPoint strPoint = NSMakePoint(barRect.origin.x + barRect.size.width/2.0 - [str size].width/2.0, barRect.origin.y + barRect.size.height/2.0 - [str size].height/2.0);
-    CGContextSetShouldSmoothFonts(ctx, YES);
-    [str drawAtPoint:strPoint];
+        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
+        [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Playlist Collection" attributes:attr];
+        CGPoint strPoint = NSMakePoint(barRect.origin.x + barRect.size.width/2.0 - [str size].width/2.0, barRect.origin.y + barRect.size.height/2.0 - [str size].height/2.0);
+        CGContextSetShouldSmoothFonts(ctx, YES);
+        [str drawAtPoint:strPoint];
+    }
 }
 
 - (void)fetchPlaylists
