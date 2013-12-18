@@ -13,11 +13,6 @@
 
 #define bottomToolbarHeight 30.0
 
-enum SearchButtonState {
-    SearchButtonStateInactive,
-    SearchButtonStateActive
-};
-
 @implementation WindowContentView
 
 @synthesize playlistView = _playlistView;
@@ -207,8 +202,8 @@ enum SearchButtonState {
 
 -(void)performFindPanelAction:(id)sender
 {
-    if([_searchButton state] == SearchButtonStateInactive) {
-       [_searchButton setState:SearchButtonStateActive];
+    if([_searchButton state] == NSOffState) {
+       [_searchButton setState:NSOnState];
     }
     [_libraryView showSearch];
 }
@@ -250,12 +245,12 @@ enum SearchButtonState {
 
 -(void)searchButtonPressed:(id)sender
 {
-    if([_searchButton state] == SearchButtonStateInactive) {
-        [_searchButton setState:SearchButtonStateActive];
+    if([_searchButton state] == NSOffState) {
+        [_searchButton setState:NSOnState];
         [_libraryView showSearch];
     }
     else {
-        [_searchButton setState:SearchButtonStateInactive];
+        [_searchButton setState:NSOffState];
         [_libraryView hideSearch];
     }
 }
@@ -293,7 +288,7 @@ enum SearchButtonState {
 
         TitlebarButtonNS *button = (TitlebarButtonNS*)v;
         NSColor *gradientEndColor, *gradientStartColor;
-        if([button state] == SearchButtonStateActive) {
+        if([button state] == NSOnState) {
             gradientEndColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.75 alpha:1.0];
             gradientStartColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.85 alpha:1.0];
         } else {
@@ -336,7 +331,7 @@ enum SearchButtonState {
         CGRect b = v.bounds;
 
         TitlebarButtonNS *button = (TitlebarButtonNS*)v;
-        if([button state] == SearchButtonStateActive) {
+        if([button state] == NSOnState) {
             CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
         }
         else {
@@ -349,12 +344,12 @@ enum SearchButtonState {
 
 -(void)togglePlaylistButtonPressed:(id)sender
 {
-    if([_togglePlaylistButton state] == SearchButtonStateInactive) {
-        [_togglePlaylistButton setState:SearchButtonStateActive];
+    if([_togglePlaylistButton state] == NSOffState) {
+        [_togglePlaylistButton setState:NSOnState];
         [_playlistView setPlaylistVisiblity:YES];
     }
     else {
-        [_togglePlaylistButton setState:SearchButtonStateInactive];
+        [_togglePlaylistButton setState:NSOffState];
         [_playlistView setPlaylistVisiblity:NO];
     }
 }
