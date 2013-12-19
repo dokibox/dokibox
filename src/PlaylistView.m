@@ -19,6 +19,7 @@
 #import "NSManagedObjectContext+Helpers.h"
 #import "PlaylistTrackHeaderCell.h"
 #import "PlaylistTrackPlayingCellView.h"
+#import "PlaylistTableHeader.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -110,6 +111,12 @@
         [_trackTableView setAutosaveTableColumns:YES];
         [_trackTableView setUsesAlternatingRowBackgroundColors:YES];
         [_trackTableView setRowHeight:25.0];
+        [_trackScrollView setAutohidesScrollers:YES];
+        
+        // Playlist table header
+        _playlistTableHeader = [[PlaylistTableHeader alloc] initWithFrame:[self playlistTableHeaderFrame]];
+        [_playlistTableHeader setWantsLayer:YES];
+        [self addSubview:_playlistTableHeader];
         
         // Ensure playing column is always first
         [_trackTableView moveColumn:[_trackTableView columnWithIdentifier:@"playing"] toColumn:0];
@@ -207,8 +214,9 @@
 {
     NSRect playlistScrollViewFrame = self.bounds;
     playlistScrollViewFrame.size.height = _playlistHeight - 15.0;
-    if(_playlistsVisible == NO)
-        playlistScrollViewFrame.size.height = 0;
+    if(_playlistsVisible == NO) {
+        playlistScrollViewFrame.origin.y -= _playlistHeight; // keep offscreen for slide in animation
+    }
     
     return playlistScrollViewFrame;
 }
@@ -223,6 +231,17 @@
     return trackScrollViewFrame;
 }
 
+- (NSRect)playlistTableHeaderFrame
+{
+    NSRect barRect = self.bounds;
+    barRect.origin.y += _playlistHeight - 15.0;
+    barRect.size.height = 15.0;
+    if(_playlistsVisible == NO) {
+        barRect.origin.y -= _playlistHeight; // keep offscreen for slide in animation
+    }
+    return barRect;
+}
+
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {
     [super resizeSubviewsWithOldSize:oldBoundsSize];
@@ -230,48 +249,23 @@
     
     [_playlistScrollView setFrame:[self playlistScrollViewFrame]];
     [_trackScrollView setFrame:[self trackScrollViewFrame]];
-    
+    [_playlistTableHeader setFrame:[self playlistTableHeaderFrame]];
+
     [self updateDividerTrackingArea];
-    [self setNeedsDisplay:YES];
 }
 
 - (void)setPlaylistVisiblity:(BOOL)visible
 {
     _playlistsVisible = visible;
     
-    [self resizeSubviewsWithOldSize:[self bounds].size];
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    
-    if(_playlistsVisible == YES) {
-        CGRect barRect = [self bounds];
-        barRect.origin.y += _playlistHeight - 15.0;
-        barRect.size.height = 15.0;
-
-        [self CGContextVerticalGradient:barRect context:ctx bottomColor:[NSColor colorWithDeviceWhite:0.8 alpha:1.0] topColor:[NSColor colorWithDeviceWhite:0.92 alpha:1.0]];
-
-        // Line top/bottom
-        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
-        CGContextSetLineWidth(ctx, 1.0);
-        CGContextBeginPath(ctx);
-        CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + barRect.size.height - 0.5);
-        CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + barRect.size.height - 0.5);
-        CGContextStrokePath(ctx);
-        CGContextBeginPath(ctx);
-        CGContextMoveToPoint(ctx, barRect.origin.x, barRect.origin.y + 0.5);
-        CGContextAddLineToPoint(ctx, barRect.origin.x + barRect.size.width, barRect.origin.y + 0.5);
-        CGContextStrokePath(ctx);
-
-        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-        [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
-        NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Playlist Collection" attributes:attr];
-        CGPoint strPoint = NSMakePoint(barRect.origin.x + barRect.size.width/2.0 - [str size].width/2.0, barRect.origin.y + barRect.size.height/2.0 - [str size].height/2.0);
-        CGContextSetShouldSmoothFonts(ctx, YES);
-        [str drawAtPoint:strPoint];
-    }
+    [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setCompletionHandler:^{
+         [self resizeSubviewsWithOldSize:[self bounds].size];
+    }];
+    [[_playlistScrollView animator] setFrame:[self playlistScrollViewFrame]];
+    [[_trackScrollView animator] setFrame:[self trackScrollViewFrame]];
+    [[_playlistTableHeader animator] setFrame:[self playlistTableHeaderFrame]];
+    [NSAnimationContext endGrouping];
 }
 
 - (void)fetchPlaylists

@@ -18,6 +18,7 @@
     RBLScrollView *_playlistScrollView;
     RBLTableView *_trackTableView;
     RBLTableView *_playlistTableView;
+    NSView *_playlistTableHeader;
     Playlist *_currentPlaylist;
     NSArray *_playlists;
     PlaylistCoreDataManager *_playlistCoreDataManger;
@@ -34,6 +35,7 @@
 - (void)updateDividerTrackingArea;
 - (NSRect)playlistScrollViewFrame;
 - (NSRect)trackScrollViewFrame;
+- (NSRect)playlistTableHeaderFrame;
 
 - (void)setPlaylistVisiblity:(BOOL)visible;
 
