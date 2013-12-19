@@ -49,6 +49,7 @@
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2B92032D185E279700AAD008 /* NSTableView+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */; };
+		2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9203361863061D00AAD008 /* PlaylistTableHeader.m */; };
 		2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B9B27DF17B85038005434F2 /* Carbon.framework */; };
 		2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */; };
@@ -307,6 +308,8 @@
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
 		2B92032B185E279700AAD008 /* NSTableView+ContextMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+ContextMenu.h"; sourceTree = "<group>"; };
 		2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+ContextMenu.m"; sourceTree = "<group>"; };
+		2B9203351863061D00AAD008 /* PlaylistTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTableHeader.h; sourceTree = "<group>"; };
+		2B9203361863061D00AAD008 /* PlaylistTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTableHeader.m; sourceTree = "<group>"; };
 		2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMediaKeyTap.m; path = deps/SPMediaKeyTap/SPMediaKeyTap.m; sourceTree = SOURCE_ROOT; };
 		2B9B27DD17B84E1E005434F2 /* SPMediaKeyTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SPMediaKeyTap.h; path = deps/SPMediaKeyTap/SPMediaKeyTap.h; sourceTree = SOURCE_ROOT; };
 		2B9B27DF17B85038005434F2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -731,6 +734,8 @@
 				2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */,
 				2B9DA4FE1791FE910065DC44 /* PlaylistRowView.h */,
 				2B9DA4FF1791FE910065DC44 /* PlaylistRowView.m */,
+				2B9203351863061D00AAD008 /* PlaylistTableHeader.h */,
+				2B9203361863061D00AAD008 /* PlaylistTableHeader.m */,
 			);
 			name = "playlist view";
 			sourceTree = "<group>";
@@ -1105,6 +1110,7 @@
 				2BBEC89E16C60A7F00160279 /* Library.m in Sources */,
 				2B65ED1B16C7447500DD327D /* CoreDataManager.m in Sources */,
 				2B65ED1E16C8381900DD327D /* LibraryTrack.m in Sources */,
+				2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */,
 				2B7C00A7181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m in Sources */,
 				2B65ED2516C8906900DD327D /* LibraryArtist.m in Sources */,
 				2B65ED2816C8907200DD327D /* LibraryAlbum.m in Sources */,
