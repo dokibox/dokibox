@@ -58,6 +58,7 @@
             [self newPlaylist];
         }
         [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+        [_playlistTableView setEnabled:NO];
 
 
         // Track table view
@@ -266,6 +267,8 @@
     [[_trackScrollView animator] setFrame:[self trackScrollViewFrame]];
     [[_playlistTableHeader animator] setFrame:[self playlistTableHeaderFrame]];
     [NSAnimationContext endGrouping];
+    
+    [_playlistTableView setEnabled:visible];
 }
 
 - (void)fetchPlaylists
