@@ -285,12 +285,12 @@
 
 - (void)newPlaylist
 {
-    _currentPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
-    [_currentPlaylist setName:@"New playlist"];
-    [_currentPlaylist save];
+    Playlist *newPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
+    [newPlaylist setName:@"New playlist"];
+    [newPlaylist save];
     [self fetchPlaylists];
-    [_playlistTableView reloadData];
-    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:_currentPlaylist]] byExtendingSelection:NO];
+    [_playlistTableView reloadData]; // _currentPlaylist is reset to selection
+    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:newPlaylist]] byExtendingSelection:NO]; // this changes _currentPlaylist
 }
 
 - (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p
