@@ -285,6 +285,7 @@
 
 - (void)newPlaylist
 {
+    [self setPlaylistVisiblity:YES];
     Playlist *newPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
     [newPlaylist setName:@"New playlist"];
     [newPlaylist save];
