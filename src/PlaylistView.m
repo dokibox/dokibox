@@ -454,7 +454,7 @@
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
     if([notification object] == _playlistTableView) {
-        _currentPlaylist = [_playlists objectAtIndex:[_playlistTableView selectedRow]];
+        [self setCurrentPlaylist:[_playlists objectAtIndex:[_playlistTableView selectedRow]]];
         [_trackTableView reloadData];
     }
 }
