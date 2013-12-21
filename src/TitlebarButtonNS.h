@@ -14,7 +14,6 @@
     BOOL _held;
 }
 
-@property (assign) NSInteger state;
 @property (nonatomic, copy) NSViewDrawRect drawIcon;
 
 @end

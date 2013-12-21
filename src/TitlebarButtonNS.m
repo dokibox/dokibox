@@ -12,7 +12,6 @@
 @implementation TitlebarButtonNS
 
 @synthesize drawIcon = _drawIcon;
-@synthesize state = _state;
 
 - (id)initWithFrame:(NSRect)rect {
     if(self = [super initWithFrame:rect]) {
@@ -105,6 +104,14 @@
     }
 
     _drawIcon(self, b);
+}
+
+
+
+-(void)setState:(NSInteger)state
+{
+    [super setState:state];
+    [self setNeedsDisplay:YES];
 }
 
 @end
