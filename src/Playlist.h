@@ -31,5 +31,6 @@
 
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSSet* tracks;
+@property BOOL repeat;
 
 @end

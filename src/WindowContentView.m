@@ -44,10 +44,26 @@
             [self addSubview:_togglePlaylistButton];
         }
         
+        // repeat
+        {
+            CGRect buttonFrame = self.bounds;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20*1;
+            buttonFrame.size = NSMakeSize(20, 20);
+            buttonFrame.origin.y += 5;
+            _repeatButton = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+            [_repeatButton setAutoresizingMask:NSViewMinXMargin];
+            [_repeatButton setButtonType:NSMomentaryLightButton];
+            [_repeatButton setTarget:self];
+            [_repeatButton bind:@"state" toObject:_playlistView withKeyPath:@"currentPlaylist.repeat" options:nil];
+            [_repeatButton setAction:@selector(repeatButtonPressed:)];
+            [_repeatButton setDrawIcon: [self repeatButtonDrawRect]];
+            [self addSubview:_repeatButton];
+        }
+        
         // new playlist button
         {
             CGRect buttonFrame = self.bounds;
-            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20*2;
             buttonFrame.size = NSMakeSize(20, 20);
             buttonFrame.origin.y += 5;
             TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
@@ -352,6 +368,29 @@
         [_togglePlaylistButton setState:NSOffState];
         [_playlistView setPlaylistVisiblity:NO];
     }
+}
+
+-(NSViewDrawRect)repeatButtonDrawRect
+{
+    return ^(NSView *v, CGRect rect) {
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+        CGRect b = v.bounds;
+        
+        TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        if([button state] == NSOnState) {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
+        }
+        else {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.2);
+        }
+        
+        CGContextFillRect(ctx, b);
+    };
+}
+
+-(void)repeatButtonPressed:(id)sender
+{
+    [[_playlistView currentPlaylist] setRepeat:![[_playlistView currentPlaylist] repeat]];
 }
 
 - (void)redisplay

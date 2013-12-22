@@ -13,6 +13,7 @@
 
 @dynamic name;
 @dynamic tracks;
+@synthesize repeat = _repeat;
 
 -(NSUInteger)numberOfTracks {
     return [[self tracks] count];
@@ -115,6 +116,9 @@
         if(index != NSNotFound && index != [self numberOfTracks]-1) {
             index += 1;
             [self playTrackAtIndex:index];
+        }
+        else if(index == [self numberOfTracks]-1 && _repeat == YES) {
+            [self playTrackAtIndex:0];
         }
     }
 }

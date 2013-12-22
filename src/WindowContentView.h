@@ -20,6 +20,7 @@
     
     TitlebarButtonNS *_searchButton;
     TitlebarButtonNS *_togglePlaylistButton;
+    TitlebarButtonNS *_repeatButton;
     
     NSTrackingArea *_dividerTrackingArea;
     BOOL _dividerBeingDragged;
@@ -33,6 +34,9 @@
 
 -(NSViewDrawRect)togglePlaylistButtonDrawRect;
 -(void)togglePlaylistButtonPressed:(id)sender;
+
+-(NSViewDrawRect)repeatButtonDrawRect;
+-(void)repeatButtonPressed:(id)sender;
 
 -(NSViewDrawRect)newPlaylistButtonDrawRect;
 -(void)newPlaylistButtonPressed:(id)sender;
