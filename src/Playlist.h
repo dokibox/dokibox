@@ -26,7 +26,7 @@
 -(void)addTrack:(PlaylistTrack *)track;
 
 -(void)playTrackAtIndex:(NSUInteger)index;
--(void)receivedTrackEndedNotification:(NSNotification *)notification;
+-(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded;
 -(void)save;
 
 @property (nonatomic) NSString *name;

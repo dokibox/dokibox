@@ -77,7 +77,7 @@ typedef enum {
 - (unsigned long long)inputLength;
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename;
 - (void)fillBuffer;
-- (void)trackEnded;
+- (void)trackEndedNaturally;
 - (void)pause;
 - (void)unpause;
 - (void)stop;

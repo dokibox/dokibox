@@ -8,6 +8,7 @@
 
 #import "MusicController.h"
 #import "PlaylistTrack.h"
+#import "Playlist.h"
 #import "plugins/PluginManager.h"
 
 #import <AudioUnit/AudioUnit.h>
@@ -35,7 +36,7 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
 
     if(size == 0) {
         dispatch_async(dispatch_get_main_queue(), ^() {
-            [mc trackEnded];
+            [mc trackEndedNaturally];
         });
     }
 
@@ -366,7 +367,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     if([self decoderStatus] != MusicControllerDecoderIdle) { //still playing something at the moment
         AUGraphStop(_outputGraph);
         [self setStatus:MusicControllerStopped];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:nil];
     }
     _currentTrack = [notification object];
     NSString *fp = [_currentTrack filename];
@@ -459,15 +459,14 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     return length;
 }
 
-- (void)trackEnded {
+- (void)trackEndedNaturally {
     AUGraphStop(_outputGraph);
     [self setStatus:MusicControllerStopped];
     [self setDecoderStatus:MusicControllerDecoderIdle];
 
     PlaylistTrack *t = _currentTrack;
     _currentTrack = nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"trackEnded" object:t];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
+    [[t playlist] playNextTrackAfter:t];
 }
 
 - (PlaylistTrack*)getCurrentTrack { // all instance variables are private

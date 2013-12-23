@@ -102,24 +102,18 @@
 
 -(void)playTrackAtIndex:(NSUInteger)index {
     PlaylistTrack *track = [self trackAtIndex:index];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedTrackEndedNotification:) name:@"trackEnded" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:track];
 
 }
 
--(void)receivedTrackEndedNotification:(NSNotification *)notification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"trackEnded" object:nil];
-
-    if([notification object] != nil) {
-        PlaylistTrack *trackJustEnded = [notification object];
-        NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
-        if(index != NSNotFound && index != [self numberOfTracks]-1) {
-            index += 1;
-            [self playTrackAtIndex:index];
-        }
-        else if(index == [self numberOfTracks]-1 && _repeat == YES) {
-            [self playTrackAtIndex:0];
-        }
+-(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded {
+    NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
+    if(index != NSNotFound && index != [self numberOfTracks]-1) {
+        index += 1;
+        [self playTrackAtIndex:index];
+    }
+    else if(index == [self numberOfTracks]-1 && _repeat == YES) {
+        [self playTrackAtIndex:0];
     }
 }
 
