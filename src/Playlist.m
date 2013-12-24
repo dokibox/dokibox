@@ -8,6 +8,7 @@
 
 #import "Playlist.h"
 #import "MusicController.h"
+#import "PlaylistTrack.h"
 
 @implementation Playlist
 
@@ -32,6 +33,16 @@
 
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index {
     return [[self sortedTracks] objectAtIndex:index];
+}
+
+-(PlaylistTrack *)currentlyActiveTrack
+{
+    for(PlaylistTrack *t in [self sortedTracks]) {
+        if([t playbackStatus] == MusicControllerPlaying || [t playbackStatus] == MusicControllerPaused) {
+            return t;
+        }
+    }
+    return nil;
 }
 
 -(void)removeTrack:(PlaylistTrack *)track
@@ -102,18 +113,59 @@
 
 -(void)playTrackAtIndex:(NSUInteger)index {
     PlaylistTrack *track = [self trackAtIndex:index];
+    if(_shuffle == YES) {
+        [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks
+        [_shuffleNotPlayedYetTracks removeObject:track];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:track];
-
 }
 
 -(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded {
-    NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
-    if(index != NSNotFound && index != [self numberOfTracks]-1) {
-        index += 1;
-        [self playTrackAtIndex:index];
+    if(_shuffle == YES) {
+        if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == YES) { //repeat
+            [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks
+            [_shuffleNotPlayedYetTracks removeObject:trackJustEnded]; // prevent double play
+        }
+        else if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == NO) { //no more tracks to play
+            return;
+        }
+        
+        PlaylistTrack *nextTrack = [_shuffleNotPlayedYetTracks objectAtIndex:arc4random_uniform((int)[_shuffleNotPlayedYetTracks count])];
+        [_shuffleNotPlayedYetTracks removeObject:nextTrack];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:nextTrack];
     }
-    else if(index == [self numberOfTracks]-1 && _repeat == YES) {
-        [self playTrackAtIndex:0];
+    else {
+        NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
+        if(index != NSNotFound && index != [self numberOfTracks]-1) {
+            index += 1;
+            [self playTrackAtIndex:index];
+        }
+        else if(index == [self numberOfTracks]-1 && _repeat == YES) {
+            [self playTrackAtIndex:0];
+        }
+    }
+}
+
+-(BOOL)shuffle
+{
+    return _shuffle;
+}
+
+-(void)setShuffle:(BOOL)shuffle
+{
+    _shuffle = shuffle;
+    
+    if(_shuffle == YES) {
+        _shuffleNotPlayedYetTracks = [[NSMutableArray alloc] init];
+        [_shuffleNotPlayedYetTracks addObjectsFromArray:[self sortedTracks]];
+        
+        //remove current playing one (if it exists)
+        if([self currentlyActiveTrack]) {
+            [_shuffleNotPlayedYetTracks removeObject:[self currentlyActiveTrack]];
+        }
+    }
+    else {
+        _shuffleNotPlayedYetTracks = nil;
     }
 }
 

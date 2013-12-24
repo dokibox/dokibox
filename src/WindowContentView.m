@@ -60,10 +60,26 @@
             [self addSubview:_repeatButton];
         }
         
-        // new playlist button
+        // shuffle
         {
             CGRect buttonFrame = self.bounds;
             buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20*2;
+            buttonFrame.size = NSMakeSize(20, 20);
+            buttonFrame.origin.y += 5;
+            _shuffleButton = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
+            [_shuffleButton setAutoresizingMask:NSViewMinXMargin];
+            [_shuffleButton setButtonType:NSMomentaryLightButton];
+            [_shuffleButton setTarget:self];
+            [_shuffleButton bind:@"state" toObject:_playlistView withKeyPath:@"currentPlaylist.shuffle" options:nil];
+            [_shuffleButton setAction:@selector(shuffleButtonPressed:)];
+            [_shuffleButton setDrawIcon: [self shuffleButtonDrawRect]];
+            [self addSubview:_shuffleButton];
+        }
+        
+        // new playlist button
+        {
+            CGRect buttonFrame = self.bounds;
+            buttonFrame.origin.x += buttonFrame.size.width - 20 - 5 - 20*3;
             buttonFrame.size = NSMakeSize(20, 20);
             buttonFrame.origin.y += 5;
             TitlebarButtonNS *button = [[TitlebarButtonNS alloc] initWithFrame:buttonFrame];
@@ -391,6 +407,29 @@
 -(void)repeatButtonPressed:(id)sender
 {
     [[_playlistView currentPlaylist] setRepeat:![[_playlistView currentPlaylist] repeat]];
+}
+
+-(NSViewDrawRect)shuffleButtonDrawRect
+{
+    return ^(NSView *v, CGRect rect) {
+        CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+        CGRect b = v.bounds;
+        
+        TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        if([button state] == NSOnState) {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
+        }
+        else {
+            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.2);
+        }
+        
+        CGContextFillRect(ctx, b);
+    };
+}
+
+-(void)shuffleButtonPressed:(id)sender
+{
+    [[_playlistView currentPlaylist] setShuffle:![[_playlistView currentPlaylist] shuffle]];
 }
 
 - (void)redisplay

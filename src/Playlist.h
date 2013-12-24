@@ -11,11 +11,14 @@
 #import "PlaylistTrack.h"
 
 @interface Playlist : NSManagedObject {
+    BOOL _shuffle;
+    NSMutableArray *_shuffleNotPlayedYetTracks;
 }
 
 -(NSUInteger)numberOfTracks;
 -(NSUInteger)getTrackIndex:(PlaylistTrack *)track;
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index;
+-(PlaylistTrack *)currentlyActiveTrack;
 
 -(void)removeTrackAtIndex:(NSUInteger)index;
 -(void)removeTrack:(PlaylistTrack *)track;
@@ -32,5 +35,6 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSSet* tracks;
 @property BOOL repeat;
+@property BOOL shuffle;
 
 @end
