@@ -312,33 +312,28 @@
 
 - (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 {
-    Playlist *playlistMainThread = p;
-    NSManagedObjectID *playlistID = [playlistMainThread objectID];
+    __weak Playlist *weakP = p;
     
-    dispatch_async(_addingQueue, ^() { // Do in background thread to prevent ui lockup
-        NSInteger block_index = index;
-        NSManagedObjectContext *context = [_playlistCoreDataManger newContext];
-        Playlist *playlist = (Playlist*)[context objectWithID:playlistID];
+    if([filenames count] == 0) return;
+    
+    NSString *s = [filenames objectAtIndex:0];
+    void (^completion)(void) = ^() {
+        if(weakP == _currentPlaylist) // selection could have changed, so no point updating if it has
+            [_trackTableView reloadData];
         
-        for (NSString *s in filenames) {
-            if([MusicController isSupportedAudioFile:s]) {
-                if(block_index < 0) {
-                    [playlist addTrackWithFilename:s];
-                }
-                else {
-                    [playlist insertTrackWithFilename:s atIndex:block_index];
-                    block_index = block_index + 1;
-                }
-                [playlist save];
-                
-                // Update UI
-                dispatch_sync(dispatch_get_main_queue(), ^() {
-                    if(playlistMainThread == _currentPlaylist) // selection could have changed, so no point updating if it has
-                        [_trackTableView reloadData];
-                });
+        NSInteger newIndex = index < 0 ? index : index + 1;
+        NSArray *newfilenames = [filenames subarrayWithRange:NSMakeRange(1, [filenames count] -1)];
+        [self insertTracks:newfilenames toPlaylist:weakP atIndex:newIndex];
+    };
+    
+    if([MusicController isSupportedAudioFile:s]) {
+            if(index < 0) {
+                [p addTrackWithFilename:s onCompletion:completion];
             }
-        }
-    });
+            else {
+                [p insertTrackWithFilename:s atIndex:index onCompletion:completion];
+            }
+    }
 }
 
 -(void)receivedPlaylistSavedNotification:(NSNotification *)notification

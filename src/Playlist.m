@@ -53,13 +53,17 @@
 -(void)removeTrackAtIndex:(NSUInteger)index
 {
     PlaylistTrack *t = [self trackAtIndex:index];
+    if(_shuffleNotPlayedYetTracks) {
+        [_shuffleNotPlayedYetTracks removeObject:t];
+    }
     [[self managedObjectContext] deleteObject:t];
 }
 
--(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index
+-(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler
 {
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
     [self insertTrack:t atIndex:index];
+    completionHandler();
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
@@ -85,18 +89,41 @@
     
     [track setPlaylist:self];
     [track setIndex:[NSNumber numberWithInteger:index]];
+    if(_shuffleNotPlayedYetTracks)
+        [_shuffleNotPlayedYetTracks addObject:track];
 }
 
--(void)addTrackWithFilename:(NSString *)filename
+-(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler
 {
-    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
-    [self addTrack:t];
+    dispatch_queue_t queue = dispatch_queue_create(NULL, NULL);
+    NSManagedObjectID *playlistID = [self objectID];
+    NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
+    
+    dispatch_async(queue, ^() {
+        NSError *err;
+        NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
+        [c setPersistentStoreCoordinator:store];
+        Playlist *p = (Playlist *)[c objectWithID:playlistID];
+        
+        PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
+        [p addTrack:t];
+        [c save:&err];
+        NSManagedObjectID *tID = [t objectID];
+        
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
+            [self addTrack:tMain]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
+            completionHandler();
+        });
+    });
 }
 
 -(void)addTrack:(PlaylistTrack *)track
 {
     [track setPlaylist:self];
     [track setIndex:[NSNumber numberWithInteger:[[self tracks] count]]];
+    if(_shuffleNotPlayedYetTracks)
+        [_shuffleNotPlayedYetTracks addObject:track];
 }
 
 -(void)save
