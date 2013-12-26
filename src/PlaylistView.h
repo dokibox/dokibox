@@ -24,8 +24,6 @@
     PlaylistCoreDataManager *_playlistCoreDataManger;
     NSManagedObjectContext *_objectContext;
     
-    dispatch_queue_t _addingQueue;
-    
     NSTrackingArea *_dividerTrackingArea;
     BOOL _dividerBeingDragged;
     CGFloat _playlistHeight;

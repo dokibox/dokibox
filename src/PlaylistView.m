@@ -122,8 +122,6 @@
         // Ensure playing column is always first
         [_trackTableView moveColumn:[_trackTableView columnWithIdentifier:@"playing"] toColumn:0];
         
-        _addingQueue = dispatch_queue_create(NULL, NULL);
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedAddTrackToCurrentPlaylistNotification:) name:@"addTrackToCurrentPlaylist" object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaylistSavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
