@@ -82,6 +82,8 @@
             completionHandler();
         });
     });
+    
+    dispatch_release(queue);
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
@@ -134,6 +136,8 @@
             completionHandler();
         });
     });
+    
+    dispatch_release(queue);
 }
 
 -(void)addTrack:(PlaylistTrack *)track

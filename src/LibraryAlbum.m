@@ -19,6 +19,12 @@
 
 @synthesize isCoverFetched = _isCoverFetched;
 
+-(void)dealloc
+{
+    if(_coverFetchQueue)
+        dispatch_release(_coverFetchQueue);
+}
+
 -(NSSet*)tracksFromSet:(NSSet *)set
 {
     if([set member:self] || [set member:[self artist]]) // when itself or parent artist is the match, return all

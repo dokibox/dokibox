@@ -108,6 +108,11 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     return self;
 }
 
+- (void)dealloc
+{
+    dispatch_release(decoding_queue);
+}
+
 - (void)createOrReconfigureAudioGraph:(DecoderMetadata)decoderMetadata
 {
     AUNodeInteraction *connections = NULL;

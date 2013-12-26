@@ -68,6 +68,11 @@
     return self;
 }
 
+-(void)dealloc
+{
+    dispatch_release(_searchQueue);
+}
+
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
 {
     for(NSMutableDictionary *dict in [changes objectForKey:NSDeletedObjectsKey]) {

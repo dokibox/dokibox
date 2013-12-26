@@ -121,6 +121,11 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     return self;
 }
 
+-(void)dealloc
+{
+    dispatch_release(_dispatchQueue);
+}
+
 #pragma mark Manipulating monitored folders list
 
 -(NSUInteger)numberOfMonitoredFolders
