@@ -61,9 +61,27 @@
 
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler
 {
-    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
-    [self insertTrack:t atIndex:index];
-    completionHandler();
+    dispatch_queue_t queue = dispatch_queue_create(NULL, NULL);
+    NSManagedObjectID *playlistID = [self objectID];
+    NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
+    
+    dispatch_async(queue, ^() {
+        NSError *err;
+        NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
+        [c setPersistentStoreCoordinator:store];
+        Playlist *p = (Playlist *)[c objectWithID:playlistID];
+        
+        PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
+        [p insertTrack:t atIndex:index];
+        [c save:&err];
+        NSManagedObjectID *tID = [t objectID];
+        
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
+            [self insertTrack:tMain atIndex:index]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
+            completionHandler();
+        });
+    });
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
