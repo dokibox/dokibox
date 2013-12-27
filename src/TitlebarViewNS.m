@@ -380,9 +380,16 @@
 
 -(void)prevButtonPressed:(id)sender {
     // sender can be a SPMediaKeyTap too
-    WindowContentView *wv = (WindowContentView *)[[self window] contentView];
-    Playlist *p = [[wv playlistView] currentPlaylist];
-    NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
+    PlaylistTrack *t = [_musicController getCurrentTrack];
+    if(t == nil) return; // no current track playing
+    
+    Playlist *p = [t playlist];
+    if(p == nil) { // orphaned track. stop.
+        [_musicController stop];
+        return;
+    }
+    
+    NSUInteger trackIndex = [p getTrackIndex:t];
     [_musicController stop];
     NSLog(@"%lu",trackIndex);
     if(trackIndex != NSNotFound && trackIndex != 0) {
@@ -393,9 +400,16 @@
 
 -(void)nextButtonPressed:(id)sender {
     // sender can be a SPMediaKeyTap too
-    WindowContentView *wv = (WindowContentView *)[[self window] contentView];
-    Playlist *p = [[wv playlistView] currentPlaylist];
-    NSUInteger trackIndex = [p getTrackIndex:[_musicController getCurrentTrack]];
+    PlaylistTrack *t = [_musicController getCurrentTrack];
+    if(t == nil) return; // no current track playing
+    
+    Playlist *p = [t playlist];
+    if(p == nil) { // orphaned track. stop.
+        [_musicController stop];
+        return;
+    }
+    
+    NSUInteger trackIndex = [p getTrackIndex:t];
     [_musicController stop];
     NSLog(@"%lu",trackIndex);
     if(trackIndex != NSNotFound && trackIndex != [p numberOfTracks]-1) {
