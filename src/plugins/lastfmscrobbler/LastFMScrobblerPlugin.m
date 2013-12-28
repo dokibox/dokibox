@@ -97,6 +97,8 @@ PluginManager *__pluginManager;
             [apiCall setParameter:@"artist" value:[attributes objectForKey:@"ARTIST"]];
         if([attributes objectForKey:@"ALBUM"])
             [apiCall setParameter:@"album" value:[attributes objectForKey:@"ALBUM"]];
+        if([attributes objectForKey:@"length"])
+            [apiCall setParameter:@"duration" value:[NSString stringWithFormat:@"%d", [[attributes objectForKey:@"length"] intValue]]];
         
         [apiCall performPOST]; // we don't really care about the result
     });
@@ -134,6 +136,8 @@ PluginManager *__pluginManager;
                 [apiCall setParameter:@"artist" value:[_trackAttributes objectForKey:@"ARTIST"]];
             if([_trackAttributes objectForKey:@"ALBUM"])
                 [apiCall setParameter:@"album" value:[_trackAttributes objectForKey:@"ALBUM"]];
+            if([_trackAttributes objectForKey:@"length"])
+                [apiCall setParameter:@"duration" value:[NSString stringWithFormat:@"%d", [[_trackAttributes objectForKey:@"length"] intValue]]];
             
             [apiCall setParameter:@"timestamp" value:[NSString stringWithFormat:@"%d", (int)[_startOfPlaybackDate timeIntervalSince1970]]];
             
