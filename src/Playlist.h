@@ -30,6 +30,7 @@
 
 -(void)playTrackAtIndex:(NSUInteger)index;
 -(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded;
+-(void)playPrevTrackBefore:(PlaylistTrack *)trackJustEnded;
 -(void)save;
 
 @property (nonatomic) NSString *name;

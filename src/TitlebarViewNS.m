@@ -389,13 +389,8 @@
         return;
     }
     
-    NSUInteger trackIndex = [p getTrackIndex:t];
     [_musicController stop];
-    NSLog(@"%lu",trackIndex);
-    if(trackIndex != NSNotFound && trackIndex != 0) {
-        NSLog(@"Next song.");
-        [p playTrackAtIndex:--trackIndex];
-    }
+    [p playPrevTrackBefore:t];
 }
 
 -(void)nextButtonPressed:(id)sender {
@@ -409,13 +404,8 @@
         return;
     }
     
-    NSUInteger trackIndex = [p getTrackIndex:t];
     [_musicController stop];
-    NSLog(@"%lu",trackIndex);
-    if(trackIndex != NSNotFound && trackIndex != [p numberOfTracks]-1) {
-        NSLog(@"Next song.");
-        [p playTrackAtIndex:++trackIndex];
-    }
+    [p playNextTrackAfter:t];
 }
 
 -(void)receivedPlaybackProgressNotification:(NSNotification *)notification

@@ -195,6 +195,23 @@
     }
 }
 
+-(void)playPrevTrackBefore:(PlaylistTrack *)trackJustEnded
+{
+    if(_shuffle == YES) {
+        // Not implemented yet
+    }
+    else {
+        NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
+        if(index != NSNotFound && index != 0) {
+            index -= 1;
+            [self playTrackAtIndex:index];
+        }
+        else if(index == 0 && _repeat == YES) {
+            [self playTrackAtIndex:[[self sortedTracks] count]-1];
+        }
+    }
+}
+
 -(BOOL)shuffle
 {
     return _shuffle;
