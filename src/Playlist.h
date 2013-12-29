@@ -13,6 +13,8 @@
 @interface Playlist : NSManagedObject {
     BOOL _shuffle;
     NSMutableArray *_shuffleNotPlayedYetTracks;
+    NSMutableArray *_shuffleHistory;
+    NSInteger _shuffleHistoryIndex;
 }
 
 -(NSUInteger)numberOfTracks;

@@ -163,24 +163,36 @@
 -(void)playTrackAtIndex:(NSUInteger)index {
     PlaylistTrack *track = [self trackAtIndex:index];
     if(_shuffle == YES) {
-        [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks
+        [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks and _shuffleHistory + index
         [_shuffleNotPlayedYetTracks removeObject:track];
+        [_shuffleHistory addObject:track];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:track];
 }
 
 -(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded {
     if(_shuffle == YES) {
-        if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == YES) { //repeat
-            [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks
-            [_shuffleNotPlayedYetTracks removeObject:trackJustEnded]; // prevent double play
+        PlaylistTrack *nextTrack;
+        
+        if(_shuffleHistoryIndex == -1 || _shuffleHistoryIndex == [_shuffleHistory count]-1) { // not in history, or at end of history
+            _shuffleHistoryIndex = -1;
+            if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == YES) { //repeat
+                [self setShuffle:YES]; //remake _shuffleNotPlayedYetTracks
+                [_shuffleNotPlayedYetTracks removeObject:trackJustEnded]; // prevent double play
+            }
+            else if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == NO) { //no more tracks to play
+                return;
+            }
+            
+            nextTrack = [_shuffleNotPlayedYetTracks objectAtIndex:arc4random_uniform((int)[_shuffleNotPlayedYetTracks count])];
+            [_shuffleNotPlayedYetTracks removeObject:nextTrack];
+            [_shuffleHistory addObject:nextTrack];
         }
-        else if([_shuffleNotPlayedYetTracks count] == 0 && _repeat == NO) { //no more tracks to play
-            return;
+        else {
+            _shuffleHistoryIndex++;
+            nextTrack = [_shuffleHistory objectAtIndex:_shuffleHistoryIndex];
         }
         
-        PlaylistTrack *nextTrack = [_shuffleNotPlayedYetTracks objectAtIndex:arc4random_uniform((int)[_shuffleNotPlayedYetTracks count])];
-        [_shuffleNotPlayedYetTracks removeObject:nextTrack];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:nextTrack];
     }
     else {
@@ -198,7 +210,16 @@
 -(void)playPrevTrackBefore:(PlaylistTrack *)trackJustEnded
 {
     if(_shuffle == YES) {
-        // Not implemented yet
+        if(_shuffleHistoryIndex == -1)
+            _shuffleHistoryIndex = [_shuffleHistory count] - 1;
+        
+        if(_shuffleHistoryIndex == 0) // at beginning now
+            return;
+        
+        _shuffleHistoryIndex--;
+        
+        PlaylistTrack *nextTrack = [_shuffleHistory objectAtIndex:_shuffleHistoryIndex];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"playTrack" object:nextTrack];
     }
     else {
         NSUInteger index = [[self sortedTracks] indexOfObject:trackJustEnded];
@@ -225,13 +246,19 @@
         _shuffleNotPlayedYetTracks = [[NSMutableArray alloc] init];
         [_shuffleNotPlayedYetTracks addObjectsFromArray:[self sortedTracks]];
         
-        //remove current playing one (if it exists)
-        if([self currentlyActiveTrack]) {
-            [_shuffleNotPlayedYetTracks removeObject:[self currentlyActiveTrack]];
+        _shuffleHistory = [[NSMutableArray alloc] init];
+        _shuffleHistoryIndex = -1;
+        
+        //if we are currently playing something
+        PlaylistTrack *t;
+        if((t = [self currentlyActiveTrack])) {
+            [_shuffleNotPlayedYetTracks removeObject:t]; // remove from not played
+            [_shuffleHistory addObject:t]; // add to history
         }
     }
     else {
         _shuffleNotPlayedYetTracks = nil;
+        _shuffleHistory = nil;
     }
 }
 
