@@ -53,6 +53,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self setPlaylist:nil]; //clear out observers and binds
+}
+
 -(Playlist *)playlist
 {
     return _playlist;

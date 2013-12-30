@@ -111,6 +111,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 - (void)dealloc
 {
     dispatch_release(decoding_queue);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"playTrack" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"seekTrack" object:nil];
 }
 
 - (void)createOrReconfigureAudioGraph:(DecoderMetadata)decoderMetadata

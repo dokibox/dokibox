@@ -29,6 +29,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_lastFMScrobblerPlugin removeObserver:self forKeyPath:@"lastfmUserName"];
+    [_lastFMScrobblerPlugin removeObserver:self forKeyPath:@"lastfmUserKey"];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"lastfmUserName"] || [keyPath isEqualToString:@"lastfmUserKey"]) {

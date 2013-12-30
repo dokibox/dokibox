@@ -35,6 +35,12 @@ PluginManager *__pluginManager;
     return self;
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pluginNewTrackPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pluginPlaybackProgress" object:nil];
+}
+
 -(NSString*)name
 {
     return @"last.fm Scrobbler";

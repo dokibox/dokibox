@@ -71,6 +71,7 @@
 -(void)dealloc
 {
     dispatch_release(_searchQueue);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes

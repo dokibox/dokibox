@@ -20,6 +20,11 @@
     return self;
 }
 
+-(void)dealloc
+{
+    [self setTrack:nil]; //clear out observers and binds
+}
+
 -(PlaylistTrack *)track
 {
     return _track;

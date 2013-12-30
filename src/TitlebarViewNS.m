@@ -46,6 +46,16 @@
     return self;
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"startedPlayback" object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:@"startedPlayback" object:nil]; duplicated for matching 1:1 add/remove
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stoppedPlayback" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"unpausedPlayback" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pausedPlayback" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"playbackProgress" object:nil];
+}
+
 -(void)initSubviews {
     // Right side buttons
     CGFloat rightedge = [self bounds].size.width - 35;

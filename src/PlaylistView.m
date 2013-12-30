@@ -131,6 +131,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"addTrackToCurrentPlaylist" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+}
+
 - (void)updateDividerTrackingArea
 {
     if(_dividerTrackingArea) {
