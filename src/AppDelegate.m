@@ -75,6 +75,11 @@
     [wcv performFindPanelAction:sender];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)application
+{
+    return YES;
+}
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     if([[NSUserDefaults standardUserDefaults] synchronize] == NO) {
