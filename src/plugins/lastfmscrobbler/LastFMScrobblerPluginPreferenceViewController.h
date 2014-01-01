@@ -20,6 +20,7 @@
 
 -(void)updateAccountStatus;
 -(IBAction)loginButtonPressed:(id)sender;
+-(IBAction)logoButtonPressed:(id)sender;
 
 @property() NSString* statusString;
 @property() NSString* loginButtonString;

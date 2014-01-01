@@ -152,4 +152,9 @@
     });
 }
 
+-(IBAction)logoButtonPressed:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.last.fm/"]];
+}
+
 @end
