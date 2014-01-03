@@ -51,8 +51,8 @@
 		2B92032D185E279700AAD008 /* NSTableView+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */; };
 		2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9203361863061D00AAD008 /* PlaylistTableHeader.m */; };
 		2B92033D1874431D00AAD008 /* lastfm_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B92033B187442EE00AAD008 /* lastfm_red.png */; };
-		2B92034F18763A8800AAD008 /* CocoaFobARC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B92034A18763A6100AAD008 /* CocoaFobARC.framework */; };
-		2B92035018763A9D00AAD008 /* CocoaFobARC.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B92034A18763A6100AAD008 /* CocoaFobARC.framework */; };
+		2B9203531876424400AAD008 /* CocoaFob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
+		2B9203541876425200AAD008 /* CocoaFob.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
 		2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B9B27DF17B85038005434F2 /* Carbon.framework */; };
 		2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */; };
@@ -180,12 +180,12 @@
 			remoteGlobalIDString = C7CA0D8715F1BFA900C7E9CD;
 			remoteInfo = CocoaFobTests;
 		};
-		2B92034D18763A7B00AAD008 /* PBXContainerItemProxy */ = {
+		2B9203511876423300AAD008 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = C7F7EF121577F3D90067C3A3;
-			remoteInfo = CocoaFobARC;
+			remoteGlobalIDString = 303524071223BB9600AACD22;
+			remoteInfo = CocoaFob;
 		};
 		2BB25CE516973E5100243B27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -253,7 +253,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2B92035018763A9D00AAD008 /* CocoaFobARC.framework in Copy Files */,
+				2B9203541876425200AAD008 /* CocoaFob.framework in Copy Files */,
 				6F4D7B1A18602C35004E436E /* libtag.1.14.0.dylib in Copy Files */,
 				2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */,
 				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
@@ -451,7 +451,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B92034F18763A8800AAD008 /* CocoaFobARC.framework in Frameworks */,
+				2B9203531876424400AAD008 /* CocoaFob.framework in Frameworks */,
 				2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */,
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
@@ -936,7 +936,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				2B92034E18763A7B00AAD008 /* PBXTargetDependency */,
+				2B9203521876423300AAD008 /* PBXTargetDependency */,
 				2B72D79C16F163B400324194 /* PBXTargetDependency */,
 				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
@@ -1278,10 +1278,10 @@
 			name = Lumberjack;
 			targetProxy = 2B72D79B16F163B400324194 /* PBXContainerItemProxy */;
 		};
-		2B92034E18763A7B00AAD008 /* PBXTargetDependency */ = {
+		2B9203521876423300AAD008 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = CocoaFobARC;
-			targetProxy = 2B92034D18763A7B00AAD008 /* PBXContainerItemProxy */;
+			name = CocoaFob;
+			targetProxy = 2B9203511876423300AAD008 /* PBXContainerItemProxy */;
 		};
 		2BB25CE616973E5100243B27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
