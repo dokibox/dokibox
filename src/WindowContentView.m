@@ -249,6 +249,9 @@
 -(void)newPlaylistButtonPressed:(id)sender
 {
     [_playlistView newPlaylist];
+    if([_togglePlaylistButton state] == NSOffState) {
+        [_togglePlaylistButton setState:NSOnState];
+    }
 }
 
 -(NSViewDrawRect)newPlaylistButtonDrawRect
@@ -420,16 +423,60 @@
     return ^(NSView *v, CGRect rect) {
         CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
+        CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
+        CGFloat heightup = 7;
+        CGFloat heightdw = 7;
+
+        CGContextMoveToPoint(ctx, 3, 13);
+        CGContextAddLineToPoint(ctx, 5.5, 13);
+        CGContextAddCurveToPoint(ctx, 8.88, 13, 9, 5, 13, 5);
+        CGContextAddLineToPoint(ctx, 14, 5);
+        CGContextAddLineToPoint(ctx, 14, 3.5);
+        CGContextAddLineToPoint(ctx, 18, 6);
+        CGContextAddLineToPoint(ctx, 14, 8.5);
+        CGContextAddLineToPoint(ctx, 14, 7);
+        CGContextAddLineToPoint(ctx, 13.07, 7);
+        CGContextAddCurveToPoint(ctx, 10, 7, 10, 15, 5.5, 15);
+        CGContextAddLineToPoint(ctx, 3, 15);
+        CGContextMoveToPoint(ctx, 7.64, 8.41);
+        CGContextAddCurveToPoint(ctx, 7.06, 7.58, 6.4, 7, 5.5, 7);
+        CGContextAddLineToPoint(ctx, 3, 7);
+        CGContextAddLineToPoint(ctx, 3, 5);
+        CGContextAddLineToPoint(ctx, 5.5, 5);
+        CGContextAddCurveToPoint(ctx, 6.84, 5, 7.77, 5.71, 8.51, 6.71);
+        CGContextAddCurveToPoint(ctx, 8.19, 7.27, 7.9, 7.85, 7.64, 8.41);
+        CGContextMoveToPoint(ctx, 11.17, 11.66);
+        CGContextAddCurveToPoint(ctx, 11.69, 12.46, 12.27, 13, 13.07, 13);
+        CGContextAddLineToPoint(ctx, 14, 13);
+        CGContextAddLineToPoint(ctx, 14, 11.5);
+        CGContextAddLineToPoint(ctx, 18, 14);
+        CGContextAddLineToPoint(ctx, 14, 16.5);
+        CGContextAddLineToPoint(ctx, 14, 15);
+        CGContextAddLineToPoint(ctx, 13, 15);
+        CGContextAddCurveToPoint(ctx, 11.82, 15, 10.98, 14.3, 10.3, 13.32);
+        CGContextAddCurveToPoint(ctx, 10.63, 12.77, 10.91, 12.2, 11.17, 11.66);
+
+        CGContextClosePath(ctx);
         
+        CGContextClip(ctx);
+
         TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        NSColor *gradientEndColor, *gradientStartColor;
         if([button state] == NSOnState) {
-            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
-        }
-        else {
-            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.2);
+            gradientEndColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.75 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.85 alpha:1.0];
+        } else {
+            gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
         }
         
-        CGContextFillRect(ctx, b);
+        NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                           (id)[gradientEndColor CGColor], nil];
+        CGFloat locations[] = { 0.0, 1.0 };
+        CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+        
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + heightup), CGPointMake(middle.x, middle.y - heightdw), 0);
+        CGGradientRelease(gradient);
     };
 }
 
