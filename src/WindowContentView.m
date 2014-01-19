@@ -424,8 +424,7 @@
         CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
-        CGFloat heightup = 7;
-        CGFloat heightdw = 7;
+        CGFloat halfHeight = 7;
 
         CGContextMoveToPoint(ctx, 3, 13);
         CGContextAddLineToPoint(ctx, 5.5, 13);
@@ -455,7 +454,6 @@
         CGContextAddLineToPoint(ctx, 13, 15);
         CGContextAddCurveToPoint(ctx, 11.82, 15, 10.98, 14.3, 10.3, 13.32);
         CGContextAddCurveToPoint(ctx, 10.63, 12.77, 10.91, 12.2, 11.17, 11.66);
-
         CGContextClosePath(ctx);
         
         CGContextClip(ctx);
@@ -475,7 +473,7 @@
         CGFloat locations[] = { 0.0, 1.0 };
         CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
         
-        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + heightup), CGPointMake(middle.x, middle.y - heightdw), 0);
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + halfHeight), CGPointMake(middle.x, middle.y - halfHeight), 0);
         CGGradientRelease(gradient);
     };
 }
