@@ -70,9 +70,12 @@
     }
     
     _playlist = playlist;
-    [_playlistNameTextField bind:@"value" toObject:_playlist withKeyPath:@"name" options:nil];
-    [_noTracksTextField bind:@"value" toObject:_playlist withKeyPath:@"tracks.@count" options:nil];
-    [_playlist addObserver:self forKeyPath:@"tracks.@count" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    if(playlist) { //playlist can be nil (used in dealloc method to removeObserver)
+        [_playlistNameTextField bind:@"value" toObject:_playlist withKeyPath:@"name" options:nil];
+        [_noTracksTextField bind:@"value" toObject:_playlist withKeyPath:@"tracks.@count" options:nil];
+        [_playlist addObserver:self forKeyPath:@"tracks.@count" options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
