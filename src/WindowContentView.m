@@ -249,6 +249,9 @@
 -(void)newPlaylistButtonPressed:(id)sender
 {
     [_playlistView newPlaylist];
+    if([_togglePlaylistButton state] == NSOffState) {
+        [_togglePlaylistButton setState:NSOnState];
+    }
 }
 
 -(NSViewDrawRect)newPlaylistButtonDrawRect
