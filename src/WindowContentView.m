@@ -401,7 +401,7 @@
         CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
         CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
-        CGFloat halfHeight = 8;
+        CGFloat halfHeight = 7;
 
         CGContextMoveToPoint(ctx, 14.92, 9.22);
         CGContextAddCurveToPoint(ctx, 14.54, 6.83, 12.49, 5, 10, 5);
