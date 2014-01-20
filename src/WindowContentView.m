@@ -370,16 +370,63 @@
     return ^(NSView *v, CGRect rect) {
         CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
         CGRect b = v.bounds;
+        CGPoint middle = CGPointMake(CGRectGetMidX(b), CGRectGetMidY(b));
+        CGFloat halfHeight = 7;
+        
+        CGContextMoveToPoint(ctx, 14, 5);
+        CGContextAddLineToPoint(ctx, 6, 5);
+        CGContextAddLineToPoint(ctx, 6, 15);
+        CGContextAddLineToPoint(ctx, 14, 15);
+        CGContextMoveToPoint(ctx, 4.25, 16.75);
+        CGContextAddLineToPoint(ctx, 4.25, 3.25);
+        CGContextAddLineToPoint(ctx, 15.75, 3.25);
+        CGContextAddLineToPoint(ctx, 15.75, 16.75);
+        CGContextMoveToPoint(ctx, 12, 7.75);
+        CGContextAddLineToPoint(ctx, 13, 7.75);
+        CGContextAddLineToPoint(ctx, 13, 6);
+        CGContextAddLineToPoint(ctx, 12, 6);
+        CGContextMoveToPoint(ctx, 7, 6);
+        CGContextAddLineToPoint(ctx, 7, 7.75);
+        CGContextAddLineToPoint(ctx, 11, 7.75);
+        CGContextAddLineToPoint(ctx, 11, 6);
+        CGContextMoveToPoint(ctx, 12, 10.75);
+        CGContextAddLineToPoint(ctx, 12, 9);
+        CGContextAddLineToPoint(ctx, 13, 9);
+        CGContextAddLineToPoint(ctx, 13, 10.75);
+        CGContextMoveToPoint(ctx, 7, 10.75);
+        CGContextAddLineToPoint(ctx, 7, 9);
+        CGContextAddLineToPoint(ctx, 11, 9);
+        CGContextAddLineToPoint(ctx, 11, 10.75);
+        CGContextMoveToPoint(ctx, 12, 13.75);
+        CGContextAddLineToPoint(ctx, 13, 13.75);
+        CGContextAddLineToPoint(ctx, 13, 12);
+        CGContextAddLineToPoint(ctx, 12, 12);
+        CGContextMoveToPoint(ctx, 7, 12);
+        CGContextAddLineToPoint(ctx, 7, 13.75);
+        CGContextAddLineToPoint(ctx, 11, 13.75);
+        CGContextAddLineToPoint(ctx, 11, 12);
 
+        CGContextClosePath(ctx);
+        
+        CGContextClip(ctx);
+        
         TitlebarButtonNS *button = (TitlebarButtonNS*)v;
+        NSColor *gradientEndColor, *gradientStartColor;
         if([button state] == NSOnState) {
-            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
+            gradientEndColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.75 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.85 alpha:1.0];
+        } else {
+            gradientEndColor = [NSColor colorWithDeviceWhite:0.15 alpha:1.0];
+            gradientStartColor = [NSColor colorWithDeviceWhite:0.45 alpha:1.0];
         }
-        else {
-            CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.2);
-        }
-
-        CGContextFillRect(ctx, b);
+        
+        NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
+                           (id)[gradientEndColor CGColor], nil];
+        CGFloat locations[] = { 0.0, 1.0 };
+        CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
+        
+        CGContextDrawLinearGradient(ctx, gradient, CGPointMake(middle.x, middle.y + halfHeight), CGPointMake(middle.x, middle.y - halfHeight), 0);
+        CGGradientRelease(gradient);
     };
 }
 
