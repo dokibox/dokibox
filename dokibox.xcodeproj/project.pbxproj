@@ -53,6 +53,8 @@
 		2B92033D1874431D00AAD008 /* lastfm_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B92033B187442EE00AAD008 /* lastfm_red.png */; };
 		2B9203531876424400AAD008 /* CocoaFob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
 		2B9203541876425200AAD008 /* CocoaFob.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
+		2B92035D1878D9AA00AAD008 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92035B1878D9AA00AAD008 /* LicenseController.m */; };
+		2B92035E1878D9AA00AAD008 /* LicenseController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B92035C1878D9AA00AAD008 /* LicenseController.xib */; };
 		2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B9B27DF17B85038005434F2 /* Carbon.framework */; };
 		2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DA4F9178A5AF10065DC44 /* PlaylistCellView.m */; };
@@ -351,6 +353,9 @@
 		2B9203361863061D00AAD008 /* PlaylistTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTableHeader.m; sourceTree = "<group>"; };
 		2B92033B187442EE00AAD008 /* lastfm_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lastfm_red.png; path = src/plugins/lastfmscrobbler/assets/lastfm_red.png; sourceTree = SOURCE_ROOT; };
 		2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocoafob.xcodeproj; path = deps/cocoafob/objc/cocoafob.xcodeproj; sourceTree = "<group>"; };
+		2B92035A1878D9AA00AAD008 /* LicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseController.h; sourceTree = "<group>"; };
+		2B92035B1878D9AA00AAD008 /* LicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseController.m; sourceTree = "<group>"; };
+		2B92035C1878D9AA00AAD008 /* LicenseController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseController.xib; sourceTree = "<group>"; };
 		2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMediaKeyTap.m; path = deps/SPMediaKeyTap/SPMediaKeyTap.m; sourceTree = SOURCE_ROOT; };
 		2B9B27DD17B84E1E005434F2 /* SPMediaKeyTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SPMediaKeyTap.h; path = deps/SPMediaKeyTap/SPMediaKeyTap.h; sourceTree = SOURCE_ROOT; };
 		2B9B27DF17B85038005434F2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -732,6 +737,9 @@
 				2B7C00A6181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m */,
 				2B92032B185E279700AAD008 /* NSTableView+ContextMenu.h */,
 				2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */,
+				2B92035A1878D9AA00AAD008 /* LicenseController.h */,
+				2B92035B1878D9AA00AAD008 /* LicenseController.m */,
+				2B92035C1878D9AA00AAD008 /* LicenseController.xib */,
 			);
 			name = app;
 			sourceTree = "<group>";
@@ -1133,6 +1141,7 @@
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
 				2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */,
+				2B92035E1878D9AA00AAD008 /* LicenseController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1188,6 +1197,7 @@
 				2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */,
 				2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */,
 				2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */,
+				2B92035D1878D9AA00AAD008 /* LicenseController.m in Sources */,
 				2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */,
 				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
 				2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */,
