@@ -493,6 +493,7 @@
     searchframe.origin.y -= height;
     _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
     [_librarySearchView setLibraryView:self];
+    [_librarySearchView setAutoresizingMask:NSViewWidthSizable];
     [self addSubview:_librarySearchView];
     [_librarySearchView setFocusInSearchField];
 

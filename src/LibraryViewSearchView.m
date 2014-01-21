@@ -22,6 +22,7 @@
         NSRect b = CGRectInset([self bounds], 3, 3);
         b.size.height -= 1;
         _searchField = [[NSSearchField alloc] initWithFrame:b];
+        [_searchField setAutoresizingMask:NSViewWidthSizable];
         [[_searchField cell] setControlSize:NSSmallControlSize];
         [_searchField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
         [_searchField setDelegate:self];
@@ -55,6 +56,10 @@
 {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     NSRect b = [self bounds];
+    
+    // Clear
+    CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 1.0);
+    CGContextFillRect(ctx, b);
     
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     if(isActive)
