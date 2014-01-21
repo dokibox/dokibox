@@ -17,6 +17,7 @@
 @property(weak) LibraryView *libraryView;
 
 - (void)setFocusInSearchField;
+- (void)resetSearch;
 - (void)redisplay;
 
 @end

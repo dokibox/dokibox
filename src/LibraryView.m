@@ -521,6 +521,8 @@
             return;
         }
         
+        [_librarySearchView resetSearch];
+        
         NSRect libraryframe = [self bounds];
         NSRect searchframe = [_librarySearchView frame];
         searchframe.origin.y -= searchframe.size.height;

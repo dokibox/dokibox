@@ -52,6 +52,14 @@
     [[self libraryView] runSearch:[_searchField stringValue]];
 }
 
+- (void)resetSearch
+{
+    if([[_searchField stringValue] isEqualToString:@""] == NO) {
+        [_searchField setStringValue:@""];
+        [self controlTextDidChange:nil];
+    }
+}
+
 - (void)cancelOperation:(id)sender
 {
     //ESC key
