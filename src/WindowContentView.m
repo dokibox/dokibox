@@ -100,6 +100,7 @@
             [_searchButton setAutoresizingMask:NSViewMaxXMargin];
             [_searchButton setButtonType:NSMomentaryLightButton];
             [_searchButton setTarget:self];
+            [_searchButton bind:@"state" toObject:_libraryView withKeyPath:@"searchVisible" options:nil];
             [_searchButton setAction:@selector(searchButtonPressed:)];
             [_searchButton setDrawIcon: [self searchButtonDrawRect]];
             [self addSubview:_searchButton];
@@ -243,7 +244,7 @@
     if([_searchButton state] == NSOffState) {
        [_searchButton setState:NSOnState];
     }
-    [_libraryView showSearch];
+    [_libraryView setSearchVisible:YES];
 }
 
 -(void)newPlaylistButtonPressed:(id)sender
@@ -286,14 +287,7 @@
 
 -(void)searchButtonPressed:(id)sender
 {
-    if([_searchButton state] == NSOffState) {
-        [_searchButton setState:NSOnState];
-        [_libraryView showSearch];
-    }
-    else {
-        [_searchButton setState:NSOffState];
-        [_libraryView hideSearch];
-    }
+    [_libraryView setSearchVisible:![_libraryView searchVisible]];
 }
 
 -(NSViewDrawRect)searchButtonDrawRect

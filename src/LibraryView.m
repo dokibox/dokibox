@@ -479,54 +479,61 @@
     }
 }
 
--(void)showSearch
+-(BOOL)searchVisible
 {
-    if(_librarySearchView) {
-        [_librarySearchView setFocusInSearchField];
-        return;
-    }
-
-    CGFloat height = 26;
-
-    NSRect searchframe = [self bounds];
-    searchframe.size.height = height;
-    searchframe.origin.y -= height;
-    _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
-    [_librarySearchView setLibraryView:self];
-    [_librarySearchView setAutoresizingMask:NSViewWidthSizable];
-    [self addSubview:_librarySearchView];
-    [_librarySearchView setFocusInSearchField];
-
-    searchframe.origin.y += height;
-    NSRect libraryframe = [self bounds];
-    libraryframe.origin.y += height;
-    libraryframe.size.height -= height;
-
-    [NSAnimationContext beginGrouping];
-    [[_librarySearchView animator] setFrame:searchframe];
-    [[_libraryScrollView animator] setFrame:libraryframe];
-    [NSAnimationContext endGrouping];
+    return _searchVisible;
 }
 
--(void)hideSearch
+-(void)setSearchVisible:(BOOL)searchVisible
 {
-    if(_librarySearchView == nil) {
-        DDLogVerbose(@"Library search view already hidden");
-        return;
+    _searchVisible = searchVisible;
+    
+    if(_searchVisible == YES) { // show
+        if(_librarySearchView) {
+            [_librarySearchView setFocusInSearchField];
+            return;
+        }
+        
+        CGFloat height = 26;
+        
+        NSRect searchframe = [self bounds];
+        searchframe.size.height = height;
+        searchframe.origin.y -= height;
+        _librarySearchView = [[LibraryViewSearchView alloc] initWithFrame:searchframe];
+        [_librarySearchView setLibraryView:self];
+        [_librarySearchView setAutoresizingMask:NSViewWidthSizable];
+        [self addSubview:_librarySearchView];
+        [_librarySearchView setFocusInSearchField];
+        
+        searchframe.origin.y += height;
+        NSRect libraryframe = [self bounds];
+        libraryframe.origin.y += height;
+        libraryframe.size.height -= height;
+        
+        [NSAnimationContext beginGrouping];
+        [[_librarySearchView animator] setFrame:searchframe];
+        [[_libraryScrollView animator] setFrame:libraryframe];
+        [NSAnimationContext endGrouping];
     }
-
-    NSRect libraryframe = [self bounds];
-    NSRect searchframe = [_librarySearchView frame];
-    searchframe.origin.y -= searchframe.size.height;
-
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setCompletionHandler:^{
-        [_librarySearchView removeFromSuperview];
-        _librarySearchView = nil;
-    }];
-    [[_libraryScrollView animator] setFrame:libraryframe];
-    [[_librarySearchView animator] setFrame:searchframe];
-    [NSAnimationContext endGrouping];
+    else { // hide
+        if(_librarySearchView == nil) {
+            DDLogVerbose(@"Library search view already hidden");
+            return;
+        }
+        
+        NSRect libraryframe = [self bounds];
+        NSRect searchframe = [_librarySearchView frame];
+        searchframe.origin.y -= searchframe.size.height;
+        
+        [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setCompletionHandler:^{
+            [_librarySearchView removeFromSuperview];
+            _librarySearchView = nil;
+        }];
+        [[_libraryScrollView animator] setFrame:libraryframe];
+        [[_librarySearchView animator] setFrame:searchframe];
+        [NSAnimationContext endGrouping];
+    }
 }
 
 -(void)runSearch:(NSString *)text

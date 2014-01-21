@@ -18,6 +18,7 @@
     RBLTableView *_tableView;
     RBLScrollView *_libraryScrollView;
     LibraryViewSearchView *_librarySearchView;
+    BOOL _searchVisible;
     
     TableViewRowData *_rowData;
     
@@ -31,8 +32,6 @@
 
 - (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
 
--(void)showSearch;
--(void)hideSearch;
 -(void)runSearch:(NSString *)text;
 
 - (void)addButtonPressed:(id)sender;
@@ -43,5 +42,7 @@
 -(void)expandRow:(NSUInteger)row;
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive onCellData:(NSMutableArray*)celldata andMatchedObjects:(NSMutableSet*)matchedObjects;
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
+
+@property() BOOL searchVisible;
 
 @end

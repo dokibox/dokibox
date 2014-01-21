@@ -52,6 +52,12 @@
     [[self libraryView] runSearch:[_searchField stringValue]];
 }
 
+- (void)cancelOperation:(id)sender
+{
+    //ESC key
+    [[self libraryView] setSearchVisible:NO];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
