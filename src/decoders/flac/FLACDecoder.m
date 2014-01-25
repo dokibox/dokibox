@@ -112,6 +112,12 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     return self;
 }
 
+-(void)dealloc {
+    NSLog(@"Deallocing flac decoder");
+    FLAC__stream_decoder_finish(decoder);
+    FLAC__stream_decoder_delete(decoder);
+}
+
 -(DecoderMetadata)decodeMetadata {
     FLAC__stream_decoder_process_until_end_of_metadata(decoder);
     return _metadata;
