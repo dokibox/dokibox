@@ -144,8 +144,20 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 -(DecodeStatus)decodeNextFrame {
     FLAC__bool retval = FLAC__stream_decoder_process_single(decoder);
     if(retval != true) {
-        NSLog(@"hi");
+        NSLog(@"Some kinda of FLAC failure.");
+        NSLog(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
+        return DecoderEOF;
     }
+    
+    FLAC__StreamDecoderState state = FLAC__stream_decoder_get_state(decoder);
+    if(state == FLAC__STREAM_DECODER_END_OF_STREAM)
+        return DecoderEOF;
+    else if (state > FLAC__STREAM_DECODER_END_OF_STREAM) {
+        NSLog(@"Some kinda of FLAC failure.");
+        NSLog(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
+        return DecoderEOF;
+    }
+    
     return DecoderSuccess;
 }
 
