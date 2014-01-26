@@ -99,8 +99,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _decoderStatus = MusicControllerDecoderIdle;
     _status = MusicControllerStopped;
     _volume = 1.0;
-
-    decoding_queue = dispatch_queue_create("fb2k.decoding",NULL);
+    
+    NSString *queueName = [NSString stringWithFormat:@"%@.decoding", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+    decoding_queue = dispatch_queue_create([queueName cStringUsingEncoding:NSUTF8StringEncoding],NULL);
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrack" object:nil];

@@ -1494,7 +1494,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/flac/fb2kmac-decoder-flac-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/flac/dokibox-decoder-flac-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1513,7 +1513,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/flac/fb2kmac-decoder-flac-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/flac/dokibox-decoder-flac-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/flac/dokibox-decoder-flac-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1532,7 +1532,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/vorbis/fb2kmac-decoder-vorbis-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/vorbis/dokibox-decoder-vorbis-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -1551,7 +1551,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "src/decoders/vorbis/fb2kmac-decoder-vorbis-Prefix.pch";
+				GCC_PREFIX_HEADER = "src/decoders/vorbis/dokibox-decoder-vorbis-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "src/decoders/vorbis/dokibox-decoder-vorbis-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";

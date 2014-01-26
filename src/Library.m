@@ -103,7 +103,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 -(id)init
 {
     if(self = [super init]) {
-        _dispatchQueue = dispatch_queue_create("fb2k.library", DISPATCH_QUEUE_SERIAL);
+        NSString *queueName = [NSString stringWithFormat:@"%@.library", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+        _dispatchQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t lowPriorityQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
         dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
         
