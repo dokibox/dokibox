@@ -11,6 +11,8 @@
 #include <taglib/mpegfile.h>
 #include <taglib/flacfile.h>
 #include <taglib/vorbisfile.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4properties.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
 
@@ -62,6 +64,12 @@
         [retval setValue:@"FLAC" forKey:@"format"];
     else if(dynamic_cast<TagLib::Ogg::Vorbis::File*>(_fileref->file()))
         [retval setValue:@"Ogg Vorbis" forKey:@"format"];
+    else if(dynamic_cast<TagLib::MP4::File*>(_fileref->file())) {
+        if(dynamic_cast<TagLib::MP4::File*>(_fileref->file())->audioProperties()->codec() == TagLib::MP4::Properties::AAC)
+            [retval setValue:@"AAC" forKey:@"format"];
+        else
+            [retval setValue:@"ALAC" forKey:@"format"];
+    }
 
 
     return retval;
