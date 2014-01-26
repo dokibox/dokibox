@@ -60,30 +60,26 @@
 }
 
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler
-{
-    dispatch_queue_t queue = dispatch_queue_create(NULL, NULL);
+{ // This is probably not the main thread
     NSManagedObjectID *playlistID = [self objectID];
     NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
     
-    dispatch_async(queue, ^() {
-        NSError *err;
-        NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
-        [c setPersistentStoreCoordinator:store];
-        Playlist *p = (Playlist *)[c objectWithID:playlistID];
-        
-        PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
-        [p insertTrack:t atIndex:index];
-        [c save:&err];
-        NSManagedObjectID *tID = [t objectID];
-        
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
-            [self insertTrack:tMain atIndex:index]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
-            completionHandler();
-        });
-    });
+    NSError *err;
+    NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
+    [c setPersistentStoreCoordinator:store];
+    Playlist *p = (Playlist *)[c objectWithID:playlistID];
     
-    dispatch_release(queue);
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
+    [p insertTrack:t atIndex:index];
+    [c save:&err];
+    NSManagedObjectID *tID = [t objectID];
+    
+    dispatch_sync(dispatch_get_main_queue(), ^() {
+        PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
+        Playlist *pMain = (Playlist *)[[self managedObjectContext] objectWithID:playlistID];
+        [pMain insertTrack:tMain atIndex:index]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
+        completionHandler();
+    });
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
@@ -114,30 +110,26 @@
 }
 
 -(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler
-{
-    dispatch_queue_t queue = dispatch_queue_create(NULL, NULL);
+{ // This is probably not the main thread
     NSManagedObjectID *playlistID = [self objectID];
     NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
     
-    dispatch_async(queue, ^() {
-        NSError *err;
-        NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
-        [c setPersistentStoreCoordinator:store];
-        Playlist *p = (Playlist *)[c objectWithID:playlistID];
-        
-        PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
-        [p addTrack:t];
-        [c save:&err];
-        NSManagedObjectID *tID = [t objectID];
-        
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
-            [self addTrack:tMain]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
-            completionHandler();
-        });
-    });
+    NSError *err;
+    NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
+    [c setPersistentStoreCoordinator:store];
+    Playlist *p = (Playlist *)[c objectWithID:playlistID];
     
-    dispatch_release(queue);
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
+    [p addTrack:t];
+    [c save:&err];
+    NSManagedObjectID *tID = [t objectID];
+    
+    dispatch_sync(dispatch_get_main_queue(), ^() {
+        PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
+        Playlist *pMain = (Playlist *)[[self managedObjectContext] objectWithID:playlistID];
+        [pMain addTrack:tMain]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
+        completionHandler();
+    });
 }
 
 -(void)addTrack:(PlaylistTrack *)track

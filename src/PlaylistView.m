@@ -114,6 +114,9 @@
         [_trackTableView setRowHeight:25.0];
         [_trackScrollView setAutohidesScrollers:YES];
         
+        // Adding queue
+        _addingQueue = dispatch_queue_create(NULL, NULL);
+        
         // Playlist table header
         _playlistTableHeader = [[PlaylistTableHeader alloc] initWithFrame:[self playlistTableHeaderFrame]];
         [_playlistTableHeader setWantsLayer:YES];
@@ -133,6 +136,7 @@
 
 - (void)dealloc
 {
+    dispatch_release(_addingQueue);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"addTrackToCurrentPlaylist" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
 }
@@ -316,28 +320,29 @@
 
 - (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 {
-    __weak Playlist *weakP = p;
-    
     if([filenames count] == 0) return;
-    
-    NSString *s = [filenames objectAtIndex:0];
-    void (^completion)(void) = ^() {
-        if(weakP == _currentPlaylist) // selection could have changed, so no point updating if it has
-            [_trackTableView reloadData];
-        
-        NSInteger newIndex = index < 0 ? index : index + 1;
-        NSArray *newfilenames = [filenames subarrayWithRange:NSMakeRange(1, [filenames count] -1)];
-        [self insertTracks:newfilenames toPlaylist:weakP atIndex:newIndex];
-    };
-    
-    if([MusicController isSupportedAudioFile:s]) {
-            if(index < 0) {
-                [p addTrackWithFilename:s onCompletion:completion];
+    __weak Playlist *weakP = p;
+
+    dispatch_async(_addingQueue, ^() {
+        NSInteger blockIndex = index;
+        for(NSString *s in filenames) {
+            void (^completion)(void) = ^() {
+                if(weakP == _currentPlaylist) // selection could have changed, so no point updating if it has
+                    [_trackTableView reloadData];
+            };
+            
+            if([MusicController isSupportedAudioFile:s]) {
+                if(index < 0) {
+                    [p addTrackWithFilename:s onCompletion:completion];
+                }
+                else {
+                    [p insertTrackWithFilename:s atIndex:blockIndex onCompletion:completion];
+                }
             }
-            else {
-                [p insertTrackWithFilename:s atIndex:index onCompletion:completion];
-            }
-    }
+            
+            blockIndex = blockIndex < 0 ? blockIndex : blockIndex + 1;
+        }
+    });
 }
 
 -(void)receivedPlaylistSavedNotification:(NSNotification *)notification
