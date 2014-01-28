@@ -43,23 +43,44 @@
         [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
         [_playlistTableView setHeaderView:nil];
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
-        [_playlistTableView setAllowsEmptySelection:NO];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
         [_playlistScrollView setDocumentView:_playlistTableView];
         [_playlistScrollView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
         NSTableColumn *playlistFirstColumn = [[NSTableColumn alloc] initWithIdentifier:@"main"];
         [_playlistTableView addTableColumn:playlistFirstColumn];
         [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
-        [self addSubview:_playlistScrollView];
-        [_playlistTableView reloadData];
 
-        // Select first playlist
+        // Loading up previously selected playlist
+        NSURL *lastPlaylistURL = [[NSUserDefaults standardUserDefaults] URLForKey:@"currentlySelectedPlaylistCoreDataURL"];
+        // If no playlists, create one and select it
         if([_playlists count] == 0) {
             [self newPlaylist];
+            [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
         }
-        [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-        [_playlistTableView setEnabled:NO];
+        else if(lastPlaylistURL) {
+            BOOL found = false;
+            NSLog(@"url: %@", [lastPlaylistURL absoluteString]);
+            for(Playlist *p in _playlists) {
+                NSLog(@"url compare: %@", [[[p objectID] URIRepresentation] absoluteString]);
+                if([[[p objectID] URIRepresentation] isEqual:lastPlaylistURL] == true) {
+                    found = true;
+                    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:p]] byExtendingSelection:NO];
+                    break;
+                }
+            }
+            if(found == false) {
+                DDLogWarn(@"Previously selected playlist's Core Data URL cannot be found");
+                [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+            }
+        }
+        else {
+            // no previous saved, select anything
+            [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+        }
 
+        [_playlistTableView setAllowsEmptySelection:NO];
+        [_playlistTableView setEnabled:NO];
+        [self addSubview:_playlistScrollView];
 
         // Track table view
         _trackScrollView = [[RBLScrollView alloc] initWithFrame:[self trackScrollViewFrame]];
@@ -457,8 +478,11 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification
 {
+    // Note: reloadData causes this to be called twice. once to change to something else and once to change back again
     if([notification object] == _playlistTableView) {
-        [self setCurrentPlaylist:[_playlists objectAtIndex:[_playlistTableView selectedRow]]];
+        Playlist *p = [_playlists objectAtIndex:[_playlistTableView selectedRow]];
+        [[NSUserDefaults standardUserDefaults] setURL:[[p objectID] URIRepresentation] forKey:@"currentlySelectedPlaylistCoreDataURL"];
+        [self setCurrentPlaylist:p];
         [_trackTableView reloadData];
     }
 }
