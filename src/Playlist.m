@@ -14,6 +14,7 @@
 
 @dynamic name;
 @dynamic tracks;
+@dynamic index;
 @synthesize repeat = _repeat;
 
 -(NSUInteger)numberOfTracks {

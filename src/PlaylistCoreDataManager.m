@@ -102,6 +102,12 @@
             [tracksRelation setDestinationEntity:playlistTrackEntity];
             [tracksRelation setMinCount:0];
             [playlistProperties addObject:tracksRelation];
+            
+            NSAttributeDescription *indexAttribute = [[NSAttributeDescription alloc] init];
+            [indexAttribute setName:@"index"];
+            [indexAttribute setAttributeType:NSInteger32AttributeType];
+            [indexAttribute setOptional:NO];
+            [playlistProperties addObject:indexAttribute];
         }
         [playlistEntity setProperties:playlistProperties];
         [entities addObject:playlistEntity];

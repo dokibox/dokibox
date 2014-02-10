@@ -39,5 +39,6 @@
 @property (nonatomic) NSSet* tracks;
 @property BOOL repeat;
 @property BOOL shuffle;
+@property NSNumber *index;
 
 @end

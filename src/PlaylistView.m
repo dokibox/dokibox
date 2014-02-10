@@ -40,7 +40,7 @@
         _playlistTableView = [[RBLTableView alloc] initWithFrame: [[_playlistScrollView contentView] bounds]];
         [_playlistTableView setDelegate:self];
         [_playlistTableView setDataSource:self];
-        [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
+        [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", @"playlistIDs", nil]];
         [_playlistTableView setHeaderView:nil];
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
@@ -304,9 +304,8 @@
     NSError *error;
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"playlist"];
     NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
-                                initWithKey:@"name"
-                                ascending:YES
-                                selector:@selector(localizedCaseInsensitiveCompare:)];
+                                initWithKey:@"index"
+                                ascending:YES];
     [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
     _playlists = [_objectContext executeFetchRequest:fr error:&error];
 }
@@ -316,6 +315,7 @@
     [self setPlaylistVisiblity:YES];
     Playlist *newPlaylist = [NSEntityDescription insertNewObjectForEntityForName:@"playlist" inManagedObjectContext:_objectContext];
     [newPlaylist setName:@"New playlist"];
+    [newPlaylist setIndex:[NSNumber numberWithLong:[_playlists count]]];
     [newPlaylist save];
     [self fetchPlaylists];
     [_playlistTableView reloadData]; // _currentPlaylist is reset to selection
@@ -569,31 +569,48 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
-    if(tableView == _trackTableView || tableView == _playlistTableView) {
+    NSPasteboard *pboard = [info draggingPasteboard];
+
+    if([[pboard types] containsObject:@"trackFilenames"] ||
+       [[pboard types] containsObject:NSFilenamesPboardType] ||
+       [[pboard types] containsObject:@"playlistTrackIDs"]) {
+        // Music files
+        
         if(tableView == _trackTableView) {
             [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
         }
-        if(tableView == _playlistTableView) {
+        else if(tableView == _playlistTableView) {
             NSPoint dragPosition = [tableView convertPoint:[info draggingLocation] fromView:nil];
             row = [tableView rowAtPoint:dragPosition];
             if(row == -1)
                 return NSDragOperationNone;
             [tableView setDropRow:row dropOperation:NSTableViewDropOn];
         }
-        
-        NSPasteboard *pboard = [info draggingPasteboard];
-        if([[pboard types] containsObject:@"trackFilenames"]) {
-            return NSDragOperationCopy;
+        else {
+            return NSDragOperationNone;
         }
-        else if([[pboard types] containsObject:NSFilenamesPboardType]) {
+        
+        if([[pboard types] containsObject:@"trackFilenames"] ||
+           [[pboard types] containsObject:NSFilenamesPboardType]) {
+            // From Library or Finder
             return NSDragOperationCopy;
         }
         else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
+            // From Playlist
             if([[[NSApplication sharedApplication] currentEvent] modifierFlags] & NSAlternateKeyMask)
                 return NSDragOperationCopy;
             else
                 return NSDragOperationMove;
         }
+    }
+    else if([[pboard types] containsObject:@"playlistIDs"] && tableView == _playlistTableView) {
+        //Reordering playlists
+        NSPoint dragPosition = [tableView convertPoint:[info draggingLocation] fromView:nil];
+        row = [tableView rowAtPoint:dragPosition];
+        NSLog(@"Proposed row %d", row);
+        [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
+
+        return NSDragOperationMove;
     }
     
     return NSDragOperationNone;
@@ -604,73 +621,117 @@
     NSPasteboard *pboard = [info draggingPasteboard];
     NSArray *arr;
     
-    Playlist *p;
-    if(tableView == _playlistTableView) {
-        p = [_playlists objectAtIndex:row];
-        row = [[p tracks] count];
-    }
-    else if(tableView == _trackTableView) {
-        p = _currentPlaylist;
-    }
-    else {
-        DDLogError(@"Unrecognized tableView in acceptDrop:");
-        return NO;
-    }
-    
-    if([[pboard types] containsObject:@"trackFilenames"]) {
-        arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
-        [self insertTracks:arr toPlaylist:p atIndex:row];
-        return YES;
-    }
-    else if([[pboard types] containsObject:NSFilenamesPboardType]) {
-        arr = [pboard propertyListForType:NSFilenamesPboardType];
-        [self insertTracks:arr toPlaylist:p atIndex:row];
-        return YES;
-    }
-    
-    else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
-        arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"playlistTrackIDs"]];
-        NSMutableArray *tracks = [[NSMutableArray alloc] init];
+    if([[pboard types] containsObject:@"trackFilenames"] ||
+       [[pboard types] containsObject:NSFilenamesPboardType] ||
+       [[pboard types] containsObject:@"playlistTrackIDs"]) {
+        // Music files
+        Playlist *p;
+        if(tableView == _playlistTableView) {
+            p = [_playlists objectAtIndex:row];
+            row = [[p tracks] count];
+        }
+        else if(tableView == _trackTableView) {
+            p = _currentPlaylist;
+        }
+        else {
+            DDLogError(@"Unrecognized tableView in acceptDrop:");
+            return NO;
+        }
+        
+        if([[pboard types] containsObject:@"trackFilenames"]) {
+            arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
+            [self insertTracks:arr toPlaylist:p atIndex:row];
+            return YES;
+        }
+        else if([[pboard types] containsObject:NSFilenamesPboardType]) {
+            arr = [pboard propertyListForType:NSFilenamesPboardType];
+            [self insertTracks:arr toPlaylist:p atIndex:row];
+            return YES;
+        }
+        
+        else if([[pboard types] containsObject:@"playlistTrackIDs"]) {
+            arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"playlistTrackIDs"]];
+            NSMutableArray *tracks = [[NSMutableArray alloc] init];
 
-        for(NSURL *url in arr) {
+            for(NSURL *url in arr) { // Extracting Pasteboard
+                NSManagedObjectID *objectID = [[_objectContext persistentStoreCoordinator] managedObjectIDForURIRepresentation:url];
+                if(objectID == nil) {
+                    continue;
+                }
+                
+                PlaylistTrack *t = (PlaylistTrack*)[_objectContext objectWithID:objectID];
+                [tracks addObject:t];
+            }
+            
+            if([info draggingSourceOperationMask] & NSDragOperationMove) {
+                for(PlaylistTrack *t in tracks) {
+                    [p insertTrack:t atIndex:row];
+                    row++;
+                }
+                
+                [p save];
+                [_trackTableView reloadData];
+                return YES;
+            }
+            
+            if([info draggingSourceOperationMask] & NSDragOperationCopy) {
+                NSMutableArray *filenames = [[NSMutableArray alloc] init];
+                for(PlaylistTrack *t in tracks) {
+                    [filenames addObject:[t filename]];
+                }
+
+                [self insertTracks:filenames toPlaylist:p atIndex:row];
+                return YES;
+            }
+
+            return NO;
+        }
+    }
+    else if([[pboard types] containsObject:@"playlistIDs"] && tableView == _playlistTableView) {
+        //Reordering playlists
+        arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"playlistIDs"]];
+        NSMutableArray *playlistsToMove = [[NSMutableArray alloc] init];
+        
+        for(NSURL *url in arr) { // Extracting Pasteboard
             NSManagedObjectID *objectID = [[_objectContext persistentStoreCoordinator] managedObjectIDForURIRepresentation:url];
             if(objectID == nil) {
                 continue;
             }
             
-            PlaylistTrack *t = (PlaylistTrack*)[_objectContext objectWithID:objectID];
-            [tracks addObject:t];
+            Playlist *p = (Playlist*)[_objectContext objectWithID:objectID];
+            [playlistsToMove addObject:p];
         }
         
-        if([info draggingSourceOperationMask] & NSDragOperationMove) {
-            for(PlaylistTrack *t in tracks) {
-                [p insertTrack:t atIndex:row];
-                row++;
-            }
-            
-            [p save];
-            [_trackTableView reloadData];
-            return YES;
+        // Move playlists
+        NSUInteger moveIndex=row;
+        for(Playlist *p in playlistsToMove) {
+            [p setIndex:[NSNumber numberWithInteger:moveIndex]];
+            moveIndex++;
         }
         
-        if([info draggingSourceOperationMask] & NSDragOperationCopy) {
-            NSMutableArray *filenames = [[NSMutableArray alloc] init];
-            for(PlaylistTrack *t in tracks) {
-                [filenames addObject:[t filename]];
+        // Reindex
+        NSUInteger index = (row == 0 ? [playlistsToMove count] : 0);
+        for(Playlist *p in _playlists) {
+            if([playlistsToMove containsObject:p] == false) {
+                [p setIndex:[NSNumber numberWithInteger:index]];
             }
-
-            [self insertTracks:filenames toPlaylist:p atIndex:row];
-            return YES;
+            if(index != row) {
+                index++;
+            }
+            else {
+                index += [playlistsToMove count];
+            }
         }
+        
+        NSError *err;
+        [_objectContext save:&err];
+        [self fetchPlaylists];
+        [_playlistTableView reloadData];
+        return YES;
+    }
 
-        return NO;
-    }
-    
-    
-    else {
-        DDLogError(@"Unrecognized pasteboard type");
-        return NO;
-    }
+    DDLogError(@"Unrecognized pasteboard type");
+    return NO;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
@@ -686,6 +747,19 @@
         NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:arr];
         [pboard declareTypes:[NSArray arrayWithObject:@"playlistTrackIDs"] owner:self];
         [pboard setData:archivedData forType:@"playlistTrackIDs"];
+        return YES;
+    }
+    else if(tableView == _playlistTableView) {
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        NSUInteger i = [rowIndexes firstIndex];
+        while(i != NSNotFound) {
+            [arr addObject:[[[_playlists objectAtIndex:i] objectID] URIRepresentation]];
+            i = [rowIndexes indexGreaterThanIndex: i];
+        }
+        
+        NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:arr];
+        [pboard declareTypes:[NSArray arrayWithObject:@"playlistIDs"] owner:self];
+        [pboard setData:archivedData forType:@"playlistIDs"];
         return YES;
     }
     
