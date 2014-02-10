@@ -59,9 +59,7 @@
         }
         else if(lastPlaylistURL) {
             BOOL found = false;
-            NSLog(@"url: %@", [lastPlaylistURL absoluteString]);
             for(Playlist *p in _playlists) {
-                NSLog(@"url compare: %@", [[[p objectID] URIRepresentation] absoluteString]);
                 if([[[p objectID] URIRepresentation] isEqual:lastPlaylistURL] == true) {
                     found = true;
                     [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:p]] byExtendingSelection:NO];
