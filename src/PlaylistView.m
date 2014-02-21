@@ -608,6 +608,9 @@
         NSPoint dragPosition = [tableView convertPoint:[info draggingLocation] fromView:nil];
         row = [tableView rowAtPoint:dragPosition];
         NSLog(@"Proposed row %d", row);
+        if(row == -1) {
+            row = [tableView numberOfRows];
+        }
         [tableView setDropRow:row dropOperation:NSTableViewDropAbove];
 
         return NSDragOperationMove;
