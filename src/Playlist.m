@@ -88,22 +88,19 @@
     NSAssert(index <= [[self tracks] count], @"Index for Playlist insertTrack:atIndex: out of bound");
     
     NSArray *sortedTracks = [self sortedTracks];
-    BOOL seenTrackToBeInserted = false;
-    for(NSUInteger i=0; i<[sortedTracks count]; i++) {
-        PlaylistTrack *t = [sortedTracks objectAtIndex:i];
-        if([t isEqual:track]) {
-            // this allows tracks to be swapped using the insertTrack:atIndex: function
-            // where we don't count the actual track as it will be assigned a new index in the gap
-            seenTrackToBeInserted = true;
+    NSUInteger i = 0;
+    
+    for(PlaylistTrack *t in sortedTracks) {
+        if([t isEqual:track]) { // This skips over the track we are trying to insert as we set the index later
             continue;
         }
         
-        if(i < index)
-            [t setIndex:[NSNumber numberWithInteger: (seenTrackToBeInserted == false ? i : i-1)]];
-        else
-            [t setIndex:[NSNumber numberWithInteger: (seenTrackToBeInserted == false ? i+1 : i)]]; // +1 to leave a gap
+        if(i == index) i++; // This leaves the gap for the track to insert
+        
+        [t setIndex:[NSNumber numberWithInteger:i]];
+        i++;
     }
-    
+
     [track setPlaylist:self];
     [track setIndex:[NSNumber numberWithInteger:index]];
     if(_shuffleNotPlayedYetTracks)

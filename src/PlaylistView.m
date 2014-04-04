@@ -607,7 +607,6 @@
         //Reordering playlists
         NSPoint dragPosition = [tableView convertPoint:[info draggingLocation] fromView:nil];
         row = [tableView rowAtPoint:dragPosition];
-        NSLog(@"Proposed row %d", row);
         if(row == -1) {
             row = [tableView numberOfRows];
         }
@@ -667,9 +666,33 @@
             }
             
             if([info draggingSourceOperationMask] & NSDragOperationMove) {
+                // Calculate insertion point (compensate for the tracks moving)
+                NSInteger insertStartRow = row;
                 for(PlaylistTrack *t in tracks) {
-                    [p insertTrack:t atIndex:row];
-                    row++;
+                    if([[t index] intValue] < row) insertStartRow--;
+                }
+                if(insertStartRow < 0) {
+                    DDLogError(@"Negative insertion row calculated during track move");
+                    insertStartRow = 0;
+                }
+                
+                // Renumber existing tracks around hole
+                NSUInteger i = 0;
+                for(PlaylistTrack *t in [p sortedTracks]) {
+                    if([tracks containsObject:t]) { // This skips over the tracks we are trying to move
+                        continue;
+                    }
+                    
+                    if(i == insertStartRow) i += [tracks count]; // This leaves the gap for the moved tracks
+                    
+                    [t setIndex:[NSNumber numberWithInteger:i]];
+                    i++;
+                }
+                
+                // Renumber the moved tracks
+                for(PlaylistTrack *t in tracks) {
+                    [t setIndex:[NSNumber numberWithInteger:insertStartRow]];
+                    insertStartRow++;
                 }
                 
                 [p save];
@@ -705,31 +728,41 @@
             [playlistsToMove addObject:p];
         }
         
-        // Move playlists
-        NSUInteger moveIndex=row;
+        // The following code is almost identical to track moving FYI.
+        // Calculate insertion point (compensate for the playlists moving)
+        NSInteger insertStartRow = row;
         for(Playlist *p in playlistsToMove) {
-            [p setIndex:[NSNumber numberWithInteger:moveIndex]];
-            moveIndex++;
+            if([[p index] intValue] < row) insertStartRow--;
+        }
+        if(insertStartRow < 0) {
+            DDLogError(@"Negative insertion row calculated during playlist move");
+            insertStartRow = 0;
         }
         
-        // Reindex
-        NSUInteger index = (row == 0 ? [playlistsToMove count] : 0);
+        // Renumber existing playlists around hole
+        NSUInteger i = 0;
         for(Playlist *p in _playlists) {
-            if([playlistsToMove containsObject:p] == false) {
-                [p setIndex:[NSNumber numberWithInteger:index]];
+            if([playlistsToMove containsObject:p]) { // This skips over the tracks we are trying to move
+                continue;
             }
-            if(index != row) {
-                index++;
-            }
-            else {
-                index += [playlistsToMove count];
-            }
+            
+            if(i == insertStartRow) i += [playlistsToMove count]; // This leaves the gap for the moved tracks
+            
+            [p setIndex:[NSNumber numberWithInteger:i]];
+            i++;
+        }
+        
+        // Renumber the moved playlists
+        for(Playlist *p in playlistsToMove) {
+            [p setIndex:[NSNumber numberWithInteger:insertStartRow]];
+            insertStartRow++;
         }
         
         NSError *err;
         [_objectContext save:&err];
         [self fetchPlaylists];
         [_playlistTableView reloadData];
+        
         return YES;
     }
 
