@@ -20,6 +20,7 @@
 -(NSUInteger)numberOfTracks;
 -(NSUInteger)getTrackIndex:(PlaylistTrack *)track;
 -(PlaylistTrack *)trackAtIndex:(NSUInteger)index;
+-(NSArray*)sortedTracks;
 -(PlaylistTrack *)currentlyActiveTrack;
 
 -(void)removeTrackAtIndex:(NSUInteger)index;
