@@ -12,6 +12,24 @@
 @implementation NSArray (OrderedManagedObjects)
 
 -(void)moveObjects:(NSArray *)objectsToMove toRow:(NSUInteger)row {
+    // Validity checks
+    for(NSObject<OrderedManagedObject> *obj in objectsToMove) {
+        if([self containsObject:obj] == false) {
+            DDLogError(@"Object Move: one of the objects requested to be moved is not present in the array");
+            return;
+        }
+        if([[obj class] conformsToProtocol:@protocol(OrderedManagedObject)] == false) {
+            DDLogError(@"This function only operates on OrderedManagedObjects");
+            return;
+        }
+    }
+    for(NSObject<OrderedManagedObject> *obj in self) {
+        if([[obj class] conformsToProtocol:@protocol(OrderedManagedObject)] == false) {
+            DDLogError(@"This function only operates on OrderedManagedObjects");
+            return;
+        }
+    }
+    
     // Calculate insertion point (compensate for the objects moving)
     NSInteger insertStartRow = row;
     for(id<OrderedManagedObject> obj in objectsToMove) {
