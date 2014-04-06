@@ -319,6 +319,7 @@
 		2B65ED2416C8906800DD327D /* LibraryArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryArtist.m; sourceTree = "<group>"; };
 		2B65ED2616C8907100DD327D /* LibraryAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryAlbum.h; sourceTree = "<group>"; };
 		2B65ED2716C8907100DD327D /* LibraryAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryAlbum.m; sourceTree = "<group>"; };
+		2B6C4BCA18F0EF0100C59ED2 /* OrderedManagedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderedManagedObject.h; sourceTree = "<group>"; };
 		2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = deps/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		2B7611C417C30617008A717D /* LibraryViewSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewSearchView.h; sourceTree = "<group>"; };
 		2B7611C517C30617008A717D /* LibraryViewSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewSearchView.m; sourceTree = "<group>"; };
@@ -756,6 +757,7 @@
 				2B8DB9351479FB7E006133CA /* PlaylistTrack.m */,
 				2B82B2601780F3E900E1EA0B /* PlaylistCoreDataManager.h */,
 				2B82B2611780F3E900E1EA0B /* PlaylistCoreDataManager.m */,
+				2B6C4BCA18F0EF0100C59ED2 /* OrderedManagedObject.h */,
 			);
 			name = "playlist backend";
 			sourceTree = "<group>";

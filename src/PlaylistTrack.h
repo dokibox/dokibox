@@ -11,10 +11,11 @@
 #import "common.h"
 #import "ManagedObjectTrack.h"
 #import "MusicController.h"
+#import "OrderedManagedObject.h"
 
 @class Playlist;
 
-@interface PlaylistTrack : ManagedObjectTrack {
+@interface PlaylistTrack : ManagedObjectTrack<OrderedManagedObject> {
 }
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
@@ -23,7 +24,6 @@
 @property (nonatomic) NSString *albumName;
 @property (nonatomic) NSString *artistName;
 @property (nonatomic) Playlist *playlist;
-@property NSNumber *index;
 @property NSNumber *length;
 @property MusicControllerStatus playbackStatus;
 

@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "PlaylistTrack.h"
+#import "OrderedManagedObject.h"
 
-@interface Playlist : NSManagedObject {
+@interface Playlist : NSManagedObject<OrderedManagedObject> {
     BOOL _shuffle;
     NSMutableArray *_shuffleNotPlayedYetTracks;
     NSMutableArray *_shuffleHistory;
@@ -40,6 +41,5 @@
 @property (nonatomic) NSSet* tracks;
 @property BOOL repeat;
 @property BOOL shuffle;
-@property NSNumber *index;
 
 @end
