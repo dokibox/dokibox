@@ -25,13 +25,16 @@
 #import "LibraryViewTrackRowView.h"
 #import "NSManagedObjectContext+Helpers.h"
 #import "Library.h"
+#import "NSView+CGDrawing.h"
 
 @implementation LibraryView
 
 - (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library
 {
     if((self = [super initWithFrame:frame])) {
-        _libraryScrollView = [[RBLScrollView alloc] initWithFrame:[self bounds]];
+        NSRect libraryframe = [self bounds];
+        libraryframe.size.height -= 1; // for grey line
+        _libraryScrollView = [[RBLScrollView alloc] initWithFrame:libraryframe];
         [_libraryScrollView setHasVerticalScroller:YES];
 
         _tableView = [[RBLTableView alloc] initWithFrame:[[_libraryScrollView contentView] bounds]];
@@ -72,6 +75,18 @@
 {
     dispatch_release(_searchQueue);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+}
+
+- (void)drawRect:(NSRect)rect
+{
+    CGRect b = [self bounds];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_TOP_COLOR alpha:1.0] CGColor]);
+    CGContextSetLineWidth(ctx, 1.0);
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, b.origin.x, b.origin.y + b.size.height - 0.5);
+    CGContextAddLineToPoint(ctx, b.origin.x + b.size.width, b.origin.y + b.size.height - 0.5);
+    CGContextStrokePath(ctx);
 }
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
@@ -509,6 +524,7 @@
         NSRect libraryframe = [self bounds];
         libraryframe.origin.y += height;
         libraryframe.size.height -= height;
+        libraryframe.size.height -= 1; // for grey line
         
         [NSAnimationContext beginGrouping];
         [[_librarySearchView animator] setFrame:searchframe];
@@ -524,6 +540,7 @@
         [_librarySearchView resetSearch];
         
         NSRect libraryframe = [self bounds];
+        libraryframe.size.height -= 1; // for grey line
         NSRect searchframe = [_librarySearchView frame];
         searchframe.origin.y -= searchframe.size.height;
         

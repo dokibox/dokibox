@@ -14,3 +14,6 @@
 -(void)CGContextVerticalGradient:(CGRect)b context:(CGContextRef)ctx bottomColor:(NSColor *)bottomColor topColor:(NSColor *)topColor;
 
 @end
+
+#define TRACK_TABLEVIEW_HEADER_BOTTOM_COLOR .71372549
+#define TRACK_TABLEVIEW_HEADER_TOP_COLOR .658823529

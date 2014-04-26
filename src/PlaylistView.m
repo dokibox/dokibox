@@ -253,7 +253,6 @@
 - (NSRect)trackScrollViewFrame
 {
     NSRect trackScrollViewFrame = self.bounds;
-    trackScrollViewFrame.size.height += 1;
     if(_playlistsVisible == YES) {
         trackScrollViewFrame.origin.y += _playlistHeight;
         trackScrollViewFrame.size.height -= _playlistHeight;

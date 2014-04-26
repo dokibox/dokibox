@@ -10,6 +10,7 @@
 #import "LibraryView.h"
 #import "PlaylistView.h"
 #import "TitlebarButtonNS.h"
+#import "NSView+CGDrawing.h"
 
 #define bottomToolbarHeight 30.0
 
@@ -563,16 +564,21 @@
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
     // Line divider for playlist/library
-    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
+    CGFloat trackTableHeaderHeight = 17.0;
     CGContextSetLineWidth(ctx, 1.0);
+    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:.71372549 alpha:1.0] CGColor]);
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
-    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height);
+    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height - trackTableHeaderHeight);
     CGContextStrokePath(ctx);
+    NSColor *gradientStartColor, *gradientEndColor; //Gradient for track table header as top line is darker
+    gradientStartColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_BOTTOM_COLOR alpha:1.0];
+    gradientEndColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_TOP_COLOR alpha:1.0];
+    [self CGContextVerticalGradient:NSMakeRect(b.origin.x + round(b.size.width*width_divider)-0.5, b.origin.y + b.size.height - trackTableHeaderHeight, 1, 17.0) context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
+    
 
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
-    NSColor *gradientStartColor, *gradientEndColor;
     if(isActive) {
         gradientStartColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
         gradientEndColor = [NSColor colorWithDeviceWhite:0.90 alpha:1.0];
@@ -591,10 +597,7 @@
     CGGradientRelease(gradient);
 
     // Line divider for bottom
-    if(isActive)
-        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.7 alpha:1.0] CGColor]);
-    else
-        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.75 alpha:1.0] CGColor]);
+    CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_BOTTOM_COLOR alpha:1.0] CGColor]);
     CGContextSetLineWidth(ctx, 1.0);
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, b.origin.x, b.origin.y + bottomToolbarHeight-0.5);

@@ -228,18 +228,6 @@
     timeTotalStringPoint.y -= 2;
     timeTotalStringPoint.x += [_progressBar frame].size.width + 5;
     [timeTotalAttrString drawAtPoint:timeTotalStringPoint];
-
-    // Line
-    if(isActive)
-        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.6 alpha:1.0] CGColor]);
-    else
-        CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:0.8 alpha:1.0] CGColor]);
-
-    CGContextSetLineWidth(ctx, 1.0);
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(ctx, b.origin.x, b.origin.y+0.5);
-    CGContextAddLineToPoint(ctx, b.origin.x + b.size.width, b.origin.y+0.5);
-    CGContextStrokePath(ctx);
 }
 
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification
