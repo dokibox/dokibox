@@ -46,7 +46,15 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     LibraryMonitoredFolder *folder = [_library monitoredFolderAtIndex:rowIndex];
-    return [folder path];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[folder path]];
+    if([folder isOnNetworkMount]) {
+        NSDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setValue:[NSFont fontWithName:@"Helvetica-Oblique" size:10] forKey:NSFontAttributeName];
+        [dict setValue:[NSNumber numberWithFloat:1.25] forKey:NSBaselineOffsetAttributeName];
+        NSMutableAttributedString *warningStr = [[NSMutableAttributedString alloc] initWithString:@"            [network mount: monitoring may not work]" attributes:dict];
+        [str appendAttributedString:warningStr];
+    }
+    return str;
 }
 
 - (IBAction)addRemoveButtonAction:(id)sender

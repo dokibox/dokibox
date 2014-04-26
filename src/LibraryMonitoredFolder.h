@@ -14,4 +14,6 @@
 @property() NSNumber *lastEventID;
 @property() NSNumber *initialScanDone;
 
+-(BOOL)isOnNetworkMount;
+
 @end
