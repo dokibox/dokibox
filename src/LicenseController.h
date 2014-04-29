@@ -13,4 +13,11 @@
 - (void)openRegistrationPanel;
 - (void)checkLicense;
 
+-(IBAction)laterButtonPressed:(id)sender;
+-(IBAction)purchaseButtonPressed:(id)sender;
+-(IBAction)registerButtonPressed:(id)sender;
+
+@property() NSString* name;
+@property() NSString* key;
+
 @end

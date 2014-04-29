@@ -11,6 +11,9 @@
 
 @implementation LicenseController
 
+@synthesize key;
+@synthesize name;
+
 - (id)init
 {
     self = [self initWithNibName:@"LicenseController" bundle:nil];
@@ -22,8 +25,9 @@
 
 - (void)openRegistrationPanel
 {
-    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,409,300) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,480,272) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     [window center];
+    [window setTitle:@"dokibox Registration"];
     [window setContentView:[self view]];
     [[NSApplication sharedApplication] runModalForWindow:window];
     [window setReleasedWhenClosed:NO]; // let ARC handle
@@ -51,8 +55,25 @@
     [pubKey appendString:@"-----END PUBLIC KEY-----\n"];
     [verifier setPublicKey:pubKey error:&err];
     
-    BOOL res = [verifier verifyRegCode:@"GAWAE-FCXNS-TSTEF-2X32N-TX9TG-8346R-PJLMD-7U3AC-CRB8C-VWH32-DT6LZ-D85NG-G4LDX-3X5RT-ZTK9" forName:@"test123" error:&err];
+    //BOOL res = [verifier verifyRegCode:@"GAWAE-FCXNS-TSTEF-2X32N-TX9TG-8346R-PJLMD-7U3AC-CRB8C-VWH32-DT6LZ-D85NG-G4LDX-3X5RT-ZTK9" forName:@"test123" error:&err];
+    BOOL res = [verifier verifyRegCode:[self key] forName:[self name] error:&err];
     NSLog(@"verifier = %d", res);
+}
+
+-(IBAction)laterButtonPressed:(id)sender
+{
+    [[NSApplication sharedApplication] stopModal];
+}
+
+-(IBAction)purchaseButtonPressed:(id)sender
+{
+    NSString *url = @"http://google.com";
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+}
+
+-(IBAction)registerButtonPressed:(id)sender
+{
+    [self checkLicense];
 }
 
 @end
