@@ -73,6 +73,11 @@ long vorbis_tellcallback(void *datasource) {
     return self;
 }
 
+-(void)dealloc {
+    NSLog(@"Deallocing vorbis decoder");
+    ov_clear(&decoder);
+}
+
 -(DecoderMetadata)decodeMetadata {
     vorbis_info *vi = ov_info(&decoder, -1);
     if(vi != NULL) {

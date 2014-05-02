@@ -102,6 +102,12 @@ static SInt64 streamGetSizeRequest(void* mc) {
     return _metadata;
 }
 
+-(void)dealloc {
+    NSLog(@"Deallocing CoreAudio decoder");
+    ExtAudioFileDispose(_inFileRef);
+    AudioFileClose(_inAudioFileID);
+}
+
 -(DecodeStatus)decodeNextFrame {
     UInt32 numberOfFrames = 1;
     UInt32 bufferByteSize = _clientFormat.mBytesPerFrame*numberOfFrames;
@@ -121,8 +127,6 @@ static SInt64 streamGetSizeRequest(void* mc) {
     }
     
     if (numberOfFrames == 0) { // EOF
-        ExtAudioFileDispose(_inFileRef);
-        AudioFileClose(_inAudioFileID);
         return DecoderEOF;
     }
     
