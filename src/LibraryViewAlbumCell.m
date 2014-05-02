@@ -69,10 +69,9 @@
         [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
         if(_progressIndicator == nil) {
             _progressIndicator = [[NSProgressIndicator alloc] init];
-            [_progressIndicator sizeToFit]; // this sets the frame height only
             CGFloat imagesize = 50;
-            CGRect imrect = CGRectMake([self bounds].origin.x, [self bounds].origin.y, imagesize, imagesize);
-            [_progressIndicator setFrame:NSInsetRect(imrect, (imrect.size.width - [_progressIndicator frame].size.height)/2.0, (imrect.size.height - [_progressIndicator frame].size.height)/2.0)];
+            CGRect imrect = CGRectMake([self bounds].origin.x + [self bounds].size.width - imagesize, [self bounds].origin.y, imagesize, imagesize);
+            [_progressIndicator setFrame:imrect];
             [_progressIndicator setStyle: NSProgressIndicatorSpinningStyle];
             [_progressIndicator setUsesThreadedAnimation:YES];
             
