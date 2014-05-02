@@ -33,11 +33,23 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
     outOutputData->mNumberBuffers = 1;
     outOutputData->mBuffers[0].mDataByteSize = size;
     outOutputData->mBuffers[0].mData = (void *)[[mc auBuffer] bytes];
-
+    
+    static BOOL bufferUnderflowTrip = false;
     if(size == 0) {
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [mc trackEndedNaturally];
-        });
+        if([mc decoderStatus] == MusicControllerDecodedSong) { // Natural EOF
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                [mc trackEndedNaturally];
+            });
+        }
+        else {
+            if(bufferUnderflowTrip == false) { // Only prints once
+                NSLog(@"Buffer underflow");
+                bufferUnderflowTrip = true;
+            }
+        }
+    }
+    else {
+        bufferUnderflowTrip = false; // Reset trip flag
     }
 
     dispatch_async([mc decoding_queue], ^{
@@ -440,6 +452,13 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
             [self setDecoderStatus:MusicControllerDecodedSong];
         }
         size = [fifoBuffer freespace];
+        
+        /* Induces a purposeful buffer underflow
+        static BOOL hiccup = false;
+        if(_elapsedFrames > 500000 && hiccup == false) {
+            sleep(1);
+            hiccup = true;
+        }*/
     }
 }
 
