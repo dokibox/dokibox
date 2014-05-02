@@ -21,6 +21,10 @@
     return self;
 }
 
+-(void)dealloc {
+    free(buffer_fifo);
+}
+
 -(int)size {
     return buffer_fifo_size;
 }
