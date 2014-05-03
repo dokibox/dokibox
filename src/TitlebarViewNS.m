@@ -102,6 +102,7 @@
     _progressBar = [[SliderBar alloc] initWithFrame:progressBarRect];
     [_progressBar setAutoresizingMask:NSViewWidthSizable];
     [_progressBar setDelegate:self];
+    [_progressBar setDragable:YES];
     [self addSubview:_progressBar];
 
 
@@ -112,6 +113,7 @@
     [_volumeBar setPercentage:[_musicController volume]];
     [_volumeBar setDrawHandle:YES];
     [_volumeBar setMovable:YES];
+    [_volumeBar setDragable:YES];
     [_volumeBar setDelegate:self];
     [self addSubview:_volumeBar];
 }
@@ -416,6 +418,8 @@
     [self setNeedsDisplay:YES];
 }
 
+#pragma mark SliderBar delegate methods
+
 -(NSString *)sliderBar:(SliderBar *)sliderBar textForHoverAt:(float)percentage
 {
     float timeTotal = 0;
@@ -434,8 +438,22 @@
     if([notification object] == _volumeBar) {
         [_musicController setVolume:[percentage floatValue]];
     }
-    else if([notification object] == _progressBar) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:percentage];
+}
+
+-(void)sliderBarDidBeginDrag:(NSNotification *)notification
+{
+    if([notification object] == _progressBar) {
+        [_musicController pause];
+    }
+}
+
+-(void)sliderBarDidEndDrag:(NSNotification *)notification
+{
+    if([notification object] == _progressBar) {
+        [_musicController unpause];
+        
+        float p = [_progressBar percentage];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:[NSNumber numberWithFloat:p]];
     }
 }
 

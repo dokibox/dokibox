@@ -15,6 +15,7 @@
 @synthesize hoverable = _hoverable;
 @synthesize drawHandle = _drawHandle;
 @synthesize delegate = _delegate;
+@synthesize dragable = _dragable;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -39,6 +40,13 @@
     NSPoint event_location = [event locationInWindow];
     NSPoint local_point = [self convertPoint:event_location fromView:nil];
     float p = local_point.x / [self bounds].size.width;
+    
+    if(p < 0) {
+        p = 0;
+    }
+    else if(p > 1) {
+        p = 1;
+    }
 
     return p;
 }
@@ -118,13 +126,52 @@
 
 - (void)mouseDown:(NSEvent *)event
 {
-    if(_movable != YES || !_delegate)
+    if(_movable != YES)
         return;
-
+    
     float p = [self convertMouseEventToPercentage:event];
     [self setPercentage:p];
-    NSNumber *percentage = [NSNumber numberWithFloat:p];
+    [self sendNewPercentageToDelegate];
 
+    if(_dragable == YES) {
+        _inDrag = YES;
+        if(_delegate) {
+            [_delegate sliderBarDidBeginDrag:[NSNotification notificationWithName:@"SliderBarDidBeginDrag" object:self]];
+        }
+    }
+    else {
+    }
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+    _inDrag = NO;
+    if(_movable != YES)
+        return;
+    
+    if(_dragable == YES) {
+        if(_delegate) {
+            [_delegate sliderBarDidEndDrag:[NSNotification notificationWithName:@"SliderBarDidEndDrag" object:self]];
+        }
+    }
+}
+
+-(void)mouseDragged:(NSEvent *)event
+{
+    if(_dragable != YES || _movable != YES || !_delegate)
+        return;
+    
+    float p = [self convertMouseEventToPercentage:event];
+    [self setPercentage:p];
+    [self sendNewPercentageToDelegate];
+}
+
+-(void)sendNewPercentageToDelegate
+{
+    if(!_delegate)
+        return;
+    
+    NSNumber *percentage = [NSNumber numberWithFloat:[self percentage]];
     NSNotification *notification = [NSNotification notificationWithName:@"SliderBarMoved" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:percentage, @"percentage", nil]];
     [_delegate sliderBarDidMove:notification];
 }
