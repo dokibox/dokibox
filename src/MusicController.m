@@ -441,12 +441,15 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     int sampleno = seekto * _totalFrames;
     NSLog(@"Seeking to %f percent", seekto);
 
-    [self setDecoderStatus:MusicControllerSeekingSong];
     AUGraphStop(_outputGraph);
+    [self setDecoderStatus:MusicControllerSeekingSong];
+    dispatch_sync(decoding_queue, ^() {}); //Flush decoding queue
     [currentDecoder seekToFrame:sampleno];
     [fifoBuffer reset];
     [self setDecoderStatus:MusicControllerDecodingSong];
-    [self fillBuffer];
+    dispatch_sync(decoding_queue, ^() {
+        [self fillBuffer]; // run in decoding queue just in case
+    });
     [self setElapsedFrames:sampleno];
 
     if([self status] == MusicControllerPlaying)
