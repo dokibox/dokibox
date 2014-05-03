@@ -418,7 +418,12 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _prevElapsedTimeSent = 0;
     [self setElapsedFrames:0];
     [fifoBuffer reset];
-    [self fillBuffer];
+    dispatch_sync(decoding_queue, ^() {
+        NSDate *timeBeforeFilling = [NSDate date];
+        [self fillBuffer]; // run in decoding queue just in case
+        double t = [[NSDate date] timeIntervalSinceDate:timeBeforeFilling];
+        DDLogVerbose(@"Time to fill half of audio buffer: %f seconds", t);
+    });
 
     AUGraphStart(_outputGraph);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startedPlayback" object:_currentTrack];
