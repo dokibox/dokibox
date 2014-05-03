@@ -275,7 +275,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         NSLog(@"AudioUnitSetProperty(kAudioUnitProperty_ElementCount:mixerUnit input) failed");
     }
 
-    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Input, 0, _volume, 0);
+    err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Input, 0, 1.0, 0);
     if(err) {
         NSLog(@"AudioUnitSetProperty(kMultiChannelMixerParam_Volume:mixerUnit input) failed");
     }
