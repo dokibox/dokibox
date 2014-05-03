@@ -387,6 +387,10 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     if([self decoderStatus] != MusicControllerDecoderIdle) { //still playing something at the moment
         AUGraphStop(_outputGraph);
         [self setStatus:MusicControllerStopped];
+        
+        // This ensures the decoding queue is empty. Otherwise an already scheduled decoding task
+        // could run at the same time as this function and mess up stuff
+        dispatch_sync(decoding_queue, ^() {});
     }
     _currentTrack = [notification object];
     NSString *fp = [_currentTrack filename];
