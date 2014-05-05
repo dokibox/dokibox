@@ -109,6 +109,18 @@
         return;
 
     NSPoint event_location = [event locationInWindow];
+    NSPoint pointInView = [self convertPoint:[event locationInWindow] fromView:nil];
+    
+    // Clip location so that it is not left of 0% or right of 100%
+    if(pointInView.x < 0 ) {
+        event_location.x = [self convertPoint:[self bounds].origin toView:nil].x;
+    }
+    else if(pointInView.x > [self bounds].size.width) {
+        NSPoint p = [self bounds].origin;
+        p.x += [self bounds].size.width;
+        event_location.x = [self convertPoint:p toView:nil].x;
+    }
+    
     NSPoint window_location_of_topbar = [self convertPoint:NSMakePoint(0.0, [self frame].size.height) toView:nil];
     event_location.y = window_location_of_topbar.y + [_hoverWindow frame].size.height; // window_location_of_bottombar.y; //;
     event_location.x -= 0.5*[_hoverWindow frame].size.width;
