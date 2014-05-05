@@ -89,6 +89,9 @@
 {
     if(_hoverable != YES)
         return;
+    
+    if(_inDrag == YES) // Prevent hover from disappearing during drag
+        return;
 
     NSPoint event_location = [event locationInWindow];
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
@@ -101,6 +104,7 @@
 
 -(void)mouseMoved:(NSEvent *)event
 {
+    // Update hover window
     if(_hoverable != YES)
         return;
 
@@ -126,6 +130,7 @@
 
 - (void)mouseDown:(NSEvent *)event
 {
+    // Set slider and also begin drag
     if(_movable != YES)
         return;
     
@@ -145,7 +150,16 @@
 
 - (void)mouseUp:(NSEvent *)event
 {
-    _inDrag = NO;
+    // End drag
+    if(_inDrag == YES) {
+        _inDrag = NO;
+        NSPoint pointInView = [self convertPoint:[event locationInWindow] fromView:nil];
+        if([self mouse:pointInView inRect:[self bounds]] == NO) {
+            // mouse exited during drag so need to remove hover
+            [self mouseExited:event];
+        }
+    }
+    
     if(_movable != YES)
         return;
     
@@ -158,12 +172,14 @@
 
 -(void)mouseDragged:(NSEvent *)event
 {
-    if(_dragable != YES || _movable != YES || !_delegate)
+    // Update during drag
+    if(_dragable != YES || _movable != YES)
         return;
     
     float p = [self convertMouseEventToPercentage:event];
     [self setPercentage:p];
     [self sendNewPercentageToDelegate];
+    [self mouseMoved:event]; //Update hover window
 }
 
 -(void)sendNewPercentageToDelegate
