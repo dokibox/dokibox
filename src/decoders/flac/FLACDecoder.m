@@ -87,7 +87,7 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 
 @synthesize musicController;
 
--(id)initWithMusicController:(MusicController *)mc {
+-(id)initWithMusicController:(MusicController *)mc andExtension:(NSString *)extension {
     self = [super init];
 
     musicController = mc;

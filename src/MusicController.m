@@ -361,7 +361,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     PluginManager *pluginManager = [PluginManager sharedInstance];
     Class decoderClass = [pluginManager decoderClassForExtension:ext];
 
-    return [((id<DecoderProtocol>)[decoderClass alloc]) initWithMusicController:self];
+    return [((id<DecoderProtocol>)[decoderClass alloc]) initWithMusicController:self andExtension:ext];
 }
 
 - (void)pause

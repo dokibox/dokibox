@@ -32,7 +32,7 @@ typedef struct  {
 
 @property (retain) MusicController *musicController;
 
--(id)initWithMusicController:(MusicController *)mc;
+-(id)initWithMusicController:(MusicController *)mc andExtension:(NSString *)extension;
 -(DecoderMetadata)decodeMetadata;
 -(DecodeStatus)decodeNextFrame;
 -(void)seekToFrame:(unsigned long long)frame;

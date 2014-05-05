@@ -26,11 +26,15 @@ static SInt64 streamGetSizeRequest(void* mc) {
 
 @synthesize musicController;
 
--(id)initWithMusicController:(MusicController *)mc {
+-(id)initWithMusicController:(MusicController *)mc andExtension:(NSString *)extension {
     self = [super init];
     musicController = mc;
     
-    OSStatus retval = AudioFileOpenWithCallbacks((__bridge void*)musicController, streamReadRequest, NULL, streamGetSizeRequest, NULL, 0, &_inAudioFileID);
+    AudioFileTypeID fileTypeHint = 0;
+    if([extension isEqualTo:@"mp3"]) {
+        fileTypeHint = kAudioFileMP3Type; //Hint as sometimes autodetection fails for out-of-spec MP3s
+    }
+    OSStatus retval = AudioFileOpenWithCallbacks((__bridge void*)musicController, streamReadRequest, NULL, streamGetSizeRequest, NULL, fileTypeHint, &_inAudioFileID);
     if(retval != noErr){
         NSLog(@"Failed to open stream: %d", retval);
         return self;

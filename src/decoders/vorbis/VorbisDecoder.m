@@ -54,7 +54,7 @@ long vorbis_tellcallback(void *datasource) {
 
 @synthesize musicController;
 
--(id)initWithMusicController:(MusicController *)mc {
+-(id)initWithMusicController:(MusicController *)mc andExtension:(NSString *)extension {
     self = [super init];
     int retval;
 
