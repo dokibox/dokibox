@@ -44,7 +44,16 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath compare:@"playbackStatus"] == NSOrderedSame || [keyPath compare:@"hasErrorOpeningFile"] == NSOrderedSame) {
+    if([keyPath compare:@"playbackStatus"] == NSOrderedSame) {
+        [self setNeedsDisplay:YES];
+    }
+    else if([keyPath compare:@"hasErrorOpeningFile"] == NSOrderedSame) {
+        if([[self track] hasErrorOpeningFile]) {
+            [self setToolTip:@"There was an error opening this file. Perhaps the file is missing."];
+        }
+        else {
+            [self setToolTip:nil];
+        }
         [self setNeedsDisplay:YES];
     }
 }
