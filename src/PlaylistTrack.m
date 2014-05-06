@@ -17,6 +17,7 @@
 @dynamic index;
 @dynamic length;
 @synthesize playbackStatus = _playbackStatus;
+@synthesize hasErrorOpeningFile;
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
 {

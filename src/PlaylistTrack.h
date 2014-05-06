@@ -26,5 +26,6 @@
 @property (nonatomic) Playlist *playlist;
 @property NSNumber *length;
 @property MusicControllerStatus playbackStatus;
+@property BOOL hasErrorOpeningFile;
 
 @end
