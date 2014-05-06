@@ -110,8 +110,15 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     self = [super init];
     _decoderStatus = MusicControllerDecoderIdle;
     _status = MusicControllerStopped;
-    _volume = 1.0;
     
+    // Retrieve volume
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"volume"]) {
+        _volume = [[NSUserDefaults standardUserDefaults] floatForKey:@"volume"];
+    }
+    else {
+        _volume = 1.0;
+    }
+        
     NSString *queueName = [NSString stringWithFormat:@"%@.decoding", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
     decoding_queue = dispatch_queue_create([queueName cStringUsingEncoding:NSUTF8StringEncoding],NULL);
 
@@ -547,6 +554,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
 - (void)setVolume:(float)volume {
     _volume = volume;
+    [[NSUserDefaults standardUserDefaults] setFloat:_volume forKey:@"volume"];
+    
     if(_mixerUnit) {
         int err = AudioUnitSetParameter(_mixerUnit, kMultiChannelMixerParam_Volume, kAudioUnitScope_Output, 0, volume, 0);
         if(err) {
