@@ -405,8 +405,11 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
     if(fileHandle == nil) {
-        [_currentTrack setHasErrorOpeningFile:YES];
         NSLog(@"File does not exist at %@", fp);
+        PlaylistTrack *t = _currentTrack;
+        _currentTrack = nil;
+        [t setHasErrorOpeningFile:YES];
+        [[t playlist] playNextTrackAfter:t];
         return;
     }
 
