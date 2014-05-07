@@ -51,6 +51,13 @@
     if(_shuffleNotPlayedYetTracks) {
         [_shuffleNotPlayedYetTracks removeObject:track];
     }
+    
+    NSUInteger index = [[track index] integerValue];
+    for(NSUInteger i=index+1; i<[[self sortedTracks] count]; i++) {
+        PlaylistTrack *t = [[self sortedTracks] objectAtIndex:i];
+        [t setIndex:[NSNumber numberWithInteger:i-1]];
+    }
+    
     [[self managedObjectContext] deleteObject:track];
 }
 
