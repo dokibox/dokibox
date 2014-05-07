@@ -27,9 +27,9 @@
 -(void)removeTrackAtIndex:(NSUInteger)index;
 -(void)removeTrack:(PlaylistTrack *)track;
 
--(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler;
+-(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index;
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index;
--(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler;
+-(void)addTrackWithFilename:(NSString *)filename;
 -(void)addTrack:(PlaylistTrack *)track;
 -(void)addTrackToShuffleList:(PlaylistTrack *)track;
 

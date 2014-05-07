@@ -340,26 +340,32 @@
 - (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 {
     if([filenames count] == 0) return;
-    __weak Playlist *weakP = p;
+    NSManagedObjectID *playlistID = [p objectID];
 
+    // Do adding in background thread as this can be slow due to reading the filenames
     dispatch_async(_addingQueue, ^() {
         NSInteger blockIndex = index;
         for(NSString *s in filenames) {
-            void (^completion)(void) = ^() {
-                if(weakP == _currentPlaylist) // selection could have changed, so no point updating if it has
-                    [_trackTableView reloadData];
-            };
-            
             if([MusicController isSupportedAudioFile:s]) {
+                NSPersistentStoreCoordinator *store = [_objectContext persistentStoreCoordinator];
+                NSManagedObjectContext *context_addingThread = [[NSManagedObjectContext alloc] init];
+                [context_addingThread setPersistentStoreCoordinator:store];
+                
+                Playlist *p_addingThread = (Playlist *)[context_addingThread objectWithID:playlistID];
                 if(index < 0) {
-                    [p addTrackWithFilename:s onCompletion:completion];
+                    [p_addingThread addTrackWithFilename:s];
                 }
                 else {
-                    [p insertTrackWithFilename:s atIndex:blockIndex onCompletion:completion];
+                    [p_addingThread insertTrackWithFilename:s atIndex:blockIndex];
+                    blockIndex++;
                 }
+                [p_addingThread save];
+                
+                dispatch_sync(dispatch_get_main_queue(), ^() {
+                    if(p == _currentPlaylist) // selection could have changed, so no point updating if it has
+                        [_trackTableView reloadData];
+                });
             }
-            
-            blockIndex = blockIndex < 0 ? blockIndex : blockIndex + 1;
         }
     });
 }

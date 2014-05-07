@@ -67,23 +67,10 @@
     [self removeTrack:t];
 }
 
--(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler
-{ // This is probably not the main thread
-    NSManagedObjectID *playlistID = [self objectID];
-    NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
-    
-    NSError *err;
-    NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
-    [c setPersistentStoreCoordinator:store];
-    Playlist *p = (Playlist *)[c objectWithID:playlistID];
-    
-    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
-    [p insertTrack:t atIndex:index];
-    [c save:&err];
-    
-    dispatch_sync(dispatch_get_main_queue(), ^() {
-        completionHandler();
-    });
+-(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index
+{ // This can take a long time and block, so be warned.
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    [self insertTrack:t atIndex:index];
 }
 
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index
@@ -109,23 +96,10 @@
     [self addTrackToShuffleList:track];
 }
 
--(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler
-{ // This is probably not the main thread
-    NSManagedObjectID *playlistID = [self objectID];
-    NSPersistentStoreCoordinator *store = [[self managedObjectContext] persistentStoreCoordinator];
-    
-    NSError *err;
-    NSManagedObjectContext *c = [[NSManagedObjectContext alloc] init];
-    [c setPersistentStoreCoordinator:store];
-    Playlist *p = (Playlist *)[c objectWithID:playlistID];
-    
-    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
-    [p addTrack:t];
-    [c save:&err];
-    
-    dispatch_sync(dispatch_get_main_queue(), ^() {
-        completionHandler();
-    });
+-(void)addTrackWithFilename:(NSString *)filename
+{ // This can take a long time and block, so be warned.
+    PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    [self addTrack:t];
 }
 
 -(void)addTrack:(PlaylistTrack *)track
