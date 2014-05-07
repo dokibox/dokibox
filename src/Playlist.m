@@ -48,16 +48,16 @@
 
 -(void)removeTrack:(PlaylistTrack *)track
 {
+    if(_shuffleNotPlayedYetTracks) {
+        [_shuffleNotPlayedYetTracks removeObject:track];
+    }
     [[self managedObjectContext] deleteObject:track];
 }
 
 -(void)removeTrackAtIndex:(NSUInteger)index
 {
     PlaylistTrack *t = [self trackAtIndex:index];
-    if(_shuffleNotPlayedYetTracks) {
-        [_shuffleNotPlayedYetTracks removeObject:t];
-    }
-    [[self managedObjectContext] deleteObject:t];
+    [self removeTrack:t];
 }
 
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index onCompletion:(void (^)(void)) completionHandler
