@@ -371,6 +371,16 @@
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         [_objectContext mergeChangesFromContextDidSaveNotification:notification];
+        
+        NSArray *insertedObjects = [[notification userInfo] objectForKey:NSInsertedObjectsKey];
+        for(NSManagedObject *o in insertedObjects) {
+            if([o isKindOfClass:[PlaylistTrack class]]) {
+                // Track was inserted into a playlist from another thread.
+                // We must manually add it into the shuffle lists for the main thread Playlist object
+                PlaylistTrack *t = (PlaylistTrack *)[_objectContext objectWithID:[o objectID]];
+                [[t playlist] addTrackToShuffleList:t];
+            }
+        }
     });
 }
 

@@ -31,6 +31,7 @@
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index;
 -(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler;
 -(void)addTrack:(PlaylistTrack *)track;
+-(void)addTrackToShuffleList:(PlaylistTrack *)track;
 
 -(void)playTrackAtIndex:(NSUInteger)index;
 -(void)playNextTrackAfter:(PlaylistTrack *)trackJustEnded;

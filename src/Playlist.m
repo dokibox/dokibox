@@ -80,12 +80,8 @@
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
     [p insertTrack:t atIndex:index];
     [c save:&err];
-    NSManagedObjectID *tID = [t objectID];
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
-        Playlist *pMain = (Playlist *)[[self managedObjectContext] objectWithID:playlistID];
-        [pMain insertTrack:tMain atIndex:index]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
         completionHandler();
     });
 }
@@ -110,8 +106,7 @@
 
     [track setPlaylist:self];
     [track setIndex:[NSNumber numberWithInteger:index]];
-    if(_shuffleNotPlayedYetTracks)
-        [_shuffleNotPlayedYetTracks addObject:track];
+    [self addTrackToShuffleList:track];
 }
 
 -(void)addTrackWithFilename:(NSString *)filename onCompletion:(void (^)(void)) completionHandler
@@ -127,20 +122,22 @@
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:c];
     [p addTrack:t];
     [c save:&err];
-    NSManagedObjectID *tID = [t objectID];
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        PlaylistTrack *tMain = (PlaylistTrack *)[[self managedObjectContext] objectWithID:tID];
-        Playlist *pMain = (Playlist *)[[self managedObjectContext] objectWithID:playlistID];
-        [pMain addTrack:tMain]; //add again (this does not duplicate) so that _shuffle stuff is populated for main thread instance
         completionHandler();
     });
 }
 
 -(void)addTrack:(PlaylistTrack *)track
 {
-    [track setPlaylist:self];
     [track setIndex:[NSNumber numberWithInteger:[[self tracks] count]]];
+    [track setPlaylist:self];
+    [self addTrackToShuffleList:track];
+    
+}
+
+-(void)addTrackToShuffleList:(PlaylistTrack *)track
+{
     if(_shuffleNotPlayedYetTracks)
         [_shuffleNotPlayedYetTracks addObject:track];
 }
