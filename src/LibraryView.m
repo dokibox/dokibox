@@ -97,17 +97,13 @@
     NSMutableArray *objectsToInsert = [[NSMutableArray alloc] initWithArray:[changes objectForKey:NSInsertedObjectsKey]];
     
     // Updated objects
-    for(NSMutableDictionary *dict in [changes objectForKey:NSUpdatedObjectsKey]) {
-        NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
-        if([m isKindOfClass:[LibraryMonitoredFolder class]])
-            continue;
-        
+    for(NSManagedObject *m in [changes objectForKey:NSUpdatedObjectsKey]) {
         NSInteger currentIndex = [_rowData indexOfObject:m];
         NSInteger insertIndex = [self insertionIndexFor:m];
         if(insertIndex != currentIndex) {
             // Need to delete and re-add, as the object will move positions
-            [objectsToDelete addObject:dict];
-            [objectsToInsert addObject:dict];
+            [objectsToDelete addObject:m];
+            [objectsToInsert addObject:m];
         }
         else {
             // No position move, so just need to refresh it
@@ -115,15 +111,10 @@
             [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
         }
         NSLog(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
-        
     }
 
     // Deleted objects
-    for(NSMutableDictionary *dict in objectsToDelete) {
-        NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
-        if([m isKindOfClass:[LibraryMonitoredFolder class]])
-            continue;
-        
+    for(NSManagedObject *m in objectsToDelete) {
         NSLog(@"deleting %@", [m valueForKey:@"name"]);
         NSUInteger index = [_rowData indexOfObject:m];
         if(index != NSNotFound) {
@@ -133,14 +124,8 @@
     }
 
     // Inserted objects
-    for(NSMutableDictionary *dict in objectsToInsert) {
-        NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
-        
-        if([m isKindOfClass:[LibraryMonitoredFolder class]])
-            continue;
-        
-        NSString *name = [m valueForKey:@"name"];
-        NSLog(@"inserting %@", name);
+    for(NSManagedObject *m in objectsToInsert) {
+        NSLog(@"inserting %@", [m valueForKey:@"name"]);
         NSInteger insertIndex = [self insertionIndexFor:m];
         if(insertIndex != NSNotFound) {
             [_rowData insertObject:m atIndex:insertIndex];
@@ -221,24 +206,29 @@
 {
     if([_objectContext belongsToSameStoreAs:[notification object]] == false) return;
 
-    NSMutableDictionary *changes = [NSMutableDictionary dictionary];
-    NSArray *keys = [[notification userInfo] allKeys];
-
-    for(id<NSCopying> key in keys) {
-        NSMutableArray *arr = [NSMutableArray array];
-        for(NSManagedObject *m in [[notification userInfo] objectForKey:key]) {
-            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-            [dict setObject:[m class] forKey:@"class"];
-            [dict setObject:[m objectID] forKey:@"objectID"];
-            [arr addObject:dict];
-        }
-        [changes setObject:arr forKey:key];
-    }
-
     void (^block)() = ^{
+        // Merge the changes into the main thread context
         [_objectContext mergeChangesFromContextDidSaveNotification:notification];
+        
+        // Fetch the main thread version of the CoreData objects in the save notification
+        NSMutableDictionary *changes = [NSMutableDictionary dictionary];
+        for(id<NSCopying> key in [[notification userInfo] allKeys]) {
+            NSMutableArray *arr = [NSMutableArray array];
+            for(NSManagedObject *m_otherThread in [[notification userInfo] objectForKey:key]) {
+                NSManagedObject *m_mainThread = [_objectContext objectWithID:[m_otherThread objectID]];
+                
+                if([m_mainThread isKindOfClass:[LibraryMonitoredFolder class]])
+                    continue; // No need to include these, as we don't use them in LibraryView
+
+                [arr addObject:m_mainThread];
+            }
+            [changes setObject:arr forKey:key];
+        }
+        
+        // Update UI in this
         [self receivedLibrarySavedNotificationWithChanges:changes];
     };
+    
     if(dispatch_get_current_queue() == dispatch_get_main_queue())
         block();
     else
