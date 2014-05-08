@@ -42,6 +42,7 @@
 -(void)expandRow:(NSUInteger)row;
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive onCellData:(NSMutableArray*)celldata andMatchedObjects:(NSMutableSet*)matchedObjects;
 -(void)expandRow:(NSUInteger)row recursive:(BOOL)recursive;
+-(NSInteger)insertionIndexFor:(NSManagedObject *)object;
 
 @property() BOOL searchVisible;
 

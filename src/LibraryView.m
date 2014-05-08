@@ -92,8 +92,34 @@
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
 {
     [_tableView beginUpdates]; // To group the animations
+    
+    NSMutableArray *objectsToDelete = [[NSMutableArray alloc] initWithArray:[changes objectForKey:NSDeletedObjectsKey]];
+    NSMutableArray *objectsToInsert = [[NSMutableArray alloc] initWithArray:[changes objectForKey:NSInsertedObjectsKey]];
+    
+    // Updated objects
+    for(NSMutableDictionary *dict in [changes objectForKey:NSUpdatedObjectsKey]) {
+        NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
+        if([m isKindOfClass:[LibraryMonitoredFolder class]])
+            continue;
+        
+        NSInteger currentIndex = [_rowData indexOfObject:m];
+        NSInteger insertIndex = [self insertionIndexFor:m];
+        if(insertIndex != currentIndex) {
+            // Need to delete and re-add, as the object will move positions
+            [objectsToDelete addObject:dict];
+            [objectsToInsert addObject:dict];
+        }
+        else {
+            // No position move, so just need to refresh it
+            // Technically albums and artist will never move, because their name (and in the case of albums, the parent artist) never change. Instead if all the tracks change their album/artist name, a new album/artist is created and the old deleted.
+            [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+        }
+        NSLog(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
+        
+    }
 
-    for(NSMutableDictionary *dict in [changes objectForKey:NSDeletedObjectsKey]) {
+    // Deleted objects
+    for(NSMutableDictionary *dict in objectsToDelete) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
         if([m isKindOfClass:[LibraryMonitoredFolder class]])
             continue;
@@ -106,7 +132,8 @@
         }
     }
 
-    for(NSMutableDictionary *dict in [changes objectForKey:NSInsertedObjectsKey]) {
+    // Inserted objects
+    for(NSMutableDictionary *dict in objectsToInsert) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
         
         if([m isKindOfClass:[LibraryMonitoredFolder class]])
@@ -114,70 +141,80 @@
         
         NSString *name = [m valueForKey:@"name"];
         NSLog(@"inserting %@", name);
-
-        if([m isKindOfClass:[LibraryArtist class]]) {
-            NSUInteger insertIndex = [_rowData count];
-            if([_rowData count] == 0) { // if list is empty, only one place to go
-                insertIndex = 0;
-            }
-            else {
-                for(NSUInteger i = 0; i < [_rowData count]; i++) {
-                    if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryTrack class]] || [[_rowData objectAtIndex:i] isKindOfClass:[LibraryAlbum class]]) {
-                        continue; // skip over tracks and albums
-                    }
-                    if([name localizedCaseInsensitiveCompare:[[_rowData objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
-                        insertIndex = i; // if we are above this item, then we know to put it here
-                        break;
-                    }
-                }
-            }
+        NSInteger insertIndex = [self insertionIndexFor:m];
+        if(insertIndex != NSNotFound) {
             [_rowData insertObject:m atIndex:insertIndex];
-        }
-
-        if([m isKindOfClass:[LibraryAlbum class]]) {
-            LibraryAlbum *a = (LibraryAlbum *)m;
-            NSUInteger parent_index = [_rowData indexOfObject:[a artist]];
-
-            if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent artist is expanded
-                NSUInteger insertIndex = [_rowData count];
-                for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
-                    if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
-                        insertIndex = i; //reached the end of the expanded block
-                        break;
-                    }
-                    if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryTrack class]]) {
-                        continue; //skip over tracks
-                    }
-                    if([name localizedCaseInsensitiveCompare:[[_rowData objectAtIndex:i] valueForKey:@"name"]] == NSOrderedAscending) {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                [_rowData insertObject:m atIndex:insertIndex];
-            }
-        }
-        if([m isKindOfClass:[LibraryTrack class]]) {
-            LibraryTrack *t = (LibraryTrack *)m;
-            NSUInteger parent_index = [_rowData indexOfObject:[t album]];
-
-            if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent album is expanded
-                NSUInteger insertIndex = [_rowData count];
-                for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
-                    if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryAlbum class]] || [[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
-                        insertIndex = i; //reached the end of the expanded block
-                        break;
-                    }
-                    if([[m valueForKey:@"trackNumber"] compare:[[_rowData objectAtIndex:i] valueForKey:@"trackNumber"]] == NSOrderedAscending) {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                [_rowData insertObject:m atIndex:insertIndex];
-            }
         }
     }
     
     [_tableView endUpdates];
+}
+
+-(NSInteger)insertionIndexFor:(NSManagedObject *)m
+{
+    NSInteger insertIndex = NSNotFound; // no insertion
+    NSString *name = [m valueForKey:@"name"];
+
+    if([m isKindOfClass:[LibraryArtist class]]) {
+        insertIndex = [_rowData count];
+        if([_rowData count] == 0) { // if list is empty, only one place to go
+            insertIndex = 0;
+        }
+        else {
+            for(NSUInteger i = 0; i < [_rowData count]; i++) {
+                if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryTrack class]] || [[_rowData objectAtIndex:i] isKindOfClass:[LibraryAlbum class]]) {
+                    continue; // skip over tracks and albums
+                }
+                if([name localizedCaseInsensitiveCompare:[[_rowData objectAtIndex:i] valueForKey:@"name"]] != NSOrderedDescending) {
+                    insertIndex = i; // if we are above this item, then we know to put it here
+                    break;
+                }
+            }
+        }
+    }
+    
+    if([m isKindOfClass:[LibraryAlbum class]]) {
+        LibraryAlbum *a = (LibraryAlbum *)m;
+        NSUInteger parent_index = [_rowData indexOfObject:[a artist]];
+        
+        if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent artist is expanded
+            insertIndex = [_rowData count];
+            for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
+                if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
+                    insertIndex = i; //reached the end of the expanded block
+                    break;
+                }
+                if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryTrack class]]) {
+                    continue; //skip over tracks
+                }
+                if([name localizedCaseInsensitiveCompare:[[_rowData objectAtIndex:i] valueForKey:@"name"]] != NSOrderedDescending) {
+                    insertIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+    
+    if([m isKindOfClass:[LibraryTrack class]]) {
+        LibraryTrack *t = (LibraryTrack *)m;
+        NSUInteger parent_index = [_rowData indexOfObject:[t album]];
+        
+        if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent album is expanded
+            insertIndex = [_rowData count];
+            for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
+                if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryAlbum class]] || [[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
+                    insertIndex = i; //reached the end of the expanded block
+                    break;
+                }
+                if([[m valueForKey:@"trackNumber"] compare:[[_rowData objectAtIndex:i] valueForKey:@"trackNumber"]] != NSOrderedDescending) {
+                    insertIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return insertIndex;
 }
 
 -(void)receivedLibrarySavedNotification:(NSNotification *)notification
