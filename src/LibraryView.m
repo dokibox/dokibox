@@ -91,6 +91,8 @@
 
 -(void)receivedLibrarySavedNotificationWithChanges:(NSMutableDictionary *)changes
 {
+    [_tableView beginUpdates]; // To group the animations
+
     for(NSMutableDictionary *dict in [changes objectForKey:NSDeletedObjectsKey]) {
         NSManagedObject *m = [_objectContext objectWithID:[dict objectForKey:@"objectID"]];
         if([m isKindOfClass:[LibraryMonitoredFolder class]])
@@ -174,6 +176,8 @@
             }
         }
     }
+    
+    [_tableView endUpdates];
 }
 
 -(void)receivedLibrarySavedNotification:(NSNotification *)notification
