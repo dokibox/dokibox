@@ -25,10 +25,7 @@
 {
     NSError *error;
     LibraryAlbum *album;
-
-    if([self album]) { //prune old one
-        [[self album] pruneDueToTrackBeingDeleted:self];
-    }
+    LibraryAlbum *oldAlbum = [self album];
 
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"album"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name == %@) AND (artist.name == %@)", albumName, artistName];
@@ -45,6 +42,10 @@
     }
     else { //already exists in library
         album = [results objectAtIndex:0];
+    }
+    
+    if(oldAlbum != album) { //prune old one
+        [oldAlbum pruneDueToTrackBeingDeleted:self];
     }
 
     [self setAlbum:album];
