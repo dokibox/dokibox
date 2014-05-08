@@ -44,6 +44,7 @@
 - (void)insertTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSInteger)index;
 - (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 
+- (void)removeOrphanedPlaylistTracks;
 - (void)fetchPlaylists;
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification;
 - (void)doubleClickReceived:(id)sender;

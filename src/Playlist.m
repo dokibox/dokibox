@@ -58,7 +58,12 @@
         [t setIndex:[NSNumber numberWithInteger:i-1]];
     }
     
-    [[self managedObjectContext] deleteObject:track];
+    [track setPlaylist:nil];
+    if([track playbackStatus] == MusicControllerStopped) {
+        // Only delete if it's not currently being played, otherwise it'll crash as it tries to access data about the track
+        // If it is being played, leave as an orphan (no playlist) and it'll be deleted later
+        [[self managedObjectContext] deleteObject:track];
+    }
 }
 
 -(void)removeTrackAtIndex:(NSUInteger)index

@@ -33,6 +33,7 @@
         // Fetch stuff
         _playlistCoreDataManger = [[PlaylistCoreDataManager alloc] init];
         _objectContext = [_playlistCoreDataManger newContext];
+        [self removeOrphanedPlaylistTracks];
         [self fetchPlaylists];
 
         // Playlist table view
@@ -308,6 +309,32 @@
                                 ascending:YES];
     [fr setSortDescriptors:[NSArray arrayWithObjects:sorter, nil]];
     _playlists = [_objectContext executeFetchRequest:fr error:&error];
+}
+
+- (void)removeOrphanedPlaylistTracks
+{
+    // Call to remove orphaned (those with no playlist) tracks.
+    // This can happen if they are deleted while they are being played
+    NSError *error;
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playlist == nil"];
+    [fr setPredicate:predicate];
+    NSArray *tracks = [_objectContext executeFetchRequest:fr error:&error];
+    
+    for(PlaylistTrack *t in tracks) {
+        if([t playbackStatus] != MusicControllerStopped) {
+            DDLogError(@"Warning: trying to remove a track that is being played in removeOrphanedPlaylistTracks: %@", [t filename]);
+            continue;
+        }
+        else {
+            [_objectContext deleteObject:t];
+        }
+    }
+    
+    [_objectContext save:&error];
+    if(error) {
+        DDLogError(@"There was an error saving in removeOrphanedPlaylistTracks:");
+    }
 }
 
 - (void)newPlaylist
