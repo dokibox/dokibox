@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "LibraryViewRowView.h"
 
-@interface LibraryViewTrackRowView : NSTableRowView
+@interface LibraryViewTrackRowView : LibraryViewRowView
 
 @property(assign) BOOL isEvenRow;
 

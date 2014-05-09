@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "LibraryViewRowView.h"
 
-@interface LibraryViewAlbumRowView : NSTableRowView
+@interface LibraryViewAlbumRowView : LibraryViewRowView
 
 @end

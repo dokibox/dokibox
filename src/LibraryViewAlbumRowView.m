@@ -10,11 +10,6 @@
 
 @implementation LibraryViewAlbumRowView
 
-- (BOOL)isFlipped
-{
-    return NO;
-}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGRect b = self.bounds;
