@@ -39,17 +39,14 @@
 {
     NSMutableDictionary *retval = [NSMutableDictionary dictionary];
 
-    if(_tag) {
-        TagLib::PropertyMap pm = _tag->properties();
-        //DDLogVerbose(@"%@", [NSString stringWithUTF8String:pm.toString().toCString(true)]);
+    TagLib::PropertyMap pm = _fileref->file()->properties();
+    //DDLogVerbose(@"%@", [NSString stringWithUTF8String:pm.toString().toCString(true)]);
+    TagLib::SimplePropertyMap::ConstIterator it;
+    for(it = pm.begin(); it != pm.end(); it++) {
+        NSString *key = [NSString stringWithUTF8String:it->first.toCString(true)];
+        NSString *value = [NSString stringWithUTF8String:it->second.toString(", ").toCString(true)];
 
-        TagLib::SimplePropertyMap::ConstIterator it;
-        for(it = pm.begin(); it != pm.end(); it++) {
-            NSString *key = [NSString stringWithUTF8String:it->first.toCString(true)];
-            NSString *value = [NSString stringWithUTF8String:it->second.toString(", ").toCString(true)];
-
-            [retval setValue:value forKey:key];
-        }
+        [retval setValue:value forKey:key];
     }
 
     if(_audioproperties) {
