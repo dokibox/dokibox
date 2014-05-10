@@ -13,7 +13,7 @@
 }
 
 -(id)initWithFilename:(NSString *)filename;
--(NSManagedObjectModel*)model;
+-(NSArray*)allModelVersions;
 -(NSManagedObjectContext*)newContext;
 
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;

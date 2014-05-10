@@ -19,7 +19,14 @@
     return self;
 }
 
--(NSManagedObjectModel*)model
+-(NSArray*)allModelVersions
+{
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    [arr addObject:[self model_v1]];
+    return arr;
+}
+
+-(NSManagedObjectModel*)model_v1
 {
     NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] init];
     NSMutableArray *entities = [[NSMutableArray alloc] init];
