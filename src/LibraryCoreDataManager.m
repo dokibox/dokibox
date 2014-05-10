@@ -24,7 +24,23 @@
 {
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     [arr addObject:[self model_v1]];
+    [arr addObject:[self model_v2]];
     return arr;
+}
+
+-(NSManagedObjectModel*)model_v2
+{
+    NSManagedObjectModel *mom = [self model_v1];
+    
+    NSEntityDescription *trackEntity = [[mom entitiesByName] objectForKey:@"track"];
+    NSMutableArray *trackEntity_properties = [NSMutableArray arrayWithArray:[trackEntity properties]];
+    NSAttributeDescription *trackEntity_trackArtistName = [[NSAttributeDescription alloc] init];
+    [trackEntity_trackArtistName setName:@"trackArtistName"];
+    [trackEntity_trackArtistName setAttributeType:NSStringAttributeType];
+    [trackEntity_properties addObject:trackEntity_trackArtistName];
+    [trackEntity setProperties:trackEntity_properties];
+    
+    return mom;
 }
 
 -(NSManagedObjectModel*)model_v1
