@@ -16,6 +16,7 @@
 -(NSArray*)allModelVersions;
 -(NSManagedObjectContext*)newContext;
 -(NSMappingModel *)simpleMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel;
+-(NSMappingModel *)exampleCustomMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel;
 
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 

@@ -162,6 +162,7 @@
     return context;
 }
 
+#pragma mark Custom mapping models
 -(NSMappingModel *)simpleMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel
 {
     // This creates a simple 1:1 copy mapping model:
@@ -169,6 +170,7 @@
     //   assuming that the same entities and properties are also present in the srcModel with the same names etc.
     // Since this is mostly true for most DB migrations, you can take this as a base mapping model
     //   and then modify it to match what you need (eg. changing the value expressions).
+    //   An example of this is in exampleCustomMappingModelFor:to:
     
     NSMutableArray *entityMappings = [NSMutableArray array];
     
@@ -215,6 +217,40 @@
     
     return mappingModel;
 }
+
+-(NSMappingModel *)exampleCustomMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel
+{
+    // This is an example of a custom mapping model. It was last tested for Library v1->v2.
+    // It does two things:
+    //  1. Adds "hi " in front of every track name
+    //  2. Fills the new trackArtistName field with "hi"
+    // NB: I believe a mapping is required for every entity and every entities' properties
+    
+    // Get simple copy mappingModel first
+    NSMappingModel *mappingModel = [self simpleMappingModelFor:sourceModel to:destModel];
+
+    // Now let's modify the track mapping
+    NSEntityMapping *trackEntityMapping = [[mappingModel entityMappingsByName] objectForKey:@"track"];
+    
+    // this Class is where our custom mapping functions live
+    [trackEntityMapping setEntityMigrationPolicyClassName:@"CustomMigrationPolicyExample"];
+    
+    for(NSPropertyMapping *pmap in [trackEntityMapping attributeMappings]) {
+        if([[pmap name] isEqualToString:@"name"]) {
+            // the syntax is: FUNCTION(operand, func name, args). Operand in our case is $policy (which is an instance of the custom migration policy class)
+            // and then we call its prefixStringWithHi function and give it $source.name (the prev value)
+            NSString *exprFormat = [NSString stringWithFormat:@"FUNCTION($%@, 'prefixStringWithHi:', $%@.%@)", NSMigrationEntityPolicyKey, NSMigrationSourceObjectKey, [pmap name]];
+            [pmap setValueExpression:[NSExpression expressionWithFormat:exprFormat]];
+        }
+        else if([pmap.name isEqualToString:@"trackArtistName"]) {
+            NSString *exprFormat = [NSString stringWithFormat:@"FUNCTION($%@, 'placeholderString')", NSMigrationEntityPolicyKey];
+            [pmap setValueExpression:[NSExpression expressionWithFormat:exprFormat]];
+        }
+    }
+    
+    return mappingModel;
+}
+
 @end
 
 @implementation NSMappingModel (DebuggingUtils)
@@ -235,5 +271,25 @@
         }
     }
 }
+
+@end
+
+// These are the custom mapping functions that we can call in the PropertyMapping valueExpressions
+@interface CustomMigrationPolicyExample : NSEntityMigrationPolicy
+-(NSString *)prefixStringWithHi:(NSString *)s;
+-(NSString *)placeholderString;
+@end
+
+@implementation CustomMigrationPolicyExample
+
+-(NSString *)prefixStringWithHi:(NSString *)s
+{
+    return [@"hi " stringByAppendingString:s];
+}
+-(NSString *)placeholderString
+{
+    return @"hi";
+}
+
 
 @end
