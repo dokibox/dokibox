@@ -15,6 +15,7 @@
 -(id)initWithFilename:(NSString *)filename;
 -(NSArray*)allModelVersions;
 -(NSManagedObjectContext*)newContext;
+-(NSMappingModel *)simpleMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel;
 
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 

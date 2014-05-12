@@ -162,6 +162,59 @@
     return context;
 }
 
+-(NSMappingModel *)simpleMappingModelFor:(NSManagedObjectModel *)sourceModel to:(NSManagedObjectModel *)destModel
+{
+    // This creates a simple 1:1 copy mapping model:
+    //   it simply creates a map for each entity and each entities' property in the destModel, telling them to take the value from the source model
+    //   assuming that the same entities and properties are also present in the srcModel with the same names etc.
+    // Since this is mostly true for most DB migrations, you can take this as a base mapping model
+    //   and then modify it to match what you need (eg. changing the value expressions).
+    
+    NSMutableArray *entityMappings = [NSMutableArray array];
+    
+    for(NSEntityDescription *destEntity in [destModel entities]) {
+        NSEntityMapping *entityMapping = [[NSEntityMapping alloc] init];
+        NSString *srcExprFormat = [NSString stringWithFormat:@"FETCH(FUNCTION($%@, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"%@\", \"TRUEPREDICATE\"), $%@.sourceContext, NO)", NSMigrationManagerKey, [destEntity name], NSMigrationManagerKey];
+        [entityMapping setSourceExpression:[NSExpression expressionWithFormat:srcExprFormat]]; // I believe this is used to substitute for $source in the valueExpressions
+        [entityMapping setDestinationEntityName:[destEntity name]];
+        [entityMapping setSourceEntityName:[destEntity name]];
+        [entityMapping setName:[destEntity name]];
+        [entityMapping setMappingType:NSCopyEntityMappingType];
+        
+        NSMutableArray *attributeMappings = [NSMutableArray array];
+        NSMutableArray *relationshipMappings = [NSMutableArray array];
+        for(NSPropertyDescription *p in [destEntity properties]) {
+            NSPropertyMapping *pmap = [[NSPropertyMapping alloc] init];
+            [pmap setName:[p name]];
+            
+            if([p isKindOfClass:[NSAttributeDescription class]]) {
+                NSString *exprFormat = [NSString stringWithFormat:@"$%@.%@", NSMigrationSourceObjectKey, [p name]]; //This is $source.%name
+                [pmap setValueExpression:[NSExpression expressionWithFormat:exprFormat]];
+                [attributeMappings addObject:pmap];
+            }
+            else if ([p isKindOfClass:[NSRelationshipDescription class]]) {
+                NSString *exprFormat = [NSString stringWithFormat:@"FUNCTION($%@, 'destinationInstancesForSourceRelationshipNamed:sourceInstances:', '%@', $%@.%@)", NSMigrationManagerKey, [p name], NSMigrationSourceObjectKey, [p name]]; // This is needed otherwise it'll complain about trying to assign instances from the source Context to the dest Context. I believe this function finds the appropriate instances in the dest Context automatically
+                [pmap setValueExpression:[NSExpression expressionWithFormat:exprFormat]];
+                [relationshipMappings addObject:pmap];
+            }
+        }
+        
+        [entityMapping setAttributeMappings:attributeMappings];
+        [entityMapping setRelationshipMappings:relationshipMappings];
+        
+        if([sourceModel entitiesByName][entityMapping.name]) {
+            [entityMapping setSourceEntityVersionHash: [[[sourceModel entitiesByName] objectForKey:[entityMapping name]] versionHash]];
+        }
+        [entityMapping setDestinationEntityVersionHash:[destEntity versionHash]];
+        
+        [entityMappings addObject:entityMapping];
+    }
+    
+    NSMappingModel *mappingModel = [[NSMappingModel alloc] init];
+    [mappingModel setEntityMappings:entityMappings];
+    
+    return mappingModel;
+}
 @end
 
 @implementation NSMappingModel (DebuggingUtils)
