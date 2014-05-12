@@ -19,3 +19,7 @@
 @property(readonly) NSPersistentStoreCoordinator* persistanceCoordinator;
 
 @end
+
+@interface NSMappingModel (DebuggingUtils)
+-(void)debugPrint;
+@end

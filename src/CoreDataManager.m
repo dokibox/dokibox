@@ -163,3 +163,24 @@
 }
 
 @end
+
+@implementation NSMappingModel (DebuggingUtils)
+
+-(void)debugPrint
+{
+    for(NSEntityMapping *e in [self entityMappings]) {
+        DDLogVerbose(@"Mapping \"%@\" (%@ -> %@)", [e name], [e sourceEntityName], [e destinationEntityName]);
+        DDLogVerbose(@"  Type %ld, Policy %@", [e mappingType], [e entityMigrationPolicyClassName]);
+        DDLogVerbose(@"  Ver: %@ -> %@", [e sourceEntityVersionHash], [e destinationEntityVersionHash]);
+        DDLogVerbose(@"  Src Expr: %@", [e sourceExpression]);
+        DDLogVerbose(@"  Userinfo %@", [e userInfo]);
+        for(NSPropertyMapping *p in [e attributeMappings]) {
+            DDLogVerbose(@"    - Prop %@: %@", [p name], [p valueExpression]);
+        }
+        for(NSPropertyMapping *p in [e relationshipMappings]) {
+            DDLogVerbose(@"    - Rel %@: %@", [p name], [p valueExpression]);
+        }
+    }
+}
+
+@end
