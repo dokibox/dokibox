@@ -108,7 +108,9 @@
         else {
             // No position move, so just need to refresh it
             // Technically albums and artist will never move, because their name (and in the case of albums, the parent artist) never change. Instead if all the tracks change their album/artist name, a new album/artist is created and the old deleted.
-            [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            if(currentIndex != NSNotFound) {
+                [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+            }
         }
         NSLog(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
     }
