@@ -19,7 +19,7 @@
 
 @synthesize isCoverFetched = _isCoverFetched;
 
--(void)dealloc
+-(void)didTurnIntoFault
 {
     if(_coverFetchQueue)
         dispatch_release(_coverFetchQueue);
