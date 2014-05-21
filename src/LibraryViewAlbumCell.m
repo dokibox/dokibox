@@ -38,73 +38,74 @@
         _coverImageView = [[ProportionalImageView alloc] initWithFrame:NSMakeRect([self bounds].size.width - imageSize, 0, imageSize, imageSize)];
         [_coverImageView setAutoresizingMask:NSViewMinXMargin];
         [self addSubview:_coverImageView];
+        
+        [self addObserver:self forKeyPath:@"album" options:NULL context:nil];
     }
     
     return self;
 }
 
-- (LibraryAlbum *)album
+- (void)dealloc
 {
-    return _album;
+    [self removeObserver:self forKeyPath:@"album"];
 }
 
-- (void)setAlbum:(LibraryAlbum *)album
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    _album = album;
-    
-    // Set alt text
-    NSUInteger trackCount;
-    if([[self searchMatchedObjects] count] == 0) { // no search being done
-        trackCount = [[[self album] tracks] count];
-    }
-    else {
-        trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
-    }
-    
-    NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
-    [_altTextField setStringValue:str];
-    
-    // Load cover
-    if([_album isCoverFetched] == false) {
-        [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
-        if(_progressIndicator == nil) {
-            _progressIndicator = [[NSProgressIndicator alloc] init];
-            CGFloat imagesize = 50;
-            CGRect imrect = CGRectMake([self bounds].origin.x + [self bounds].size.width - imagesize, [self bounds].origin.y, imagesize, imagesize);
-            [_progressIndicator setFrame:imrect];
-            [_progressIndicator setStyle: NSProgressIndicatorSpinningStyle];
-            [_progressIndicator setUsesThreadedAnimation:YES];
-            
-            [_progressIndicator startAnimation:self];
-            // NB: This causes weird flashing: in particular if you add new spinning progress indicators for other albums
-            // (say during expansion) it causes all of them to flash white sometimes.
-            
-            [self addSubview:_progressIndicator];
+    if([keyPath isEqualToString:@"album"]) {
+        // Set alt text
+        NSUInteger trackCount;
+        if([[self searchMatchedObjects] count] == 0) { // no search being done
+            trackCount = [[[self album] tracks] count];
         }
+        else {
+            trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
+        }
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
+        [_altTextField setStringValue:str];
         
-        [_album fetchCoverAsync:^(LibraryAlbum *album) {
-            if(album != _album) {
-                // If the album cell view is reused and assigned to another Album while this fetch is running,
-                // _album will have changed by the time the callback block runs. The new _album might not have a
-                // cover loaded as the callback is telling us the old _album now has a cover, so we ignore this callback
-                return;
+        // Load cover
+        if([_album isCoverFetched] == false) {
+            [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
+            if(_progressIndicator == nil) {
+                _progressIndicator = [[NSProgressIndicator alloc] init];
+                CGFloat imagesize = 50;
+                CGRect imrect = CGRectMake([self bounds].origin.x + [self bounds].size.width - imagesize, [self bounds].origin.y, imagesize, imagesize);
+                [_progressIndicator setFrame:imrect];
+                [_progressIndicator setStyle: NSProgressIndicatorSpinningStyle];
+                [_progressIndicator setUsesThreadedAnimation:YES];
+                
+                [_progressIndicator startAnimation:self];
+                // NB: This causes weird flashing: in particular if you add new spinning progress indicators for other albums
+                // (say during expansion) it causes all of them to flash white sometimes.
+                
+                [self addSubview:_progressIndicator];
             }
             
-            if(_progressIndicator) {
-                [_progressIndicator stopAnimation:self];
-                [_progressIndicator removeFromSuperview];
-                _progressIndicator = nil;
-            }
-            
+            [_album fetchCoverAsync:^(LibraryAlbum *album) {
+                if(album != _album) {
+                    // If the album cell view is reused and assigned to another Album while this fetch is running,
+                    // _album will have changed by the time the callback block runs. The new _album might not have a
+                    // cover loaded as the callback is telling us the old _album now has a cover, so we ignore this callback
+                    return;
+                }
+                
+                if(_progressIndicator) {
+                    [_progressIndicator stopAnimation:self];
+                    [_progressIndicator removeFromSuperview];
+                    _progressIndicator = nil;
+                }
+                
+                if([_album cover])
+                    [_coverImageView setImage:[_album cover]];
+            }];
+        }
+        else {
             if([_album cover])
                 [_coverImageView setImage:[_album cover]];
-        }];
-    }
-    else {
-        if([_album cover])
-            [_coverImageView setImage:[_album cover]];
-        else
-            [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
+            else
+                [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
+        }
     }
 }
 
