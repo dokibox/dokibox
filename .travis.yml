@@ -9,6 +9,7 @@ before_install:
 - ./build-patchdeps.sh
 - ./build-deps.sh
 after_success: 
+- gem install faraday_middleware -v 0.9.1 --no-document
 - gem install travis-artifacts --no-document
 - tar czvf $TRAVIS_BRANCH-$TRAVIS_COMMIT.tar.gz -C build/Release dokibox.app
 - travis-artifacts upload --path $TRAVIS_BRANCH-$TRAVIS_COMMIT.tar.gz
