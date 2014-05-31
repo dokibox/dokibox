@@ -21,8 +21,10 @@
 
 -(void)didTurnIntoFault
 {
-    if(_coverFetchQueue)
+    if(_coverFetchQueue) {
         dispatch_release(_coverFetchQueue);
+        _coverFetchQueue = nil;
+    }
 }
 
 -(NSSet*)tracksFromSet:(NSSet *)set
