@@ -408,7 +408,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         dispatch_async(_dispatchQueue, ^{
             DDLogVerbose(@"Starting initial library search for %@", path);
             [self searchDirectory:path];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"libraryMonitoringInitialDone"];
             DDLogVerbose(@"Finished initial library search for %@", path);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [folder setInitialScanDone:[NSNumber numberWithBool:YES]];
