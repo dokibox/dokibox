@@ -19,8 +19,37 @@
 
 @synthesize isCoverFetched = _isCoverFetched;
 
+-(void)awakeFromFetch
+{
+    [self setupSelfObserver];
+}
+
+- (void)awakeFromInsert
+{
+    [self setupSelfObserver];
+}
+
+-(void)setupSelfObserver
+{
+    // Observe ourself for changes to tracks, so we can inform parent artist that track count has changed
+    [self addObserver:self forKeyPath:@"tracks" options:NULL context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"tracks"]) {
+        if([self artist]) { // Inform parent artist that track count has changed
+            [[self artist] willChangeValueForKey:@"tracks"];
+            [[self artist] didChangeValueForKey:@"tracks"];
+        }
+    }
+}
+
+
 -(void)didTurnIntoFault
 {
+    [self removeObserver:self forKeyPath:@"tracks"];
+    
     if(_coverFetchQueue) {
         dispatch_release(_coverFetchQueue);
         _coverFetchQueue = nil;
