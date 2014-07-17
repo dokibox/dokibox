@@ -21,6 +21,7 @@
 
 -(void)awakeFromFetch
 {
+    // NB. Core data lies. This is not always called immediately upon fetch. It can occur later, upon access of properties.
     [self setupSelfObserver];
 }
 
@@ -32,6 +33,7 @@
 -(void)setupSelfObserver
 {
     // Observe ourself for changes to tracks, so we can inform parent artist that track count has changed
+    _isSelfObserverSetup = YES; // keep track
     [self addObserver:self forKeyPath:@"tracks" options:NULL context:nil];
 }
 
@@ -48,7 +50,11 @@
 
 -(void)didTurnIntoFault
 {
-    [self removeObserver:self forKeyPath:@"tracks"];
+    // prevent error from removing if it was never setup (this can happen if awakeFromFetch: was never called, see note there)
+    if(_isSelfObserverSetup == YES) {
+        [self removeObserver:self forKeyPath:@"tracks"];
+        _isSelfObserverSetup = NO;
+    }
     
     if(_coverFetchQueue) {
         dispatch_release(_coverFetchQueue);

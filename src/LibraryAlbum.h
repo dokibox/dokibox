@@ -12,6 +12,7 @@
 @interface LibraryAlbum : NSManagedObject {
     NSImage *_cover;
     dispatch_queue_t _coverFetchQueue;
+    BOOL _isSelfObserverSetup;
 }
 
 -(NSSet*)tracksFromSet:(NSSet *)set;
