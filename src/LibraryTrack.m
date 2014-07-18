@@ -16,6 +16,41 @@
 @dynamic trackNumber;
 @dynamic length;
 
++(LibraryTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext
+{
+    LibraryTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
+    [t setFilename:filename];
+    
+    BOOL retval = [t updateFromFile];
+    if(retval == NO) { // delete if we weren't able to update
+        [objectContext deleteObject:t];
+        return nil;
+    }
+    
+    return t;
+}
+
+-(BOOL)updateFromFile
+// return value is YES for success. NO for failure.
+{
+    [self resetAttributeCache]; //reset any previously loaded attributes/tags
+    
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    if([self attributes] == nil) { // failure in loading tags (perhaps IO error)
+        DDLogWarn(@"Failure in updateFromFile: (not able to load tags) for %@", [self filename]);
+        return NO;
+    }
+    
+    [self setName:([[self attributes] objectForKey:@"TITLE"] ? [[self attributes] objectForKey:@"TITLE"] : @"")];
+    [self setArtistByName:([[self attributes] objectForKey:@"ARTIST"] ? [[self attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[self attributes] objectForKey:@"ALBUM"] ? [[self attributes] objectForKey:@"ALBUM"] : @"")];
+    [self setTrackNumber:[numberFormatter numberFromString:[[self attributes] objectForKey:@"TRACKNUMBER"]]];
+    [self setLength:[[self attributes] objectForKey:@"length"]];
+    
+    return YES;
+}
+
 -(void)didTurnIntoFault {
     //NSLog(@"hi turned into fault");
     [super didTurnIntoFault];

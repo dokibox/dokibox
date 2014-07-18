@@ -12,6 +12,8 @@
 
 @interface LibraryTrack : ManagedObjectTrack
 
++(LibraryTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
+-(BOOL)updateFromFile;
 -(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName;
 
 
