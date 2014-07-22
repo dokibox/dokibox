@@ -1,5 +1,6 @@
 prefix/*
 deps/*
+keys
 .DS_Store
 
 *~

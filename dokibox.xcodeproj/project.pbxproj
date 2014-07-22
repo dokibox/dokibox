@@ -17,6 +17,7 @@
 		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
 		2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6215D9C9BB003C4435 /* Window.m */; };
 		2B1FEF6B15DACD65003C4435 /* TitlebarViewNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */; };
+		2B2989561921B430003A9D23 /* ValueTransformers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2989551921B430003A9D23 /* ValueTransformers.m */; };
 		2B466063147C4C6F0036B5AB /* MusicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B466062147C4C6F0036B5AB /* MusicController.m */; };
 		2B5086D11787AAFB0066B014 /* WindowContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086D01787AAFB0066B014 /* WindowContentView.m */; };
 		2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */; };
@@ -295,6 +296,8 @@
 		2B1FEF6215D9C9BB003C4435 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		2B1FEF6915DACD64003C4435 /* TitlebarViewNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarViewNS.h; sourceTree = "<group>"; };
 		2B1FEF6A15DACD64003C4435 /* TitlebarViewNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarViewNS.m; sourceTree = "<group>"; };
+		2B2989541921B430003A9D23 /* ValueTransformers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueTransformers.h; sourceTree = "<group>"; };
+		2B2989551921B430003A9D23 /* ValueTransformers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueTransformers.m; sourceTree = "<group>"; };
 		2B466061147C4C6E0036B5AB /* MusicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicController.h; sourceTree = "<group>"; };
 		2B466062147C4C6F0036B5AB /* MusicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicController.m; sourceTree = "<group>"; };
 		2B5086CF1787AAFB0066B014 /* WindowContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowContentView.h; sourceTree = "<group>"; };
@@ -749,6 +752,8 @@
 				2B92035A1878D9AA00AAD008 /* LicenseController.h */,
 				2B92035B1878D9AA00AAD008 /* LicenseController.m */,
 				2B92035C1878D9AA00AAD008 /* LicenseController.xib */,
+				2B2989541921B430003A9D23 /* ValueTransformers.h */,
+				2B2989551921B430003A9D23 /* ValueTransformers.m */,
 			);
 			name = app;
 			sourceTree = "<group>";
@@ -1196,6 +1201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B2989561921B430003A9D23 /* ValueTransformers.m in Sources */,
 				2B7C00BB1828A93A00E2AC90 /* LibraryMonitoredFolder.m in Sources */,
 				2B15BF75146127A100DC46CD /* main.m in Sources */,
 				2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */,

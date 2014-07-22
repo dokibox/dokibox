@@ -279,35 +279,21 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
     NSError *error;
     LibraryTrack *t = [self trackFromFile:file];
-    BOOL isNew = false;
 
     if(!t) {
         DDLogVerbose(@"Adding file: %@", file);
-        isNew = true;
-
-        t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:_queueObjectContext];
-        [t setFilename:file];
+        t = [LibraryTrack trackWithFilename:file inContext:_queueObjectContext];
+        if(!t) { // t can be nil if there was a failure in reading tags
+            return;
+        }
     }
     else { //already exists in library
         DDLogVerbose(@"Updating file: %@", file);
-        [t resetAttributeCache];
-    }
-
-    if([t attributes] == nil) { // perhaps IO error
-        DDLogWarn(@"Skipping %@... wasn't able to load tags", file);
-        if(isNew == true) { //delete if new
-            [_queueObjectContext deleteObject:t];
+        BOOL retval = [t updateFromFile];
+        if(retval == NO) { //failure in updating file
+            return;
         }
-        return;
     }
-    
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-
-    [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
-    [t setArtistByName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
-    [t setTrackNumber:[numberFormatter numberFromString:[[t attributes] objectForKey:@"TRACKNUMBER"]]];
-    [t setLength:[[t attributes] objectForKey:@"length"]];
 
     if([_queueObjectContext save:&error] == NO) {
         NSLog(@"error saving");
@@ -408,7 +394,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         dispatch_async(_dispatchQueue, ^{
             DDLogVerbose(@"Starting initial library search for %@", path);
             [self searchDirectory:path];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"libraryMonitoringInitialDone"];
             DDLogVerbose(@"Finished initial library search for %@", path);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [folder setInitialScanDone:[NSNumber numberWithBool:YES]];

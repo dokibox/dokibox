@@ -34,6 +34,7 @@
         [_altTextField setFrame:altTextRect];
         
         [self addObserver:self forKeyPath:@"artist" options:NULL context:nil];
+        [self addObserver:self forKeyPath:@"artist.tracks" options:NULL context:nil];
     }
     
     return self;
@@ -42,11 +43,12 @@
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"artist"];
+    [self removeObserver:self forKeyPath:@"artist.tracks"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"artist"]) {
+    if([keyPath isEqualToString:@"artist"] || [keyPath isEqualToString:@"artist.tracks"]) {
         NSUInteger albumCount, trackCount;
         if([[self searchMatchedObjects] count] == 0) { // no search being done
             albumCount = [[[self artist] albums] count];

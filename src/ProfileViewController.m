@@ -58,12 +58,16 @@
 
 -(IBAction)addSheetButtonPressed:(id)sender
 {
-    [_profileController addProfile:[self addName]];
+    if([sender tag] == 0) { // Add
+        [_profileController addProfile:[self addName]];
+        [_tableView reloadData];
+        [self updateOpenButtonEnabled];
+    }
+    else { // Cancel
+    }
     
     [NSApp endSheet:_addSheet];
     [_addSheet orderOut:self];
-    [_tableView reloadData];
-    [self updateOpenButtonEnabled];
 }
 
 -(void)updateOpenButtonEnabled
