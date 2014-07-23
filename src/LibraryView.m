@@ -631,9 +631,10 @@
             NSFetchRequest *fetchReqAlbum = [NSFetchRequest fetchRequestWithEntityName:@"album"];
             NSFetchRequest *fetchReqTrack = [NSFetchRequest fetchRequestWithEntityName:@"track"];
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", text];
+            NSPredicate *predicate_track = [NSPredicate predicateWithFormat:@"name contains[cd] %@ or trackArtistName contains[cd] %@", text, text];
             [fetchReqArtist setPredicate:predicate];
             [fetchReqAlbum setPredicate:predicate];
-            [fetchReqTrack setPredicate:predicate];
+            [fetchReqTrack setPredicate:predicate_track];
             
             NSMutableSet *fetchedArtists = [[NSMutableSet alloc] init];
             
