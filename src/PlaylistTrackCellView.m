@@ -48,7 +48,7 @@
             [_textField setStringValue:[_track albumName]];
         }
         else if([_columnIdentifier isEqualToString:@"artist"]) {
-            [_textField setStringValue:[_track artistName]];
+            [_textField setStringValue:[_track trackArtistName]];
         }
         else if([_columnIdentifier isEqualToString:@"length"]) {
             int length = [[_track length] intValue];

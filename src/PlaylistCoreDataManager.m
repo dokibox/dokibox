@@ -23,7 +23,35 @@
 {
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     [arr addObject:[self model_v1]];
+    [arr addObject:[self model_v2]];
     return arr;
+}
+
+-(NSManagedObjectModel*)model_v2
+{
+    NSManagedObjectModel *mom = [self model_v1];
+    
+    NSEntityDescription *trackEntity = [[mom entitiesByName] objectForKey:@"track"];
+    NSMutableArray *trackEntity_properties = [NSMutableArray arrayWithArray:[trackEntity properties]];
+    
+    // Rename artistName->trackArtistName (delete old property, create new one with renamingIdentifier)
+    [trackEntity_properties removeObject:[[trackEntity propertiesByName] objectForKey:@"artistName"]];
+    NSAttributeDescription *trackEntity_trackArtistName = [[NSAttributeDescription alloc] init];
+    [trackEntity_trackArtistName setName:@"trackArtistName"];
+    [trackEntity_trackArtistName setRenamingIdentifier:@"artistName"];
+    [trackEntity_trackArtistName setAttributeType:NSStringAttributeType];
+    [trackEntity_trackArtistName setOptional:NO];
+    [trackEntity_properties addObject:trackEntity_trackArtistName];
+    
+    // Add albumArtistName
+    NSAttributeDescription *trackEntity_albumArtistName = [[NSAttributeDescription alloc] init];
+    [trackEntity_albumArtistName setName:@"albumArtistName"];
+    [trackEntity_albumArtistName setAttributeType:NSStringAttributeType];
+    [trackEntity_properties addObject:trackEntity_albumArtistName];
+    
+    [trackEntity setProperties:trackEntity_properties];
+    
+    return mom;
 }
 
 -(NSManagedObjectModel*)model_v1

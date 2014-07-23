@@ -11,7 +11,8 @@
 
 @implementation PlaylistTrack
 
-@dynamic artistName;
+@dynamic trackArtistName;
+@dynamic albumArtistName;
 @dynamic albumName;
 @dynamic playlist;
 @dynamic index;
@@ -24,7 +25,7 @@
     PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
     [t setFilename:filename];
     [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
-    [t setArtistName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"")];
+    [t setTrackArtistName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"")];
     [t setAlbumName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
     [t setLength:[[t attributes] objectForKey:@"length"]];
 

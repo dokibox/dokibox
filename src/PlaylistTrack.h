@@ -22,7 +22,8 @@
 -(NSString *)menuItemFormatString;
 
 @property (nonatomic) NSString *albumName;
-@property (nonatomic) NSString *artistName;
+@property (nonatomic) NSString *trackArtistName;
+@property (nonatomic) NSString *albumArtistName;
 @property (nonatomic) Playlist *playlist;
 @property NSNumber *length;
 @property MusicControllerStatus playbackStatus;
