@@ -14,10 +14,11 @@
 
 +(LibraryTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
 -(BOOL)updateFromFile;
--(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName;
+-(void)setAlbumArtistByName:(NSString *)albumArtistName andAlbumByName:(NSString *)albumName;
 
 
 @property (nonatomic) LibraryAlbum *album;
+@property (nonatomic) NSString *trackArtistName;
 @property (nonatomic) NSNumber *trackNumber;
 @property NSNumber *length;
 

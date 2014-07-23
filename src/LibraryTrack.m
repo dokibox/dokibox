@@ -13,6 +13,7 @@
 
 @implementation LibraryTrack
 @dynamic album;
+@dynamic trackArtistName;
 @dynamic trackNumber;
 @dynamic length;
 
@@ -41,8 +42,24 @@
     }
     
     [self setName:([[self attributes] objectForKey:@"TITLE"] ? [[self attributes] objectForKey:@"TITLE"] : @"")];
-    [self setArtistByName:([[self attributes] objectForKey:@"ARTIST"] ? [[self attributes] objectForKey:@"ARTIST"] : @"") andAlbumByName:([[self attributes] objectForKey:@"ALBUM"] ? [[self attributes] objectForKey:@"ALBUM"] : @"")];
     [self setLength:[[self attributes] objectForKey:@"length"]];
+
+    // Artist name
+    NSString *albumArtistName;
+    if([[self attributes] objectForKey:@"ALBUMARTIST"]) { //ALBUMARTIST tag exists
+        albumArtistName = [[self attributes] objectForKey:@"ALBUMARTIST"];
+        if([[self attributes] objectForKey:@"ARTIST"] && ![[[self attributes] objectForKey:@"ARTIST"] isEqualTo:albumArtistName]) { // if ARTIST && ARTIST!=ALBUMARTIST, set the track artist
+            [self setTrackArtistName:[[self attributes] objectForKey:@"ARTIST"]];
+        }
+    }
+    else if([[self attributes] objectForKey:@"ARTIST"]) { // Only ARTIST tag
+        albumArtistName = [[self attributes] objectForKey:@"ARTIST"];
+    }
+    else { // No ALBUMARTIST or ARTIST tag. Use empty string
+        albumArtistName = @"";
+    }
+    
+    [self setAlbumArtistByName:albumArtistName andAlbumByName:([[self attributes] objectForKey:@"ALBUM"] ? [[self attributes] objectForKey:@"ALBUM"] : @"")];
     
     // Track number tag is a string that is either "tracknum" or "tracknum/totaltracks", so we need to split by "/", take the first component only and convert it to an integer
     NSString *trackNumberString = [[[[self attributes] objectForKey:@"TRACKNUMBER"] componentsSeparatedByString:@"/"] objectAtIndex:0];
@@ -58,14 +75,14 @@
     [super didTurnIntoFault];
 }
 
--(void)setArtistByName:(NSString *)artistName andAlbumByName:(NSString *)albumName
+-(void)setAlbumArtistByName:(NSString *)albumArtistName andAlbumByName:(NSString *)albumName;
 {
     NSError *error;
     LibraryAlbum *album;
     LibraryAlbum *oldAlbum = [self album];
 
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"album"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name == %@) AND (artist.name == %@)", albumName, artistName];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(name == %@) AND (artist.name == %@)", albumName, albumArtistName];
     [fr setPredicate:predicate];
 
     NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];
@@ -75,7 +92,7 @@
     else if([results count] == 0) {
         album = [NSEntityDescription insertNewObjectForEntityForName:@"album" inManagedObjectContext:[self managedObjectContext]];
         [album setName:albumName];
-        [album setArtistByName:artistName];
+        [album setArtistByName:albumArtistName];
     }
     else { //already exists in library
         album = [results objectAtIndex:0];
