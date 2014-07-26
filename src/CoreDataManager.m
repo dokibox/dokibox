@@ -70,12 +70,16 @@
             }
         }
         
-        
         _persistanceCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:latestModel];
         NSPersistentStore *persistanceStore = [_persistanceCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:urlPath options:nil error:&error];
         if(persistanceStore == nil) {
             DDLogError(@"Error loading persistance store at %@", [path stringByAppendingPathComponent:filename]);
             DDLogError(@"%@", [error localizedDescription]);
+        }
+        
+        // If a migration occured, call the post-migration handler (for various tasks)
+        if(latestModel != sourceModel) {
+            [self migrationOccurred];
         }
     }
     return self;
@@ -176,6 +180,12 @@
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
     [context setPersistentStoreCoordinator:[self persistanceCoordinator]];
     return context;
+}
+
+-(void)migrationOccurred
+{
+    // Virtual method (to be overriden)
+    // Can be used for doing various DB tasks after a migration
 }
 
 #pragma mark Custom mapping models
