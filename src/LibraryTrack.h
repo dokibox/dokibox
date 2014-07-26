@@ -21,5 +21,6 @@
 @property (nonatomic) NSString *trackArtistName;
 @property (nonatomic) NSNumber *trackNumber;
 @property NSNumber *length;
+@property NSNumber *needsUpdate;
 
 @end

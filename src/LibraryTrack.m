@@ -16,6 +16,7 @@
 @dynamic trackArtistName;
 @dynamic trackNumber;
 @dynamic length;
+@dynamic needsUpdate;
 
 +(LibraryTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext
 {
@@ -67,6 +68,8 @@
     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [self setTrackNumber:[numberFormatter numberFromString:trackNumberString]];
     
+    // Reset needsUpdate flag
+    [self setNeedsUpdate:[NSNumber numberWithBool:NO]];
     return YES;
 }
 

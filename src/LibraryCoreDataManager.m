@@ -28,16 +28,48 @@
     return arr;
 }
 
+-(void)migrationOccurred
+{
+    NSError *error;
+    NSManagedObjectContext *context = [self newContext];
+    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
+    NSArray *results = [context executeFetchRequest:fr error:&error];
+    if(error) {
+        DDLogError(@"Failed to execute fetch request in migrationOccurred:");
+        return;
+    }
+    
+    // Set needsUpdate = yes on all tracks
+    for(LibraryTrack *t in results) {
+        [t setNeedsUpdate:[NSNumber numberWithBool:YES]];
+    }
+    
+    // Save
+    [context save:&error];
+    if(error) {
+        DDLogError(@"Failed to save in migrationOccurred:");
+    }
+}
+
 -(NSManagedObjectModel*)model_v2
 {
     NSManagedObjectModel *mom = [self model_v1];
     
     NSEntityDescription *trackEntity = [[mom entitiesByName] objectForKey:@"track"];
     NSMutableArray *trackEntity_properties = [NSMutableArray arrayWithArray:[trackEntity properties]];
+    
     NSAttributeDescription *trackEntity_trackArtistName = [[NSAttributeDescription alloc] init];
     [trackEntity_trackArtistName setName:@"trackArtistName"];
     [trackEntity_trackArtistName setAttributeType:NSStringAttributeType];
     [trackEntity_properties addObject:trackEntity_trackArtistName];
+    
+    NSAttributeDescription *trackEntity_needsUpdate = [[NSAttributeDescription alloc] init];
+    [trackEntity_needsUpdate setName:@"needsUpdate"];
+    [trackEntity_needsUpdate setDefaultValue:[NSNumber numberWithBool:NO]];
+    [trackEntity_needsUpdate setOptional:NO];
+    [trackEntity_needsUpdate setAttributeType:NSBooleanAttributeType];
+    [trackEntity_properties addObject:trackEntity_needsUpdate];
+    
     [trackEntity setProperties:trackEntity_properties];
     
     return mom;
