@@ -75,6 +75,10 @@
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index
 { // This can take a long time and block, so be warned.
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    if(t == nil) {
+        DDLogError(@"Failure to insertTrackWithFilename: %@", filename);
+        return;
+    }
     [self insertTrack:t atIndex:index];
 }
 
@@ -104,6 +108,10 @@
 -(void)addTrackWithFilename:(NSString *)filename
 { // This can take a long time and block, so be warned.
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
+    if(t == nil) {
+        DDLogError(@"Failure to insertTrackWithFilename: %@", filename);
+        return;
+    }
     [self addTrack:t];
 }
 

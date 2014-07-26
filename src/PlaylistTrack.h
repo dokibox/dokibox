@@ -19,6 +19,7 @@
 }
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
+-(BOOL)updateFromFile;
 -(NSString *)menuItemFormatString;
 
 @property (nonatomic) NSString *albumName;

@@ -24,12 +24,32 @@
 {
     PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
     [t setFilename:filename];
-    [t setName:([[t attributes] objectForKey:@"TITLE"] ? [[t attributes] objectForKey:@"TITLE"] : @"")];
-    [t setTrackArtistName:([[t attributes] objectForKey:@"ARTIST"] ? [[t attributes] objectForKey:@"ARTIST"] : @"")];
-    [t setAlbumName:([[t attributes] objectForKey:@"ALBUM"] ? [[t attributes] objectForKey:@"ALBUM"] : @"")];
-    [t setLength:[[t attributes] objectForKey:@"length"]];
+    
+    BOOL retval = [t updateFromFile];
+    if(retval == NO) { // delete if we weren't able to update
+        [objectContext deleteObject:t];
+        return nil;
+    }
 
     return t;
+}
+
+-(BOOL)updateFromFile
+// return value is YES for success. NO for failure.
+{
+    [self resetAttributeCache]; //reset any previously loaded attributes/tags
+    
+    if([self attributes] == nil) { // failure in loading tags (perhaps IO error)
+        DDLogWarn(@"Failure in updateFromFile: (not able to load tags) for %@", [self filename]);
+        return NO;
+    }
+    
+    [self setName:([[self attributes] objectForKey:@"TITLE"] ? [[self attributes] objectForKey:@"TITLE"] : @"")];
+    [self setLength:[[self attributes] objectForKey:@"length"]];
+    [self setTrackArtistName:([[self attributes] objectForKey:@"ARTIST"] ? [[self attributes] objectForKey:@"ARTIST"] : @"")];
+    [self setAlbumName:([[self attributes] objectForKey:@"ALBUM"] ? [[self attributes] objectForKey:@"ALBUM"] : @"")];
+    
+    return YES;
 }
 
 -(NSString *)menuItemFormatString
