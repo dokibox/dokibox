@@ -54,6 +54,8 @@
         [self setAlbumArtistName:[[self attributes] objectForKey:@"ALBUMARTIST"]];
     }
     
+    // Reset needsUpdate flag
+    [super updateFromFile];
     return YES;
 }
 

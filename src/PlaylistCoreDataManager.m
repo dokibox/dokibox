@@ -8,6 +8,7 @@
 
 #import "PlaylistCoreDataManager.h"
 #import "ProfileController.h"
+#import "PlaylistTrack.h"
 
 @implementation PlaylistCoreDataManager
 
@@ -25,6 +26,12 @@
     [arr addObject:[self model_v1]];
     [arr addObject:[self model_v2]];
     return arr;
+}
+
+-(void)migrationOccurred
+{
+    NSManagedObjectContext *context = [self newContext];
+    [PlaylistTrack markAllTracksForUpdateIn:context];
 }
 
 -(NSManagedObjectModel*)model_v2
@@ -48,6 +55,14 @@
     [trackEntity_albumArtistName setName:@"albumArtistName"];
     [trackEntity_albumArtistName setAttributeType:NSStringAttributeType];
     [trackEntity_properties addObject:trackEntity_albumArtistName];
+    
+    // Add needsUpdate
+    NSAttributeDescription *trackEntity_needsUpdate = [[NSAttributeDescription alloc] init];
+    [trackEntity_needsUpdate setName:@"needsUpdate"];
+    [trackEntity_needsUpdate setDefaultValue:[NSNumber numberWithBool:NO]];
+    [trackEntity_needsUpdate setOptional:NO];
+    [trackEntity_needsUpdate setAttributeType:NSBooleanAttributeType];
+    [trackEntity_properties addObject:trackEntity_needsUpdate];
     
     [trackEntity setProperties:trackEntity_properties];
     

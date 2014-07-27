@@ -150,6 +150,12 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlaylistSavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
         
+        // Update all tracks marked for update on bkg thread (NB: this after registering for NSManagedObjectContextDidSaveNotification)
+        dispatch_async(_addingQueue, ^() {
+            NSManagedObjectContext *context = [_playlistCoreDataManger newContext];
+            [PlaylistTrack updateAllTracksMarkedForUpdateIn:context];
+        });
+        
         [self updateDividerTrackingArea];
     }
     return self;
@@ -414,6 +420,8 @@
                 [[t playlist] addTrackToShuffleList:t];
             }
         }
+        
+        [_trackTableView reloadData];
     });
 }
 
