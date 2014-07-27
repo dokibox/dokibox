@@ -235,10 +235,8 @@
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification
 {
     PlaylistTrack *t = [notification object];
-    _title = [[t attributes] objectForKey:@"TITLE"];
-    _title = _title == nil ? @"" : _title;
-    _artist = [[t attributes] objectForKey:@"ARTIST"];
-    _artist = _artist == nil ? @"" : _artist;
+    _title = [t displayName];
+    _artist = [t displayArtistName];
     [self setNeedsDisplay:YES];
 
 }
