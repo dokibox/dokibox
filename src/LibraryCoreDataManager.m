@@ -30,25 +30,8 @@
 
 -(void)migrationOccurred
 {
-    NSError *error;
     NSManagedObjectContext *context = [self newContext];
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
-    NSArray *results = [context executeFetchRequest:fr error:&error];
-    if(error) {
-        DDLogError(@"Failed to execute fetch request in migrationOccurred:");
-        return;
-    }
-    
-    // Set needsUpdate = yes on all tracks
-    for(LibraryTrack *t in results) {
-        [t setNeedsUpdate:[NSNumber numberWithBool:YES]];
-    }
-    
-    // Save
-    [context save:&error];
-    if(error) {
-        DDLogError(@"Failed to save in migrationOccurred:");
-    }
+    [LibraryTrack markAllTracksForUpdateIn:context];
 }
 
 -(NSManagedObjectModel*)model_v2

@@ -13,7 +13,6 @@
 @interface LibraryTrack : ManagedObjectTrack
 
 +(LibraryTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
--(BOOL)updateFromFile;
 -(void)setAlbumArtistByName:(NSString *)albumArtistName andAlbumByName:(NSString *)albumName;
 
 
@@ -21,6 +20,5 @@
 @property (nonatomic) NSString *trackArtistName;
 @property (nonatomic) NSNumber *trackNumber;
 @property NSNumber *length;
-@property NSNumber *needsUpdate;
 
 @end

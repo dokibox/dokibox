@@ -113,7 +113,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
         dispatch_async(_dispatchQueue, ^{
             _queueObjectContext = [_coreDataManager newContext];
-            [self updateAllTracksMarkedForUpdate]; // Initial scan for post-migration updating
+            [LibraryTrack updateAllTracksMarkedForUpdateIn:_queueObjectContext]; // Initial scan for post-migration updating
         });
 
         _userDefaults = [NSUserDefaults standardUserDefaults];
@@ -353,33 +353,6 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
                 NSLog(@"%@", [e localizedDescription]);
             }
         };
-    }
-}
-
--(void)updateAllTracksMarkedForUpdate
-{
-    if(dispatch_get_current_queue() != _dispatchQueue) {
-        dispatch_async(_dispatchQueue, ^{
-            [self updateAllTracksMarkedForUpdate];
-        });
-        return;
-    }
-    
-    NSError *error;
-    NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"needsUpdate == YES"];
-    [fr setPredicate:predicate];
-    NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
-    DDLogVerbose(@"%ld tracks need an update", [results count]);
-    
-    for(LibraryTrack *t in results) {
-        BOOL retval = [t updateFromFile];
-        if(retval == YES) {
-            [_queueObjectContext save:&error];
-            if(error) {
-                DDLogError(@"Error saving in updateAllTracksMarkedForUpdate");
-            }
-        }
     }
 }
 

@@ -11,10 +11,15 @@
 
 @interface ManagedObjectTrack : NSManagedObject
 
++(void)markAllTracksForUpdateIn:(NSManagedObjectContext *)context;
++(void)updateAllTracksMarkedForUpdateIn:(NSManagedObjectContext *)context;
+
+-(BOOL)updateFromFile;
 -(void)resetAttributeCache;
 
 @property (nonatomic) NSString *filename;
 @property (nonatomic) NSString *name;
+@property NSNumber *needsUpdate;
 @property (nonatomic) NSMutableDictionary *primitiveAttributes;
 @property (readonly, nonatomic) NSMutableDictionary *attributes;
 @property (readonly) NSImage* cover;

@@ -35,7 +35,6 @@
 -(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;
 -(void)searchDirectory:(NSString*)dir;
 -(void)removeFilesInDirectory:(NSString *)dir;
--(void)updateAllTracksMarkedForUpdate;
 
 -(void)startFSMonitorForFolder:(LibraryMonitoredFolder *)folder;
 -(void)stopFSMonitorForFolder:(LibraryMonitoredFolder *)folder;
