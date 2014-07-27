@@ -42,33 +42,13 @@
 {
     if([keyPath isEqualToString:@"track"]) {
         if([_columnIdentifier isEqualToString:@"title"]) {
-            NSString *text;
-            
-            if([_track albumArtistName] && [[_track albumArtistName] isEqual:[_track trackArtistName]] == NO) {
-                // If album artist exists and isn't the same as the track artist, append the track artist to the title
-                text = [NSString stringWithFormat:@"%@ // %@", [_track name], [_track trackArtistName]];
-            }
-            else {
-                text = [_track name];
-            }
-            
-            [_textField setStringValue:text];
+            [_textField setStringValue:[_track displayName]];
         }
         else if([_columnIdentifier isEqualToString:@"album"]) {
-            [_textField setStringValue:[_track albumName]];
+            [_textField setStringValue:[_track displayAlbumName]];
         }
         else if([_columnIdentifier isEqualToString:@"artist"]) {
-            NSString *text;
-            
-            if([_track albumArtistName] && [[_track albumArtistName] isEqual:@""] == NO) {
-                // If album artist exists and isn't "", use it instead of track artist
-                text = [_track albumArtistName];
-            }
-            else {
-                text = [_track trackArtistName];
-            }
-            
-            [_textField setStringValue:text];
+            [_textField setStringValue:[_track displayArtistName]];
         }
         else if([_columnIdentifier isEqualToString:@"length"]) {
             int length = [[_track length] intValue];

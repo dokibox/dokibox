@@ -22,6 +22,10 @@
 -(BOOL)updateFromFile;
 -(NSString *)menuItemFormatString;
 
+-(NSString *)displayName;
+-(NSString *)displayAlbumName;
+-(NSString *)displayArtistName;
+
 @property (nonatomic) NSString *albumName;
 @property (nonatomic) NSString *trackArtistName;
 @property (nonatomic) NSString *albumArtistName;

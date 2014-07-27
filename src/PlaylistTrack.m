@@ -64,4 +64,40 @@
     return str;
 }
 
+-(NSString *)displayName
+{
+    NSString *text;
+    
+    if([self albumArtistName] && [[self albumArtistName] isEqual:[self trackArtistName]] == NO) {
+        // If album artist exists and isn't the same as the track artist, append the track artist to the title
+        text = [NSString stringWithFormat:@"%@ // %@", [self name], [self trackArtistName]];
+    }
+    else {
+        text = [self name];
+    }
+    
+    return text;
+}
+
+-(NSString *)displayAlbumName
+{
+    return [self albumName];
+}
+
+-(NSString *)displayArtistName
+{
+    NSString *text;
+    
+    if([self albumArtistName] && [[self albumArtistName] isEqual:@""] == NO) {
+        // If album artist exists and isn't "", use it instead of track artist
+        text = [self albumArtistName];
+    }
+    else {
+        text = [self trackArtistName];
+    }
+    
+    return text;
+}
+
+
 @end
