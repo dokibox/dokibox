@@ -49,6 +49,11 @@
     [self setTrackArtistName:([[self attributes] objectForKey:@"ARTIST"] ? [[self attributes] objectForKey:@"ARTIST"] : @"")];
     [self setAlbumName:([[self attributes] objectForKey:@"ALBUM"] ? [[self attributes] objectForKey:@"ALBUM"] : @"")];
     
+    // If ALBUMARTIST tag exists (and is not blank)
+    if([[self attributes] objectForKey:@"ALBUMARTIST"] && [[[self attributes] objectForKey:@"ALBUMARTIST"] isEqual:@""] == NO) {
+        [self setAlbumArtistName:[[self attributes] objectForKey:@"ALBUMARTIST"]];
+    }
+    
     return YES;
 }
 
