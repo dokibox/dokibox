@@ -31,42 +31,47 @@
         NSString *storePath = [path stringByAppendingPathComponent:filename];
         NSURL *urlPath = [NSURL fileURLWithPath:storePath];
         
-        // Obtain metadata
-        NSDictionary *metadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:nil URL:urlPath error:&error];
-        if(error) {
-            DDLogError(@"Problem obtaining metadata for persistent store at: %@", path);
-            return nil;
-        }
-        
-        // Find suitable model version
+        // Models
         NSManagedObjectModel *sourceModel = nil;
         NSInteger sourceModelVersion = -1;
         NSArray *allModelVersions = [self allModelVersions];
         NSManagedObjectModel *latestModel = [allModelVersions lastObject];
         NSInteger latestModelVersion = [allModelVersions count];
-        DDLogVerbose(@"Latest model version: %ld", latestModelVersion);
-        for(NSInteger i=[allModelVersions count]-1; i>=0; i--) { // work backwards
-            NSManagedObjectModel *m = [allModelVersions objectAtIndex:i];
-            
-            if([m isConfiguration:nil compatibleWithStoreMetadata:metadata]) {
-                DDLogVerbose(@"Source model version: %ld", i+1);
-                sourceModel = m;
-                sourceModelVersion = i+1;
-                break;
-            }
-        }
-        if(sourceModel == nil) {
-            DDLogError(@"Could not find a suitable model to open store at: %@", path);
-            return nil;
-        }
         
-        // Migration if necessary
-        if(latestModel != sourceModel) {
-            DDLogInfo(@"A migration is necessary");
-            BOOL success = [self migrateStore:storePath from:sourceModel to:latestModel sourceVersion:sourceModelVersion];
-            if(success == NO) {
-                DDLogError(@"Migration failed for store at: %@", path);
+        // Check for migrations if db exists already
+        if([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+            // Obtain metadata
+            NSDictionary *metadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:nil URL:urlPath error:&error];
+            if(error) {
+                DDLogError(@"Problem obtaining metadata for persistent store at: %@", path);
                 return nil;
+            }
+            
+            // Find suitable model version
+            DDLogVerbose(@"Latest model version: %ld", latestModelVersion);
+            for(NSInteger i=[allModelVersions count]-1; i>=0; i--) { // work backwards
+                NSManagedObjectModel *m = [allModelVersions objectAtIndex:i];
+                
+                if([m isConfiguration:nil compatibleWithStoreMetadata:metadata]) {
+                    DDLogVerbose(@"Source model version: %ld", i+1);
+                    sourceModel = m;
+                    sourceModelVersion = i+1;
+                    break;
+                }
+            }
+            if(sourceModel == nil) {
+                DDLogError(@"Could not find a suitable model to open store at: %@", path);
+                return nil;
+            }
+            
+            // Migration if necessary
+            if(latestModel != sourceModel) {
+                DDLogInfo(@"A migration is necessary");
+                BOOL success = [self migrateStore:storePath from:sourceModel to:latestModel sourceVersion:sourceModelVersion];
+                if(success == NO) {
+                    DDLogError(@"Migration failed for store at: %@", path);
+                    return nil;
+                }
             }
         }
         
@@ -78,7 +83,7 @@
         }
         
         // If a migration occured, call the post-migration handler (for various tasks)
-        if(latestModel != sourceModel) {
+        if(latestModel != sourceModel && sourceModel != nil) {
             [self migrationOccurred];
         }
     }
