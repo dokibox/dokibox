@@ -23,6 +23,9 @@ long vorbis_tellcallback(void *datasource);
 
     OggVorbis_File decoder;
     DecoderMetadata _metadata;
+    
+    void *_decodeData;
+    int _decodeDataSize;
 }
 
 @property (retain) MusicController *musicController;

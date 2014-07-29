@@ -70,12 +70,19 @@ long vorbis_tellcallback(void *datasource) {
     if(retval != 0) {
         NSLog(@"error initalizing vorbis decoder (err %d)", retval);
     }
+    
+    // Decode data setup
+    [self decodeMetadata];
+    _decodeDataSize = _metadata.bitsPerSample/8*_metadata.numberOfChannels*_metadata.sampleRate;
+    _decodeData = malloc(_decodeDataSize);
+    
     return self;
 }
 
 -(void)dealloc {
     NSLog(@"Deallocing vorbis decoder");
     ov_clear(&decoder);
+    free(_decodeData);
 }
 
 -(DecoderMetadata)decodeMetadata {
@@ -90,19 +97,15 @@ long vorbis_tellcallback(void *datasource) {
 }
 
 -(DecodeStatus)decodeNextFrame {
-    int sizetoread = 4096;
     long sizeread;
     int bitstreamno;
-    char *audio = malloc(sizetoread);
 
-    sizeread = ov_read(&decoder, audio, sizetoread, 0, 2, 1, &bitstreamno);
+    sizeread = ov_read(&decoder, _decodeData, _decodeDataSize, 0, 2, 1, &bitstreamno);
 
     if(sizeread > 0) {
-        [[musicController fifoBuffer] write:audio size:(int)sizeread];
+        [[musicController fifoBuffer] write:_decodeData size:(int)sizeread];
     }
-
-    free(audio);
-
+    
     if(sizeread == 0) {
         return DecoderEOF;
     }
