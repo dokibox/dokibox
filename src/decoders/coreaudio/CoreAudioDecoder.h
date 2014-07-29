@@ -13,6 +13,9 @@ static SInt64 streamGetSizeRequest(void* musicController);
     ExtAudioFileRef _inFileRef;
     AudioStreamBasicDescription _inFormat;
     AudioStreamBasicDescription _clientFormat;
+    void *_decodeData;
+    int _decodeDataDesiredFrames;
+    int _decodeDataSize;
 }
 
 @property (retain) MusicController *musicController;

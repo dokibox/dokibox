@@ -298,7 +298,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     renderCallback.inputProc = renderProc;
     renderCallback.inputProcRefCon = (__bridge void *)self;
 
-    fifoBuffer = [[FIFOBuffer alloc] initWithSize:200000];
+    fifoBuffer = [[FIFOBuffer alloc] initWithSize:2000000];
     int auBufferSize = 4096*2;
     void *auBufferContents = malloc(auBufferSize);
     auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];

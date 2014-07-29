@@ -88,6 +88,11 @@ static SInt64 streamGetSizeRequest(void* mc) {
         NSLog(@"Problem setting output format: %i", retval);
     }
     
+    // Decode data setup
+    _decodeDataDesiredFrames = _inFormat.mSampleRate;
+    _decodeDataSize = _decodeDataDesiredFrames * _clientFormat.mBytesPerFrame;
+    _decodeData = malloc(_decodeDataSize);
+    
     return self;
 }
 
@@ -110,19 +115,17 @@ static SInt64 streamGetSizeRequest(void* mc) {
     NSLog(@"Deallocing CoreAudio decoder");
     ExtAudioFileDispose(_inFileRef);
     AudioFileClose(_inAudioFileID);
+    free(_decodeData);
 }
 
 -(DecodeStatus)decodeNextFrame {
-    UInt32 numberOfFrames = 1;
-    UInt32 bufferByteSize = _clientFormat.mBytesPerFrame*numberOfFrames;
-    char srcBuffer[bufferByteSize];
-    
     AudioBufferList outBufList;
     outBufList.mNumberBuffers = 1;
     outBufList.mBuffers[0].mNumberChannels = _clientFormat.mChannelsPerFrame;
-    outBufList.mBuffers[0].mDataByteSize = bufferByteSize;
-    outBufList.mBuffers[0].mData = srcBuffer;
-
+    outBufList.mBuffers[0].mDataByteSize = _decodeDataSize;
+    outBufList.mBuffers[0].mData = _decodeData;
+    
+    UInt32 numberOfFrames = _decodeDataDesiredFrames;
     OSStatus retval = ExtAudioFileRead(_inFileRef, &numberOfFrames, &outBufList);
     
     if (retval != noErr) {
