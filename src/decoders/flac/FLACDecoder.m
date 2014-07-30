@@ -35,16 +35,16 @@ FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, 
 
     int size = frame->header.blocksize*bps*2;
     void *tempBuffer = malloc(size);
-    short *tempBufferPointer = (short *)tempBuffer;
+    void *tempBuffer_needle = tempBuffer;
     for(i=0; i < frame->header.blocksize; i++) {
         FLAC__int32 l, r;
         l = buffer[0][i];
         r = buffer[1][i];
         
-        *tempBufferPointer = (short)(l);
-        tempBufferPointer++;
-        *tempBufferPointer = (short)(r);
-        tempBufferPointer++;
+        memcpy(tempBuffer_needle, &l, bps);
+        tempBuffer_needle += bps;
+        memcpy(tempBuffer_needle, &r, bps);
+        tempBuffer_needle += bps;
     }
     [[mc fifoBuffer] write:tempBuffer size:size];
     free(tempBuffer);
