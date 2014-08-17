@@ -162,8 +162,8 @@
         gradientEndColor = [NSColor colorWithDeviceWhite:0.90 alpha:1.0];
     }
     else {
-        gradientStartColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
-        gradientEndColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
+        gradientStartColor = [NSColor colorWithDeviceWhite:0.87 alpha:1.0];
+        gradientEndColor = [NSColor colorWithDeviceWhite:0.97 alpha:1.0];
     }
 
     NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
