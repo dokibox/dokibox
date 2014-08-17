@@ -13,6 +13,10 @@
 
 #import <AudioUnit/AudioUnit.h>
 
+#define FIFOBUFFER_TOTAL_SECONDS 20
+#define FIFOBUFFER_START_REFILL_SECONDS 12
+#define FIFOBUFFER_STOP_REFILL_SECONDS 15
+
 static OSStatus playProc(AudioConverterRef inAudioConverter,
                          UInt32 *ioNumberDataPackets,
                          AudioBufferList *outOutputData,
@@ -52,10 +56,13 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
         bufferUnderflowTrip = false; // Reset trip flag
     }
 
-    dispatch_async([mc decoding_queue], ^{
-        // This is ok to run after the decoder has reached EOF because of MusicControllerDecodedSong status
-        [mc fillBuffer];
-    });
+    // Refill buffer if it falls below FIFOBUFFER_START_REFILL_SECONDS
+    size_t stored = [[mc fifoBuffer] stored];
+    if(stored < [mc inFormat].mBytesPerFrame*[mc inFormat].mSampleRate*FIFOBUFFER_START_REFILL_SECONDS && [mc decoderStatus] == MusicControllerDecodingSong) {
+        dispatch_async([mc decoding_queue], ^{
+            [mc fillBuffer];
+        });
+    }
 
     return(noErr);
 
@@ -298,7 +305,6 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     renderCallback.inputProc = renderProc;
     renderCallback.inputProcRefCon = (__bridge void *)self;
 
-    fifoBuffer = [[FIFOBuffer alloc] initWithSize:2000000];
     int auBufferSize = 4096*2;
     void *auBufferContents = malloc(auBufferSize);
     auBuffer = [NSData dataWithBytesNoCopy:auBufferContents length:auBufferSize freeWhenDone:YES];
@@ -359,6 +365,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     if(err) {
         NSLog(@"AudioConverterNew failed");
     }
+    
+    // Create FIFOBuffer with FIFOBUFFER_TOTAL_SECONDS of space
+    fifoBuffer = [[FIFOBuffer alloc] initWithSize:_inFormat.mBytesPerFrame*_inFormat.mSampleRate*FIFOBUFFER_TOTAL_SECONDS];
 }
 
 - (id<DecoderProtocol>)decoderForFile:(NSString *)filename
@@ -435,7 +444,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         NSDate *timeBeforeFilling = [NSDate date];
         [self fillBuffer]; // run in decoding queue just in case
         double t = [[NSDate date] timeIntervalSinceDate:timeBeforeFilling];
-        DDLogVerbose(@"Time to fill half of audio buffer: %f seconds", t);
+        DDLogVerbose(@"Time to fill %d sec of audio buffer: %f seconds", FIFOBUFFER_STOP_REFILL_SECONDS, t);
     });
 
     AUGraphStart(_outputGraph);
@@ -470,13 +479,14 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 }
 
 -(void)fillBuffer {
-    size_t size = [fifoBuffer freespace];
-    while(size > [fifoBuffer size]/2 && [self decoderStatus] == MusicControllerDecodingSong) {
+    // Fill until it is over FIFOBUFFER_STOP_REFILL_SECONDS of buffer
+    size_t size = [fifoBuffer stored];
+    while(size < _inFormat.mBytesPerFrame*_inFormat.mSampleRate*FIFOBUFFER_STOP_REFILL_SECONDS && [self decoderStatus] == MusicControllerDecodingSong) {
         DecodeStatus status = [currentDecoder decodeNextFrame];
         if(status == DecoderEOF) {
             [self setDecoderStatus:MusicControllerDecodedSong];
         }
-        size = [fifoBuffer freespace];
+        size = [fifoBuffer stored];
         
         /* Induces a purposeful buffer underflow
         static BOOL hiccup = false;
