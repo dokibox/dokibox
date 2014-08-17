@@ -393,11 +393,6 @@
                     blockIndex++;
                 }
                 [p_addingThread save];
-                
-                dispatch_sync(dispatch_get_main_queue(), ^() {
-                    if(p == _currentPlaylist) // selection could have changed, so no point updating if it has
-                        [_trackTableView reloadData];
-                });
             }
         }
     });
