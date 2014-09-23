@@ -118,6 +118,7 @@
 		6F2C426117E8FE7100AD5905 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA3129C14A3D78C0062E234 /* AudioToolbox.framework */; };
 		6F4D7B1A18602C35004E436E /* libtag.1.14.0.dylib in Copy Files */ = {isa = PBXBuildFile; fileRef = 6F4D7B1918602C35004E436E /* libtag.1.14.0.dylib */; };
 		6F4D7B1B18602C7B004E436E /* libtag.1.14.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F4D7B1918602C35004E436E /* libtag.1.14.0.dylib */; };
+		6F92D0FD19D14E9900A9FD81 /* dokiboxIcon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 6F92D0FC19D14E9900A9FD81 /* dokiboxIcon.iconset */; };
 		6FB190D317E8ED9A0041F007 /* dokibox-decoder-coreaudio.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6F26196E17E3BC0700B316C9 /* dokibox-decoder-coreaudio.bundle */; };
 /* End PBXBuildFile section */
 
@@ -459,6 +460,7 @@
 		6F26197D17E3D63A00B316C9 /* CoreAudioDecoderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreAudioDecoderPlugin.h; sourceTree = "<group>"; };
 		6F26197E17E3D63A00B316C9 /* CoreAudioDecoderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreAudioDecoderPlugin.m; sourceTree = "<group>"; };
 		6F4D7B1918602C35004E436E /* libtag.1.14.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtag.1.14.0.dylib; path = prefix/lib/libtag.1.14.0.dylib; sourceTree = "<group>"; };
+		6F92D0FC19D14E9900A9FD81 /* dokiboxIcon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = dokiboxIcon.iconset; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -520,6 +522,7 @@
 		2B15BF59146127A100DC46CD = {
 			isa = PBXGroup;
 			children = (
+				6F92D0FC19D14E9900A9FD81 /* dokiboxIcon.iconset */,
 				2B9B27DF17B85038005434F2 /* Carbon.framework */,
 				2B15BF6E146127A100DC46CD /* src */,
 				2B15BF67146127A100DC46CD /* Frameworks */,
@@ -1154,6 +1157,7 @@
 				2B15BF79146127A100DC46CD /* Credits.rtf in Resources */,
 				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
 				2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */,
+				6F92D0FD19D14E9900A9FD81 /* dokiboxIcon.iconset in Resources */,
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
