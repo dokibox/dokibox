@@ -30,7 +30,3 @@
 	path = deps/SPMediaKeyTap
 	url = git://github.com/nevyn/SPMediaKeyTap.git
 	ignore = dirty
-[submodule "deps/cocoafob"]
-	path = deps/cocoafob
-	url = git://github.com/glebd/cocoafob.git
-	ignore = dirty

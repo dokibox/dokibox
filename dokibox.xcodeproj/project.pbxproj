@@ -53,10 +53,6 @@
 		2B92032D185E279700AAD008 /* NSTableView+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */; };
 		2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9203361863061D00AAD008 /* PlaylistTableHeader.m */; };
 		2B92033D1874431D00AAD008 /* lastfm_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B92033B187442EE00AAD008 /* lastfm_red.png */; };
-		2B9203531876424400AAD008 /* CocoaFob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
-		2B9203541876425200AAD008 /* CocoaFob.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B92034618763A6100AAD008 /* CocoaFob.framework */; };
-		2B92035D1878D9AA00AAD008 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92035B1878D9AA00AAD008 /* LicenseController.m */; };
-		2B92035E1878D9AA00AAD008 /* LicenseController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B92035C1878D9AA00AAD008 /* LicenseController.xib */; };
 		2B9A173C191C973200DC2A50 /* LibraryViewRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A173B191C973200DC2A50 /* LibraryViewRowView.m */; };
 		2B9B27DC17B84E1A005434F2 /* SPMediaKeyTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B9B27DF17B85038005434F2 /* Carbon.framework */; };
@@ -158,41 +154,6 @@
 			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
 			remoteInfo = Lumberjack;
 		};
-		2B92034518763A6100AAD008 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 303524081223BB9600AACD22;
-			remoteInfo = CocoaFob;
-		};
-		2B92034718763A6100AAD008 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 303526E91223E45100AACD22;
-			remoteInfo = cocoafob;
-		};
-		2B92034918763A6100AAD008 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C7F7EF2C1577F3D90067C3A3;
-			remoteInfo = CocoaFobARC;
-		};
-		2B92034B18763A6100AAD008 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C7CA0D8715F1BFA900C7E9CD;
-			remoteInfo = CocoaFobTests;
-		};
-		2B9203511876423300AAD008 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 303524071223BB9600AACD22;
-			remoteInfo = CocoaFob;
-		};
 		2BB25CE516973E5100243B27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B15BF5B146127A100DC46CD /* Project object */;
@@ -259,7 +220,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2B9203541876425200AAD008 /* CocoaFob.framework in Copy Files */,
 				6F4D7B1A18602C35004E436E /* libtag.1.14.0.dylib in Copy Files */,
 				2B5086F61787ED4D0066B014 /* Rebel.framework in Copy Files */,
 				2B72D79E16F163C800324194 /* Lumberjack.framework in Copy Files */,
@@ -361,10 +321,6 @@
 		2B9203351863061D00AAD008 /* PlaylistTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTableHeader.h; sourceTree = "<group>"; };
 		2B9203361863061D00AAD008 /* PlaylistTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTableHeader.m; sourceTree = "<group>"; };
 		2B92033B187442EE00AAD008 /* lastfm_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lastfm_red.png; path = src/plugins/lastfmscrobbler/assets/lastfm_red.png; sourceTree = SOURCE_ROOT; };
-		2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocoafob.xcodeproj; path = deps/cocoafob/objc/cocoafob.xcodeproj; sourceTree = "<group>"; };
-		2B92035A1878D9AA00AAD008 /* LicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseController.h; sourceTree = "<group>"; };
-		2B92035B1878D9AA00AAD008 /* LicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseController.m; sourceTree = "<group>"; };
-		2B92035C1878D9AA00AAD008 /* LicenseController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseController.xib; sourceTree = "<group>"; };
 		2B9A173A191C973200DC2A50 /* LibraryViewRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewRowView.h; sourceTree = "<group>"; };
 		2B9A173B191C973200DC2A50 /* LibraryViewRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewRowView.m; sourceTree = "<group>"; };
 		2B9B27DB17B84E1A005434F2 /* SPMediaKeyTap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPMediaKeyTap.m; path = deps/SPMediaKeyTap/SPMediaKeyTap.m; sourceTree = SOURCE_ROOT; };
@@ -468,7 +424,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B9203531876424400AAD008 /* CocoaFob.framework in Frameworks */,
 				2B9B27E017B85039005434F2 /* Carbon.framework in Frameworks */,
 				2B824B4E15E1BAF600B26228 /* CoreAudio.framework in Frameworks */,
 				2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */,
@@ -545,7 +500,6 @@
 		2B15BF67146127A100DC46CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */,
 				2B5086E71787ECEC0066B014 /* Rebel.xcodeproj */,
 				2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */,
 				6F4D7B1918602C35004E436E /* libtag.1.14.0.dylib */,
@@ -752,9 +706,6 @@
 				2B7C00A6181A18B000E2AC90 /* NSManagedObjectContext+Helpers.m */,
 				2B92032B185E279700AAD008 /* NSTableView+ContextMenu.h */,
 				2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */,
-				2B92035A1878D9AA00AAD008 /* LicenseController.h */,
-				2B92035B1878D9AA00AAD008 /* LicenseController.m */,
-				2B92035C1878D9AA00AAD008 /* LicenseController.xib */,
 				2B2989541921B430003A9D23 /* ValueTransformers.h */,
 				2B2989551921B430003A9D23 /* ValueTransformers.m */,
 			);
@@ -830,17 +781,6 @@
 				2BAC978F15BC595E00FBE907 /* TaglibTagger.mm */,
 			);
 			name = tagging;
-			sourceTree = "<group>";
-		};
-		2B92033F18763A6100AAD008 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B92034618763A6100AAD008 /* CocoaFob.framework */,
-				2B92034818763A6100AAD008 /* cocoafob */,
-				2B92034A18763A6100AAD008 /* CocoaFobARC.framework */,
-				2B92034C18763A6100AAD008 /* CocoaFobTests.octest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		2BAEE24E17E55928007D610B /* lastfmscrobbler */ = {
@@ -964,7 +904,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2B9203521876423300AAD008 /* PBXTargetDependency */,
 				2B72D79C16F163B400324194 /* PBXTargetDependency */,
 				2BB25D0B169743F300243B27 /* PBXTargetDependency */,
 				2BB25CE616973E5100243B27 /* PBXTargetDependency */,
@@ -1065,10 +1004,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 2B92033F18763A6100AAD008 /* Products */;
-					ProjectRef = 2B92033E18763A6100AAD008 /* cocoafob.xcodeproj */;
-				},
-				{
 					ProductGroup = 2B72D78F16F1638E00324194 /* Products */;
 					ProjectRef = 2B72D78E16F1638E00324194 /* Lumberjack.xcodeproj */;
 				},
@@ -1117,34 +1052,6 @@
 			remoteRef = 2B72D79916F1638E00324194 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2B92034618763A6100AAD008 /* CocoaFob.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CocoaFob.framework;
-			remoteRef = 2B92034518763A6100AAD008 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B92034818763A6100AAD008 /* cocoafob */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = cocoafob;
-			remoteRef = 2B92034718763A6100AAD008 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B92034A18763A6100AAD008 /* CocoaFobARC.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CocoaFobARC.framework;
-			remoteRef = 2B92034918763A6100AAD008 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B92034C18763A6100AAD008 /* CocoaFobTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CocoaFobTests.octest;
-			remoteRef = 2B92034B18763A6100AAD008 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1162,7 +1069,6 @@
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
 				2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */,
-				2B92035E1878D9AA00AAD008 /* LicenseController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1220,7 +1126,6 @@
 				2B824B4C15DAF02200B26228 /* TitlebarButtonNS.m in Sources */,
 				2B9A173C191C973200DC2A50 /* LibraryViewRowView.m in Sources */,
 				2B7C00B2182731C200E2AC90 /* ProfileController.m in Sources */,
-				2B92035D1878D9AA00AAD008 /* LicenseController.m in Sources */,
 				2B5DA9801620DF8E0057D0D5 /* TitlebarSeekButtonNS.m in Sources */,
 				2B5DA983162758320057D0D5 /* SliderBar.m in Sources */,
 				2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */,
@@ -1311,11 +1216,6 @@
 			isa = PBXTargetDependency;
 			name = Lumberjack;
 			targetProxy = 2B72D79B16F163B400324194 /* PBXContainerItemProxy */;
-		};
-		2B9203521876423300AAD008 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CocoaFob;
-			targetProxy = 2B9203511876423300AAD008 /* PBXContainerItemProxy */;
 		};
 		2BB25CE616973E5100243B27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

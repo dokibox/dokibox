@@ -14,7 +14,6 @@
 #import "WindowContentView.h"
 #import "ProfileViewController.h"
 #import "ProfileController.h"
-#import "LicenseController.h"
 
 @implementation AppDelegate
 
@@ -68,19 +67,12 @@
 
     [_window makeKeyAndOrderFront:nil];
     [_window relayout];
-    
-    _licenceController = [[LicenseController alloc] init];
 }
 
 -(IBAction)performFindPanelAction:(id)sender
 {
     WindowContentView *wcv = (WindowContentView*)[_window contentView];
     [wcv performFindPanelAction:sender];
-}
-
--(IBAction)openRegistrationPanel:(id)sender
-{
-    [_licenceController openRegistrationPanel];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)application

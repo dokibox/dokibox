@@ -12,19 +12,15 @@
 #import "MASPreferencesWindowController.h"
 #import "Library.h"
 
-@class LicenseController;
-
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     Window    * _window;
     MusicController *_musicController;
     Library *_library;
     NSWindowController *_preferencesWindowController;
-    LicenseController *_licenceController;
 }
 
 -(void)launch;
 -(IBAction)performFindPanelAction:(id)sender;
--(IBAction)openRegistrationPanel:(id)sender;
 
 @end
