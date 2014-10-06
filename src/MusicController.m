@@ -30,10 +30,8 @@ static OSStatus playProc(AudioConverterRef inAudioConverter,
 
     [[mc fifoBuffer] read:(void *)[[mc auBuffer] bytes] size:&size];
 
-    dispatch_async(dispatch_get_main_queue(), ^() {
-        [mc setElapsedFrames:[mc elapsedFrames] + size/[mc inFormat].mBytesPerFrame];
-    });
-
+    [mc setElapsedFrames:[mc elapsedFrames] + size/[mc inFormat].mBytesPerFrame];
+    
     outOutputData->mNumberBuffers = 1;
     outOutputData->mBuffers[0].mDataByteSize = size;
     outOutputData->mBuffers[0].mData = (void *)[[mc auBuffer] bytes];
@@ -558,9 +556,19 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:timeElapsed forKey:@"timeElapsed"];
         [dict setObject:timeTotal forKey:@"timeTotal"];
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackProgress" object:dict];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"pluginPlaybackProgress" object:dict];
+        
+        
+        void (^postNotificationBlock)(void) = ^() {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackProgress" object:dict];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"pluginPlaybackProgress" object:dict];
+        };
+        
+        if(dispatch_get_current_queue() == dispatch_get_main_queue()) {
+            postNotificationBlock();
+        }
+        else { // Only post notfications from a main thread as there are UI updates
+            dispatch_async(dispatch_get_main_queue(), postNotificationBlock);
+        }
     }
 }
 
