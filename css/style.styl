@@ -1,5 +1,12 @@
+filter()
+	-webkit-filter arguments
+	-moz-filter arguments
+	-ms-filter arguments
+	filter arguments
+
 body
 	font-family 'Open Sans' sans-serif
+	font-weight 600
 	margin 0 0 0 0
 	background #FDFDFD
 	padding 20px 0 20px 0
@@ -14,11 +21,10 @@ path
 
 #icon
 	padding 0 0 10px 0
-	-webkit-filter: drop-shadow(0 2.5px 1.5px #333)
+	filter drop-shadow(0 2.5px 2px #333)
 
 h1
 	color #333
-	// text-shadow 2px 2px #111
 	margin 0 0 20px 0
 
 ul
@@ -37,24 +43,20 @@ ul
 		div
 			display inline
 			float left
-			// border 2px solid #222
-			// border-right 1px solid rgba(255,255,255,0.025)
 			padding 6px 5px 6px 6px
-			// text-shadow 2px 2px #111
 			color #333
 
 		.size
 			text-align right
 			line-height 20px
 			padding 12px 10px 12px 10px
-			width 100px
+			width 90px
 			color #7557BC
-			// text-shadow 2px 2px #222
 
 		.info
-			width calc(100% \- 120px \- 136px)
+			width calc(100% \- 110px \- 136px)
 			white-space nowrap
-			overflow-x scroll
+			overflow-x hidden
 			line-height 20px
 			text-align center
 			padding 12px 10px 12px 10px
