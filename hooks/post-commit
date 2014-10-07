@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ `git symbolic-ref --short HEAD` == "gh-pages-src" ]; then
+	# Stash everything to remove untracked files from repository.
+	git stash -a save
+	git branch -D gh-pages
+	git checkout --orphan gh-pages
+	`which coffee` -c js/*.coffee
+	`which stylus` -c css/*.styl
+	git add *.html css/*.css js/*.js
+	git clean -fdx
+	git commit -m "Update compiled gh-pages."
+	git checkout gh-pages-src
+	git stash pop
+fi

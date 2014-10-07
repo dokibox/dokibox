@@ -1,0 +1,73 @@
+body
+	font-family 'Open Sans' sans-serif
+	margin 0 0 0 0
+	background #FDFDFD
+	padding 20px 0 20px 0
+
+	.wrapper
+		text-align center
+		padding-left 200px
+		padding-right 200px
+
+path
+	fill #333
+
+#icon
+	padding 0 0 10px 0
+	-webkit-filter: drop-shadow(0 2.5px 1.5px #333)
+
+h1
+	color #333
+	// text-shadow 2px 2px #111
+	margin 0 0 20px 0
+
+ul
+	list-style-type none
+	margin 0
+	padding 0
+	font-size 20px
+
+	.entry
+		overflow auto
+		max-width 100%
+
+		+ .entry
+			border-top 1px solid #888
+
+		div
+			display inline
+			float left
+			// border 2px solid #222
+			// border-right 1px solid rgba(255,255,255,0.025)
+			padding 6px 5px 6px 6px
+			// text-shadow 2px 2px #111
+			color #333
+
+		.size
+			text-align right
+			line-height 20px
+			padding 12px 10px 12px 10px
+			width 100px
+			color #7557BC
+			// text-shadow 2px 2px #222
+
+		.info
+			width calc(100% \- 120px \- 136px)
+			white-space nowrap
+			overflow-x scroll
+			line-height 20px
+			text-align center
+			padding 12px 10px 12px 10px
+
+		.commit
+			padding-left 13px
+			padding-right 13px
+			&:hover path
+				fill #6699CC
+
+		.download
+			padding-left 13px
+			padding-right 13px
+
+			&:hover path
+				fill #99CC99
