@@ -11,5 +11,6 @@ if [ `git symbolic-ref --short HEAD` == "gh-pages-src" ]; then
 	git rm -f hooks/post-commit css/*.styl js/*.coffee
 	git commit -m "Update compiled gh-pages."
 	git checkout gh-pages-src
+	git clean -fdx
 	git stash pop
 fi
