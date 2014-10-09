@@ -411,8 +411,11 @@
     
     NSString *timeElapsedString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeElapsed/60.0), (int)timeElapsed%60];
     NSString *timeTotalString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeTotal/60.0), (int)timeTotal%60];
-    [_progressElapsedTextField setStringValue:timeElapsedString];
-    [_progressTotalTextField setStringValue:timeTotalString];
+    
+    if([[_progressTotalTextField stringValue] isEqual:timeTotalString] == NO)
+        [_progressTotalTextField setStringValue:timeTotalString];
+    if([[_progressElapsedTextField stringValue] isEqual:timeElapsedString] == NO)
+        [_progressElapsedTextField setStringValue:timeElapsedString];
 }
 
 #pragma mark SliderBar delegate methods
