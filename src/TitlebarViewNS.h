@@ -22,6 +22,8 @@
 
     SliderBar *_progressBar;
     NSDictionary *_progressDict;
+    NSTextField *_progressElapsedTextField;
+    NSTextField *_progressTotalTextField;
 
     SliderBar *_volumeBar;
     

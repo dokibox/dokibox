@@ -104,7 +104,29 @@
     [_progressBar setDelegate:self];
     [_progressBar setDragable:YES];
     [self addSubview:_progressBar];
-
+    
+    // Create Progress text
+    NSRect progressElapsedFrame = NSMakeRect(progressBarRect.origin.x-40-5, progressBarRect.origin.y-5, 40, progressBarRect.size.height+7);
+    _progressElapsedTextField = [[NSTextField alloc] initWithFrame:progressElapsedFrame];
+    [_progressElapsedTextField setEditable:NO];
+    [_progressElapsedTextField setBordered:NO];
+    [_progressElapsedTextField setBezeled:NO];
+    [_progressElapsedTextField setDrawsBackground:NO];
+    [_progressElapsedTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
+    [_progressElapsedTextField setAlignment:NSRightTextAlignment];
+    [_progressElapsedTextField setStringValue:@"00:00"];
+    [self addSubview:_progressElapsedTextField];
+    
+    NSRect progressTotalFrame = NSMakeRect(progressBarRect.origin.x+progressBarRect.size.width+5, progressBarRect.origin.y-5, 40, progressBarRect.size.height+7);
+    _progressTotalTextField = [[NSTextField alloc] initWithFrame:progressTotalFrame];
+    [_progressTotalTextField setEditable:NO];
+    [_progressTotalTextField setBordered:NO];
+    [_progressTotalTextField setBezeled:NO];
+    [_progressTotalTextField setDrawsBackground:NO];
+    [_progressTotalTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
+    [_progressTotalTextField setStringValue:@"00:00"];
+    [_progressTotalTextField setAutoresizingMask:NSViewMinXMargin];
+    [self addSubview:_progressTotalTextField];
 
     // Create Volume Bar
     CGRect volumeBarRect = NSMakeRect(rightedge-2*gap, 5.0, 90.0, 7.0);
@@ -203,33 +225,6 @@
 
     NSPoint textPoint = NSMakePoint(b.origin.x + b.size.width/2.0 - textSize.width/2.0, b.origin.y + b.size.height - topmargin);
     [titlebarText drawAtPoint:textPoint];
-
-    // Progress bar stuff
-    float timeElapsed = 0;
-    float timeTotal = 0;
-    if(_progressDict) {
-        timeElapsed = [(NSNumber *)[_progressDict objectForKey:@"timeElapsed"] floatValue];
-        timeTotal = [(NSNumber *)[_progressDict objectForKey:@"timeTotal"] floatValue];
-    }
-
-    NSString *timeElapsedString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeElapsed/60.0), (int)timeElapsed%60];
-    NSString *timeTotalString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeTotal/60.0), (int)timeTotal%60];
-
-    NSMutableDictionary *progressBarTextAttr = [NSMutableDictionary dictionary];
-    [progressBarTextAttr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
-    NSAttributedString *timeElapsedAttrString = [[NSAttributedString alloc] initWithString:timeElapsedString attributes:progressBarTextAttr];
-    NSAttributedString *timeTotalAttrString = [[NSAttributedString alloc] initWithString:timeTotalString attributes:progressBarTextAttr];
-
-    NSPoint timeElapsedStringPoint = [_progressBar frame].origin;
-    NSSize timeElapsedStringSize = [timeElapsedAttrString size];
-    timeElapsedStringPoint.y -= 2;
-    timeElapsedStringPoint.x -= timeElapsedStringSize.width + 5;
-    [timeElapsedAttrString drawAtPoint:timeElapsedStringPoint];
-
-    NSPoint timeTotalStringPoint = [_progressBar frame].origin;
-    timeTotalStringPoint.y -= 2;
-    timeTotalStringPoint.x += [_progressBar frame].size.width + 5;
-    [timeTotalAttrString drawAtPoint:timeTotalStringPoint];
 }
 
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification
@@ -413,7 +408,11 @@
     float timeElapsed = [(NSNumber *)[_progressDict objectForKey:@"timeElapsed"] floatValue];
     float timeTotal = [(NSNumber *)[_progressDict objectForKey:@"timeTotal"] floatValue];
     [_progressBar setPercentage:timeElapsed/timeTotal];
-    [self setNeedsDisplay:YES];
+    
+    NSString *timeElapsedString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeElapsed/60.0), (int)timeElapsed%60];
+    NSString *timeTotalString = [[NSString alloc] initWithFormat:@"%02d:%02d", (int)(timeTotal/60.0), (int)timeTotal%60];
+    [_progressElapsedTextField setStringValue:timeElapsedString];
+    [_progressTotalTextField setStringValue:timeTotalString];
 }
 
 #pragma mark SliderBar delegate methods
