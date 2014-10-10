@@ -43,6 +43,7 @@
 
 -(void)updateTitleBarText;
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification;
+-(void)receivedStoppedPlaybackNotification:(NSNotification *)notification;
 -(void)receivedPlaybackProgressNotification:(NSNotification *)notification;
 
 @property MusicController *musicController;

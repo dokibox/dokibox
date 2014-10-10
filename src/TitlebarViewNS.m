@@ -29,6 +29,7 @@
         self.autoresizesSubviews = YES;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedStartedPlaybackNotification:) name:@"startedPlayback" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedStoppedPlaybackNotification:) name:@"stoppedPlayback" object:nil];
         _title = @"";
         _artist = @"";
 
@@ -51,6 +52,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"startedPlayback" object:nil];
     //[[NSNotificationCenter defaultCenter] removeObserver:self name:@"startedPlayback" object:nil]; duplicated for matching 1:1 add/remove
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stoppedPlayback" object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:@"stoppedPlayback" object:nil]; duplicated for matching 1:1 add/remove
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"unpausedPlayback" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pausedPlayback" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"playbackProgress" object:nil];
@@ -218,6 +220,14 @@
     _artist = [t displayArtistName];
     [self updateTitleBarText];
 }
+
+-(void)receivedStoppedPlaybackNotification:(NSNotification *)notification
+{
+    _title = nil;
+    _artist = nil;
+    [self updateTitleBarText];
+}
+
 
 -(void)updateTitleBarText
 {
