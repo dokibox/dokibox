@@ -17,6 +17,7 @@
 @interface TitlebarViewNS : NSView <SliderBarDelegate> {
     MusicController *_musicController;
 
+    NSTextField *_titleBarTextField;
     NSString *_title;
     NSString *_artist;
 
@@ -40,6 +41,7 @@
 -(void)updatePlayButtonState:(NSNotification *)notification;
 -(void)updatePlayButtonState;
 
+-(void)updateTitleBarText;
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification;
 -(void)receivedPlaybackProgressNotification:(NSNotification *)notification;
 

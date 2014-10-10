@@ -138,6 +138,18 @@
     [_volumeBar setDragable:YES];
     [_volumeBar setDelegate:self];
     [self addSubview:_volumeBar];
+    
+    // Create Title bar text
+    float titleBarInset = sliderbarMargin;
+    NSRect titleBarTextFrame = NSMakeRect([self bounds].origin.x+titleBarInset, [self bounds].size.height-20-4, [self bounds].size.width-2*titleBarInset, 20);
+    _titleBarTextField = [[NSTextField alloc] initWithFrame:titleBarTextFrame];
+    [_titleBarTextField setAutoresizingMask:NSViewWidthSizable];
+    [_titleBarTextField setEditable:NO];
+    [_titleBarTextField setBordered:NO];
+    [_titleBarTextField setBezeled:NO];
+    [_titleBarTextField setDrawsBackground:NO];
+    [self updateTitleBarText];
+    [self addSubview:_titleBarTextField];
 }
 
 -(void)updatePlayButtonState:(NSNotification *)notification
@@ -197,21 +209,30 @@
     CGContextRestoreGState(ctx);
 
     CGGradientRelease(gradient);
+}
 
-    // Draw our text
-    CGFloat topmargin = 20.0;
+-(void)receivedStartedPlaybackNotification:(NSNotification *)notification
+{
+    PlaylistTrack *t = [notification object];
+    _title = [t displayName];
+    _artist = [t displayArtistName];
+    [self updateTitleBarText];
+}
+
+-(void)updateTitleBarText
+{
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
     [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
     NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
     [boldattr setObject:[NSFont fontWithName:@"Lucida Grande Bold" size:12] forKey:NSFontAttributeName];
     NSMutableAttributedString *titlebarText = [[NSMutableAttributedString alloc] init];
-
+    
     if([_musicController status] == MusicControllerPlaying || [_musicController status] == MusicControllerPaused) {
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:_title attributes:attr];
         NSAttributedString *spacing = [[NSAttributedString alloc] initWithString:@" - " attributes:attr];
-
+        
         NSAttributedString *artist = [[NSAttributedString alloc] initWithString:_artist attributes:boldattr];
-
+        
         [titlebarText appendAttributedString:artist];
         [titlebarText appendAttributedString:spacing];
         [titlebarText appendAttributedString:title];
@@ -220,20 +241,10 @@
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"dokibox" attributes:attr];
         [titlebarText appendAttributedString:title];
     }
-
-    NSSize textSize = [titlebarText size];
-
-    NSPoint textPoint = NSMakePoint(b.origin.x + b.size.width/2.0 - textSize.width/2.0, b.origin.y + b.size.height - topmargin);
-    [titlebarText drawAtPoint:textPoint];
-}
-
--(void)receivedStartedPlaybackNotification:(NSNotification *)notification
-{
-    PlaylistTrack *t = [notification object];
-    _title = [t displayName];
-    _artist = [t displayArtistName];
-    [self setNeedsDisplay:YES];
-
+    
+    [titlebarText setAlignment:NSCenterTextAlignment range:NSMakeRange(0, [titlebarText length])];
+    
+    [_titleBarTextField setAttributedStringValue:titlebarText];
 }
 
 -(NSViewDrawRect)playButtonDrawBlock
