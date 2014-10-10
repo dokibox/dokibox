@@ -526,6 +526,10 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
     PlaylistTrack *t = _currentTrack;
     _currentTrack = nil;
+    _totalFrames = 0;
+    [self setElapsedFrames:0];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
+    
     [[t playlist] playNextTrackAfter:t];
 }
 
