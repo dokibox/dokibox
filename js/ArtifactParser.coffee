@@ -2,7 +2,7 @@
 
 class ArtifactParser
 
-	constructor: ( @artifactListUrl, @repositoryUrl, @parsingFinishedCallback ) ->
+	constructor: ( @artifactListUrl, @repositoryUrl ) ->
 		# artifacts is a hash of arrays. Each key is a branch, and the
 		# corresponding value is a sorted array of the builds in that
 		# branch.
@@ -13,13 +13,14 @@ class ArtifactParser
 		@displayBranch = "master"
 		@now = moment( )
 
-	createElement: ( build ) ->
+	createElement: ( index, build ) ->
 		# https://developer.mozilla.org/en-US/docs/Web/API/Element
 		listItem = document.createElement 'li'
 		listItem.className = "branch-#{build.file.branch} entry"
+		listItem.id = index
 		listItem.innerHTML = """
 			<div class="size">#{build.size.nice}</div>
-			<div class="info time">Built #{build.date.text}</div>
+			<div class="info">Built #{build.date.text}</div>
 			<a href="#{@repositoryUrl}commit/#{build.file.commit}">
 				<div class="commit">
 					<svg height="32" width="32" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -44,11 +45,11 @@ class ArtifactParser
 		fragment = document.createDocumentFragment( )
 
 		for index in [rangeStart .. rangeEnd] by 1
-			fragment.appendChild @createElement @artifacts[@displayBranch][index]
+			fragment.appendChild @createElement index, @artifacts[@displayBranch][index]
 
 		element.appendChild fragment
 
-	fetchListing: ->
+	fetchListing: ( @parsingFinishedCallback ) ->
 		@listRequest = new XMLHttpRequest( )
 		@listRequest.open "get", @artifactListUrl
 		@listRequest.onload = @parseRequest
@@ -76,9 +77,15 @@ class ArtifactParser
 			return {
 				file: @parseFile name
 				date: @parseDate buildXml.getElementsByTagName( "LastModified" )[0].textContent
-				hash: buildXml.getElementsByTagName( "ETag" )[0].textContent[2 .. -2]
+				hash: @parseHash buildXml.getElementsByTagName( "ETag" )[0].textContent[2 .. -2]
 				size: @formatSize buildXml.getElementsByTagName( "Size" )[0].textContent
 			}
+
+	parseHash: ( hash ) ->
+		{
+			raw: hash
+			text: "MD5: " + hash.toUpperCase( )
+		}
 
 	parseFile: ( fileName ) ->
 		file = {
@@ -86,17 +93,18 @@ class ArtifactParser
 		}
 		# horrible monstrosities.
 		[file.branch, file.commit] = fileName.match(/.+\/(.+?).tar.gz/)[1].match(/(.+)-(.+?$)/)[1..2]
+		file.commitText = "Commit " + file.commit[0..9].toUpperCase( )
 		file
 
 	parseDate: ( dateString ) ->
 		date = {
 			raw: moment( dateString )
 		}
-		date.alt = date.raw.format( "[on] YYYY-MM-DD [at] HH:mm")
+		date.alt = date.raw.format( "[Built on] YYYY-MM-DD [at] HH:mm")
 		if @now.diff( date.raw, 'months' ) > 3
 			date.text = date.alt
 		else
-			date.text = date.raw.fromNow( )
+			date.text = 'Built ' + date.raw.fromNow( )
 
 		date
 
@@ -109,6 +117,7 @@ class ArtifactParser
 			count++
 		return {
 			raw: size
+			text: "#{size} Bytes"
 			nice: Math.round(size/(Math.pow(1024,(count-1)))*100)/100 + @sizeSuffix[count-1]
 		}
 
