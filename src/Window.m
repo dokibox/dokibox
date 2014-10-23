@@ -47,7 +47,18 @@
     [_titlebarView setFrame:titleFrame];
     [_titlebarView setAutoresizingMask:NSViewWidthSizable];
 
-    [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
+    // This function emits a warning on OSX 10.10+ (NSWindow warning: adding an unknown subview)
+    // There does not seem to be a workaround, so we just supress the warning temporarily by redirecting stderr
+    if([NSTitlebarAccessoryViewController class]) { //OSX 10.10+
+        int stderr_copy = dup(fileno(stderr));
+        freopen("/dev/null", "w", stderr);
+        [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
+        dup2(stderr_copy, fileno(stderr));
+        close(stderr_copy);
+    }
+    else {
+        [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
+    }
     
     if([NSTitlebarAccessoryViewController class]) {
         // We are on OSX 10.10+. Let it expand the titlebar using an accessory view so we don't have to draw it ourselves in TitlebarViewNS
