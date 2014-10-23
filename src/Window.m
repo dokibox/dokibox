@@ -48,6 +48,14 @@
     [_titlebarView setAutoresizingMask:NSViewWidthSizable];
 
     [themeFrame addSubview:_titlebarView positioned:NSWindowBelow relativeTo:firstSubview];
+    
+    if([NSTitlebarAccessoryViewController class]) {
+        // We are on OSX 10.10+. Let it expand the titlebar using an accessory view so we don't have to draw it ourselves in TitlebarViewNS
+        NSTitlebarAccessoryViewController *titlebarAccessoryViewController = [[NSTitlebarAccessoryViewController alloc] initWithNibName:nil bundle:nil];
+        NSView *emptyView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, [self frame].size.width, [self titlebarSize]-21.0)]; // 21 just seems to work
+        [titlebarAccessoryViewController setView:emptyView];
+        [self addTitlebarAccessoryViewController:titlebarAccessoryViewController];
+    }
 }
 
 - (void)setContentView:(NSView *)view

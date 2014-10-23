@@ -175,6 +175,11 @@
 
 - (void)drawRect:(NSRect)rect
 {
+    if([NSTitlebarAccessoryViewController class]) {
+        // We are on OSX 10.10+, so we can let it draw its own titlebar
+        return;
+    }
+    
     CGRect b = [self bounds];
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
 
