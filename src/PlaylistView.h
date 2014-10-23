@@ -7,7 +7,6 @@
 //
 
 #import "Playlist.h"
-#import "RBLTableView.h"
 
 @class PlaylistCoreDataManager;
 @class RBLScrollView;

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RBLTableView.h"
 
 @class RBLScrollView;
 @class LibraryViewSearchView;
