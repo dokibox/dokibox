@@ -39,7 +39,7 @@
         // Playlist table view
         _playlistScrollView = [[RBLScrollView alloc] initWithFrame:[self playlistScrollViewFrame]];
         [_playlistScrollView setHasVerticalScroller:YES];
-        _playlistTableView = [[RBLTableView alloc] initWithFrame: [[_playlistScrollView contentView] bounds]];
+        _playlistTableView = [[NSTableView alloc] initWithFrame: [[_playlistScrollView contentView] bounds]];
         [_playlistTableView setDelegate:self];
         [_playlistTableView setDataSource:self];
         [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", @"playlistIDs", nil]];
@@ -86,7 +86,7 @@
         _trackScrollView = [[RBLScrollView alloc] initWithFrame:[self trackScrollViewFrame]];
         [_trackScrollView setHasVerticalScroller:YES];
         [_trackScrollView setHasHorizontalScroller:YES];
-        _trackTableView = [[RBLTableView alloc] initWithFrame: [[_trackScrollView contentView] bounds]];
+        _trackTableView = [[NSTableView alloc] initWithFrame: [[_trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
         [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];

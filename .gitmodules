@@ -22,10 +22,6 @@
 	path = deps/MASPreferences
 	url = git://github.com/shpakovski/MASPreferences.git
 	ignore = dirty
-[submodule "deps/rebel"]
-	path = deps/rebel
-	url = git://github.com/github/Rebel.git
-	ignore = dirty
 [submodule "deps/SPMediaKeyTap"]
 	path = deps/SPMediaKeyTap
 	url = git://github.com/nevyn/SPMediaKeyTap.git

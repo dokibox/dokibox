@@ -16,8 +16,8 @@
 {
     RBLScrollView *_trackScrollView;
     RBLScrollView *_playlistScrollView;
-    RBLTableView *_trackTableView;
-    RBLTableView *_playlistTableView;
+    NSTableView *_trackTableView;
+    NSTableView *_playlistTableView;
     NSView *_playlistTableHeader;
     Playlist *_currentPlaylist;
     NSArray *_playlists;

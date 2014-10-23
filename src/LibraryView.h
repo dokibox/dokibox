@@ -15,7 +15,7 @@
 @class Library;
 
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
-    RBLTableView *_tableView;
+    NSTableView *_tableView;
     RBLScrollView *_libraryScrollView;
     LibraryViewSearchView *_librarySearchView;
     BOOL _searchVisible;

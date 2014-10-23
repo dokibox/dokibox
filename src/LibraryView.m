@@ -37,7 +37,7 @@
         _libraryScrollView = [[RBLScrollView alloc] initWithFrame:libraryframe];
         [_libraryScrollView setHasVerticalScroller:YES];
 
-        _tableView = [[RBLTableView alloc] initWithFrame:[[_libraryScrollView contentView] bounds]];
+        _tableView = [[NSTableView alloc] initWithFrame:[[_libraryScrollView contentView] bounds]];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
         [_tableView setHeaderView:nil];
