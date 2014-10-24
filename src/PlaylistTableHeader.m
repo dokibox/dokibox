@@ -32,7 +32,7 @@
     CGContextStrokePath(ctx);
     
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
+    [attr setObject:[NSFont labelFontOfSize:9] forKey:NSFontAttributeName];
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Playlist Collection" attributes:attr];
     CGPoint strPoint = NSMakePoint(barRect.origin.x + barRect.size.width/2.0 - [str size].width/2.0, barRect.origin.y + barRect.size.height/2.0 - [str size].height/2.0);
     CGContextSetShouldSmoothFonts(ctx, YES);

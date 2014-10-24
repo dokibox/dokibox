@@ -27,7 +27,7 @@
         [_playlistNameTextField setBordered:NO];
         [_playlistNameTextField setBezeled:NO];
         [_playlistNameTextField setDrawsBackground:NO];
-        [_playlistNameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];        
+        [_playlistNameTextField setFont:[NSFont systemFontOfSize:10]];
         [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
         [self addSubview:_playlistNameTextField];
 
@@ -43,7 +43,7 @@
         [_noTracksTextField setBezeled:NO];
         [_noTracksTextField setDrawsBackground:NO];
         [_noTracksTextField setEditable:NO];
-        [_noTracksTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
+        [_noTracksTextField setFont:[NSFont systemFontOfSize:9]];
         [_noTracksTextField setAutoresizingMask:NSViewWidthSizable | NSViewMinXMargin];
         [_noTracksTextField setTextColor:[NSColor colorWithDeviceWhite:0.34 alpha:1.0]];
         [self addSubview:_noTracksTextField];

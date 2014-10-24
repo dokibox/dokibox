@@ -24,7 +24,7 @@
         CGRect nameTextRect = _textRect;
         nameTextRect.size.width -= altTextMargin + altTextWidth;
         [_nameTextField setFrame:nameTextRect];
-        [_nameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:12]];
+        [_nameTextField setFont:[NSFont systemFontOfSize:12]];
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"artist.name" options:nil];
         
         CGRect altTextRect = _textRect;

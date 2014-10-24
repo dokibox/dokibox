@@ -23,7 +23,7 @@
         [_textField setBordered:NO];
         [_textField setBezeled:NO];
         [_textField setDrawsBackground:NO];
-        [_textField setFont:[NSFont fontWithName:@"Lucida Grande" size:11]];
+        [_textField setFont:[NSFont systemFontOfSize:11]];
         [_textField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
         [self addSubview:_textField];
         

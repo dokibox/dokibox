@@ -25,7 +25,7 @@
         nameTextRect.origin.y += 5;
         nameTextRect.size.width -= imageSize - 10;
         [_nameTextField setFrame:nameTextRect];
-        [_nameTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:13]];
+        [_nameTextField setFont:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:13] toHaveTrait:NSItalicFontMask]];
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"album.name" options:nil];
         
         CGRect altTextRect = nameTextRect;

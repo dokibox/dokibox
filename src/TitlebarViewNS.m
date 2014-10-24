@@ -114,7 +114,7 @@
     [_progressElapsedTextField setBordered:NO];
     [_progressElapsedTextField setBezeled:NO];
     [_progressElapsedTextField setDrawsBackground:NO];
-    [_progressElapsedTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
+    [_progressElapsedTextField setFont:[NSFont labelFontOfSize:9]];
     [_progressElapsedTextField setAlignment:NSRightTextAlignment];
     [_progressElapsedTextField setStringValue:@"00:00"];
     [self addSubview:_progressElapsedTextField];
@@ -125,7 +125,7 @@
     [_progressTotalTextField setBordered:NO];
     [_progressTotalTextField setBezeled:NO];
     [_progressTotalTextField setDrawsBackground:NO];
-    [_progressTotalTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:9]];
+    [_progressTotalTextField setFont:[NSFont labelFontOfSize:9]];
     [_progressTotalTextField setStringValue:@"00:00"];
     [_progressTotalTextField setAutoresizingMask:NSViewMinXMargin];
     [self addSubview:_progressTotalTextField];
@@ -192,9 +192,9 @@
 -(void)updateTitleBarText
 {
     NSMutableDictionary *attr = [NSMutableDictionary dictionary];
-    [attr setObject:[NSFont fontWithName:@"Lucida Grande" size:12] forKey:NSFontAttributeName];
+    [attr setObject:[NSFont titleBarFontOfSize:12] forKey:NSFontAttributeName];
     NSMutableDictionary *boldattr = [NSMutableDictionary dictionaryWithDictionary:attr];
-    [boldattr setObject:[NSFont fontWithName:@"Lucida Grande Bold" size:12] forKey:NSFontAttributeName];
+    [boldattr setObject:[NSFont boldSystemFontOfSize:12] forKey:NSFontAttributeName];
     NSMutableAttributedString *titlebarText = [[NSMutableAttributedString alloc] init];
     
     if([_musicController status] == MusicControllerPlaying || [_musicController status] == MusicControllerPaused) {

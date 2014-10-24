@@ -39,7 +39,7 @@
         [_altTextField setBordered:NO];
         [_altTextField setBezeled:NO];
         [_altTextField setDrawsBackground:NO];
-        [_altTextField setFont:[NSFont fontWithName:@"Helvetica-Oblique" size:10]];
+        [_altTextField setFont:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:10] toHaveTrait:NSItalicFontMask]];
         [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
         [_altTextField setAlignment:NSRightTextAlignment];
         [_altTextField setAutoresizingMask:NSViewMinXMargin];

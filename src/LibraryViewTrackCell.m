@@ -24,7 +24,7 @@
         nameTextRect.origin.x += 4 + 5;
         nameTextRect.size.width -= altTextMargin + altTextWidth + 4 + 5;
         [_nameTextField setFrame:nameTextRect];
-        [_nameTextField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
+        [_nameTextField setFont:[NSFont systemFontOfSize:10]];
         
         CGRect altTextRect = NSInsetRect(_textRect, 0, 0);
         altTextRect.size.width = altTextWidth;

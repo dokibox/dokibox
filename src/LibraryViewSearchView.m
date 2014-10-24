@@ -24,7 +24,7 @@
         _searchField = [[NSSearchField alloc] initWithFrame:b];
         [_searchField setAutoresizingMask:NSViewWidthSizable];
         [[_searchField cell] setControlSize:NSSmallControlSize];
-        [_searchField setFont:[NSFont fontWithName:@"Lucida Grande" size:10]];
+        [_searchField setFont:[NSFont controlContentFontOfSize:10]];
         [_searchField setDelegate:self];
         [self addSubview:_searchField];
         

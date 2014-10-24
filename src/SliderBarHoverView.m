@@ -93,7 +93,7 @@
 
     // Draw text
     NSMutableDictionary *textAttr = [NSMutableDictionary dictionary];
-    [textAttr setObject:[NSFont fontWithName:@"Lucida Grande" size:9] forKey:NSFontAttributeName];
+    [textAttr setObject:[NSFont labelFontOfSize:9] forKey:NSFontAttributeName];
     [textAttr setObject:[NSColor colorWithDeviceWhite:1.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
     NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:_stringValue attributes:textAttr];
     NSPoint textPoint = NSMakePoint(-0.5*[attrString size].width, heightofcone + 0.5*heightoftext - 0.5*[attrString size].height);
