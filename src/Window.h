@@ -16,6 +16,5 @@
 @property CGFloat titlebarSize;
 
 - (void)relayout;
-- (CGFloat)contentViewHeight;
 
 @end

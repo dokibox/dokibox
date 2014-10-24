@@ -18,10 +18,11 @@
 
 @synthesize playlistView = _playlistView;
 
-- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library titlebarSize:(CGFloat)titlebarSize;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _titlebarSize = titlebarSize;
         width_divider = 0.37;
 
         _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame] andLibrary:library];
@@ -126,12 +127,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:nil];
 }
 
-- (BOOL)isOpaque
-{
-    return YES;
-}
-
-
 - (void)updateDividerTrackingArea
 {
     if(_dividerTrackingArea) {
@@ -217,7 +212,7 @@
 {
     CGRect libraryFrame = self.bounds;
     libraryFrame.origin.y += bottomToolbarHeight;
-    libraryFrame.size.height -= bottomToolbarHeight;
+    libraryFrame.size.height -= bottomToolbarHeight + _titlebarSize;
     libraryFrame.size.width = round(self.bounds.size.width * width_divider);
     return libraryFrame;
 }
@@ -226,7 +221,7 @@
 {
     CGRect playlistFrame = self.bounds;
     playlistFrame.origin.y += bottomToolbarHeight;
-    playlistFrame.size.height -= bottomToolbarHeight;
+    playlistFrame.size.height -= bottomToolbarHeight + _titlebarSize;
     playlistFrame.origin.x += round(playlistFrame.size.width * width_divider) + 1.0;
     playlistFrame.size.width = playlistFrame.size.width - round(self.bounds.size.width * width_divider) - 1.0;
     return playlistFrame;
@@ -569,14 +564,13 @@
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:.71372549 alpha:1.0] CGColor]);
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
-    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height - trackTableHeaderHeight);
+    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height - trackTableHeaderHeight - _titlebarSize);
     CGContextStrokePath(ctx);
     NSColor *gradientStartColor, *gradientEndColor; //Gradient for track table header as top line is darker
     gradientStartColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_BOTTOM_COLOR alpha:1.0];
     gradientEndColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_TOP_COLOR alpha:1.0];
-    [self CGContextVerticalGradient:NSMakeRect(b.origin.x + round(b.size.width*width_divider)-0.5, b.origin.y + b.size.height - trackTableHeaderHeight, 1, 17.0) context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
+    [self CGContextVerticalGradient:NSMakeRect(b.origin.x + round(b.size.width*width_divider)-0.5, b.origin.y + b.size.height - _titlebarSize - trackTableHeaderHeight, 1, 17.0) context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
     
-
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
     if(isActive) {

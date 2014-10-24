@@ -173,51 +173,6 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)drawRect:(NSRect)rect
-{
-    if([NSTitlebarAccessoryViewController class]) {
-        // We are on OSX 10.10+, so we can let it draw its own titlebar
-        return;
-    }
-    
-    CGRect b = [self bounds];
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-
-    // Draw titlebar itself
-    int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
-
-    float r = 4;
-    CGContextMoveToPoint(ctx, NSMinX(b), NSMinY(b));
-    CGContextAddLineToPoint(ctx, NSMinX(b), NSMaxY(b)-r);
-    CGContextAddArcToPoint(ctx, NSMinX(b), NSMaxY(b), NSMinX(b)+r, NSMaxY(b), r);
-    CGContextAddLineToPoint(ctx, NSMaxX(b)-r, NSMaxY(b));
-    CGContextAddArcToPoint(ctx, NSMaxX(b), NSMaxY(b), NSMaxX(b), NSMaxY(b)-r, r);
-    CGContextAddLineToPoint(ctx, NSMaxX(b), NSMinY(b));
-    CGContextAddLineToPoint(ctx, NSMinX(b), NSMinY(b));
-    CGContextSaveGState(ctx);
-    CGContextClip(ctx);
-
-    NSColor *gradientStartColor, *gradientEndColor;
-    if(isActive) {
-        gradientStartColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
-        gradientEndColor = [NSColor colorWithDeviceWhite:0.90 alpha:1.0];
-    }
-    else {
-        gradientStartColor = [NSColor colorWithDeviceWhite:0.87 alpha:1.0];
-        gradientEndColor = [NSColor colorWithDeviceWhite:0.97 alpha:1.0];
-    }
-
-    NSArray *colors = [NSArray arrayWithObjects: (id)[gradientStartColor CGColor],
-                       (id)[gradientEndColor CGColor], nil];
-    CGFloat locations[] = { 0.0, 1.0 };
-    CGGradientRef gradient = CGGradientCreateWithColors(NULL, (__bridge CFArrayRef)colors, locations);
-
-    CGContextDrawLinearGradient(ctx, gradient, CGPointMake(b.origin.x, b.origin.y), CGPointMake(b.origin.x, b.origin.y+b.size.height), 0);
-    CGContextRestoreGState(ctx);
-
-    CGGradientRelease(gradient);
-}
-
 -(void)receivedStartedPlaybackNotification:(NSNotification *)notification
 {
     PlaylistTrack *t = [notification object];

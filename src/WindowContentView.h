@@ -15,6 +15,7 @@
 
 @interface WindowContentView : NSView {
     CGFloat width_divider;
+    CGFloat _titlebarSize;
     PlaylistView *_playlistView;
     LibraryView *_libraryView;
     
@@ -27,7 +28,7 @@
     BOOL _dividerBeingDragged;
 }
 
-- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library titlebarSize:(CGFloat)titlebarSize;
 
 -(NSRect)playlistViewFrame;
 -(NSRect)libraryViewFrame;

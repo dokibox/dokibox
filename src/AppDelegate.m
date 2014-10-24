@@ -50,23 +50,20 @@
 
     CGRect b = CGRectMake(0, 0, 800, 450);
 
-    /** Scroll View */
-    _window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
+    /** Window */
+    CGFloat titlebarSize = 46;
+    _window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask | NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:NO];
     [_window setReleasedWhenClosed:FALSE];
     [_window setMinSize:NSMakeSize(300, 250)];
     [_window center];
+    [_window setTitlebarSize:titlebarSize];
 
     TitlebarViewNS *titlebarView = [[TitlebarViewNS alloc] initWithMusicController:_musicController];
-    [_window setTitlebarSize:46.0];
+    WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b andLibrary:_library titlebarSize:titlebarSize];
+    [_window setContentView:wcv];
     [_window setTitlebarView:titlebarView];
     [titlebarView initSubviews];
-
-    b.size.height = [_window contentViewHeight];
-    WindowContentView *wcv = [[WindowContentView alloc] initWithFrame:b andLibrary:_library];
-    [_window setContentView:wcv];
-
     [_window makeKeyAndOrderFront:nil];
-    [_window relayout];
 }
 
 -(IBAction)performFindPanelAction:(id)sender
