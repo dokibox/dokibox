@@ -100,10 +100,10 @@ static SInt64 streamGetSizeRequest(void* mc) {
     _metadata.sampleRate = _inFormat.mSampleRate;
     _metadata.bitsPerSample = _inFormat.mBitsPerChannel;
     SInt64 length;
-    UInt32 lengthSize;
+    UInt32 lengthSize = sizeof(length);
     OSStatus retval = ExtAudioFileGetProperty(_inFileRef, kExtAudioFileProperty_FileLengthFrames, &lengthSize, &length);
     if (retval != noErr) {
-        // cry like a baby
+        DDLogError(@"Error in CoreAudioDecoder's decodeMetadata (%d)", retval);
     }
     _metadata.totalSamples = (int)length;
     _metadata.numberOfChannels = _inFormat.mChannelsPerFrame;
