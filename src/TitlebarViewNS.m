@@ -78,6 +78,7 @@
     [c setTarget:self];
     [c setType:FFSeekButton];
     [c setAction:@selector(nextButtonPressed:)];
+    [c setHeldAction:@selector(seekButtonHeld:)];
     [c setDrawIcon: [self seekButtonDrawBlock:[c getType]]];
 
     TitlebarSeekButtonNS *d = [[TitlebarSeekButtonNS alloc] initWithFrame:NSMakeRect(rightedge-2*gap, height, size, size)];
@@ -86,6 +87,7 @@
     [d setTarget:self];
     [d setType:RWSeekButton];
     [d setAction:@selector(prevButtonPressed:)];
+    [d setHeldAction:@selector(seekButtonHeld:)];
     [d setDrawIcon: [self seekButtonDrawBlock:[d getType]]];
 
     [self addSubview:b];
@@ -381,6 +383,13 @@
     [_musicController stop];
     [p playNextTrackAfter:t];
 }
+
+-(void)seekButtonHeld:(NSButton *)sender {
+    PlaylistTrack *t = [_musicController getCurrentTrack];
+    if(t == nil) return; // no current track playing
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrackByJump" object:[NSNumber numberWithInteger:[sender tag]]]; // tag is direction
+}
+
 
 -(void)receivedPlaybackProgressNotification:(NSNotification *)notification
 {

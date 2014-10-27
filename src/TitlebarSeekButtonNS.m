@@ -9,6 +9,9 @@
 #import "TitlebarSeekButtonNS.h"
 
 @implementation TitlebarSeekButtonNS
+
+@synthesize heldAction;
+
 // use TitlebarButtonNS constructor
 - (void)mouseDown:(NSEvent *)event
 {
@@ -21,23 +24,13 @@
 -(void)startSeek {
     _didSeek = YES;
     NSLog(@"Seek Started.");
-    //if([self type]==FFSeekButton){
-    //  seekTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(continueSeekForward) userInfo:nil repeats:YES];
-    //} else {
-    //  seekTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(continueSeekBackward) userInfo:nil repeats:YES];
-    //}
-    // Should do seeking as a selector within TitlebarViewNS? Seems odd
-    // to have the skip that way and not the seek. Then again I don't
-    // know how to set two different actions to one button. (or if it's possible)
+    seekTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(continueHold:) userInfo:nil repeats:YES];
 }
 
--(void)continueSeekForward {
-    NSLog(@"doing nothing.");
-    //seek + increment?
-}
-
--(void)continueSeekBackward {
-    NSLog(@"still nothing.");
+-(void)continueHold:(NSTimer *)timer {
+    if([[self target] respondsToSelector:[self heldAction]]) {
+        [self sendAction:[self heldAction] to:[self target]];
+    }
 }
 
 - (void)mouseEntered:(NSEvent *)event
@@ -81,6 +74,14 @@
 
 -(void)setType:(SeekButtonDirection)type {
     _buttonType = type;
+    
+    // Set tag (which we use to store the direction)
+    if(type == FFSeekButton){
+        [self setTag:1];
+    }
+    else if(type == RWSeekButton) {
+        [self setTag:-1];
+    }
 }
 
 -(SeekButtonDirection)getType {

@@ -20,4 +20,6 @@ typedef enum { RWSeekButton, FFSeekButton } SeekButtonDirection;
 -(void)setType:(SeekButtonDirection)type;
 -(SeekButtonDirection)getType;
 
+@property SEL heldAction;
+
 @end

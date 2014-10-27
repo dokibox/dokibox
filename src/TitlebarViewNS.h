@@ -38,6 +38,7 @@
 -(void)playButtonPressed:(id)sender;
 -(void)nextButtonPressed:(id)sender;
 -(void)prevButtonPressed:(id)sender;
+-(void)seekButtonHeld:(NSButton *)sender;
 -(void)updatePlayButtonState:(NSNotification *)notification;
 -(void)updatePlayButtonState;
 

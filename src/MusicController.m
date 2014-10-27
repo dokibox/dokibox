@@ -129,6 +129,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPlayTrackNotification:) name:@"playTrack" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrack" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedSeekTrackNotification:) name:@"seekTrackByJump" object:nil];
 
     return self;
 }
@@ -138,6 +139,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     dispatch_release(decoding_queue);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"playTrack" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"seekTrack" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"seekTrackByJump" object:nil];
 }
 
 - (void)createOrReconfigureAudioGraph:(DecoderMetadata)decoderMetadata
@@ -456,10 +458,22 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 {
     if([self status] == MusicControllerStopped) return;
 
-    float seekto = [(NSNumber *)[notification object] floatValue];
-
-    int sampleno = seekto * _totalFrames;
-    NSLog(@"Seeking to %f percent", seekto);
+    long sampleno = _elapsedFrames;
+    if([[notification name] isEqual: @"seekTrack"]) {
+        float seekto = [(NSNumber *)[notification object] floatValue];
+        sampleno = seekto * _totalFrames;
+        NSLog(@"Seeking to %f percent", seekto);
+    }
+    else if([[notification name] isEqual: @"seekTrackByJump"]) {
+        NSInteger direction = [(NSNumber *)[notification object] integerValue];
+        sampleno += direction * (int)_inFormat.mSampleRate * 5; // 5 seconds
+        if(sampleno < 0) sampleno = 0;
+        NSLog(@"Seeking by %ld seconds [new position = %f s]", direction*5, (float)sampleno/(float)_inFormat.mSampleRate);
+    }
+    else {
+        DDLogError(@"Unsupported seek notification received");
+        return;
+    }
 
     AUGraphStop(_outputGraph);
     [self setDecoderStatus:MusicControllerSeekingSong];
