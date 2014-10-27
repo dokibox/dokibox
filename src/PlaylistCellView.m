@@ -29,6 +29,7 @@
         [_playlistNameTextField setDrawsBackground:NO];
         [_playlistNameTextField setFont:[NSFont systemFontOfSize:10]];
         [_playlistNameTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [[_playlistNameTextField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
         [self addSubview:_playlistNameTextField];
 
         b = [self bounds];

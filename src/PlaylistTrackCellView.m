@@ -25,6 +25,7 @@
         [_textField setDrawsBackground:NO];
         [_textField setFont:[NSFont systemFontOfSize:11]];
         [_textField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [[_textField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
         [self addSubview:_textField];
         
         [self addObserver:self forKeyPath:@"track" options:NULL context:nil];
