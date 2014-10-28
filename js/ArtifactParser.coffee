@@ -20,7 +20,7 @@ class ArtifactParser
 		listItem.id = index
 		listItem.innerHTML = """
 			<div class="size">#{build.size.nice}</div>
-			<div class="info">Built #{build.date.text}</div>
+			<div class="info">#{build.date.text}</div>
 			<a href="#{@repositoryUrl}commit/#{build.file.commit}">
 				<div class="commit">
 					<svg height="32" width="32" version="1.1" xmlns="http://www.w3.org/2000/svg">

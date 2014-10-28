@@ -60,7 +60,7 @@ mouseout = ( ev ) ->
 		index = parentNode.id
 
 		info = parentNode.querySelector ".info"
-		info.textContent = 'Built ' + @artifacts[@displayBranch][index].date.text
+		info.textContent = @artifacts[@displayBranch][index].date.text
 	, 1
 
 dokiboxArtifacts = new window.ArtifactParser "https://s3.amazonaws.com/dokibox-builds/", "https://github.com/mileswu/dokibox/"
