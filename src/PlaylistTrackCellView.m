@@ -59,9 +59,4 @@
     }
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    
-}
-
 @end
