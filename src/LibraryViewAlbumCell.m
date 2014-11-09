@@ -40,6 +40,7 @@
         [self addSubview:_coverImageView];
         
         [self addObserver:self forKeyPath:@"album" options:NULL context:nil];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"libraryViewShowPlacerholderAlbumCovers" options:NSKeyValueObservingOptionNew context:NULL];
     }
     
     return self;
@@ -48,6 +49,7 @@
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"album"];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"libraryViewShowPlacerholderAlbumCovers"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -107,18 +109,29 @@
                 [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
         }
     }
+    else if([keyPath isEqualToString:@"libraryViewShowPlacerholderAlbumCovers"]) {
+        // This is needed for when the preference is updated and we need to either show the placeholder or hide it
+        if([_album cover] == nil) {
+            [_coverImageView setImage:[LibraryViewAlbumCell placeholderImage]];
+        }
+    }
 }
 
 +(NSImage*)placeholderImage
 {
-    static dispatch_once_t pred;
-    static NSImage *image = nil;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"libraryViewShowPlacerholderAlbumCovers"] == YES) {
+        static dispatch_once_t pred;
+        static NSImage *image = nil;
 
-    dispatch_once(&pred, ^{
-        image = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
-    });
-
-    return image;
+        dispatch_once(&pred, ^{
+            image = [[NSImage alloc] initWithContentsOfFile:@"/Library/User Pictures/Instruments/Piano.tif"];
+        });
+        
+        return image;
+    }
+    else {
+        return nil;
+    }
 }
 
 @end
