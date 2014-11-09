@@ -24,7 +24,7 @@
         [_textField setBezeled:NO];
         [_textField setDrawsBackground:NO];
         [_textField setFont:[NSFont systemFontOfSize:11]];
-        [_textField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
+        [_textField setAutoresizingMask:NSViewWidthSizable];
         [[_textField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
         [self addSubview:_textField];
         
