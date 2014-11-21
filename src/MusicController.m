@@ -534,16 +534,8 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 }
 
 - (void)trackEndedNaturally {
-    AUGraphStop(_outputGraph);
-    [self setStatus:MusicControllerStopped];
-    [self setDecoderStatus:MusicControllerDecoderIdle];
-
     PlaylistTrack *t = _currentTrack;
-    _currentTrack = nil;
-    _totalFrames = 0;
-    [self setElapsedFrames:0];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
-    
+    [self stop];
     [[t playlist] playNextTrackAfter:t];
 }
 
@@ -556,9 +548,12 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     
     [self setStatus:MusicControllerStopped];
     [self setDecoderStatus:MusicControllerDecoderIdle];
+    _currentTrack = nil;
+    _totalFrames = 0;
+    [self setElapsedFrames:0];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"stoppedPlayback" object:nil];
     [fifoBuffer reset];
-    _currentTrack = nil;
 }
 
 - (void)setElapsedFrames:(unsigned long long)elapsedFrames {
