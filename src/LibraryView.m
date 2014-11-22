@@ -55,7 +55,26 @@
 
         [_libraryScrollView setDocumentView:_tableView];
         [_libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [self addSubview:_libraryScrollView];
+        
+        // Text that is displayed when there are no tracks in the library
+        _noTracksMessageTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(libraryframe.origin.x+10, NSMidY(libraryframe)-20, libraryframe.size.width-20, 40)];
+        [_noTracksMessageTextField setStringValue:@"Your library contains zero tracks.\nPerhaps you need to set up your monitored folders."];
+        [_noTracksMessageTextField setEditable:NO];
+        [_noTracksMessageTextField setBordered:NO];
+        [_noTracksMessageTextField setBezeled:NO];
+        [_noTracksMessageTextField setDrawsBackground:NO];
+        [_noTracksMessageTextField setFont:[NSFont systemFontOfSize:11]];
+        [_noTracksMessageTextField setAlignment:NSCenterTextAlignment];
+        [_noTracksMessageTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin | NSViewMinYMargin];
+
+        // Button that is displayed when there are no tracks in the library to open the preferences
+        _libraryPreferencesButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        [_libraryPreferencesButton setBezelStyle:NSTexturedRoundedBezelStyle];
+        [_libraryPreferencesButton setTitle:@"Preferences"];
+        [_libraryPreferencesButton setTarget:[[NSApplication sharedApplication] delegate]];
+        [_libraryPreferencesButton setAction:@selector(openPreferences:)];
+        [_libraryPreferencesButton sizeToFit];
+        [_libraryPreferencesButton setFrameOrigin:NSMakePoint(NSMidX(libraryframe)-[_libraryPreferencesButton frame].size.width/2, NSMidY(libraryframe)-60)];
 
         _library = library;
         _objectContext = [[_library coreDataManager] newContext];
@@ -65,6 +84,7 @@
         
         _searchMatchedObjects = [[NSMutableSet alloc] init];
         [self runSearch:@""];
+        [self updateLibraryVisibility]; // show library table or no-track-stuff as appropriate
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedLibrarySavedNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     }
@@ -77,10 +97,36 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
+-(void)updateLibraryVisibility
+{
+    // If there is no search running, and there is nothing to show -> no tracks in library
+    if([_searchString isEqual:@""] && [_rowData count] == 0) {
+        if([[self subviews] containsObject:_libraryScrollView]) {
+            // If library showing, remove it and add no-tracks stuff
+            [_libraryScrollView removeFromSuperview];
+            [self addSubview:_noTracksMessageTextField];
+            [self addSubview:_libraryPreferencesButton];
+        }
+    }
+    else {
+        if(![[self subviews] containsObject:_libraryScrollView]) {
+            // If no library showing, add it and remove no-track stuff
+            [_noTracksMessageTextField removeFromSuperview];
+            [_libraryPreferencesButton removeFromSuperview];
+            [self addSubview:_libraryScrollView];
+        }
+    }
+}
+
 - (void)drawRect:(NSRect)rect
 {
     CGRect b = [self bounds];
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    
+    // Background color
+    CGContextSetRGBFillColor(ctx, .91, .91, .91, 1.0);
+    CGContextFillRect(ctx, b);
+    
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_TOP_COLOR alpha:1.0] CGColor]);
     CGContextSetLineWidth(ctx, 1.0);
     CGContextBeginPath(ctx);
@@ -135,6 +181,7 @@
     }
     
     [_tableView endUpdates];
+    [self updateLibraryVisibility];
 }
 
 -(NSInteger)insertionIndexFor:(NSManagedObject *)m
@@ -681,12 +728,15 @@
             [_rowData startBulkUpdate];
             [_rowData removeAllObjects];
             [_searchMatchedObjects removeAllObjects];
+            _searchString = text;
 
             for(NSManagedObjectID *i in newCellDataIDs)
                 [_rowData addObject:[_objectContext objectWithID:i]];
             for(NSManagedObjectID *i in newSearchMatchedObjectIDs)
                 [_searchMatchedObjects addObject:[_objectContext objectWithID:i]];
             [_rowData endBulkUpdate];
+            
+            [self updateLibraryVisibility];
             
             DDLogVerbose(@"Back on main thread took %f sec", -[d3 timeIntervalSinceNow]);
         });

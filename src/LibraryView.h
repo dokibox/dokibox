@@ -16,8 +16,11 @@
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
     NSTableView *_tableView;
     RBLScrollView *_libraryScrollView;
+    NSTextField *_noTracksMessageTextField;
+    NSButton *_libraryPreferencesButton;
     LibraryViewSearchView *_librarySearchView;
     BOOL _searchVisible;
+    NSString *_searchString;
     
     TableViewRowData *_rowData;
     
