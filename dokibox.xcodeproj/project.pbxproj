@@ -100,6 +100,7 @@
 		2BC059B119F8A7D500CB53AD /* RBLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC059AF19F8A7D500CB53AD /* RBLScrollView.m */; };
 		2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */; };
 		2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAE0F517F5080500764BC0 /* LibraryViewArtistRowView.m */; };
+		2BD458901A22FBC0002A0CC3 /* LibraryNoTracksView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD4588F1A22FBC0002A0CC3 /* LibraryNoTracksView.m */; };
 		2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
@@ -380,6 +381,8 @@
 		2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewRowData.m; sourceTree = "<group>"; };
 		2BCAE0F417F5080500764BC0 /* LibraryViewArtistRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewArtistRowView.h; sourceTree = "<group>"; };
 		2BCAE0F517F5080500764BC0 /* LibraryViewArtistRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewArtistRowView.m; sourceTree = "<group>"; };
+		2BD4588E1A22FBC0002A0CC3 /* LibraryNoTracksView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryNoTracksView.h; sourceTree = "<group>"; };
+		2BD4588F1A22FBC0002A0CC3 /* LibraryNoTracksView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryNoTracksView.m; sourceTree = "<group>"; };
 		2BDC0CD4179B2682006EBB05 /* NSView+CGDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+CGDrawing.h"; sourceTree = "<group>"; };
 		2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+CGDrawing.m"; sourceTree = "<group>"; };
 		2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBarHoverView.h; sourceTree = "<group>"; };
@@ -634,6 +637,8 @@
 			children = (
 				2BBEC89016C20EF200160279 /* LibraryView.h */,
 				2BBEC89116C20EF200160279 /* LibraryView.m */,
+				2BD4588E1A22FBC0002A0CC3 /* LibraryNoTracksView.h */,
+				2BD4588F1A22FBC0002A0CC3 /* LibraryNoTracksView.m */,
 				2BB0E22217F9058A00F945FE /* LibraryViewCell.h */,
 				2BB0E22317F9058A00F945FE /* LibraryViewCell.m */,
 				2B9A173A191C973200DC2A50 /* LibraryViewRowView.h */,
@@ -1130,6 +1135,7 @@
 				2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */,
 				2B0B7E38185D28C900D2059D /* PlaylistTrackPlayingCellView.m in Sources */,
 				2BF4674817F5271500FC93C3 /* LibraryViewAlbumRowView.m in Sources */,
+				2BD458901A22FBC0002A0CC3 /* LibraryNoTracksView.m in Sources */,
 				2BF4675C17F740D700FC93C3 /* ProportionalImageView.m in Sources */,
 				2BF4675F17F7A61800FC93C3 /* LibraryViewTrackRowView.m in Sources */,
 				2BF4676A17F7B7DD00FC93C3 /* LibraryViewAddButton.m in Sources */,
