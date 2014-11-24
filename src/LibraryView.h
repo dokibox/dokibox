@@ -16,8 +16,7 @@
 @interface LibraryView : NSView <NSTableViewDataSource, NSTableViewDelegate> {
     NSTableView *_tableView;
     RBLScrollView *_libraryScrollView;
-    NSTextField *_noTracksMessageTextField;
-    NSButton *_libraryPreferencesButton;
+    NSView *_libraryNoTracksView;
     LibraryViewSearchView *_librarySearchView;
     BOOL _searchVisible;
     NSString *_searchString;

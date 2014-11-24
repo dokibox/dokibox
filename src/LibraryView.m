@@ -26,6 +26,7 @@
 #import "NSManagedObjectContext+Helpers.h"
 #import "Library.h"
 #import "NSView+CGDrawing.h"
+#import "LibraryNoTracksView.h"
 
 @implementation LibraryView
 
@@ -56,25 +57,8 @@
         [_libraryScrollView setDocumentView:_tableView];
         [_libraryScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         
-        // Text that is displayed when there are no tracks in the library
-        _noTracksMessageTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(libraryframe.origin.x+10, NSMidY(libraryframe)-20, libraryframe.size.width-20, 40)];
-        [_noTracksMessageTextField setStringValue:@"Your library contains zero tracks.\nPerhaps you need to set up your monitored folders."];
-        [_noTracksMessageTextField setEditable:NO];
-        [_noTracksMessageTextField setBordered:NO];
-        [_noTracksMessageTextField setBezeled:NO];
-        [_noTracksMessageTextField setDrawsBackground:NO];
-        [_noTracksMessageTextField setFont:[NSFont systemFontOfSize:11]];
-        [_noTracksMessageTextField setAlignment:NSCenterTextAlignment];
-        [_noTracksMessageTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin | NSViewMinYMargin];
-
-        // Button that is displayed when there are no tracks in the library to open the preferences
-        _libraryPreferencesButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        [_libraryPreferencesButton setBezelStyle:NSTexturedRoundedBezelStyle];
-        [_libraryPreferencesButton setTitle:@"Preferences"];
-        [_libraryPreferencesButton setTarget:[[NSApplication sharedApplication] delegate]];
-        [_libraryPreferencesButton setAction:@selector(openPreferences:)];
-        [_libraryPreferencesButton sizeToFit];
-        [_libraryPreferencesButton setFrameOrigin:NSMakePoint(NSMidX(libraryframe)-[_libraryPreferencesButton frame].size.width/2, NSMidY(libraryframe)-60)];
+        _libraryNoTracksView = [[LibraryNoTracksView alloc] initWithFrame:NSMakeRect(libraryframe.origin.x, NSMidY(libraryframe)-40, libraryframe.size.width, 80)];
+        [_libraryNoTracksView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin | NSViewMinYMargin];
 
         _library = library;
         _objectContext = [[_library coreDataManager] newContext];
@@ -104,15 +88,13 @@
         if([[self subviews] containsObject:_libraryScrollView]) {
             // If library showing, remove it and add no-tracks stuff
             [_libraryScrollView removeFromSuperview];
-            [self addSubview:_noTracksMessageTextField];
-            [self addSubview:_libraryPreferencesButton];
+            [self addSubview:_libraryNoTracksView];
         }
     }
     else {
         if(![[self subviews] containsObject:_libraryScrollView]) {
             // If no library showing, add it and remove no-track stuff
-            [_noTracksMessageTextField removeFromSuperview];
-            [_libraryPreferencesButton removeFromSuperview];
+            [_libraryNoTracksView removeFromSuperview];
             [self addSubview:_libraryScrollView];
         }
     }
