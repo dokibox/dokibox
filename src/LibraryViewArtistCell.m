@@ -58,7 +58,7 @@
             albumCount = [[[self artist] albumsFromSet:[self searchMatchedObjects]] count];
             trackCount = [[[self artist] tracksFromSet:[self searchMatchedObjects]] count];
         }
-        NSString *str = [[NSString alloc] initWithFormat:@"%ld albums, %ld tracks", albumCount, trackCount];
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld album%@, %ld track%@", albumCount, albumCount>1 ? @"s" : @"", trackCount, trackCount>1 ? @"s" : @""];
         [_altTextField setStringValue:str];
     }
 }

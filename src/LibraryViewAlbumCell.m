@@ -63,7 +63,7 @@
         else {
             trackCount = [[[self album] tracksFromSet:[self searchMatchedObjects]] count];
         }
-        NSString *str = [[NSString alloc] initWithFormat:@"%ld tracks", trackCount];
+        NSString *str = [[NSString alloc] initWithFormat:@"%ld track%@", trackCount, trackCount>1 ? @"s" : @""];
         [_altTextField setStringValue:str];
         
         // Load cover
