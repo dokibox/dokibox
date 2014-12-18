@@ -101,6 +101,7 @@
 		2BCAE0E517F3824C00764BC0 /* TableViewRowData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAE0E417F3824C00764BC0 /* TableViewRowData.m */; };
 		2BCAE0F617F5080600764BC0 /* LibraryViewArtistRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCAE0F517F5080500764BC0 /* LibraryViewArtistRowView.m */; };
 		2BD458901A22FBC0002A0CC3 /* LibraryNoTracksView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD4588F1A22FBC0002A0CC3 /* LibraryNoTracksView.m */; };
+		2BD458961A2451F9002A0CC3 /* AppDDLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD458951A2451F9002A0CC3 /* AppDDLogFormatter.m */; };
 		2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */; };
 		2BE04E471689D19B00EBEF9B /* SliderBarHoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE04E461689D19B00EBEF9B /* SliderBarHoverView.m */; };
 		2BF18DC715A0BBD2000C906E /* PlaylistView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF18DC615A0BBD1000C906E /* PlaylistView.m */; };
@@ -383,6 +384,8 @@
 		2BCAE0F517F5080500764BC0 /* LibraryViewArtistRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewArtistRowView.m; sourceTree = "<group>"; };
 		2BD4588E1A22FBC0002A0CC3 /* LibraryNoTracksView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryNoTracksView.h; sourceTree = "<group>"; };
 		2BD4588F1A22FBC0002A0CC3 /* LibraryNoTracksView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryNoTracksView.m; sourceTree = "<group>"; };
+		2BD458941A2451F9002A0CC3 /* AppDDLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDDLogFormatter.h; sourceTree = "<group>"; };
+		2BD458951A2451F9002A0CC3 /* AppDDLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDDLogFormatter.m; sourceTree = "<group>"; };
 		2BDC0CD4179B2682006EBB05 /* NSView+CGDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+CGDrawing.h"; sourceTree = "<group>"; };
 		2BDC0CD5179B2682006EBB05 /* NSView+CGDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+CGDrawing.m"; sourceTree = "<group>"; };
 		2BE04E451689D19B00EBEF9B /* SliderBarHoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderBarHoverView.h; sourceTree = "<group>"; };
@@ -668,6 +671,8 @@
 			children = (
 				2B15BF7A146127A100DC46CD /* AppDelegate.h */,
 				2B15BF7B146127A100DC46CD /* AppDelegate.m */,
+				2BD458941A2451F9002A0CC3 /* AppDDLogFormatter.h */,
+				2BD458951A2451F9002A0CC3 /* AppDDLogFormatter.m */,
 				2B7C00B0182731C200E2AC90 /* ProfileController.h */,
 				2B7C00B1182731C200E2AC90 /* ProfileController.m */,
 				2B7C00AB18202F7100E2AC90 /* ProfileViewController.h */,
@@ -1140,6 +1145,7 @@
 				2BF4675F17F7A61800FC93C3 /* LibraryViewTrackRowView.m in Sources */,
 				2BF4676A17F7B7DD00FC93C3 /* LibraryViewAddButton.m in Sources */,
 				2BB0E22517F9059200F945FE /* LibraryViewCell.m in Sources */,
+				2BD458961A2451F9002A0CC3 /* AppDDLogFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

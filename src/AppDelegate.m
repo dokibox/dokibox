@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AppDDLogFormatter.h"
 #import "TitlebarViewNS.h"
 #import "PluginManager.h"
 #import "DDASLLogger.h"
@@ -19,6 +20,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    AppDDLogFormatter *logFormatter = [[AppDDLogFormatter alloc] init];
+    [[DDASLLogger sharedInstance] setLogFormatter:logFormatter];
+    [[DDTTYLogger sharedInstance] setLogFormatter:logFormatter];
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     DDLogVerbose(@"DD Logger ready");
