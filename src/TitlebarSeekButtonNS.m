@@ -16,14 +16,12 @@
 - (void)mouseDown:(NSEvent *)event
 {
     _held = YES;
-    NSLog(@"Mousedown.");
     delayTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(startSeek) userInfo:nil repeats:NO];
     [self setNeedsDisplay:YES];
 }
 
 -(void)startSeek {
     _didSeek = YES;
-    NSLog(@"Seek Started.");
     seekTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(continueHold:) userInfo:nil repeats:YES];
 }
 
@@ -69,7 +67,6 @@
         }
     }
     [self setNeedsDisplay:YES];
-    NSLog(@"Mouseup.");
 }
 
 -(void)setType:(SeekButtonDirection)type {

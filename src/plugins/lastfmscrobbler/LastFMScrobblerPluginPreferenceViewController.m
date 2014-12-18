@@ -97,7 +97,7 @@
         }
         
         if(token == nil) {
-            NSLog(@"Error. No token found");
+            DDLogError(@"Error. No token found");
             dispatch_async(dispatch_get_main_queue(), errorBlock);
             return;
         }
@@ -142,7 +142,7 @@
         }
         
         if(name == nil || key == nil) {
-            NSLog(@"Error obtaining session key");
+            DDLogError(@"Error obtaining session key");
             dispatch_async(dispatch_get_main_queue(), errorBlock);
             return;
         }

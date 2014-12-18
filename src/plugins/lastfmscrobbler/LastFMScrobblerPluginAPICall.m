@@ -81,15 +81,15 @@
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:urlReq returningResponse:&response error:&err];
     if(err) {
-        NSLog(@"HTTP error");
-        NSLog(@"%@", [err localizedDescription]);
+        DDLogError(@"HTTP error");
+        DDLogError(@"%@", [err localizedDescription]);
         return nil;
     }
         
     NSXMLDocument *doc = [[NSXMLDocument alloc] initWithData:data options:0 error:&err];
     if(err) {
-        NSLog(@"XML parsing error");
-        NSLog(@"%@", [err localizedDescription]);
+        DDLogError(@"XML parsing error");
+        DDLogError(@"%@", [err localizedDescription]);
         return nil;
     }
     

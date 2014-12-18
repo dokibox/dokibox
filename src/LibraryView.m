@@ -140,12 +140,12 @@
                 [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
             }
         }
-        NSLog(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
+        DDLogVerbose(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
     }
 
     // Deleted objects
     for(NSManagedObject *m in objectsToDelete) {
-        NSLog(@"deleting %@", [m valueForKey:@"name"]);
+        DDLogVerbose(@"deleting %@", [m valueForKey:@"name"]);
         NSUInteger index = [_rowData indexOfObject:m];
         if(index != NSNotFound) {
             [self collapseRow:index];
@@ -155,7 +155,7 @@
 
     // Inserted objects
     for(NSManagedObject *m in objectsToInsert) {
-        NSLog(@"inserting %@", [m valueForKey:@"name"]);
+        DDLogVerbose(@"inserting %@", [m valueForKey:@"name"]);
         NSInteger insertIndex = [self insertionIndexFor:m];
         if(insertIndex != NSNotFound) {
             [_rowData insertObject:m atIndex:insertIndex];

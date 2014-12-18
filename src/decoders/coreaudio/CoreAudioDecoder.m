@@ -36,20 +36,20 @@ static SInt64 streamGetSizeRequest(void* mc) {
     }
     OSStatus retval = AudioFileOpenWithCallbacks((__bridge void*)musicController, streamReadRequest, NULL, streamGetSizeRequest, NULL, fileTypeHint, &_inAudioFileID);
     if(retval != noErr){
-        NSLog(@"Failed to open stream: %d", retval);
+        DDLogError(@"Failed to open stream: %d", retval);
         return self;
     }
     
     retval = ExtAudioFileWrapAudioFileID(_inAudioFileID, NO, &_inFileRef);
     if (retval != noErr){
-        NSLog(@"Failed to wrap stream: %d", retval);
+        DDLogError(@"Failed to wrap stream: %d", retval);
         return self;
     }
     
     UInt32 inFormatSize = sizeof(_inFormat);
     retval = ExtAudioFileGetProperty(_inFileRef, kExtAudioFileProperty_FileDataFormat, &inFormatSize, &_inFormat);
     if (retval != noErr){
-        NSLog(@"Problem getting stream information");
+        DDLogError(@"Problem getting stream information");
     }
     
     if (_inFormat.mFormatID == kAudioFormatAppleLossless) {
@@ -85,7 +85,7 @@ static SInt64 streamGetSizeRequest(void* mc) {
     
     retval = ExtAudioFileSetProperty(_inFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(_clientFormat), &_clientFormat);
     if(retval != noErr) {
-        NSLog(@"Problem setting output format: %i", retval);
+        DDLogError(@"Problem setting output format: %i", retval);
     }
     
     // Decode data setup
@@ -112,7 +112,6 @@ static SInt64 streamGetSizeRequest(void* mc) {
 }
 
 -(void)dealloc {
-    NSLog(@"Deallocing CoreAudio decoder");
     ExtAudioFileDispose(_inFileRef);
     AudioFileClose(_inAudioFileID);
     free(_decodeData);
@@ -129,7 +128,7 @@ static SInt64 streamGetSizeRequest(void* mc) {
     OSStatus retval = ExtAudioFileRead(_inFileRef, &numberOfFrames, &outBufList);
     
     if (retval != noErr) {
-        NSLog(@"error %d", retval);
+        DDLogError(@"error %d", retval);
         return DecoderEOF;
     }
     

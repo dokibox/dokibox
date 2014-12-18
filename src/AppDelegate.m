@@ -25,7 +25,6 @@
     [[DDTTYLogger sharedInstance] setLogFormatter:logFormatter];
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    DDLogVerbose(@"DD Logger ready");
     
     if([NSEvent modifierFlags] & NSAlternateKeyMask) {
         NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,409,300) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];

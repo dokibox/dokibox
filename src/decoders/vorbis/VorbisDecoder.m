@@ -20,7 +20,7 @@ size_t vorbis_readcallback(void *ptr, size_t size, size_t nmemb, void *datasourc
     }
 
     memcpy(ptr, [data bytes], sizeread);
-    //NSLog(@"vorbis readcallback %d", sizeread);
+    //DDLogVerbose(@"vorbis readcallback %d", sizeread);
 
     return sizeread;
 }
@@ -68,7 +68,7 @@ long vorbis_tellcallback(void *datasource) {
 
     retval = ov_open_callbacks((__bridge void *)self, &decoder, NULL, 0, callbacks);
     if(retval != 0) {
-        NSLog(@"error initalizing vorbis decoder (err %d)", retval);
+        DDLogError(@"error initalizing vorbis decoder (err %d)", retval);
     }
     
     // Decode data setup
@@ -80,7 +80,6 @@ long vorbis_tellcallback(void *datasource) {
 }
 
 -(void)dealloc {
-    NSLog(@"Deallocing vorbis decoder");
     ov_clear(&decoder);
     free(_decodeData);
 }
@@ -118,7 +117,7 @@ long vorbis_tellcallback(void *datasource) {
 {
     int retval = ov_pcm_seek_lap(&decoder, frame);
     if(retval) {
-        NSLog(@"Seeking failed, error=%d", retval);
+        DDLogError(@"Seeking failed, error=%d", retval);
     }
 }
 

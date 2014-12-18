@@ -58,7 +58,6 @@
 
     NSPoint event_location = [event locationInWindow];
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
-    NSLog(@"entered at %f %f", screen_location.x, screen_location.y);
 
     float width = 40;
     float height = 50;
@@ -95,7 +94,6 @@
 
     NSPoint event_location = [event locationInWindow];
     NSPoint screen_location = [[self window] convertBaseToScreen:event_location];
-    NSLog(@"exited at %f %f", screen_location.x, screen_location.y);
 
     [_hoverWindow close];
     _hoverWindow = nil;

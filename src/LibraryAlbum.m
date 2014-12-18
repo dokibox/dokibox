@@ -85,7 +85,7 @@
 
     NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];
     if(results == nil) {
-        NSLog(@"error fetching results");
+        DDLogError(@"error fetching results");
     }
     else if([results count] == 0) {
         artist = [NSEntityDescription insertNewObjectForEntityForName:@"artist" inManagedObjectContext:[self managedObjectContext]];

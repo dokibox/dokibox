@@ -45,7 +45,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     
     Library *library = (__bridge Library *)info->library;
     LibraryMonitoredFolder *folder = (__bridge LibraryMonitoredFolder *)info->monitoredFolder;
-    NSLog(@"Monitored folder: %@", [folder path]);
+    DDLogCVerbose(@"Monitored folder: %@", [folder path]);
     
     NSFileManager *fm = [NSFileManager defaultManager];
     
@@ -55,13 +55,13 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         /* flags are unsigned long, IDs are uint64_t */
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagHistoryDone)) continue;
 
-        printf("Change %llu in %s, flags %du\n", eventIds[i], paths[i], (unsigned int)eventFlags[i]);
+        DDLogCVerbose(@"Change %llu in %s, flags %du\n", eventIds[i], paths[i], (unsigned int)eventFlags[i]);
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagMustScanSubDirs))
-            NSLog(@"must scan subdirs");
+            DDLogCVerbose(@"must scan subdirs");
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagEventIdsWrapped))
-            NSLog(@"event ids looped; this is nearly impossible");
+            DDLogCVerbose(@"event ids looped; this is nearly impossible");
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagMount) || isFlagSet(eventFlags[i], kFSEventStreamEventFlagUnmount))
-            NSLog(@"mount/unmount happened");
+            DDLogCVerbose(@"mount/unmount happened");
 
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsFile)) {
             if([fm fileExistsAtPath:path]) {
@@ -297,10 +297,10 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 
     if([_queueObjectContext save:&error] == NO) {
-        NSLog(@"error saving");
-        NSLog(@"%@", [error localizedDescription]);
+        DDLogError(@"error saving");
+        DDLogError(@"%@", [error localizedDescription]);
         for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
-            NSLog(@"%@", [e localizedDescription]);
+            DDLogError(@"%@", [e localizedDescription]);
         }
     };
 }
@@ -347,10 +347,10 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         DDLogVerbose(@"Deleting file: %@", file);
         [_queueObjectContext deleteObject:t];
         if([_queueObjectContext save:&error] == NO) {
-            NSLog(@"error saving");
-            NSLog(@"%@", [error localizedDescription]);
+            DDLogError(@"error saving");
+            DDLogError(@"%@", [error localizedDescription]);
             for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
-                NSLog(@"%@", [e localizedDescription]);
+                DDLogError(@"%@", [e localizedDescription]);
             }
         };
     }
@@ -387,7 +387,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     
     FSEventStreamScheduleWithRunLoop(fsEventStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     FSEventStreamStart(fsEventStream);
-    NSLog(@"started FS monitor for %@", [folder path]);
+    DDLogVerbose(@"started FS monitor for %@", [folder path]);
     
     // Initial search of directory
     if([[folder initialScanDone] boolValue] == NO) {

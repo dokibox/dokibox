@@ -47,7 +47,7 @@
         }
     }
     else {
-        NSLog(@"There was a problem loading the dirs");
+        DDLogError(@"There was a problem loading the dirs");
     }
 }
 
@@ -58,7 +58,7 @@
     Class principalClass = [bundle principalClass];
 
     if(![principalClass conformsToProtocol:@protocol(PluginProtocol)] || ![principalClass instancesRespondToSelector:@selector(initWithPluginManager:)]) {
-        NSLog(@"%@: invalid plugin", path);
+        DDLogError(@"%@: invalid plugin", path);
         return;
     }
 
@@ -69,7 +69,7 @@
 -(void)registerDecoderClass:(Class)decoderClass forExtension:(NSString*)extension
 {
     if(![decoderClass conformsToProtocol:@protocol(DecoderProtocol)]) {
-        NSLog(@"Invaid decoder class");
+        DDLogError(@"Invaid decoder class");
         return;
     }
     [_decoderPlugins setObject:decoderClass forKey:extension];

@@ -133,10 +133,10 @@
 {
     NSError *error;
     if([[self managedObjectContext] save:&error] == NO) {
-        NSLog(@"error saving");
-        NSLog(@"%@", [error localizedDescription]);
+        DDLogError(@"error saving");
+        DDLogError(@"%@", [error localizedDescription]);
         for(NSError *e in [[error userInfo] objectForKey:NSDetailedErrorsKey]) {
-            NSLog(@"%@", [e localizedDescription]);
+            DDLogError(@"%@", [e localizedDescription]);
         }
     }
 }

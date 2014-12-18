@@ -73,7 +73,6 @@
 }
 
 -(void)didTurnIntoFault {
-    //NSLog(@"hi turned into fault");
     [super didTurnIntoFault];
 }
 
@@ -89,7 +88,7 @@
 
     NSArray *results = [[self managedObjectContext] executeFetchRequest:fr error:&error];
     if(results == nil) {
-        NSLog(@"error fetching results");
+        DDLogError(@"error fetching results");
     }
     else if([results count] == 0) {
         album = [NSEntityDescription insertNewObjectForEntityForName:@"album" inManagedObjectContext:[self managedObjectContext]];

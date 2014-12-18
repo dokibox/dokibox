@@ -27,11 +27,9 @@ FLAC__StreamDecoderReadStatus flac_readcallback(FLAC__StreamDecoder *decoder, FL
 FLAC__StreamDecoderWriteStatus flac_writecallback(FLAC__StreamDecoder *decoder, FLAC__Frame *frame, FLAC__int32 *buffer[], void *client_data) {
     FLACDecoder *flacDecoder = (__bridge FLACDecoder *)client_data;
     MusicController *mc = [flacDecoder musicController];
-    //NSLog(@"writecallback %d", frame->header.blocksize*2*2);
 
     int i;
     int bps = [flacDecoder metadata].bitsPerSample/8;
-    //NSLog(@"how many frames in flac frame: %d", frame->header.blocksize);
 
     int size = frame->header.blocksize*bps*2;
     void *tempBuffer = malloc(size);
@@ -114,13 +112,10 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
         (FLAC__StreamDecoderErrorCallback)flac_errorcallback,
         (__bridge void *)self);
 
-    NSLog(@"init: %d", retval);
-
     return self;
 }
 
 -(void)dealloc {
-    NSLog(@"Deallocing flac decoder");
     FLAC__stream_decoder_finish(decoder);
     FLAC__stream_decoder_delete(decoder);
 }
@@ -151,8 +146,8 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 -(DecodeStatus)decodeNextFrame {
     FLAC__bool retval = FLAC__stream_decoder_process_single(decoder);
     if(retval != true) {
-        NSLog(@"Some kinda of FLAC failure.");
-        NSLog(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
+        DDLogError(@"Some kinda of FLAC failure.");
+        DDLogError(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
         return DecoderEOF;
     }
     
@@ -160,8 +155,8 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     if(state == FLAC__STREAM_DECODER_END_OF_STREAM)
         return DecoderEOF;
     else if (state > FLAC__STREAM_DECODER_END_OF_STREAM) {
-        NSLog(@"Some kinda of FLAC failure.");
-        NSLog(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
+        DDLogError(@"Some kinda of FLAC failure.");
+        DDLogError(@"decoder state %d", FLAC__stream_decoder_get_state(decoder));
         return DecoderEOF;
     }
     
@@ -171,7 +166,7 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
 -(void)seekToFrame:(unsigned long long)frame {
     FLAC__bool retval = FLAC__stream_decoder_seek_absolute(decoder, frame);
     if(retval != true) {
-        NSLog(@"Seek failed");
+        DDLogError(@"Seek failed");
     }
 }
 

@@ -45,8 +45,8 @@
 - (void)write:(void *)data size:(int)size {
     // check enough space
     if(size > [self freespace]) {
-        NSLog(@"size we tried to write: %d", size);
-        NSLog(@"free space: %d", [self freespace]);
+        DDLogError(@"size we tried to write: %d", size);
+        DDLogError(@"free space: %d", [self freespace]);
         assert(size <= [self freespace]);
     }
 
