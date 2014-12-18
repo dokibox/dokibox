@@ -38,10 +38,15 @@
 
 - (void)setPlaylistVisiblity:(BOOL)visible;
 
-- (void)addTracksToCurrentPlaylist:(NSArray*)filenames;
-- (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p;
-- (void)insertTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSInteger)index;
-- (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+- (void)addTracksToCurrentPlaylistFromFilenames:(NSArray*)filenames;
+- (void)addTracksFromFilenames:(NSArray*)filenames toPlaylist:(Playlist *)p;
+- (void)insertTracksToCurrentPlaylistFromFilenames:(NSArray*)filenames atIndex:(NSInteger)index;
+- (void)insertTracksFromFilenames:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+
+- (void)addTracksToCurrentPlaylistFromLibraryTracks:(NSArray*)libraryTracks;
+- (void)addTracksFromLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p;
+- (void)insertTracksToCurrentPlaylistLibraryTracks:(NSArray*)libraryTracks atIndex:(NSInteger)index;
+- (void)insertTracksLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 
 - (void)removeOrphanedPlaylistTracks;
 - (void)fetchPlaylists;

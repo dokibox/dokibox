@@ -8,6 +8,9 @@
 
 #import "PlaylistTrack.h"
 #import "TaggerProtocol.h"
+#import "LibraryTrack.h"
+#import "LibraryAlbum.h"
+#import "LibraryArtist.h"
 
 @implementation PlaylistTrack
 
@@ -31,6 +34,29 @@
         return nil;
     }
 
+    return t;
+}
+
++(PlaylistTrack *)trackWithLibraryTrack:(LibraryTrack *)libraryTrack inContext:(NSManagedObjectContext *)objectContext
+{
+    PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
+    
+    [t setFilename:[libraryTrack filename]];
+    [t setName:[libraryTrack name]];
+    [t setAlbumName:[[libraryTrack album] name]];
+    [t setLength:[libraryTrack length]];
+    
+    // Conversion between LibraryTrack and PlaylistTrack semantics as regards track/album artist
+    // LibraryTrack always has album artist and only has track artist set if it is different from album artist
+    // PlaylistTrack always has track artist and only has album artist if the tag exists
+    if([libraryTrack trackArtistName]) {
+        [t setAlbumArtistName:[[[libraryTrack album] artist] name]];
+        [t setTrackArtistName:[libraryTrack trackArtistName]];
+    }
+    else {
+        [t setTrackArtistName:[[[libraryTrack album] artist] name]];
+    }
+    
     return t;
 }
 

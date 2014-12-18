@@ -437,15 +437,14 @@
 
     [self expandRow:0 recursive:YES onCellData:clickedObjects andMatchedObjects:_searchMatchedObjects];
         
-    NSMutableArray *trackFilenames = [[NSMutableArray alloc] init];
+    NSMutableArray *tracks = [[NSMutableArray alloc] init];
     for(id i in clickedObjects) {
         if([i isKindOfClass:[LibraryTrack class]]) {
-            LibraryTrack *t = (LibraryTrack*)i;
-            [trackFilenames addObject:[t filename]];
+            [tracks addObject:i];
         }
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:trackFilenames];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addTrackToCurrentPlaylist" object:tracks];
 }
 
 

@@ -355,22 +355,24 @@
     [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:newPlaylist]] byExtendingSelection:NO]; // this changes _currentPlaylist
 }
 
-- (void)addTracks:(NSArray*)filenames toPlaylist:(Playlist *)p
+#pragma mark Track adding from filenames
+
+- (void)addTracksFromFilenames:(NSArray*)filenames toPlaylist:(Playlist *)p
 {
-    [self insertTracksToCurrentPlaylist:filenames atIndex:-1];
+    [self insertTracksToCurrentPlaylistFromFilenames:filenames atIndex:-1];
 }
 
-- (void)addTracksToCurrentPlaylist:(NSArray*)filenames
+- (void)addTracksToCurrentPlaylistFromFilenames:(NSArray*)filenames
 {
-    [self addTracks:filenames toPlaylist:_currentPlaylist];
+    [self addTracksFromFilenames:filenames toPlaylist:_currentPlaylist];
 }
 
-- (void)insertTracksToCurrentPlaylist:(NSArray*)filenames atIndex:(NSInteger)index
+- (void)insertTracksToCurrentPlaylistFromFilenames:(NSArray*)filenames atIndex:(NSInteger)index
 {
-    [self insertTracks:filenames toPlaylist:_currentPlaylist atIndex:index];
+    [self insertTracksFromFilenames:filenames toPlaylist:_currentPlaylist atIndex:index];
 }
 
-- (void)insertTracks:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+- (void)insertTracksFromFilenames:(NSArray*)filenames toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 {
     if([filenames count] == 0) return;
     NSManagedObjectID *playlistID = [p objectID];
@@ -396,6 +398,43 @@
             }
         }
     });
+}
+
+#pragma mark Track adding from LibraryTracks
+
+- (void)addTracksFromLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p
+{
+    [self insertTracksToCurrentPlaylistFromLibraryTracks:libraryTracks atIndex:-1];
+}
+
+- (void)addTracksToCurrentPlaylistFromLibraryTracks:(NSArray*)libraryTracks
+{
+    [self addTracksFromLibraryTracks:libraryTracks toPlaylist:_currentPlaylist];
+}
+
+- (void)insertTracksToCurrentPlaylistFromLibraryTracks:(NSArray*)libraryTracks atIndex:(NSInteger)index
+{
+    [self insertTracksFromLibraryTracks:libraryTracks toPlaylist:_currentPlaylist atIndex:index];
+}
+
+- (void)insertTracksFromLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+{
+    if([libraryTracks count] == 0) return;
+    
+    // Do this on main thread as the libraryTracks are from a main thread, and it also should be quick!
+    NSInteger blockIndex = index;
+    for(LibraryTrack *t in libraryTracks) {
+        PlaylistTrack *pt = [PlaylistTrack trackWithLibraryTrack:t inContext:_objectContext];
+        if(index < 0) {
+            [p addTrack:pt];
+        }
+        else {
+            [p insertTrack:pt atIndex:blockIndex];
+            blockIndex++;
+        }
+        [p save];
+        [_trackTableView reloadData];
+    }
 }
 
 -(void)receivedPlaylistSavedNotification:(NSNotification *)notification
@@ -424,7 +463,7 @@
 - (void)receivedAddTrackToCurrentPlaylistNotification:(NSNotification *)notification
 {
     NSArray *tracks = [notification object];
-    [self addTracksToCurrentPlaylist:tracks];
+    [self addTracksToCurrentPlaylistFromLibraryTracks:tracks];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
@@ -688,12 +727,12 @@
         
         if([[pboard types] containsObject:@"trackFilenames"]) {
             arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
-            [self insertTracks:arr toPlaylist:p atIndex:row];
+            [self insertTracksFromFilenames:arr toPlaylist:p atIndex:row];
             return YES;
         }
         else if([[pboard types] containsObject:NSFilenamesPboardType]) {
             arr = [pboard propertyListForType:NSFilenamesPboardType];
-            [self insertTracks:arr toPlaylist:p atIndex:row];
+            [self insertTracksFromFilenames:arr toPlaylist:p atIndex:row];
             return YES;
         }
         
@@ -724,7 +763,7 @@
                     [filenames addObject:[t filename]];
                 }
 
-                [self insertTracks:filenames toPlaylist:p atIndex:row];
+                [self insertTracksFromFilenames:filenames toPlaylist:p atIndex:row];
                 return YES;
             }
 
