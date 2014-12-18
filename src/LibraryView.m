@@ -629,7 +629,10 @@
         NSMutableArray *newCellData = [[NSMutableArray alloc] init];
         NSMutableSet *newSearchMatchedObjects = [[NSMutableSet alloc] init];
         
-        NSDate *d1 = [NSDate date];
+        NSMutableArray *timingArray = [[NSMutableArray alloc] init];
+        NSMutableArray *timingArrayNames = [[NSMutableArray alloc] init];
+        [timingArray addObject:[NSDate date]];
+        [timingArrayNames addObject:@"initial"];
         NSError *error;
         
         NSSortDescriptor *sorter = [[NSSortDescriptor alloc]
@@ -673,30 +676,49 @@
             NSArray *resultsArtist = [context executeFetchRequest:fetchReqArtist error:&error];
             NSArray *resultsAlbum = [context executeFetchRequest:fetchReqAlbum error:&error];
             NSArray *resultsTrack = [context executeFetchRequest:fetchReqTrack error:&error];
-            
+            [timingArray addObject:[NSDate date]];
+            [timingArrayNames addObject:@"fetch"];
+
             [newSearchMatchedObjects addObjectsFromArray:resultsArtist];
             [newSearchMatchedObjects addObjectsFromArray:resultsAlbum];
             [newSearchMatchedObjects addObjectsFromArray:resultsTrack];
-            
+            [timingArray addObject:[NSDate date]];
+            [timingArrayNames addObject:@"collect"];
+
             [fetchedArtists addObjectsFromArray:resultsArtist];
             for (LibraryAlbum *a in resultsAlbum)
                 [fetchedArtists addObject:[a artist]];
             for (LibraryTrack *t in resultsTrack)
                 [fetchedArtists addObject:[[t album] artist]];
+            [timingArray addObject:[NSDate date]];
+            [timingArrayNames addObject:@"uniq"];
 
             [newCellData addObjectsFromArray:[fetchedArtists sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sorter, nil]]];
-            
+            [timingArray addObject:[NSDate date]];
+            [timingArrayNames addObject:@"add"];
+
             NSUInteger i;
             for(i=0; i<[newCellData count]; i++) {
                 if([newSearchMatchedObjects member:[newCellData objectAtIndex:i]]) continue;
                 
                 [self expandRow:i recursive:NO onCellData:newCellData andMatchedObjects:newSearchMatchedObjects];
             }
+            [timingArray addObject:[NSDate date]];
+            [timingArrayNames addObject:@"expand"];
         }
-                
-        NSDate *d2 = [NSDate date];
+        
         DDLogVerbose(@"Runining search for %@", text);
-        DDLogVerbose(@"Fetching %lu cells took %f sec", [newCellData count], [d2 timeIntervalSinceDate:d1]);
+        DDLogVerbose(@"Fetching %lu cells took %f sec", [newCellData count], [[NSDate date] timeIntervalSinceDate:[timingArray objectAtIndex:0]]);
+        
+        // Timing array unpack
+        if([timingArray count] > 1) {
+            NSMutableArray *timingString = [[NSMutableArray alloc] init];
+            for(int i=1; i < [timingArray count]; i++) {
+                NSString *s = [[NSString alloc] initWithFormat:@"%@=%f", [timingArrayNames objectAtIndex:i], [[timingArray objectAtIndex:i] timeIntervalSinceDate:[timingArray objectAtIndex:i-1]]];
+                [timingString addObject:s];
+            }
+            DDLogVerbose(@"%@", [timingString componentsJoinedByString:@", "]);
+        }
         
         NSMutableArray *newCellDataIDs = [[NSMutableArray alloc] init];
         NSMutableArray *newSearchMatchedObjectIDs = [[NSMutableArray alloc] init];
