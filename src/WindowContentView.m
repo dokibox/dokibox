@@ -140,10 +140,9 @@
     }
     
     NSRect trackingRect = [self libraryViewFrame];
-    trackingRect.origin.x += [self libraryViewFrame].size.width;
-    trackingRect.size.width = [self playlistViewFrame].origin.x - trackingRect.origin.x;
-    trackingRect.size.width += 6.0;
-    trackingRect.origin.x -= 3.0;
+    trackingRect.origin.x += [self libraryViewFrame].size.width + 0.5;
+    trackingRect.size.width = 10.0;
+    trackingRect.origin.x -= 5.0;
     
     _dividerTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:NSTrackingCursorUpdate|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
     [self addTrackingArea:_dividerTrackingArea];
