@@ -57,7 +57,7 @@
     CGFloat titlebarSize = 46;
     _window = [[Window alloc] initWithContentRect:b styleMask:NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask | NSMiniaturizableWindowMask | NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:NO];
     [_window setReleasedWhenClosed:FALSE];
-    [_window setMinSize:NSMakeSize(300, 250)];
+    [_window setMinSize:NSMakeSize(500, 250)];
     [_window center];
     [_window setTitlebarSize:titlebarSize];
 

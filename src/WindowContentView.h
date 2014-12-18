@@ -14,7 +14,7 @@
 @class Library;
 
 @interface WindowContentView : NSView {
-    CGFloat width_divider;
+    CGFloat _libraryWidth;
     CGFloat _titlebarSize;
     PlaylistView *_playlistView;
     LibraryView *_libraryView;

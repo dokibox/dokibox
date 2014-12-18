@@ -13,6 +13,8 @@
 #import "NSView+CGDrawing.h"
 
 #define bottomToolbarHeight 30.0
+#define MINIMUM_LIBRARY_WIDTH 250
+#define MINIMUM_PLAYLIST_WIDTH 150
 
 @implementation WindowContentView
 
@@ -23,8 +25,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         _titlebarSize = titlebarSize;
-        width_divider = 0.37;
-
+        _libraryWidth = 300;
+        
         _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame] andLibrary:library];
         [self addSubview:_libraryView];
 
@@ -113,6 +115,9 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidResignKeyNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redisplay) name:NSWindowDidBecomeKeyNotification object:nil];
         
+        // Window resize handler
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:[self window]];
+        
         // mouse tracking for resizing handles
         [self updateDividerTrackingArea];
         
@@ -125,6 +130,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResizeNotification object:[self window]];
 }
 
 - (void)updateDividerTrackingArea
@@ -193,15 +199,16 @@
 {
     if(_dividerBeingDragged == YES) {
         NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+        point.x = round(point.x);
         
         // minimum size for libraryFrame
-        if(point.x < 250)
-            point.x = 250;
+        if(point.x < MINIMUM_LIBRARY_WIDTH)
+            point.x = MINIMUM_LIBRARY_WIDTH;
         // minimum size for playlistFrame
-        else if(([self bounds].size.width - point.x) < 150)
-            point.x = [self bounds].size.width - 150;
-                
-        width_divider = point.x/[self bounds].size.width;
+        else if(([self bounds].size.width - point.x) < MINIMUM_PLAYLIST_WIDTH)
+            point.x = [self bounds].size.width - MINIMUM_PLAYLIST_WIDTH;
+        
+        _libraryWidth = point.x;
         [self resizeSubviewsWithOldSize:[self bounds].size];
     }
 }
@@ -213,7 +220,7 @@
     CGRect libraryFrame = self.bounds;
     libraryFrame.origin.y += bottomToolbarHeight;
     libraryFrame.size.height -= bottomToolbarHeight + _titlebarSize;
-    libraryFrame.size.width = round(self.bounds.size.width * width_divider);
+    libraryFrame.size.width = _libraryWidth;
     return libraryFrame;
 }
 
@@ -222,8 +229,8 @@
     CGRect playlistFrame = self.bounds;
     playlistFrame.origin.y += bottomToolbarHeight;
     playlistFrame.size.height -= bottomToolbarHeight + _titlebarSize;
-    playlistFrame.origin.x += round(playlistFrame.size.width * width_divider) + 1.0;
-    playlistFrame.size.width = playlistFrame.size.width - round(self.bounds.size.width * width_divider) - 1.0;
+    playlistFrame.origin.x += _libraryWidth + 1.0;
+    playlistFrame.size.width = playlistFrame.size.width - _libraryWidth - 1.0;
     return playlistFrame;
 }
 
@@ -233,6 +240,15 @@
     [_libraryView setFrame:[self libraryViewFrame]];
     [_playlistView setFrame:[self playlistViewFrame]];
     [self updateDividerTrackingArea];
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+    // Make sure playlist frame doesn't become too small upon resize
+    // No need to check library frame as MINIMUM_LIBRARY_WIDTH + MINIMUM_PLAYLIST_WIDTH < MINIMUM_WINDOW_WIDTH
+    if([self playlistViewFrame].size.width < MINIMUM_PLAYLIST_WIDTH) {
+        _libraryWidth = [self bounds].size.width - MINIMUM_PLAYLIST_WIDTH;
+    }
 }
 
 -(void)performFindPanelAction:(id)sender
@@ -563,13 +579,13 @@
     CGContextSetLineWidth(ctx, 1.0);
     CGContextSetStrokeColorWithColor(ctx, [[NSColor colorWithDeviceWhite:.71372549 alpha:1.0] CGColor]);
     CGContextBeginPath(ctx);
-    CGContextMoveToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y);
-    CGContextAddLineToPoint(ctx, b.origin.x + round(b.size.width*width_divider)+0.5, b.origin.y + b.size.height - trackTableHeaderHeight - _titlebarSize);
+    CGContextMoveToPoint(ctx, b.origin.x + _libraryWidth+0.5, b.origin.y);
+    CGContextAddLineToPoint(ctx, b.origin.x + _libraryWidth+0.5, b.origin.y + b.size.height - trackTableHeaderHeight - _titlebarSize);
     CGContextStrokePath(ctx);
     NSColor *gradientStartColor, *gradientEndColor; //Gradient for track table header as top line is darker
     gradientStartColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_BOTTOM_COLOR alpha:1.0];
     gradientEndColor = [NSColor colorWithDeviceWhite:TRACK_TABLEVIEW_HEADER_TOP_COLOR alpha:1.0];
-    [self CGContextVerticalGradient:NSMakeRect(b.origin.x + round(b.size.width*width_divider)-0.5, b.origin.y + b.size.height - _titlebarSize - trackTableHeaderHeight, 1, 17.0) context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
+    [self CGContextVerticalGradient:NSMakeRect(b.origin.x + _libraryWidth-0.5, b.origin.y + b.size.height - _titlebarSize - trackTableHeaderHeight, 1, 17.0) context:ctx bottomColor:gradientStartColor topColor:gradientEndColor];
     
     // Bottom bar gradient
     int isActive = [[self window] isMainWindow] && [[NSApplication sharedApplication] isActive];
