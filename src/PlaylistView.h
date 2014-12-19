@@ -10,6 +10,7 @@
 
 @class PlaylistCoreDataManager;
 @class RBLScrollView;
+@class Library;
 
 @interface PlaylistView : NSView <NSTableViewDataSource, NSTableViewDelegate>
 {
@@ -23,6 +24,8 @@
     PlaylistCoreDataManager *_playlistCoreDataManger;
     NSManagedObjectContext *_objectContext;
     
+    Library *_library;
+    
     dispatch_queue_t _addingQueue;
     
     NSTrackingArea *_dividerTrackingArea;
@@ -30,6 +33,8 @@
     CGFloat _playlistHeight;
     BOOL _playlistsVisible;
 }
+
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library;
 
 - (void)updateDividerTrackingArea;
 - (NSRect)playlistScrollViewFrame;

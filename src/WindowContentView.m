@@ -30,7 +30,7 @@
         _libraryView = [[LibraryView alloc] initWithFrame:[self libraryViewFrame] andLibrary:library];
         [self addSubview:_libraryView];
 
-        _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame]];
+        _playlistView = [[PlaylistView alloc] initWithFrame:[self playlistViewFrame] andLibrary:library];
         [self addSubview:_playlistView];
 
         // show playlist

@@ -758,14 +758,13 @@
     NSMutableArray *trackFilenames = [[NSMutableArray alloc] init];
     for(id i in selectedObjects) {
         if([i isKindOfClass:[LibraryTrack class]]) {
-            LibraryTrack *t = (LibraryTrack*)i;
-            [trackFilenames addObject:[t filename]];
+            [trackFilenames addObject:[[i objectID] URIRepresentation]];
         }
     }
 
     NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:trackFilenames];
-    [pboard declareTypes:[NSArray arrayWithObject:@"trackFilenames"] owner:self];
-    [pboard setData:archivedData forType:@"trackFilenames"];
+    [pboard declareTypes:[NSArray arrayWithObject:@"libraryTrackIDs"] owner:self];
+    [pboard setData:archivedData forType:@"libraryTrackIDs"];
     return YES;
 }
 

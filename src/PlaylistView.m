@@ -21,13 +21,17 @@
 #import "PlaylistTrackPlayingCellView.h"
 #import "PlaylistTableHeader.h"
 #import "NSArray+OrderedManagedObjects.h"
+#import "Library.h"
+#import "LibraryCoreDataManager.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
 
-- (id)initWithFrame:(NSRect)frame
+- (id)initWithFrame:(CGRect)frame andLibrary:(Library *)library
 {
     if((self = [super initWithFrame:frame])) {
+        _library = library;
+        
         _playlistHeight = 100;
 
         // Fetch stuff
@@ -42,7 +46,7 @@
         _playlistTableView = [[NSTableView alloc] initWithFrame: [[_playlistScrollView contentView] bounds]];
         [_playlistTableView setDelegate:self];
         [_playlistTableView setDataSource:self];
-        [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", @"playlistIDs", nil]];
+        [_playlistTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"libraryTrackIDs", NSFilenamesPboardType, @"playlistTrackIDs", @"playlistIDs", nil]];
         [_playlistTableView setHeaderView:nil];
         [_playlistTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_playlistTableView setDoubleAction:@selector(doubleClickReceived:)];
@@ -89,7 +93,7 @@
         _trackTableView = [[NSTableView alloc] initWithFrame: [[_trackScrollView contentView] bounds]];
         [_trackTableView setDelegate:self];
         [_trackTableView setDataSource:self];
-        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"trackFilenames", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
+        [_trackTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"libraryTrackIDs", NSFilenamesPboardType, @"playlistTrackIDs", nil]];
         [_trackTableView setIntercellSpacing:NSMakeSize(0, 0)];
         [_trackTableView setDoubleAction:@selector(doubleClickReceived:)];
         [_trackTableView setAllowsMultipleSelection:YES];
@@ -652,11 +656,13 @@
     }
 }
 
+#pragma mark Drag n' Drop methods
+
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
 
-    if([[pboard types] containsObject:@"trackFilenames"] ||
+    if([[pboard types] containsObject:@"libraryTrackIDs"] ||
        [[pboard types] containsObject:NSFilenamesPboardType] ||
        [[pboard types] containsObject:@"playlistTrackIDs"]) {
         // Music files
@@ -675,7 +681,7 @@
             return NSDragOperationNone;
         }
         
-        if([[pboard types] containsObject:@"trackFilenames"] ||
+        if([[pboard types] containsObject:@"libraryTrackIDs"] ||
            [[pboard types] containsObject:NSFilenamesPboardType]) {
             // From Library or Finder
             return NSDragOperationCopy;
@@ -708,7 +714,7 @@
     NSPasteboard *pboard = [info draggingPasteboard];
     NSArray *arr;
     
-    if([[pboard types] containsObject:@"trackFilenames"] ||
+    if([[pboard types] containsObject:@"libraryTrackIDs"] ||
        [[pboard types] containsObject:NSFilenamesPboardType] ||
        [[pboard types] containsObject:@"playlistTrackIDs"]) {
         // Music files
@@ -725,9 +731,22 @@
             return NO;
         }
         
-        if([[pboard types] containsObject:@"trackFilenames"]) {
-            arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"trackFilenames"]];
-            [self insertTracksFromFilenames:arr toPlaylist:p atIndex:row];
+        if([[pboard types] containsObject:@"libraryTrackIDs"]) {
+            arr = [NSKeyedUnarchiver unarchiveObjectWithData:[pboard dataForType:@"libraryTrackIDs"]];
+            
+            NSMutableArray *tracks = [[NSMutableArray alloc] init];
+            NSManagedObjectContext *context = [[_library coreDataManager] newContext];
+            for(NSURL *url in arr) { // Extracting Pasteboard
+                NSManagedObjectID *objectID = [[context persistentStoreCoordinator] managedObjectIDForURIRepresentation:url];
+                if(objectID == nil) {
+                    continue;
+                }
+                
+                LibraryTrack *t = (LibraryTrack*)[context objectWithID:objectID];
+                [tracks addObject:t];
+            }
+            
+            [self insertTracksFromLibraryTracks:tracks toPlaylist:p atIndex:row];
             return YES;
         }
         else if([[pboard types] containsObject:NSFilenamesPboardType]) {
