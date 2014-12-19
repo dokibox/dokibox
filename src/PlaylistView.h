@@ -50,8 +50,8 @@
 
 - (void)addTracksToCurrentPlaylistFromLibraryTracks:(NSArray*)libraryTracks;
 - (void)addTracksFromLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p;
-- (void)insertTracksToCurrentPlaylistLibraryTracks:(NSArray*)libraryTracks atIndex:(NSInteger)index;
-- (void)insertTracksLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
+- (void)insertTracksToCurrentPlaylistFromLibraryTracks:(NSArray*)libraryTracks atIndex:(NSInteger)index;
+- (void)insertTracksFromLibraryTracks:(NSArray*)libraryTracks toPlaylist:(Playlist *)p atIndex:(NSInteger)index;
 
 - (void)removeOrphanedPlaylistTracks;
 - (void)fetchPlaylists;
