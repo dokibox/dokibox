@@ -26,3 +26,6 @@
 	path = deps/SPMediaKeyTap
 	url = git://github.com/nevyn/SPMediaKeyTap.git
 	ignore = dirty
+[submodule "deps/sparkle"]
+	path = deps/sparkle
+	url = git://github.com/sparkle-project/Sparkle.git
