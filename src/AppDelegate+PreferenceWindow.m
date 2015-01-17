@@ -9,7 +9,7 @@
 #import "AppDelegate+PreferenceWindow.h"
 #import "LibraryPreferenceViewController.h"
 #import "PluginPreferenceViewController.h"
-
+#import "UpdaterPreferenceViewController.h"
 
 @implementation AppDelegate (PreferenceWindow)
 
@@ -24,7 +24,12 @@
         NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] initWithLibrary:_library];
         NSViewController *pluginPreferenceViewController = [[PluginPreferenceViewController alloc] init];
 
-        NSArray *controllers = [[NSArray alloc] initWithObjects:libraryPreferenceViewController, pluginPreferenceViewController, nil];
+        NSMutableArray *controllers = [[NSMutableArray alloc] initWithObjects:libraryPreferenceViewController, pluginPreferenceViewController, nil];
+        
+#ifndef DEBUG
+        [controllers addObject:[[UpdaterPreferenceViewController alloc] init]];
+#endif
+        
         _preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:controllers title:@"Preferences"];
     }
     

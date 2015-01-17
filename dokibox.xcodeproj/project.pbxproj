@@ -49,6 +49,8 @@
 		2B86BDC115216B740022E813 /* FIFOBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B86BDC015216B740022E813 /* FIFOBuffer.m */; };
 		2B8D59841A68CBBC002A202A /* Sparkle.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 2B8D597B1A68CB8E002A202A /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2B8D59851A68D093002A202A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8D597B1A68CB8E002A202A /* Sparkle.framework */; };
+		2B8D59891A6ACA93002A202A /* UpdaterPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8D59871A6ACA93002A202A /* UpdaterPreferenceViewController.m */; };
+		2B8D598A1A6ACA93002A202A /* UpdaterPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B8D59881A6ACA93002A202A /* UpdaterPreferenceViewController.xib */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2B92032D185E279700AAD008 /* NSTableView+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */; };
 		2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9203361863061D00AAD008 /* PlaylistTableHeader.m */; };
@@ -339,6 +341,9 @@
 		2B86BDBF15216B740022E813 /* FIFOBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFOBuffer.h; sourceTree = "<group>"; };
 		2B86BDC015216B740022E813 /* FIFOBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFOBuffer.m; sourceTree = "<group>"; };
 		2B8D596E1A68CB8D002A202A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = deps/sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		2B8D59861A6ACA93002A202A /* UpdaterPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdaterPreferenceViewController.h; sourceTree = "<group>"; };
+		2B8D59871A6ACA93002A202A /* UpdaterPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdaterPreferenceViewController.m; sourceTree = "<group>"; };
+		2B8D59881A6ACA93002A202A /* UpdaterPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdaterPreferenceViewController.xib; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
 		2B92032B185E279700AAD008 /* NSTableView+ContextMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+ContextMenu.h"; sourceTree = "<group>"; };
@@ -611,6 +616,9 @@
 				2BAEE24117E515DA007D610B /* PluginPreferenceViewController.h */,
 				2BAEE24217E515DA007D610B /* PluginPreferenceViewController.m */,
 				2BAEE24317E515DB007D610B /* PluginPreferenceViewController.xib */,
+				2B8D59861A6ACA93002A202A /* UpdaterPreferenceViewController.h */,
+				2B8D59871A6ACA93002A202A /* UpdaterPreferenceViewController.m */,
+				2B8D59881A6ACA93002A202A /* UpdaterPreferenceViewController.xib */,
 			);
 			name = preferences;
 			sourceTree = "<group>";
@@ -1133,6 +1141,7 @@
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
+				2B8D598A1A6ACA93002A202A /* UpdaterPreferenceViewController.xib in Resources */,
 				2BAEE24517E515DB007D610B /* PluginPreferenceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1216,6 +1225,7 @@
 				2B5086D11787AAFB0066B014 /* WindowContentView.m in Sources */,
 				2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */,
 				2B9DA4FA178A5AF10065DC44 /* PlaylistCellView.m in Sources */,
+				2B8D59891A6ACA93002A202A /* UpdaterPreferenceViewController.m in Sources */,
 				2B9DA4FD1791E8C60065DC44 /* PlaylistTrackRowView.m in Sources */,
 				2B9DA5001791FE910065DC44 /* PlaylistRowView.m in Sources */,
 				2BDC0CD6179B2682006EBB05 /* NSView+CGDrawing.m in Sources */,
