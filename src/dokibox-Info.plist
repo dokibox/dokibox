@@ -34,5 +34,7 @@
 	<string>https://s3.amazonaws.com/dokibox-release/appcast.xml</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
+	<key>SUAllowsAutomaticUpdates</key>
+	<false/>
 </dict>
 </plist>
