@@ -12,12 +12,16 @@
 #import "MASPreferencesWindowController.h"
 #import "Library.h"
 
+@class SUUpdater;
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
     Window    * _window;
     MusicController *_musicController;
     Library *_library;
     NSWindowController *_preferencesWindowController;
+    
+    SUUpdater *_sparkleUpdater;
 }
 
 -(void)launch;

@@ -15,6 +15,7 @@
 #import "WindowContentView.h"
 #import "ProfileViewController.h"
 #import "ProfileController.h"
+#import "SUUpdater.h"
 
 @implementation AppDelegate
 
@@ -35,6 +36,10 @@
         [window setReleasedWhenClosed:NO]; // let ARC handle
         [window close];
     }
+    
+#ifndef DEBUG
+    _sparkleUpdater = [[SUUpdater alloc] init];
+#endif
     
     [self launch];
 }
