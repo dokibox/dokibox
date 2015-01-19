@@ -12,7 +12,6 @@
 		2B15BF69146127A100DC46CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B15BF68146127A100DC46CD /* Cocoa.framework */; };
 		2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF71146127A100DC46CD /* InfoPlist.strings */; };
 		2B15BF75146127A100DC46CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF74146127A100DC46CD /* main.m */; };
-		2B15BF79146127A100DC46CD /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF77146127A100DC46CD /* Credits.rtf */; };
 		2B15BF7C146127A100DC46CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B15BF7B146127A100DC46CD /* AppDelegate.m */; };
 		2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B15BF7D146127A100DC46CD /* MainMenu.xib */; };
 		2B1FEF6315D9C9BB003C4435 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FEF6215D9C9BB003C4435 /* Window.m */; };
@@ -51,6 +50,7 @@
 		2B8D59851A68D093002A202A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8D597B1A68CB8E002A202A /* Sparkle.framework */; };
 		2B8D59891A6ACA93002A202A /* UpdaterPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8D59871A6ACA93002A202A /* UpdaterPreferenceViewController.m */; };
 		2B8D598A1A6ACA93002A202A /* UpdaterPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B8D59881A6ACA93002A202A /* UpdaterPreferenceViewController.xib */; };
+		2B8D59A91A6CA181002A202A /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B8D59A71A6CA181002A202A /* Credits.html */; };
 		2B8DB9361479FB7E006133CA /* PlaylistTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8DB9351479FB7E006133CA /* PlaylistTrack.m */; };
 		2B92032D185E279700AAD008 /* NSTableView+ContextMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B92032C185E279700AAD008 /* NSTableView+ContextMenu.m */; };
 		2B9203371863061D00AAD008 /* PlaylistTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9203361863061D00AAD008 /* PlaylistTableHeader.m */; };
@@ -275,7 +275,6 @@
 		2B15BF72146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2B15BF74146127A100DC46CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2B15BF76146127A100DC46CD /* dokibox-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dokibox-Prefix.pch"; sourceTree = "<group>"; };
-		2B15BF78146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2B15BF7A146127A100DC46CD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B15BF7B146127A100DC46CD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2B15BF7E146127A100DC46CD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -344,6 +343,7 @@
 		2B8D59861A6ACA93002A202A /* UpdaterPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdaterPreferenceViewController.h; sourceTree = "<group>"; };
 		2B8D59871A6ACA93002A202A /* UpdaterPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdaterPreferenceViewController.m; sourceTree = "<group>"; };
 		2B8D59881A6ACA93002A202A /* UpdaterPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdaterPreferenceViewController.xib; sourceTree = "<group>"; };
+		2B8D59A81A6CA181002A202A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		2B8DB9341479FB7E006133CA /* PlaylistTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistTrack.h; sourceTree = "<group>"; };
 		2B8DB9351479FB7E006133CA /* PlaylistTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistTrack.m; sourceTree = "<group>"; };
 		2B92032B185E279700AAD008 /* NSTableView+ContextMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+ContextMenu.h"; sourceTree = "<group>"; };
@@ -595,8 +595,8 @@
 				2B15BF71146127A100DC46CD /* InfoPlist.strings */,
 				2B15BF74146127A100DC46CD /* main.m */,
 				2B15BF76146127A100DC46CD /* dokibox-Prefix.pch */,
-				2B15BF77146127A100DC46CD /* Credits.rtf */,
 				2B5B340717768E830093C292 /* defaultPrefs.plist */,
+				2B8D59A71A6CA181002A202A /* Credits.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -952,6 +952,7 @@
 				2B15BF62146127A100DC46CD /* Resources */,
 				2BEC84BB147CA5D4008102F8 /* Copy Files */,
 				2BB25CA81692042000243B27 /* CopyFiles */,
+				2B8D59A61A6C9CB2002A202A /* Run Script - Generate Credits.html */,
 			);
 			buildRules = (
 			);
@@ -1134,11 +1135,11 @@
 			files = (
 				2B7C00AF18202F7100E2AC90 /* ProfileViewController.xib in Resources */,
 				2B15BF73146127A100DC46CD /* InfoPlist.strings in Resources */,
-				2B15BF79146127A100DC46CD /* Credits.rtf in Resources */,
 				2B15BF7F146127A100DC46CD /* MainMenu.xib in Resources */,
 				2BB25D09169743B700243B27 /* InfoPlist.strings in Resources */,
 				6F92D0FD19D14E9900A9FD81 /* dokiboxIcon.iconset in Resources */,
 				2B5B33FE17763C140093C292 /* MASPreferencesWindow.xib in Resources */,
+				2B8D59A91A6CA181002A202A /* Credits.html in Resources */,
 				2B5B340817768E830093C292 /* defaultPrefs.plist in Resources */,
 				2BAEE23517E50A3F007D610B /* LibraryPreferenceViewController.xib in Resources */,
 				2B8D598A1A6ACA93002A202A /* UpdaterPreferenceViewController.xib in Resources */,
@@ -1179,6 +1180,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B8D59A61A6C9CB2002A202A /* Run Script - Generate Credits.html */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Generate Credits.html";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "CREDITS_HTML=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/en.lproj/Credits.html\"\n\nsed -i '' -e '/__AUTHORS__/{' -e \"r $SRCROOT/AUTHORS\" -e 'd' -e '}' \"$CREDITS_HTML\"\nsed -i '' -e '/__LICENSE__/{' -e \"r $SRCROOT/LICENSE\" -e 'd' -e '}' \"$CREDITS_HTML\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2B15BF60146127A100DC46CD /* Sources */ = {
@@ -1322,20 +1340,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		2B15BF77146127A100DC46CD /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2B15BF78146127A100DC46CD /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		2B15BF7D146127A100DC46CD /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2B15BF7E146127A100DC46CD /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		2B8D59A71A6CA181002A202A /* Credits.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B8D59A81A6CA181002A202A /* en */,
+			);
+			name = Credits.html;
 			sourceTree = "<group>";
 		};
 		2BB0E21C17F9037B00F945FE /* InfoPlist.strings */ = {
