@@ -36,5 +36,7 @@
 	<integer>86400</integer>
 	<key>SUAllowsAutomaticUpdates</key>
 	<false/>
+	<key>SUEnableSystemProfiling</key>
+	<true/>
 </dict>
 </plist>
