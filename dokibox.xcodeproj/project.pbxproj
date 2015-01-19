@@ -953,6 +953,7 @@
 				2BEC84BB147CA5D4008102F8 /* Copy Files */,
 				2BB25CA81692042000243B27 /* CopyFiles */,
 				2B8D59A61A6C9CB2002A202A /* Run Script - Generate Credits.html */,
+				2B8D59AA1A6CB0E1002A202A /* Run Script - Generate build/ver numbers */,
 			);
 			buildRules = (
 			);
@@ -1195,6 +1196,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "CREDITS_HTML=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/en.lproj/Credits.html\"\n\nsed -i '' -e '/__AUTHORS__/{' -e \"r $SRCROOT/AUTHORS\" -e 'd' -e '}' \"$CREDITS_HTML\"\nsed -i '' -e '/__LICENSE__/{' -e \"r $SRCROOT/LICENSE\" -e 'd' -e '}' \"$CREDITS_HTML\"";
+		};
+		2B8D59AA1A6CB0E1002A202A /* Run Script - Generate build/ver numbers */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Generate build/ver numbers";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#  Ref: http://tgoode.com/2014/06/05/sensible-way-increment-bundle-version-cfbundleversion-xcode/\n\n# If this wasn't checked out from git the version/build number ends up blank\n\nBRANCH=\"HEAD\"\nBUILDNUMBER=$(git rev-list $BRANCH --count)\necho \"Updating build number to $BUILDNUMBER using branch '$BRANCH'.\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUILDNUMBER\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n\nGITDESCRIBE=$(git describe)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $GITDESCRIBE\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n\nGITHASH=$(git rev-parse HEAD)\n/usr/libexec/PlistBuddy -c \"Set :GitHash $GITHASH\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

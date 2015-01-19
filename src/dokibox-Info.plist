@@ -38,5 +38,7 @@
 	<false/>
 	<key>SUEnableSystemProfiling</key>
 	<true/>
+	<key>GitHash</key>
+	<string></string>
 </dict>
 </plist>
