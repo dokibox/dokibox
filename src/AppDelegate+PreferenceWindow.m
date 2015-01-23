@@ -16,11 +16,7 @@
 
 -(IBAction)openPreferences:(id)sender
 {
-    // Note: Perhaps we should release the preferenceWindowController when the preference window has closed
-    // to save memory, but I can't imagine the memory saving is very great. In any case this doesn't leak.
-    // Not sure how to do this (windowWillClose in category of LibraryPreferenceViewController
-    // to pass back here maybe to set _preferencesWindowController to nil?)
-    if(_preferencesWindowController == nil) {
+    if(_preferencesWindowController == nil) { // Need to create window as it doesn't exist yet
         NSViewController *libraryPreferenceViewController = [[LibraryPreferenceViewController alloc] initWithLibrary:_library];
         NSViewController *pluginPreferenceViewController = [[PluginPreferenceViewController alloc] init];
 
@@ -31,9 +27,21 @@
 #endif
         
         _preferencesWindowController = [[MASPreferencesWindowController alloc] initWithViewControllers:controllers title:@"Preferences"];
+        [_preferencesWindowController showWindow:nil];
+        
+        // Add observer for the preference window closing, so we can release the window contoller
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferenceWindowWillClose:) name:NSWindowWillCloseNotification object:[_preferencesWindowController window]];
     }
-    
-    [_preferencesWindowController showWindow:nil];
+    else { // Window already exists. Just bring it to the front again
+        [_preferencesWindowController showWindow:nil];
+    }
+}
+
+-(void)preferenceWindowWillClose:(NSNotification *)notification
+{
+    // Window is about to close, so release the window controller (also remove observer)
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[_preferencesWindowController window]];
+    _preferencesWindowController = nil;
 }
 
 @end
