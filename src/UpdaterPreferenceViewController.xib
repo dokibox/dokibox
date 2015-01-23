@@ -52,7 +52,11 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="YFt-0x-ltE" name="value" keyPath="self.lastUpdateCheckDate" id="wLL-Ui-80S"/>
+                        <binding destination="YFt-0x-ltE" name="value" keyPath="self.lastUpdateCheckDate" id="7sM-A4-Vtv">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">HumanReadableTimeSinceDate</string>
+                            </dictionary>
+                        </binding>
                     </connections>
                 </textField>
             </subviews>

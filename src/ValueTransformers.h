@@ -10,3 +10,6 @@
 
 @interface IsNotEmptyString : NSValueTransformer
 @end
+
+@interface HumanReadableTimeSinceDate : NSValueTransformer
+@end
