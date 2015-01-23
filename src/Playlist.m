@@ -72,6 +72,13 @@
     [self removeTrack:t];
 }
 
+-(void)removeAllTracks
+{
+    for ( unsigned long i = [self numberOfTracks]; i > 0 ; --i ) {
+        [self removeTrackAtIndex:i-1];
+    }
+}
+
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index
 { // This can take a long time and block, so be warned.
     PlaylistTrack *t = [PlaylistTrack trackWithFilename:filename inContext:[self managedObjectContext]];
