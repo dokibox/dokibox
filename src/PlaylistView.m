@@ -359,6 +359,8 @@
     NSUInteger *index = [_playlists indexOfObject:newPlaylist];
     [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO]; // this changes _currentPlaylist
     [_playlistTableView scrollRowToVisible:index];
+    PlaylistCellView *rowView =[_playlistTableView viewAtColumn:0 row:index makeIfNecessary:YES];
+    [rowView focusNameTextField];
 }
 
 #pragma mark Track adding from filenames

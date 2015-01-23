@@ -17,4 +17,6 @@
 
 @property() Playlist *playlist;
 
+-(void)focusNameTextField;
+
 @end
