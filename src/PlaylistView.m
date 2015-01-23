@@ -356,7 +356,9 @@
     [newPlaylist save];
     [self fetchPlaylists];
     [_playlistTableView reloadData]; // _currentPlaylist is reset to selection
-    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[_playlists indexOfObject:newPlaylist]] byExtendingSelection:NO]; // this changes _currentPlaylist
+    NSUInteger *index = [_playlists indexOfObject:newPlaylist];
+    [_playlistTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO]; // this changes _currentPlaylist
+    [_playlistTableView scrollRowToVisible:index];
 }
 
 #pragma mark Track adding from filenames
