@@ -26,6 +26,7 @@
 
 -(void)removeTrackAtIndex:(NSUInteger)index;
 -(void)removeTrack:(PlaylistTrack *)track;
+-(void)removeAllTracks;
 
 -(void)insertTrackWithFilename:(NSString *)filename atIndex:(NSUInteger)index;
 -(void)insertTrack:(PlaylistTrack *)track atIndex:(NSUInteger)index;

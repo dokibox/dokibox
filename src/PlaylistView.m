@@ -598,8 +598,7 @@
 {
     id selectedTableView = [[self window] firstResponder];
     if(selectedTableView == _playlistTableView) {
-        for(PlaylistTrack *t in [_currentPlaylist tracks])
-            [_currentPlaylist removeTrack:t];
+        [_currentPlaylist removeAllTracks];
         [_objectContext deleteObject:_currentPlaylist];
         [_currentPlaylist save];
         [self fetchPlaylists];
