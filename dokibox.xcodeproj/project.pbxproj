@@ -1195,7 +1195,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "CREDITS_HTML=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/en.lproj/Credits.html\"\n\nsed -i '' -e '/__AUTHORS__/{' -e \"r $SRCROOT/AUTHORS\" -e 'd' -e '}' \"$CREDITS_HTML\"\nsed -i '' -e '/__LICENSE__/{' -e \"r $SRCROOT/LICENSE\" -e 'd' -e '}' \"$CREDITS_HTML\"";
+			shellScript = "/bin/sh \"$SRCROOT/scripts/generate-credits.sh\"";
 		};
 		2B8D59AA1A6CB0E1002A202A /* Run Script - Generate build/ver numbers */ = {
 			isa = PBXShellScriptBuildPhase;
