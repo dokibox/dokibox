@@ -115,4 +115,9 @@
     [_playlist save];
 }
 
+-(void)focusNameTextField
+{
+    [[self window] makeFirstResponder:_playlistNameTextField];
+}
+
 @end
