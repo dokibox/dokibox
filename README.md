@@ -1,4 +1,4 @@
 dokibox
 =======
-[![Build Status for master](https://travis-ci.org/mileswu/dokibox.png?branch=master)](https://travis-ci.org/mileswu/dokibox)
-Builds available for download [here](http://mileswu.github.io/dokibox)
+[![Build Status for master](https://travis-ci.org/dokibox/dokibox.svg?branch=master)](https://travis-ci.org/dokibox/dokibox)
+Builds available for download [here](http://dokibox.github.io/dokibox)
