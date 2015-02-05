@@ -3,7 +3,7 @@
 //  dokibox
 //
 //  Created by Miles Wu on 17/01/2015.
-//
+//  Copyright (c) 2015 Miles Wu and contributors. All rights reserved.
 //
 
 #import "UpdaterPreferenceViewController.h"

@@ -3,7 +3,7 @@
 //  dokibox
 //
 //  Created by Miles Wu on 04/11/2013.
-//
+//  Copyright (c) 2015 Miles Wu and contributors. All rights reserved.
 //
 
 #import "LibraryMonitoredFolder.h"
