@@ -20,6 +20,7 @@
 
 +(PlaylistTrack *)trackWithFilename:(NSString *)filename inContext:(NSManagedObjectContext *)objectContext;
 +(PlaylistTrack *)trackWithLibraryTrack:(LibraryTrack *)libraryTrack inContext:(NSManagedObjectContext *)objectContext;
++(PlaylistTrack *)trackWithPlaylistTrack:(PlaylistTrack *)playlistTrack inContext:(NSManagedObjectContext *)objectContext;
 -(NSString *)menuItemFormatString;
 
 -(NSString *)displayName;

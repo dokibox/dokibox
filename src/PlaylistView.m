@@ -785,12 +785,15 @@
             }
             
             if([info draggingSourceOperationMask] & NSDragOperationCopy) {
-                NSMutableArray *filenames = [[NSMutableArray alloc] init];
+                NSMutableArray *newTracks = [[NSMutableArray alloc] init];
                 for(PlaylistTrack *t in tracks) {
-                    [filenames addObject:[t filename]];
+                    PlaylistTrack *newTrack = [PlaylistTrack trackWithPlaylistTrack:t inContext:_objectContext];
+                    [newTrack setPlaylist:p]; // Assign copied tracks to destinatoin playlist
                 }
 
-                [self insertTracksFromFilenames:filenames toPlaylist:p atIndex:row];
+                [[p sortedTracks] moveObjects:newTracks toRow:row]; // Move them to correct place inside playlist
+
+                [p save];
                 return YES;
             }
 

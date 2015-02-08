@@ -60,6 +60,19 @@
     return t;
 }
 
++(PlaylistTrack *)trackWithPlaylistTrack:(PlaylistTrack *)playlistTrack inContext:(NSManagedObjectContext *)objectContext
+{
+    PlaylistTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"track" inManagedObjectContext:objectContext];
+
+    // Copy attributes
+    NSArray *attributeKeys = [[playlistTrack entity] attributeKeys];
+    for(NSString *key in attributeKeys) {
+        [t setValue:[playlistTrack valueForKey:key] forKey:key];
+    }
+
+    return t;
+}
+
 -(BOOL)updateFromFile
 // return value is YES for success. NO for failure.
 {
