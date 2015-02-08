@@ -773,7 +773,12 @@
             }
             
             if([info draggingSourceOperationMask] & NSDragOperationMove) {
-                [[p sortedTracks] moveObjects:tracks toRow:row];
+                for(PlaylistTrack *t in tracks) {
+                    [t setPlaylist:p]; // Assign them to new playlist (if moving between playlists)
+                }
+
+                [[p sortedTracks] moveObjects:tracks toRow:row]; // Move them to correct place inside playlist
+
                 [p save];
                 [_trackTableView reloadData];
                 return YES;
