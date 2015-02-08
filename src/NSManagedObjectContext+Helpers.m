@@ -3,7 +3,7 @@
 //  dokibox
 //
 //  Created by Miles Wu on 24/10/2013.
-//
+//  Copyright (c) 2015 Miles Wu and contributors. All rights reserved.
 //
 
 #import "NSManagedObjectContext+Helpers.h"

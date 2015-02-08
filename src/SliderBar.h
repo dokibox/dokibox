@@ -3,7 +3,7 @@
 //  dokibox
 //
 //  Created by Miles Wu on 11/10/2012.
-//
+//  Copyright (c) 2015 Miles Wu and contributors. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
