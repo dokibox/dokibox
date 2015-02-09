@@ -123,11 +123,27 @@
     
     NSMutableArray *objectsToDelete = [[NSMutableArray alloc] initWithArray:[changes objectForKey:NSDeletedObjectsKey]];
     NSMutableArray *objectsToInsert = [[NSMutableArray alloc] initWithArray:[changes objectForKey:NSInsertedObjectsKey]];
+    NSMutableArray *objectsToRefresh = [[NSMutableArray alloc] init];
+
+    BOOL searchActive = [_searchString isEqualTo:@""] ? NO : YES;
+    NSPredicate *predicate_others = [NSPredicate predicateWithFormat:@"name contains[c] %@", _searchString];
+    NSPredicate *predicate_track = [NSPredicate predicateWithFormat:@"name contains[c] %@ or trackArtistName contains[c] %@", _searchString, _searchString];
     
     // Updated objects
     for(NSManagedObject *m in [changes objectForKey:NSUpdatedObjectsKey]) {
+        if(searchActive) {
+            // Update _searchMatchedObjects
+            NSPredicate *predicate = [m isKindOfClass:[LibraryTrack class]] ? predicate_track : predicate_others;
+            if([predicate evaluateWithObject:m] == YES) {
+                [_searchMatchedObjects addObject:m];
+            }
+            else {
+                [_searchMatchedObjects removeObject:m];
+            }
+        }
+
         NSInteger currentIndex = [_rowData indexOfObject:m];
-        NSInteger insertIndex = [self insertionIndexFor:m];
+        NSInteger insertIndex = [self insertionIndexFor:m withSearchFiltering:searchActive];
         if(insertIndex != currentIndex) {
             // Need to delete and re-add, as the object will move positions
             [objectsToDelete addObject:m];
@@ -136,9 +152,7 @@
         else {
             // No position move, so just need to refresh it
             // Technically albums and artist will never move, because their name (and in the case of albums, the parent artist) never change. Instead if all the tracks change their album/artist name, a new album/artist is created and the old deleted.
-            if(currentIndex != NSNotFound) {
-                [_tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:currentIndex] columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-            }
+            [objectsToRefresh addObject:m];
         }
         DDLogVerbose(@"updating %@ [index: current=%ld insert=%ld]", [m valueForKey:@"name"], currentIndex, insertIndex);
     }
@@ -146,32 +160,88 @@
     // Deleted objects
     for(NSManagedObject *m in objectsToDelete) {
         DDLogVerbose(@"deleting %@", [m valueForKey:@"name"]);
+
+        if(searchActive) {
+            // Update _searchMatchedObjects
+            [_searchMatchedObjects removeObject:m];
+        }
+
         NSUInteger index = [_rowData indexOfObject:m];
         if(index != NSNotFound) {
             [self collapseRow:index];
             [_rowData removeObjectAtIndex:index];
+        }
+
+        if(searchActive) {
+            // Remove parent album/artist if (with the search filter applied) they have no children any more
+            LibraryAlbum *album = nil;
+            LibraryArtist *artist = nil;
+            if([m isKindOfClass:[LibraryTrack class]]) {
+                LibraryTrack *t = (LibraryTrack *)m;
+                album = [t album];
+                artist = [[t album] artist];
+            }
+            if([m isKindOfClass:[LibraryAlbum class]]) {
+                LibraryAlbum *a = (LibraryAlbum *)m;
+                artist = [a artist];
+            }
+
+            if(album && [[album tracksFromSet:_searchMatchedObjects] count] == 0) {
+                [_rowData removeObject:album];
+            }
+            if(artist && [[artist albumsFromSet:_searchMatchedObjects] count] == 0) {
+                [_rowData removeObject:artist];
+            }
         }
     }
 
     // Inserted objects
     for(NSManagedObject *m in objectsToInsert) {
         DDLogVerbose(@"inserting %@", [m valueForKey:@"name"]);
-        NSInteger insertIndex = [self insertionIndexFor:m];
-        if(insertIndex != NSNotFound) {
+
+        if(searchActive) {
+            // Update _searchMatchedObjects
+            NSPredicate *predicate = [m isKindOfClass:[LibraryTrack class]] ? predicate_track : predicate_others;
+            if([predicate evaluateWithObject:m]) {
+                DDLogVerbose(@"   added to _searchMatchedObjects");
+                [_searchMatchedObjects addObject:m];
+            }
+        }
+
+        NSInteger insertIndex = [self insertionIndexFor:m withSearchFiltering:searchActive];
+        if(insertIndex != NSNotFound && [_rowData indexOfObject:m] == NSNotFound) { // Don't insert twice. It may have already been added by insertionIndexFor:withSearchFiltering:
             [_rowData insertObject:m atIndex:insertIndex];
         }
     }
     
     [_tableView endUpdates];
+
+    // Do cell refresh for updated objects after [_tableView endUpdates]. This prevents visual glitching
+    NSMutableIndexSet *refreshIndexSet = [[NSMutableIndexSet alloc] init];
+    for(NSManagedObject *m in objectsToRefresh) {
+        NSInteger index = [_rowData indexOfObject:m];
+        if(index != NSNotFound)
+            [refreshIndexSet addIndex:index];
+    }
+    [_tableView reloadDataForRowIndexes:refreshIndexSet columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+
     [self updateLibraryVisibility];
 }
 
--(NSInteger)insertionIndexFor:(NSManagedObject *)m
+-(NSInteger)insertionIndexFor:(NSManagedObject *)m withSearchFiltering:(BOOL)searchFiltering;
 {
     NSInteger insertIndex = NSNotFound; // no insertion
     NSString *name = [m valueForKey:@"name"];
+    BOOL searchMatches = [_searchMatchedObjects member:m] != nil;
 
     if([m isKindOfClass:[LibraryArtist class]]) {
+        LibraryArtist *a = (LibraryArtist *)m;
+
+        // If artist has no albums after filtering to show, don't add the artist
+        if(searchFiltering && [[a albumsFromSet:_searchMatchedObjects] count] == 0) {
+            return NSNotFound;
+        }
+
         insertIndex = [_rowData count];
         if([_rowData count] == 0) { // if list is empty, only one place to go
             insertIndex = 0;
@@ -192,8 +262,13 @@
     if([m isKindOfClass:[LibraryAlbum class]]) {
         LibraryAlbum *a = (LibraryAlbum *)m;
         NSUInteger parent_index = [_rowData indexOfObject:[a artist]];
-        
+
         if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent artist is expanded
+            // If the parent artist wouldn't show this album after filtering, don't add it
+            if(searchFiltering && [[[a artist] albumsFromSet:_searchMatchedObjects] member:m] == nil) {
+                return NSNotFound;
+            }
+
             insertIndex = [_rowData count];
             for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
                 if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
@@ -209,6 +284,12 @@
                 }
             }
         }
+        // If the parent artist doesn't exist and the album matches the search, insert the parent artist and insert the album below
+        else if(searchFiltering && parent_index == NSNotFound && searchMatches) {
+            NSUInteger artist_index = [self insertionIndexFor:[a artist] withSearchFiltering:NO];
+            [_rowData insertObject:[a artist] atIndex:artist_index];
+            insertIndex = artist_index + 1;
+        }
     }
     
     if([m isKindOfClass:[LibraryTrack class]]) {
@@ -216,6 +297,11 @@
         NSUInteger parent_index = [_rowData indexOfObject:[t album]];
         
         if(parent_index != NSNotFound && [self isRowExpanded:parent_index]) { // check to see if parent album is expanded
+            // If the parent album wouldn't show this track after filtering, don't add it
+            if(searchFiltering && [[[t album] tracksFromSet:_searchMatchedObjects] member:m] == nil) {
+                return NSNotFound;
+            }
+
             insertIndex = [_rowData count];
             for(NSUInteger i = parent_index + 1; i < [_rowData count]; i++) {
                 if([[_rowData objectAtIndex:i] isKindOfClass:[LibraryAlbum class]] || [[_rowData objectAtIndex:i] isKindOfClass:[LibraryArtist class]]) {
@@ -226,6 +312,22 @@
                     insertIndex = i;
                     break;
                 }
+            }
+        }
+        // If the parent album doesn't exist and the track matches the search, insert the parent album and insert the track below
+        else if(searchFiltering && parent_index == NSNotFound && searchMatches) {
+            // Parent artist does exist, just insert parent album
+            if([_rowData indexOfObject:[[t album] artist]] != NSNotFound) {
+                NSUInteger album_index = [self insertionIndexFor:[t album] withSearchFiltering:NO];
+                [_rowData insertObject:[t album] atIndex:album_index];
+                insertIndex = album_index + 1;
+            }
+            // Parent artist doesn't exist either, so insert parent artist and parent album
+            else {
+                NSUInteger artist_index = [self insertionIndexFor:[[t album] artist] withSearchFiltering:NO];
+                [_rowData insertObject:[[t album] artist] atIndex:artist_index];
+                [_rowData insertObject:[t album] atIndex:artist_index+1];
+                insertIndex = artist_index + 2;
             }
         }
     }
