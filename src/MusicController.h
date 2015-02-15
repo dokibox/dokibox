@@ -59,6 +59,7 @@ typedef enum {
 @property(assign) MusicControllerStatus status;
 @property(readonly) AudioStreamBasicDescription inFormat;
 @property(assign,nonatomic) unsigned long long elapsedFrames;
+@property(readonly) float elapsedSeconds;
 @property() float volume;
 
 

@@ -558,7 +558,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
 - (void)setElapsedFrames:(unsigned long long)elapsedFrames {
     _elapsedFrames = elapsedFrames;
 
-    float sec = (float)elapsedFrames / (float)_inFormat.mSampleRate;
+    float sec = [self elapsedSeconds];
     if(fabs(sec - _prevElapsedTimeSent) > 0.1) {
         _prevElapsedTimeSent = sec;
 
@@ -582,6 +582,12 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
             dispatch_async(dispatch_get_main_queue(), postNotificationBlock);
         }
     }
+}
+
+- (float)elapsedSeconds
+{
+    float sec = (float)_elapsedFrames / (float)_inFormat.mSampleRate;
+    return sec;
 }
 
 - (float)volume {
