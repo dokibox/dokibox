@@ -7,6 +7,10 @@
 #endif
 
 #import "DDLog.h"
-static int ddLogLevel __unused = LOG_LEVEL_VERBOSE;
+#ifdef DEBUG
+    static int ddLogLevel __unused = LOG_LEVEL_VERBOSE;
+#else
+    static int ddLogLevel __unused = LOG_LEVEL_INFO;
+#endif
 
 typedef void(^NSViewDrawRect)(NSView *, CGRect);
