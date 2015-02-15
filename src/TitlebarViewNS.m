@@ -358,15 +358,21 @@
     // sender can be a SPMediaKeyTap too
     PlaylistTrack *t = [_musicController getCurrentTrack];
     if(t == nil) return; // no current track playing
-    
-    Playlist *p = [t playlist];
-    if(p == nil) { // orphaned track. stop.
-        [_musicController stop];
-        return;
+
+    // If track is not in first 2.0 seconds, go back to beginning of track
+    if([_musicController elapsedSeconds] > 2.0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"seekTrack" object:[NSNumber numberWithFloat:0.0]];
     }
-    
-    [_musicController stop];
-    [p playPrevTrackBefore:t];
+    else { // Otherwise, go to previous track
+        Playlist *p = [t playlist];
+        if(p == nil) { // orphaned track. stop.
+            [_musicController stop];
+            return;
+        }
+        
+        [_musicController stop];
+        [p playPrevTrackBefore:t];
+    }
 }
 
 -(void)nextButtonPressed:(id)sender {
