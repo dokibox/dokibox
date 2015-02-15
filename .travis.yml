@@ -2,6 +2,8 @@ language: objective-c
 xcode_project: dokibox.xcodeproj
 xcode_scheme: dokibox
 script: xctool -project dokibox.xcodeproj -scheme dokibox build -configuration Release OBJROOT="$PWD/build" SYMROOT="$PWD/build"
+git:
+  depth: 1000000
 before_install: 
 - git submodule update --init --recursive
 - brew update
