@@ -63,7 +63,7 @@
         _library = library;
         _objectContext = [[_library coreDataManager] newContext];
 
-        _searchQueue = dispatch_queue_create("com.uguu.dokibox.LibraryView.search", NULL);
+        _searchQueue = dispatch_queue_create("org.dokibox.dokibox.LibraryView.search", NULL);
         _searchQueueDepth = 0;
         
         _searchMatchedObjects = [[NSMutableSet alloc] init];
