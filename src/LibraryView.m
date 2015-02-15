@@ -339,27 +339,34 @@
 {
     if([_objectContext belongsToSameStoreAs:[notification object]] == false) return;
 
+    // This block always runs on main thread
     void (^block)() = ^{
-        // Merge the changes into the main thread context
-        [_objectContext mergeChangesFromContextDidSaveNotification:notification];
-        
-        // Fetch the main thread version of the CoreData objects in the save notification
-        NSMutableDictionary *changes = [NSMutableDictionary dictionary];
-        for(id<NSCopying> key in [[notification userInfo] allKeys]) {
-            NSMutableArray *arr = [NSMutableArray array];
-            for(NSManagedObject *m_otherThread in [[notification userInfo] objectForKey:key]) {
-                NSManagedObject *m_mainThread = [_objectContext objectWithID:[m_otherThread objectID]];
-                
-                if([m_mainThread isKindOfClass:[LibraryMonitoredFolder class]])
-                    continue; // No need to include these, as we don't use them in LibraryView
+        // Poor man's mutex lock for _searchQueue
+        // This ensures that no search is running at the same time, which could lead to Core Data fault errors
+        dispatch_async(_searchQueue, ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                // Merge the changes into the main thread context
+                [_objectContext mergeChangesFromContextDidSaveNotification:notification];
 
-                [arr addObject:m_mainThread];
-            }
-            [changes setObject:arr forKey:key];
-        }
-        
-        // Update UI in this
-        [self receivedLibrarySavedNotificationWithChanges:changes];
+                // Fetch the main thread version of the CoreData objects in the save notification
+                NSMutableDictionary *changes = [NSMutableDictionary dictionary];
+                for(id<NSCopying> key in [[notification userInfo] allKeys]) {
+                    NSMutableArray *arr = [NSMutableArray array];
+                    for(NSManagedObject *m_otherThread in [[notification userInfo] objectForKey:key]) {
+                        NSManagedObject *m_mainThread = [_objectContext objectWithID:[m_otherThread objectID]];
+
+                        if([m_mainThread isKindOfClass:[LibraryMonitoredFolder class]])
+                            continue; // No need to include these, as we don't use them in LibraryView
+
+                        [arr addObject:m_mainThread];
+                    }
+                    [changes setObject:arr forKey:key];
+                }
+                
+                // Update UI in this
+                [self receivedLibrarySavedNotificationWithChanges:changes];
+            });
+        });
     };
     
     if(dispatch_get_current_queue() == dispatch_get_main_queue())
@@ -828,7 +835,7 @@
         for(NSManagedObject *i in newSearchMatchedObjects)
             [newSearchMatchedObjectIDs addObject:[i objectID]];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             NSDate *d3 = [NSDate date];
             [_rowData startBulkUpdate];
             [_rowData removeAllObjects];
