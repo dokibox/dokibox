@@ -63,7 +63,7 @@ mouseout = ( ev ) ->
 		info.textContent = @artifacts[@displayBranch][index].date.text
 	, 1
 
-dokiboxArtifacts = new window.ArtifactParser "https://s3.amazonaws.com/dokibox-builds/", "https://github.com/mileswu/dokibox/"
+dokiboxArtifacts = new window.ArtifactParser "https://s3.amazonaws.com/dokibox-builds/", "https://github.com/dokibox/dokibox/"
 dokiboxArtifacts.fetchListing ->
 	mouseOverCb = ( ev ) =>
 		mouseover.call @, ev
