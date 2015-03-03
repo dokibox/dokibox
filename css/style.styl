@@ -64,12 +64,19 @@ ul
 		.commit
 			padding-left 13px
 			padding-right 13px
+
+			// doctype html adds 6px of space to the bottom of this div for
+			// some reason I do not comprehend. Rather than simply not
+			// declaring a doctype, I chose instead to use a bad css
+			// workaround.
+			height 32px
 			&:hover path
 				fill #6699CC
 
 		.download
 			padding-left 13px
 			padding-right 13px
+			height 32px
 
 			&:hover path
 				fill #99CC99
