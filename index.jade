@@ -1,0 +1,21 @@
+doctype html
+html(lang='en')
+	meta(charset='UTF-8')
+	head
+		title Dokibox Builds
+		script(type='text/javascript').
+			var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-56257018-1'], ['_trackPageview']);
+			(function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();
+	body
+		.wrapper
+			#icon
+				a(href='http://github.com/dokibox/dokibox')
+					img(src='assets/dokiboxIcon.svg', width='128', height='128')
+
+			ul#builds
+
+		link(href='http://fonts.googleapis.com/css?family=Open+Sans:600', rel='stylesheet', type='text/css')
+		link(href='css/style.css', rel='stylesheet')
+		script(src='js/moment.js')
+		script(src='js/ArtifactParser.js')
+		script(src='js/ui.js')

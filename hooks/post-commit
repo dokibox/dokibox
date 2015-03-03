@@ -8,8 +8,9 @@ if [ -n "$BUILD" ]; then
 		git checkout --orphan gh-pages
 		`which coffee` -c js/*.coffee
 		`which stylus` -c css/*.styl
+		`which jade` *.jade
 		git add *.html css/*.css js/*.js
-		git rm -f hooks/post-commit css/*.styl js/*.coffee
+		git rm -f hooks/post-commit css/*.styl js/*.coffee *.jade
 		git commit -m "Update compiled gh-pages."
 		git checkout gh-pages-src
 		git clean -fdx
