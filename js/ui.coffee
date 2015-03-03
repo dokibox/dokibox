@@ -13,7 +13,7 @@ unfuckHierarchy = ( targetNode, parentNode ) ->
 			switch targetNode.className
 				when 'download', 'commit'
 					parentNode = targetNode.parentNode.parentNode
-		when 'LI'
+		else
 			return [false, false]
 
 	return [targetNode, parentNode]
@@ -63,24 +63,37 @@ mouseout = ( ev ) ->
 		info.textContent = @artifacts[@displayBranch][index].date.text
 	, 1
 
-dokiboxArtifacts = new window.ArtifactParser "https://s3.amazonaws.com/dokibox-builds/", "https://github.com/dokibox/dokibox/"
-dokiboxArtifacts.fetchListing ->
-	mouseOverCb = ( ev ) =>
-		mouseover.call @, ev
-	mouseOutCb = ( ev ) =>
-		mouseout.call @, ev
+defaultBranch = "master"
+dokiboxArtifacts = new window.ArtifactParser "https://s3.amazonaws.com/dokibox-builds/", "https://github.com/dokibox/dokibox/", defaultBranch
 
-	clickListener = ( build ) ->
-		build.querySelector( 'div.download' ).addEventListener 'click', ( ev ) ->
-			build.removeEventListener "mouseover", mouseOverCb, false
-			build.removeEventListener "mouseout", mouseOutCb, false
+mouseOverCb = ( ev ) =>
+	mouseover.call dokiboxArtifacts, ev
 
-	@insertRange listElement, [0, 9]
+mouseOutCb = ( ev ) =>
+	mouseout.call dokiboxArtifacts, ev
 
+clickListener = ( build ) ->
+	build.querySelector( 'div.download' ).addEventListener 'click', ( ev ) ->
+		build.removeEventListener "mouseover", mouseOverCb, false
+		build.removeEventListener "mouseout", mouseOutCb, false
+
+addMouseCallbacks = ->
 	builds = document.querySelectorAll "li.entry"
 
 	for build in builds
 		build.addEventListener "mouseover", mouseOverCb, false
 		build.addEventListener "mouseout", mouseOutCb, false
-
 		clickListener build
+
+dokiboxArtifacts.fetchListing ->
+	@setRange listElement, [0, 9]
+	addMouseCallbacks( )
+
+branchInput = document.querySelector( '#branch-input' )
+branchInput.value = defaultBranch
+
+branchChangeCb = ( e ) ->
+	if dokiboxArtifacts.changeBranch listElement, branchInput.value
+		addMouseCallbacks( )
+
+branchInput.addEventListener "change", branchChangeCb, false

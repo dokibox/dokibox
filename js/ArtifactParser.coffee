@@ -2,15 +2,17 @@
 
 class ArtifactParser
 
-	constructor: ( @artifactListUrl, @repositoryUrl ) ->
+	constructor: ( @artifactListUrl, @repositoryUrl, @displayBranch ) ->
 		# artifacts is a hash of arrays. Each key is a branch, and the
 		# corresponding value is a sorted array of the builds in that
 		# branch.
 		@artifacts = { }
+		# maps branch name -> bool. Bool indicates whether that branch has
+		# been sorted.
+		@branches  = { }
 
 		# displayBranch is a string corresponding to the branch that will
 		# have its builds displayed. By default, it is "master".
-		@displayBranch = "master"
 		@now = moment( )
 
 	createElement: ( index, build ) ->
@@ -41,11 +43,26 @@ class ArtifactParser
 
 		listItem
 
-	insertRange: ( element, [rangeStart, rangeEnd] ) ->
-		fragment = document.createDocumentFragment( )
+	changeBranch: ( element, branchName ) ->
+		unless @artifacts[branchName]?
+			return false
 
+		@sortBranch branchName
+		@displayBranch = branchName
+		@setRange element, [0, 9]
+
+	setRange: ( element, [rangeStart, rangeEnd] ) ->
+		builds = @artifacts[@displayBranch]
+		if rangeStart >= builds.length
+			return
+
+		fragment = document.createDocumentFragment( )
+		rangeEnd = Math.min builds.length-1, rangeEnd
 		for index in [rangeStart .. rangeEnd] by 1
-			fragment.appendChild @createElement index, @artifacts[@displayBranch][index]
+			fragment.appendChild @createElement index, builds[index]
+
+		while element.firstChild
+			element.removeChild element.firstChild
 
 		element.appendChild fragment
 
@@ -55,18 +72,27 @@ class ArtifactParser
 		@listRequest.onload = @parseRequest
 		@listRequest.send( )
 
+	sortBranch: ( branchName ) ->
+		if !@branches[branchName]? or @branches[branchName] is true
+			return
+
+		@artifacts[branchName].sort ( a, b ) ->
+			b.date.raw - a.date.raw
+
+		@branches[branchName] = true
+
 	parseRequest: =>
 		builds = @listRequest.responseXML.getElementsByTagName "Contents"
 		for buildIndex in [builds.length-1 .. 0] by -1
 			buildXml = builds[buildIndex]
 			build = @parseContents buildXml
 			if build isnt null
-				@artifacts[build.file.branch] ?= []
+				unless @artifacts[build.file.branch]?
+					@artifacts[build.file.branch] = []
+					@branches[build.file.branch] = false
 				@artifacts[build.file.branch].push build
 
-		@artifacts[@displayBranch].sort ( a, b ) ->
-			b.date.raw - a.date.raw
-
+		@sortBranch @displayBranch
 		@parsingFinishedCallback( )
 
 	parseContents: ( buildXml ) ->
