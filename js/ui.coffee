@@ -1,5 +1,3 @@
-listElement = document.querySelector "ul#builds"
-
 unfuckHierarchy = ( targetNode, parentNode ) ->
 	switch targetNode.tagName
 		when 'SVG', 'svg'
@@ -85,15 +83,41 @@ addMouseCallbacks = ->
 		build.addEventListener "mouseout", mouseOutCb, false
 		clickListener build
 
+listElement = document.querySelector "ul#builds"
+branchInput = document.querySelector( '#branch-input' )
+branchSuggestions = null
+
 dokiboxArtifacts.fetchListing ->
 	@setRange listElement, [0, 9]
+	branchSuggestions = new window.BranchSuggestions @branches, branchInput, ( ev ) ->
+		console.log ev.target.textContent
+		branchInput.value = ev.target.textContent
+		branchChangeCb( )
+
+	branchInput.value = defaultBranch
+
 	addMouseCallbacks( )
 
-branchInput = document.querySelector( '#branch-input' )
-branchInput.value = defaultBranch
+branchInputCb = ->
+	branchSuggestions?.filter branchInput.value
 
-branchChangeCb = ( e ) ->
+branchFocusCb = ->
+	branchSuggestions?.show( )
+
+branchBlurCb = ->
+	# Timeout postpones hiding long enough to run the click callback. This
+	# may not be 100% reliable and is a pretty bad way to do this.
+	setTimeout ->
+		branchSuggestions?.hide( )
+	, 0
+
+branchChangeCb = ->
 	if dokiboxArtifacts.changeBranch listElement, branchInput.value
 		addMouseCallbacks( )
 
-branchInput.addEventListener "change", branchChangeCb, false
+	branchInput.value = dokiboxArtifacts.displayBranch
+
+branchInput.addEventListener "input", branchInputCb, no
+branchInput.addEventListener "focus", branchFocusCb, no
+branchInput.addEventListener "blur", branchBlurCb, no
+branchInput.addEventListener "change", branchChangeCb, no

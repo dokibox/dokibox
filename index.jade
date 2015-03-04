@@ -13,11 +13,14 @@ html(lang='en')
 					img(src='assets/dokiboxIcon.svg', width='128', height='128')
 
 			#branch
-				input#branch-input(type='text', autocomplete='off')
+				input#branch-input(type='text', autocomplete='off', spellcheck='false')
+			#branch-suggestions
+				ul#suggestion-list
 			ul#builds
 
 		link(href='http://fonts.googleapis.com/css?family=Open+Sans:600', rel='stylesheet', type='text/css')
 		link(href='css/style.css', rel='stylesheet')
 		script(src='js/moment.js')
 		script(src='js/ArtifactParser.js')
+		script(src='js/BranchSuggestions.js')
 		script(src='js/ui.js')

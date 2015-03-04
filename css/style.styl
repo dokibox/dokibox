@@ -31,15 +31,42 @@ path
 
 	#branch-input
 		width 300px
-		background inherit
+		padding 2px 1px
+		background-color inherit
 		border 0
 		color #6699CC
 		font inherit
 		text-align center
 		border-bottom 1px solid #888
 
+		&:focus
+			background-color: #F6F6F6
+
 		&:hover
-			background #F6F6F6
+			background-color #F6F6F6
+
+#branch-suggestions
+	display none
+	width 300px
+	font inherit
+	max-height 500px
+	overflow scroll
+	background-color #F6F6F6
+	position absolute
+	padding 5px 1px
+
+	#suggstion-list
+		font inherit
+
+	.suggestion
+		overflow auto
+		max-width 100%
+
+		&:hover
+			background-color #F0F0F0
+
+		.match
+			color #6699CC
 
 h1
 	color #333
