@@ -90,7 +90,6 @@ branchSuggestions = null
 dokiboxArtifacts.fetchListing ->
 	@setRange listElement, [0, 9]
 	branchSuggestions = new window.BranchSuggestions @branches, branchInput, ( ev ) ->
-		console.log ev.target.textContent
 		branchInput.value = ev.target.textContent
 		branchChangeCb( )
 
@@ -106,10 +105,11 @@ branchFocusCb = ->
 
 branchBlurCb = ->
 	# Timeout postpones hiding long enough to run the click callback. This
-	# may not be 100% reliable and is a pretty bad way to do this.
+	# is very unreliable and is an extremely bad way to do this.
+	console.log "blur"
 	setTimeout ->
 		branchSuggestions?.hide( )
-	, 0
+	, 5
 
 branchChangeCb = ->
 	if dokiboxArtifacts.changeBranch listElement, branchInput.value
