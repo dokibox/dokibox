@@ -21,7 +21,7 @@ class BranchSuggestions
 		oldResizeCb = window.onresize
 		window.onresize = =>
 			@reflow( )
-			oldResizeCb( )
+			oldResizeCb?( )
 
 	createElement: ( name ) ->
 			listItem = document.createElement 'li'
