@@ -409,7 +409,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     }
     _currentTrack = [notification object];
     NSString *fp = [_currentTrack filename];
-    DDLogVerbose(@"%@", fp);
+    DDLogVerbose(@"Attempting to play %@", fp);
 
     fileHandle = [NSFileHandle fileHandleForReadingAtPath:fp];
     if(fileHandle == nil) {
