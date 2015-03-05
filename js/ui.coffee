@@ -83,8 +83,9 @@ addMouseCallbacks = ->
 		build.addEventListener "mouseout", mouseOutCb, false
 		clickListener build
 
-listElement = document.querySelector "ul#builds"
-branchInput = document.querySelector( '#branch-input' )
+bodyNode    = document.querySelector 'body'
+listElement = document.querySelector 'ul#builds'
+branchInput = document.querySelector '#branch-input'
 branchSuggestions = null
 
 dokiboxArtifacts.fetchListing ->
@@ -102,14 +103,12 @@ branchInputCb = ->
 
 branchFocusCb = ->
 	branchSuggestions?.show( )
+	bodyNode.addEventListener 'click', branchBlurCb, no
 
-branchBlurCb = ->
-	# Timeout postpones hiding long enough to run the click callback. This
-	# is very unreliable and is an extremely bad way to do this.
-	console.log "blur"
-	setTimeout ->
+branchBlurCb = ( ev ) ->
+	if document.activeElement isnt branchInput
 		branchSuggestions?.hide( )
-	, 5
+		bodyNode.removeEventListener 'click', branchBlurCb, no
 
 branchChangeCb = ->
 	if dokiboxArtifacts.changeBranch listElement, branchInput.value
@@ -119,5 +118,4 @@ branchChangeCb = ->
 
 branchInput.addEventListener "input", branchInputCb, no
 branchInput.addEventListener "focus", branchFocusCb, no
-branchInput.addEventListener "blur", branchBlurCb, no
 branchInput.addEventListener "change", branchChangeCb, no

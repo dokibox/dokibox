@@ -27,7 +27,7 @@ class BranchSuggestions
 			listItem = document.createElement 'li'
 			listItem.className = "suggestion"
 			listItem.innerHTML = name
-			listItem.addEventListener 'click', @clickCb, no
+			listItem.addEventListener 'click', @clickCb, yes
 			listItem
 
 	show: ->
