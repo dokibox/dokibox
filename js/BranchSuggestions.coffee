@@ -72,9 +72,9 @@ class BranchSuggestions
 
 	reflow: ->
 		return unless @shown
-		bodyBounds         = document.querySelector('body').getBoundingClientRect( )
-		inputBounds        = @attachedNode.getBoundingClientRect( )
-		@parent.style.top  = inputBounds.top + inputBounds.height - bodyBounds.top + 'px'
-		@parent.style.left = inputBounds.left + 'px'
+		contentBounds = document.querySelector('#content').getBoundingClientRect( )
+		inputBounds   = @attachedNode.getBoundingClientRect( )
+		@parent.style.top  = inputBounds.top + inputBounds.height - contentBounds.top + 'px'
+		@parent.style.left = inputBounds.left - contentBounds.left + 'px'
 
 window.BranchSuggestions = BranchSuggestions
