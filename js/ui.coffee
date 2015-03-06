@@ -103,12 +103,15 @@ branchInputCb = ->
 
 branchFocusCb = ->
 	branchSuggestions?.show( )
-	bodyNode.addEventListener 'click', branchBlurCb, no
+	bodyNode.addEventListener 'click', bodyClickCb, no
 
-branchBlurCb = ( ev ) ->
+bodyClickCb = ->
 	if document.activeElement isnt branchInput
-		branchSuggestions?.hide( )
-		bodyNode.removeEventListener 'click', branchBlurCb, no
+		branchBlurCb( )
+
+branchBlurCb = ->
+	branchSuggestions?.hide( )
+	bodyNode.removeEventListener 'click', bodyClickCb, no
 
 branchChangeCb = ->
 	if dokiboxArtifacts.changeBranch listElement, branchInput.value
@@ -116,6 +119,15 @@ branchChangeCb = ->
 
 	branchInput.value = dokiboxArtifacts.displayBranch
 
-branchInput.addEventListener "input", branchInputCb, no
-branchInput.addEventListener "focus", branchFocusCb, no
-branchInput.addEventListener "change", branchChangeCb, no
+branchKeyCb = ( ev ) ->
+	# This is bad. tab is the only way to defocus the input besides a
+	# click. So catch that. Unfortunately, may not work the same way on
+	# every setup.
+	switch ev.keyCode
+		when 9
+			branchBlurCb( )
+
+branchInput.addEventListener 'input', branchInputCb, no
+branchInput.addEventListener 'focus', branchFocusCb, no
+branchInput.addEventListener 'keydown', branchKeyCb, no
+branchInput.addEventListener 'change', branchChangeCb, no
