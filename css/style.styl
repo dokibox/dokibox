@@ -4,6 +4,26 @@ filter()
 	-ms-filter arguments
 	filter arguments
 
+animation( )
+	-webkit-animation arguments
+	-moz-animation arguments
+	-ms-animation arguments
+	animation arguments
+
+transform( )
+	-webkit-transform arguments
+	-moz-transform arguments
+	-ms-transform arguments
+	transform arguments
+
+@keyframes disappear
+	0%
+		opacity 1
+		transform translateY(0px)
+	100%
+		opacity 0
+		transform translateY(0px)
+
 body
 	font-family 'Open Sans' sans-serif
 	font-weight 600
@@ -18,6 +38,23 @@ body
 
 path
 	fill #333
+
+#content
+	position relative
+
+	#cover
+		position absolute
+		background-color #FDFDFD
+		height 100%
+		width 100%
+
+		font-family inherit
+		font-size 80px
+		color #E0E0E0
+
+		&.gone
+			animation disappear 0.5s
+			transform scaleY(0)
 
 #icon
 	padding 0 0 10px 0

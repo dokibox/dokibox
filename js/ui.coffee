@@ -96,6 +96,8 @@ dokiboxArtifacts.fetchListing ->
 
 	branchInput.value = defaultBranch
 
+	document.querySelector( '#cover' ).className = 'gone'
+
 	addMouseCallbacks( )
 
 branchInputCb = ->
