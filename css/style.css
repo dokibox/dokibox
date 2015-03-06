@@ -1,0 +1,38 @@
+body{font-family:'Open Sans' sans-serif;font-weight:600;margin:0 0 0 0;background:#fdfdfd;padding:20px 0 20px 0;}
+body .wrapper{text-align:center;padding-left:15%;padding-right:15%}
+path{fill:#333}
+#content{position:relative;}
+#content #cover{position:absolute;background-color:#fdfdfd;height:100%;width:100%;font-family:inherit;font-size:80px;color:#e0e0e0;}
+#content #cover.gone{-webkit-animation:disappear .5s;-moz-animation:disappear .5s;-ms-animation:disappear .5s;animation:disappear .5s;-webkit-transform:scaleY(0);-moz-transform:scaleY(0);-ms-transform:scaleY(0);transform:scaleY(0)}
+#icon{padding:0 0 10px 0;-webkit-filter:drop-shadow(0 2.5px 2px #333);-moz-filter:drop-shadow(0 2.5px 2px #333);-ms-filter:drop-shadow(0 2.5px 2px #333);filter:drop-shadow(0 2.5px 2px #333)}
+#branch{font:inherit;font-size:25px;line-height:20px;margin:0 0 10px;}
+#branch #branch-input{width:300px;padding:2px 1px;background-color:inherit;border:0;color:#69c;font:inherit;text-align:center;border-bottom:1px solid #888;}
+#branch #branch-input:focus{background-color:#f6f6f6}
+#branch #branch-input:hover{background-color:#f6f6f6}
+#branch-suggestions{display:none;width:300px;font:inherit;max-height:500px;overflow:scroll;background-color:#f6f6f6;position:absolute;padding:5px 1px;}
+#branch-suggestions #suggstion-list{font:inherit}
+#branch-suggestions .suggestion{overflow:auto;max-width:100%;}
+#branch-suggestions .suggestion:hover{background-color:#f0f0f0}
+#branch-suggestions .suggestion .match{color:#69c}
+h1{color:#333;margin:0 0 20px 0}
+ul{list-style-type:none;margin:0;padding:0;font-size:20px;}
+ul .entry{overflow:auto;max-width:100%;}
+ul .entry + .entry{border-top:1px solid #888}
+ul .entry div{display:inline;float:left;padding:6px 5px 6px 6px;color:#333}
+ul .entry .size{text-align:right;line-height:20px;padding:12px 10px 12px 10px;width:96px;color:#7557bc}
+ul .entry .info{width:calc(100% - 116px - 136px);white-space:nowrap;overflow-x:hidden;line-height:20px;text-align:center;padding:12px 10px 12px 10px}
+ul .entry .commit{padding-left:13px;padding-right:13px;height:32px;}
+ul .entry .commit:hover path{fill:#69c}
+ul .entry .download{padding-left:13px;padding-right:13px;height:32px;}
+ul .entry .download:hover path{fill:#9c9}
+@-moz-keyframes disappear{0%{opacity:1;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+100%{opacity:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}@-webkit-keyframes disappear{0%{opacity:1;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+100%{opacity:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}@-o-keyframes disappear{0%{opacity:1;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+100%{opacity:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}@-ms-keyframes disappear{0%{opacity:1;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+100%{opacity:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}@keyframes disappear{0%{opacity:1;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+100%{opacity:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}
+}
