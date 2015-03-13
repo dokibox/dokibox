@@ -31,8 +31,8 @@
     // We are using horiztonally-centered coordinates
     CGContextTranslateCTM(ctx, [self bounds].size.width/2.0, 0);
 
-    float widthofcone = 3.0;
-    float heightofcone = 6.0;
+    float widthofcone = 4.0;
+    float heightofcone = 4.0;
     float widthoftext = 15.0;
     float heightoftext = 18.0;
     float r = 4.0;
