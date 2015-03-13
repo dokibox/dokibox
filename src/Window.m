@@ -17,6 +17,7 @@
         [self setAutorecalculatesContentBorderThickness:NO forEdge:NSMaxYEdge];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(relayout) name:NSWindowDidResizeNotification object:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willClose) name:NSWindowWillCloseNotification object:self];
     }
     return self;
 }
@@ -24,6 +25,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResizeNotification object:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:self];
 }
 
 - (void)relayout
@@ -47,6 +49,12 @@
     // Ensure titlebar view is positioned correctly within the content view
     if(_titlebarView)
         [_titlebarView setFrame:NSMakeRect(0, [self frame].size.height-[self titlebarSize], [self frame].size.width, [self titlebarSize]) ];
+}
+
+- (void)willClose
+{
+    DDLogVerbose(@"Main window closed. Terminating");
+    [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
 }
 
 - (CGFloat)titlebarSize
