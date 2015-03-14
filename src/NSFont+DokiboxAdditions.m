@@ -13,7 +13,16 @@
 
 + (NSFont *)italicSystemFontOfSize:(CGFloat)fontSize
 {
-    return [[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:fontSize] toHaveTrait:NSItalicFontMask];
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *italicSystemFont = [fontManager convertFont:[NSFont systemFontOfSize:fontSize] toHaveTrait:NSItalicFontMask];
+
+    // Check that it worked. It can fail if there is no italic version of the system font (eg on <10.10)
+    if(([fontManager traitsOfFont:italicSystemFont] & NSItalicFontMask) != NSItalicFontMask) {
+        // Manually get Helvetica Oblique
+        italicSystemFont = [NSFont fontWithName:@"Helvetica-Oblique" size:fontSize];
+    }
+
+    return italicSystemFont;
 }
 
 @end
