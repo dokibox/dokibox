@@ -103,6 +103,23 @@
     [self synchronize];
 }
 
+-(NSURL*)currentlySelectedPlaylistForCurrentProfile
+{
+    return [NSURL URLWithString:[_currentProfile objectForKey:@"currentlySelectedPlaylistCoreDataURL"]];
+}
+
+-(void)setCurrentlySelectedPlaylistForCurrentProfile:(NSURL*)coreDataURL
+{
+    NSMutableDictionary *d = [[NSMutableDictionary alloc] initWithDictionary:_currentProfile];
+    [d setObject:[coreDataURL absoluteString] forKey:@"currentlySelectedPlaylistCoreDataURL"];
+
+    NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:_profiles];
+    [arr replaceObjectAtIndex:[arr indexOfObject:_currentProfile] withObject:d];
+    _currentProfile = d;
+    _profiles = [[NSArray alloc] initWithArray:arr];
+    [self synchronize];
+}
+
 -(void)synchronize
 {
     [[NSUserDefaults standardUserDefaults] setObject:_profiles forKey:@"libraryProfiles"];

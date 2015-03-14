@@ -25,6 +25,9 @@
 
 -(void)addProfile:(NSString *)name;
 -(void)removeProfileAtIndex:(NSUInteger)index;
+-(void)setCurrentlySelectedPlaylistForCurrentProfile:(NSURL*)coreDataURL;
 -(void)synchronize;
+
+@property NSURL* currentlySelectedPlaylistForCurrentProfile;
 
 @end
