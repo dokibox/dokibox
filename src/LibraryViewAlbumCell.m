@@ -9,6 +9,7 @@
 #import "LibraryViewAlbumCell.h"
 #import "ProportionalImageView.h"
 #import "LibraryAlbum.h"
+#import "NSFont+DokiboxAdditions.h"
 
 @implementation LibraryViewAlbumCell
 
@@ -25,7 +26,7 @@
         nameTextRect.origin.y += 5;
         nameTextRect.size.width -= imageSize + 10;
         [_nameTextField setFrame:nameTextRect];
-        [_nameTextField setFont:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:13] toHaveTrait:NSItalicFontMask]];
+        [_nameTextField setFont:[NSFont italicSystemFontOfSize:13]];
         [_nameTextField bind:@"value" toObject:self withKeyPath:@"album.name" options:nil];
         
         CGRect altTextRect = nameTextRect;

@@ -8,6 +8,7 @@
 
 #import "LibraryPreferenceViewController.h"
 #import "LibraryMonitoredFolder.h"
+#import "NSFont+DokiboxAdditions.h"
 
 @implementation LibraryPreferenceViewController
 
@@ -105,7 +106,7 @@
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[folder path]];
     if([folder isOnNetworkMount]) {
         NSDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:10] toHaveTrait:NSItalicFontMask] forKey:NSFontAttributeName];
+        [dict setValue:[NSFont italicSystemFontOfSize:10] forKey:NSFontAttributeName];
         [dict setValue:[NSNumber numberWithFloat:1.25] forKey:NSBaselineOffsetAttributeName];
         NSMutableAttributedString *warningStr = [[NSMutableAttributedString alloc] initWithString:@"            [network mount: monitoring may not work]" attributes:dict];
         [str appendAttributedString:warningStr];
