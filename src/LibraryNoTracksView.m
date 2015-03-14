@@ -7,6 +7,7 @@
 //
 
 #import "LibraryNoTracksView.h"
+#import "NSFont+DokiboxAdditions.h"
 
 @implementation LibraryNoTracksView
 
@@ -20,7 +21,7 @@
         [noTracksAttributedString addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(0, [noTracksAttributedString length])];
         {
             NSDictionary *dict = [[NSMutableDictionary alloc] init];
-            [dict setValue:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:10] toHaveTrait:NSItalicFontMask] forKey:NSFontAttributeName];
+            [dict setValue:[NSFont italicSystemFontOfSize:10] forKey:NSFontAttributeName];
             [dict setValue:[NSColor colorWithCalibratedWhite:0.35 alpha:1.0] forKey:NSForegroundColorAttributeName];
             NSMutableAttributedString *subStr = [[NSMutableAttributedString alloc] initWithString:@"Have you set up your monitored folders?" attributes:dict];
             [noTracksAttributedString appendAttributedString:subStr];

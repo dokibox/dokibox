@@ -9,6 +9,7 @@
 #import "LibraryViewCell.h"
 #import "LibraryViewAddButton.h"
 #import "LibraryView.h"
+#import "NSFont+DokiboxAdditions.h"
 
 @implementation LibraryViewCell
 
@@ -39,7 +40,7 @@
         [_altTextField setBordered:NO];
         [_altTextField setBezeled:NO];
         [_altTextField setDrawsBackground:NO];
-        [_altTextField setFont:[[NSFontManager sharedFontManager] convertFont:[NSFont systemFontOfSize:10] toHaveTrait:NSItalicFontMask]];
+        [_altTextField setFont:[NSFont italicSystemFontOfSize:10]];
         [_altTextField setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:1.0]];
         [_altTextField setAlignment:NSRightTextAlignment];
         [_altTextField setAutoresizingMask:NSViewMinXMargin];
