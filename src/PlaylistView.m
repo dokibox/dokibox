@@ -23,6 +23,7 @@
 #import "NSArray+OrderedManagedObjects.h"
 #import "Library.h"
 #import "LibraryCoreDataManager.h"
+#import "ProfileController.h"
 
 @implementation PlaylistView
 @synthesize currentPlaylist = _currentPlaylist;
@@ -57,7 +58,7 @@
         [playlistFirstColumn setWidth:[_playlistTableView bounds].size.width];
 
         // Loading up previously selected playlist
-        NSURL *lastPlaylistURL = [[NSUserDefaults standardUserDefaults] URLForKey:@"currentlySelectedPlaylistCoreDataURL"];
+        NSURL *lastPlaylistURL = [[ProfileController sharedInstance] currentlySelectedPlaylistForCurrentProfile];
         // If no playlists, create one and select it
         if([_playlists count] == 0) {
             [self newPlaylist];
@@ -572,7 +573,7 @@
     // Note: reloadData causes this to be called twice. once to change to something else and once to change back again
     if([notification object] == _playlistTableView) {
         Playlist *p = [_playlists objectAtIndex:[_playlistTableView selectedRow]];
-        [[NSUserDefaults standardUserDefaults] setURL:[[p objectID] URIRepresentation] forKey:@"currentlySelectedPlaylistCoreDataURL"];
+        [[ProfileController sharedInstance] setCurrentlySelectedPlaylistForCurrentProfile:[[p objectID] URIRepresentation]];
         [self setCurrentPlaylist:p];
         [_trackTableView reloadData];
     }
