@@ -14,6 +14,12 @@
 
 @implementation UpdaterPreferenceViewController
 
+- (id)init
+{
+    self = [self initWithNibName:@"UpdaterPreferenceViewController" bundle:nil];
+    return self;
+}
+
 - (NSString *)identifier
 {
     return @"updater";
