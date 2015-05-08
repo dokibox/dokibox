@@ -142,7 +142,12 @@
             [_tableView reloadData];
         }
     }
-    
+    else if([sender selectedSegment] == 3) { //refresh
+        if([_tableView selectedRow] != -1) {
+            [_library refreshMonitoredFolderAtIndex:[_tableView selectedRow]];
+        }
+    }
+
     [sender setSelectedSegment:-1]; // deselect the segmented control
 }
 

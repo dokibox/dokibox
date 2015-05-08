@@ -160,7 +160,16 @@
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 								<object class="NSSegmentItem">
-									<double key="NSSegmentItemWidth">396</double>
+									<double key="NSSegmentItemWidth">372</double>
+									<bool key="NSSegmentItemDisabled">YES</bool>
+									<int key="NSSegmentItemImageScaling">0</int>
+								</object>
+								<object class="NSSegmentItem">
+									<object class="NSCustomResource" key="NSSegmentItemImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">NSRefreshTemplate</string>
+									</object>
+									<int key="NSSegmentItemTag">2</int>
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 							</array>
@@ -551,7 +560,7 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<array key="1.IBNSViewMetadataConstraints"/>
+				<reference key="1.IBNSViewMetadataConstraints" ref="0"/>
 				<reference key="1.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="1.IBPersistedLastKnownCanvasPosition">{281, 255.5}</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -565,12 +574,12 @@
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="69.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<integer value="1" key="70.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey"/>
+				<integer value="3" key="70.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey"/>
 				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<array key="91.IBNSViewMetadataConstraints"/>
+				<reference key="91.IBNSViewMetadataConstraints" ref="0"/>
 				<string key="91.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
@@ -828,6 +837,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSAddTemplate">{11, 11}</string>
+			<string key="NSRefreshTemplate">{11, 15}</string>
 			<string key="NSRemoveTemplate">{11, 11}</string>
 			<string key="NSSwitch">{15, 15}</string>
 		</dictionary>

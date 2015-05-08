@@ -206,6 +206,23 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     return nil;
 }
 
+-(void)refreshMonitoredFolderAtIndex:(NSUInteger)index
+{
+    LibraryMonitoredFolder *folder = [self monitoredFolderAtIndex:index];
+    if([[folder initialScanDone] boolValue] == NO) return;
+
+    // Dumb implementation: Remove all files and readd everything
+    [self stopFSMonitorForFolder:folder];
+    [self removeFilesInDirectory:[folder path]];
+
+    [folder setInitialScanDone:[NSNumber numberWithBool:NO]];
+    [folder setLastEventID:[NSNumber numberWithLongLong:0]];
+    NSError *err;
+    [_mainObjectContext save:&err];
+    _monitoredFolders = nil; // Invalidate cache
+    [self startFSMonitorForFolder:folder];
+}
+
 -(void)searchDirectory:(NSString*)dir
 {
     [self searchDirectory:dir recurse:YES];

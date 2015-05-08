@@ -28,6 +28,7 @@
 -(NSArray *)monitoredFolders;
 -(NSString *)addMonitoredFolderWithPath:(NSString *)path;
 -(NSString *)removeMonitoredFolderAtIndex:(NSUInteger)index;
+-(void)refreshMonitoredFolderAtIndex:(NSUInteger)index;
 
 -(LibraryTrack *)trackFromFile:(NSString *)file;
 -(void)addFileOrUpdate:(NSString*)file;
