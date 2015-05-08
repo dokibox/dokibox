@@ -339,34 +339,38 @@
 {
     if([_objectContext belongsToSameStoreAs:[notification object]] == false) return;
 
-    // This block always runs on main thread
+    // This block always runs synchronously on the main thread
+    // It needs to be synchronous so that CoreData saving is blocked until the changes are processed
+    // You can't process the changes asynchronously later, as the processing code might ask for an object that has been
+    // deleted in subsequent changes (as CoreData saving wasn't blocked) and this will cause a CoreData exception.
     void (^block)() = ^{
-        // Poor man's mutex lock for _searchQueue
-        // This ensures that no search is running at the same time, which could lead to Core Data fault errors
-        dispatch_async(_searchQueue, ^{
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                // Merge the changes into the main thread context
-                [_objectContext mergeChangesFromContextDidSaveNotification:notification];
+        // Merge the changes into the main thread context
+        [_objectContext mergeChangesFromContextDidSaveNotification:notification];
 
-                // Fetch the main thread version of the CoreData objects in the save notification
-                NSMutableDictionary *changes = [NSMutableDictionary dictionary];
-                for(id<NSCopying> key in [[notification userInfo] allKeys]) {
-                    NSMutableArray *arr = [NSMutableArray array];
-                    for(NSManagedObject *m_otherThread in [[notification userInfo] objectForKey:key]) {
-                        NSManagedObject *m_mainThread = [_objectContext objectWithID:[m_otherThread objectID]];
+        // Fetch the main thread version of the CoreData objects in the save notification
+        NSMutableDictionary *changes = [NSMutableDictionary dictionary];
+        for(id<NSCopying> key in [[notification userInfo] allKeys]) {
+            NSMutableArray *arr = [NSMutableArray array];
+            for(NSManagedObject *m_otherThread in [[notification userInfo] objectForKey:key]) {
+                NSManagedObject *m_mainThread = [_objectContext objectWithID:[m_otherThread objectID]];
 
-                        if([m_mainThread isKindOfClass:[LibraryMonitoredFolder class]])
-                            continue; // No need to include these, as we don't use them in LibraryView
+                if([m_mainThread isKindOfClass:[LibraryMonitoredFolder class]])
+                    continue; // No need to include these, as we don't use them in LibraryView
 
-                        [arr addObject:m_mainThread];
-                    }
-                    [changes setObject:arr forKey:key];
-                }
-                
-                // Update UI in this
-                [self receivedLibrarySavedNotificationWithChanges:changes];
-            });
-        });
+                [arr addObject:m_mainThread];
+            }
+            [changes setObject:arr forKey:key];
+        }
+        
+        // Update currently displayed library with these changes
+        [self receivedLibrarySavedNotificationWithChanges:changes];
+
+        // If there is a search in progress on another thread (without any queued subsequent searches after it),
+        // the search will be working on out-dated data and could even cause a CoreData exception.
+        // Therefore we queue another search to run after it which will use the up-to-date data
+        if(_searchQueueDepth == 1) {
+            [_librarySearchView controlTextDidChange:nil];
+        }
     };
     
     if(dispatch_get_current_queue() == dispatch_get_main_queue())
