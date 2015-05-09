@@ -63,7 +63,6 @@
         _library = library;
         _objectContext = [[_library coreDataManager] newContext];
 
-        _searchQueue = dispatch_queue_create("org.dokibox.dokibox.LibraryView.search", NULL);
         _searchQueueDepth = 0;
         
         _searchMatchedObjects = [[NSMutableSet alloc] init];
@@ -77,7 +76,6 @@
 
 -(void)dealloc
 {
-    dispatch_release(_searchQueue);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
@@ -364,13 +362,6 @@
         
         // Update currently displayed library with these changes
         [self receivedLibrarySavedNotificationWithChanges:changes];
-
-        // If there is a search in progress on another thread (without any queued subsequent searches after it),
-        // the search will be working on out-dated data and could even cause a CoreData exception.
-        // Therefore we queue another search to run after it which will use the up-to-date data
-        if(_searchQueueDepth == 1) {
-            [_librarySearchView controlTextDidChange:nil];
-        }
     };
     
     if(dispatch_get_current_queue() == dispatch_get_main_queue())
@@ -731,7 +722,7 @@
 {
     // Run search in background thread so not to lock up UI
     _searchQueueDepth++;
-    dispatch_async(_searchQueue, ^{
+    dispatch_async([_library backgroundCoreDataQueue], ^{
         if (_searchQueueDepth > 1) { // This indicates it's not the latest required search so we skip it.
             _searchQueueDepth--;
             return;

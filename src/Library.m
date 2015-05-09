@@ -66,21 +66,29 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsFile)) {
             if([fm fileExistsAtPath:path]) {
                 DDLogCVerbose(@"Detected new file at: %@", path);
-                [library addFileOrUpdate:path];
+                dispatch_async([library backgroundFilesystemQueue], ^{
+                    [library addFileOrUpdate:path];
+                });
             }
             else {
                 DDLogCVerbose(@"Detected removal of file at: %@", path);
-                [library removeFile:path];
+                dispatch_async([library backgroundFilesystemQueue], ^{
+                    [library removeFile:path];
+                });
             }
         }
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsDir)) {
             if([fm fileExistsAtPath:path]) {
                 DDLogCVerbose(@"Detected new dir at: %@", path);
-                [library searchDirectory:path];
+                dispatch_async([library backgroundFilesystemQueue], ^{
+                    [library searchDirectory:path];
+                });
             }
             else {
                 DDLogCVerbose(@"Detected removal of dir at: %@", path);
-                [library removeFilesInDirectory:path];
+                dispatch_async([library backgroundFilesystemQueue], ^{
+                    [library removeFilesInDirectory:path];
+                });
             }
         }
         if(isFlagSet(eventFlags[i], kFSEventStreamEventFlagItemIsSymlink)) {
@@ -99,21 +107,29 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 @synthesize userDefaults = _userDefaults;
 @synthesize coreDataManager = _coreDataManager;
+@synthesize backgroundCoreDataQueue = _backgroundCoreDataQueue;
+@synthesize backgroundFilesystemQueue = _backgroundFilesystemQueue;
 
 -(id)init
 {
     if(self = [super init]) {
-        NSString *queueName = [NSString stringWithFormat:@"%@.library", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
-        _dispatchQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
-        dispatch_queue_t lowPriorityQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
-        dispatch_set_target_queue(_dispatchQueue, lowPriorityQueue);
+        NSString *backgroundCoreDataQueueName = [NSString stringWithFormat:@"%@.library.CoreData", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+        _backgroundCoreDataQueue = dispatch_queue_create([backgroundCoreDataQueueName cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
+
+        NSString *_backgroundFilesystemQueueName = [NSString stringWithFormat:@"%@.library.Filesystem", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+        _backgroundFilesystemQueue = dispatch_queue_create([_backgroundFilesystemQueueName cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
+        dispatch_set_target_queue(_backgroundFilesystemQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
         
         _coreDataManager = [[LibraryCoreDataManager alloc] init];
         _mainObjectContext = [_coreDataManager newContext];
 
-        dispatch_async(_dispatchQueue, ^{
+        dispatch_sync(_backgroundCoreDataQueue, ^{
             _queueObjectContext = [_coreDataManager newContext];
-            [LibraryTrack updateAllTracksMarkedForUpdateIn:_queueObjectContext]; // Initial scan for post-migration updating
+        });
+
+        // Initial scan for post-migration updating
+        dispatch_async(_backgroundFilesystemQueue, ^{
+            [LibraryTrack updateAllTracksMarkedForUpdateFrom:[_coreDataManager newContext] inQueue:_backgroundCoreDataQueue andContext:_queueObjectContext];
         });
 
         _userDefaults = [NSUserDefaults standardUserDefaults];
@@ -125,7 +141,8 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)dealloc
 {
-    dispatch_release(_dispatchQueue);
+    dispatch_release(_backgroundCoreDataQueue);
+    dispatch_release(_backgroundFilesystemQueue);
 }
 
 #pragma mark Manipulating monitored folders list
@@ -202,7 +219,10 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     _monitoredFolders = nil; // Invalidate cache
     
     [self stopFSMonitorForFolder:folder];
-    [self removeFilesInDirectory:path];
+    dispatch_async(_backgroundFilesystemQueue, ^{
+        [self removeFilesInDirectory:path];
+    });
+
     return nil;
 }
 
@@ -213,7 +233,9 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
     // Dumb implementation: Remove all files and readd everything
     [self stopFSMonitorForFolder:folder];
-    [self removeFilesInDirectory:[folder path]];
+    dispatch_async(_backgroundFilesystemQueue, ^{
+        [self removeFilesInDirectory:[folder path]];
+    });
 
     [folder setInitialScanDone:[NSNumber numberWithBool:NO]];
     [folder setLastEventID:[NSNumber numberWithLongLong:0]];
@@ -225,18 +247,15 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)searchDirectory:(NSString*)dir
 {
+    // This should be run in the backgroundFilesystemQueue thread
+    // It will deadlock if run in main thread due to addFileOrUpdate()
     [self searchDirectory:dir recurse:YES];
 }
 
 -(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;
 {
-    if(dispatch_get_current_queue() != _dispatchQueue) {
-        dispatch_async(_dispatchQueue, ^{
-            [self searchDirectory:dir recurse:recursive];
-        });
-        return;
-    }
-
+    // This should be run in the backgroundFilesystemQueue thread
+    // It will deadlock if run in main thread due to addFileOrUpdate()
     DDLogVerbose(@"Searching directory: %@", dir);
     NSError *error;
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -285,8 +304,14 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)addFileOrUpdate:(NSString*)file
 {
-    if(dispatch_get_current_queue() != _dispatchQueue) {
-        dispatch_async(_dispatchQueue, ^{
+    // This method runs synchronously in the backgroundCoreDataQueue since it modifies the library and could impact things running in the queue
+    // It can't run synchronously from the main thread because it might deadlock. The saving in the background thread will dispatch_sync to main thread in LibraryView to process the changes.
+    if(dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        DDLogError(@"Will deadlock");
+        NSAssert(NO, @"deadlock");
+    }
+    else if(dispatch_get_current_queue() != _backgroundCoreDataQueue) {
+        dispatch_sync(_backgroundCoreDataQueue, ^{
             [self addFileOrUpdate:file];
         });
         return;
@@ -324,20 +349,16 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)removeFilesInDirectory:(NSString *)dir
 {
-    if(dispatch_get_current_queue() != _dispatchQueue) {
-        dispatch_async(_dispatchQueue, ^{
-            [self removeFilesInDirectory:dir];
-        });
-        return;
-    }
-
+    // This should be run in the backgroundFilesystemQueue thread
+    // It will deadlock if run in main thread due to removeFile()
     NSError *error;
 
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename BEGINSWITH %@", dir];
     [fr setPredicate:predicate];
 
-    NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
+    NSManagedObjectContext *context =[_coreDataManager newContext]; // Create new context just in case this is running on a seperate thread
+    NSArray *results = [context executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
         return;
@@ -350,8 +371,14 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
 
 -(void)removeFile:(NSString*)file
 {
-    if(dispatch_get_current_queue() != _dispatchQueue) {
-        dispatch_async(_dispatchQueue, ^{
+    // This method runs synchronously in the backgroundCoreDataQueue since it modifies the library and could impact things running in the queue
+    // It can't run synchronously from the main thread because it might deadlock. The saving in the background thread will dispatch_sync to main thread in LibraryView to process the changes.
+    if(dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        DDLogError(@"Will deadlock");
+        NSAssert(NO, @"deadlock");
+    }
+    else if(dispatch_get_current_queue() != _backgroundCoreDataQueue) {
+        dispatch_sync(_backgroundCoreDataQueue, ^{
             [self removeFile:file];
         });
         return;
@@ -409,11 +436,11 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     // Initial search of directory
     if([[folder initialScanDone] boolValue] == NO) {
         NSString *path = [folder path];
-        dispatch_async(_dispatchQueue, ^{
+        dispatch_async(_backgroundFilesystemQueue, ^{
             DDLogVerbose(@"Starting initial library search for %@", path);
             [self searchDirectory:path];
             DDLogVerbose(@"Finished initial library search for %@", path);
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 [folder setInitialScanDone:[NSNumber numberWithBool:YES]];
                 NSError *err;
                 [[folder managedObjectContext] save:&err];

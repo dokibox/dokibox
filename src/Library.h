@@ -13,7 +13,8 @@
 @class LibraryMonitoredFolder;
 
 @interface Library : NSObject {
-    dispatch_queue_t _dispatchQueue;
+    dispatch_queue_t _backgroundCoreDataQueue;
+    dispatch_queue_t _backgroundFilesystemQueue;
     NSManagedObjectContext *_queueObjectContext;
     NSManagedObjectContext *_mainObjectContext;
     NSUserDefaults *_userDefaults;
@@ -43,5 +44,7 @@
 
 @property(readonly) NSUserDefaults* userDefaults;
 @property(readonly) LibraryCoreDataManager* coreDataManager;
+@property(readonly) dispatch_queue_t backgroundCoreDataQueue;
+@property(readonly) dispatch_queue_t backgroundFilesystemQueue;
 
 @end
