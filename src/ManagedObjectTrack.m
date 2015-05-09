@@ -40,20 +40,37 @@
 
 +(void)updateAllTracksMarkedForUpdateIn:(NSManagedObjectContext *)objectContext
 {
+    [self updateAllTracksMarkedForUpdateFrom:objectContext inQueue:NULL andContext:objectContext];
+}
+
++(void)updateAllTracksMarkedForUpdateFrom:(NSManagedObjectContext *)objectContext inQueue:(dispatch_queue_t)queue andContext:(NSManagedObjectContext *)contextInQueue
+{
     NSError *error;
     NSFetchRequest *fr = [NSFetchRequest fetchRequestWithEntityName:@"track"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"needsUpdate == YES"];
     [fr setPredicate:predicate];
     NSArray *results = [objectContext executeFetchRequest:fr error:&error];
     DDLogVerbose(@"%ld tracks need an update", [results count]);
-    
+
     for(ManagedObjectTrack *t in results) {
-        BOOL retval = [t updateFromFile];
-        if(retval == YES) {
-            [objectContext save:&error];
-            if(error) {
-                DDLogError(@"Error saving in updateAllTracksMarkedForUpdate");
+        // Run block either on specified thread or on current thread
+        void (^block)() = ^{
+            ManagedObjectTrack *t2 = (ManagedObjectTrack *)[contextInQueue objectWithID:[t objectID]];
+            BOOL retval = [t2 updateFromFile];
+            if(retval == YES) {
+                NSError *error2;
+                [contextInQueue save:&error2];
+                if(error2) {
+                    DDLogError(@"Error saving in updateAllTracksMarkedForUpdate");
+                }
             }
+        };
+
+        if(queue) {
+            dispatch_sync(queue, block);
+        }
+        else {
+            block();
         }
     }
 }

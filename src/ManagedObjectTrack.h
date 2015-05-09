@@ -13,6 +13,7 @@
 
 +(void)markAllTracksForUpdateIn:(NSManagedObjectContext *)context;
 +(void)updateAllTracksMarkedForUpdateIn:(NSManagedObjectContext *)context;
++(void)updateAllTracksMarkedForUpdateFrom:(NSManagedObjectContext *)context inQueue:(dispatch_queue_t)queue andContext:(NSManagedObjectContext *)contextInQueue;
 
 -(BOOL)updateFromFile;
 -(void)resetAttributeCache;
