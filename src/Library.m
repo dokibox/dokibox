@@ -281,7 +281,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 }
 
--(LibraryTrack *)trackFromFile:(NSString *)file
+-(LibraryTrack *)trackFromFile:(NSString *)file inContext:(NSManagedObjectContext *)context
 {
     NSError *error;
 
@@ -289,7 +289,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"filename == %@", file];
     [fr setPredicate:predicate];
 
-    NSArray *results = [_queueObjectContext executeFetchRequest:fr error:&error];
+    NSArray *results = [context executeFetchRequest:fr error:&error];
     if(results == nil) {
         DDLogError(@"error fetching results");
         return nil;
@@ -321,7 +321,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
         return;
 
     NSError *error;
-    LibraryTrack *t = [self trackFromFile:file];
+    LibraryTrack *t = [self trackFromFile:file inContext:_queueObjectContext];
 
     if(!t) {
         DDLogVerbose(@"Adding file: %@", file);
@@ -385,7 +385,7 @@ void fsEventCallback(ConstFSEventStreamRef streamRef,
     }
 
     NSError *error;
-    LibraryTrack *t = [self trackFromFile:file];
+    LibraryTrack *t = [self trackFromFile:file inContext:_queueObjectContext];
 
     if(t) {
         DDLogVerbose(@"Deleting file: %@", file);

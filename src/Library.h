@@ -31,7 +31,7 @@
 -(NSString *)removeMonitoredFolderAtIndex:(NSUInteger)index;
 -(void)refreshMonitoredFolderAtIndex:(NSUInteger)index;
 
--(LibraryTrack *)trackFromFile:(NSString *)file;
+-(LibraryTrack *)trackFromFile:(NSString *)file inContext:(NSManagedObjectContext *)context;
 -(void)addFileOrUpdate:(NSString*)file;
 -(void)removeFile:(NSString*)file;
 -(void)searchDirectory:(NSString*)dir recurse:(BOOL)recursive;
