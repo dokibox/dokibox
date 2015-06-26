@@ -2,7 +2,11 @@
 
 CREDITS_HTML="$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/en.lproj/Credits.html"
 
-sed -i '' -e '/__AUTHORS__/{' -e "r $SRCROOT/AUTHORS" -e 'd' -e '}' "$CREDITS_HTML"
+cp "$SRCROOT/AUTHORS" AUTHORS.TEMP
+sed -i '' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' AUTHORS.TEMP
+sed -i '' -e '/__AUTHORS__/{' -e "r AUTHORS.TEMP" -e 'd' -e '}' "$CREDITS_HTML"
+rm AUTHORS.TEMP
+
 sed -i '' -e '/__LICENSE__/{' -e "r $SRCROOT/LICENSE" -e 'd' -e '}' "$CREDITS_HTML"
 sed -i '' -e '/__LICENSE_SPMEDIAKEYTAP__/{' -e "r $SRCROOT/deps/SPMediaKeyTap/LICENSE" -e 'd' -e '}' "$CREDITS_HTML"
 sed -i '' -e '/__LICENSE_COCOALUMBERJACK__/{' -e "r $SRCROOT/deps/cocoalumberjack/LICENSE.txt" -e 'd' -e '}' "$CREDITS_HTML"
