@@ -29,3 +29,7 @@
 [submodule "deps/sparkle"]
 	path = deps/sparkle
 	url = git://github.com/sparkle-project/Sparkle.git
+[submodule "deps/ffmpeg"]
+	path = deps/ffmpeg
+	url = git://git.videolan.org/ffmpeg.git
+	ignore = dirty
