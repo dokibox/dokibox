@@ -8,6 +8,7 @@ before_install:
 - git submodule update --init --recursive
 - brew update
 - hash cmake || brew install cmake
+- hash yasm || brew install yasm
 - ./build-patchdeps.sh
 - ./build-deps.sh
 after_success: 
