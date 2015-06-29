@@ -16,3 +16,4 @@ sed -i '' -e '/__LICENSE_VORBIS__/{' -e "r $SRCROOT/deps/vorbis/COPYING" -e 'd' 
 sed -i '' -e '/__LICENSE_SPARKLE__/{' -e "r $SRCROOT/deps/sparkle/LICENSE" -e 'd' -e '}' "$CREDITS_HTML"
 sed -i '' -e '/__LICENSE_TAGLIB__/{' -e "r $SRCROOT/deps/taglib/COPYING.LGPL" -e 'd' -e '}' "$CREDITS_HTML"
 sed -i '' -e '/__LICENSE_MASPREFERENCES__/{' -e "r $SRCROOT/deps/MASPreferences/LICENSE.md" -e 'd' -e '}' "$CREDITS_HTML"
+sed -i '' -e '/__LICENSE_FFMPEG__/{' -e "r $SRCROOT/deps/ffmpeg/COPYING.LGPLv2.1" -e 'd' -e '}' "$CREDITS_HTML"
