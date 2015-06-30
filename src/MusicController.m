@@ -105,6 +105,9 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     else if([ext compare:@"m4a"] == NSOrderedSame) {
         return YES;
     }
+    else if([ext compare:@"wv"] == NSOrderedSame) {
+        return YES;
+    }
     else {
         return NO;
     }
