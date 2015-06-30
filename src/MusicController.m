@@ -346,7 +346,13 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _inFormat.mChannelsPerFrame = decoderMetadata.numberOfChannels;
     _inFormat.mFormatID = kAudioFormatLinearPCM;
     _inFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked;
-    _inFormat.mFormatFlags |= kLinearPCMFormatFlagIsSignedInteger;
+
+    if(decoderMetadata.format == DecoderFormatSigned)
+        _inFormat.mFormatFlags |= kLinearPCMFormatFlagIsSignedInteger;
+    else if(decoderMetadata.format == DecoderFormatFloat)
+        _inFormat.mFormatFlags |= kLinearPCMFormatFlagIsFloat;
+    //else if(decoderMetadata.format == DecoderFormatUnsigned) Defaults to this I think!
+
     int bps = decoderMetadata.bitsPerSample;
     _inFormat.mBitsPerChannel = bps;
     _inFormat.mBytesPerPacket = bps/8*_inFormat.mChannelsPerFrame;
@@ -429,6 +435,7 @@ static OSStatus renderProc(void *inRefCon, AudioUnitRenderActionFlags *inActionF
     _totalFrames = metadata.totalSamples;
     DDLogVerbose(@"total frames: %llu", metadata.totalSamples);
     DDLogVerbose(@"bitrate: %d", metadata.bitsPerSample);
+    DDLogVerbose(@"format: %d", metadata.format);
 
     [_currentTrack setHasErrorOpeningFile:NO]; // Clear any prev error as it's ok now
     

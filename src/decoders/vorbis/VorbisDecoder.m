@@ -91,6 +91,7 @@ long vorbis_tellcallback(void *datasource) {
         _metadata.sampleRate = (int)vi->rate;
         _metadata.totalSamples = ov_pcm_total(&decoder, -1);
         _metadata.bitsPerSample = 16;
+        _metadata.format = DecoderFormatSigned;
     }
     return _metadata;
 }

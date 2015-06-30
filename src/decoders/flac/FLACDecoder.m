@@ -141,6 +141,7 @@ void flac_errorcallback(FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorSt
     _metadata.sampleRate = sample_rate;
     _metadata.numberOfChannels = channels;
     _metadata.bitsPerSample = bps;
+    _metadata.format = DecoderFormatSigned;
 }
 
 -(DecodeStatus)decodeNextFrame {
