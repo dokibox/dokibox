@@ -25,6 +25,10 @@
 		2B4F92A21B4120B600432E0E /* libavformat.56.36.100.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4F92A11B4120B600432E0E /* libavformat.56.36.100.dylib */; };
 		2B4F92A41B4120C100432E0E /* libavutil.54.27.100.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4F92A31B4120C100432E0E /* libavutil.54.27.100.dylib */; };
 		2B4F92A61B4120E200432E0E /* libswresample.1.2.100.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4F92A51B4120E200432E0E /* libswresample.1.2.100.dylib */; };
+		2B4F92B11B42513F00432E0E /* libswresample.1.2.100.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B4F92A51B4120E200432E0E /* libswresample.1.2.100.dylib */; };
+		2B4F92B21B42513F00432E0E /* libavutil.54.27.100.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B4F92A31B4120C100432E0E /* libavutil.54.27.100.dylib */; };
+		2B4F92B31B42513F00432E0E /* libavformat.56.36.100.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B4F92A11B4120B600432E0E /* libavformat.56.36.100.dylib */; };
+		2B4F92B41B42513F00432E0E /* libavcodec.56.41.100.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B4F929F1B41209700432E0E /* libavcodec.56.41.100.dylib */; };
 		2B5086D11787AAFB0066B014 /* WindowContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086D01787AAFB0066B014 /* WindowContentView.m */; };
 		2B5086DC1787CFD20066B014 /* PlaylistTrackCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5086DB1787CFD20066B014 /* PlaylistTrackCellView.m */; };
 		2B53558E15D1CECE0054E61F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B53558C15D1CEA30054E61F /* QuartzCore.framework */; };
@@ -220,6 +224,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2B4F92B01B42512800432E0E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B4F92B11B42513F00432E0E /* libswresample.1.2.100.dylib in CopyFiles */,
+				2B4F92B21B42513F00432E0E /* libavutil.54.27.100.dylib in CopyFiles */,
+				2B4F92B31B42513F00432E0E /* libavformat.56.36.100.dylib in CopyFiles */,
+				2B4F92B41B42513F00432E0E /* libavcodec.56.41.100.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BB25CA81692042000243B27 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1045,7 +1062,8 @@
 			buildPhases = (
 				2B2218571B40DE12002A2CE6 /* Sources */,
 				2B2218581B40DE12002A2CE6 /* Frameworks */,
-				2B2218591B40DE12002A2CE6 /* Resources */,
+				2B4F92AF1B42512600432E0E /* Resources */,
+				2B4F92B01B42512800432E0E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1242,7 +1260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2B2218591B40DE12002A2CE6 /* Resources */ = {
+		2B4F92AF1B42512600432E0E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
