@@ -40,9 +40,9 @@ int64_t ffmpeg_seekcallback(void *opaque, int64_t offset, int whence);
     // Setup avformat data structures
     int avInputBufferSize = 4096; // avio can replace this with a bigger one if necessary!
     unsigned char *avInputBuffer = av_malloc(avInputBufferSize);
-    AVIOContext *avioContext = avio_alloc_context(avInputBuffer, avInputBufferSize, 0, (__bridge void *)self, ffmpeg_readcallback, NULL, NULL);
+    _avioContext = avio_alloc_context(avInputBuffer, avInputBufferSize, 0, (__bridge void *)self, ffmpeg_readcallback, NULL, NULL);
     _avFormatContext = avformat_alloc_context();
-    _avFormatContext->pb = avioContext;
+    _avFormatContext->pb = _avioContext;
 
     // Open with avformat
     retval = avformat_open_input(&_avFormatContext, "", NULL, NULL);
@@ -92,6 +92,20 @@ int64_t ffmpeg_seekcallback(void *opaque, int64_t offset, int whence);
 }
 
 -(void)dealloc {
+    // Cleanup and free FFmpeg data structures
+    avcodec_close(_avCodecContext);
+    av_frame_free(&_avFrame);
+    av_free_packet(&_avPacket);
+    avformat_free_context(_avFormatContext);
+    av_free(_avioContext->buffer);
+    av_free(_avioContext);
+
+    // Also free _firstFrameDecodedData if it exists
+    if(_firstFrameDecodedData && _firstFrameDecodedDataSize != -1) {
+        free(_firstFrameDecodedData);
+        _firstFrameDecodedData = 0;
+        _firstFrameDecodedDataSize = -1;
+    }
 }
 
 -(DecoderMetadata)decodeMetadata {

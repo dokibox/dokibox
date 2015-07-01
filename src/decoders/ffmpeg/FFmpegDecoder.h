@@ -11,12 +11,14 @@
 #import "common.h"
 #import "libavcodec/avcodec.h"
 
+typedef struct AVIOContext AVIOContext;
 typedef struct AVFormatContext AVFormatContext;
 
 @interface FFmpegDecoder : NSObject<DecoderProtocol> {
     MusicController *_musicController;
     DecoderMetadata _metadata;
 
+    AVIOContext *_avioContext;
     AVFormatContext *_avFormatContext;
     AVCodecContext *_avCodecContext;
     int _streamIndex;
