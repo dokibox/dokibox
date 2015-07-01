@@ -13,10 +13,6 @@
 
 typedef struct AVFormatContext AVFormatContext;
 
-/*typedef struct AVCodecContext AVCodecContext;
-typedef struct AVPacket AVPacket;
-typedef struct AVFrame AVFrame;*/
-
 @interface FFmpegDecoder : NSObject<DecoderProtocol> {
     MusicController *_musicController;
     DecoderMetadata _metadata;

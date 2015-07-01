@@ -51,8 +51,6 @@ int64_t ffmpeg_seekcallback(void *opaque, int64_t offset, int whence);
         return self;
     }
 
-    DDLogVerbose(@"Number of streams %d", _avFormatContext->nb_streams);
-
     // Choose first audio stream
     _streamIndex = -1;
     for(int i=0; i < _avFormatContext->nb_streams; i++) {
